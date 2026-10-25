@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>CREATV MYNDZ — Dreams Materializers</title>
+  <title>CREATV MYNDZ — Global Creative Dealers</title>
   <meta name="description" content="CREATV MYNDZ: tomamos las ideas, exploramos los límites de la creatividad y las traemos a la realidad. Conoce los CRTV y despierta tu creatividad con WAKE UP.">
   <meta name="theme-color" content="#0a1238">
   <meta property="og:title" content="CREATV MYNDZ — Dreams Materializers">
@@ -20,7 +20,7 @@
   <link rel="canonical" href="https://creatvmyndz.com/">
   <link rel="icon" href="assets/img/favicon.png" sizes="any">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
-  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/outfit-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-tight-latin.woff2" crossorigin>
   <link rel="preload" as="image" href="assets/img/bg/cielo.webp">
   <link rel="stylesheet" href="assets/minimal.css">
 </head>
@@ -30,25 +30,28 @@
   <div class="bg" aria-hidden="true"></div>
   <div class="fog" aria-hidden="true"></div>
   <div class="tint" aria-hidden="true"></div>
-  <span class="corner tl" aria-hidden="true"></span><span class="corner tr" aria-hidden="true"></span>
-  <span class="corner bl" aria-hidden="true"></span><span class="corner br" aria-hidden="true"></span>
 
   <!-- ===== BARRA SUPERIOR ===== -->
   <header class="topbar">
-    <div class="topbar-left">
-      <a class="brand" href="#inicio">CRTV©</a>
+    <a href="#inicio" aria-label="CREATV MYNDZ — inicio"><img class="topbar-logo" src="assets/img/logo-creatv.webp" alt="CREATV MYNDZ" width="1400" height="593"></a>
+    <nav class="topbar-nav" aria-label="Navegación principal">
+      <a href="proyectos.html" data-i18n="nav_work">PROYECTOS</a>
+      <a href="#nosotros" data-section="nosotros" data-i18n="nav_about">NOSOTROS</a>
+      <a href="#wakeup" data-section="wakeup" data-i18n="nav_wakeup">WAKE UP</a>
+    </nav>
+    <div class="topbar-right">
       <span class="label flying" id="flying">✈ 00%</span>
-    </div>
-    <div class="lang-switch">
-      <button class="lang active" data-lang="es" type="button" aria-pressed="true">ES</button>
-      <button class="lang" data-lang="en" type="button" aria-pressed="false">EN</button>
+      <div class="lang-switch">
+        <button class="lang active" data-lang="es" type="button" aria-pressed="true">ES</button>
+        <button class="lang" data-lang="en" type="button" aria-pressed="false">EN</button>
+      </div>
     </div>
   </header>
 
-  <!-- ===== NAVEGACIÓN: dock abajo, al alcance del pulgar ===== -->
-  <nav class="dock" aria-label="Navegación principal">
+  <!-- ===== DOCK: navegación en el celular, al alcance del pulgar ===== -->
+  <nav class="dock" aria-label="Navegación">
     <a class="dock-home" href="#inicio" data-section="inicio" aria-label="Inicio">↑</a>
-    <a href="#crtv" data-section="crtv" data-i18n="nav_crtv">CRTV</a>
+    <a href="proyectos.html" data-i18n="nav_work">PROYECTOS</a>
     <a href="#nosotros" data-section="nosotros" data-i18n="nav_about">NOSOTROS</a>
     <a href="#wakeup" data-section="wakeup" data-i18n="nav_wakeup">WAKE UP</a>
   </nav>
@@ -57,78 +60,84 @@
 
     <!-- ===== INICIO ===== -->
     <section class="hero" id="inicio">
-      <div class="hero-center">
-        <h1 class="sr-only">CREATV MYNDZ — Dreams Materializers</h1>
-        <img class="hero-logo" data-reveal src="assets/img/logo-creatv.webp" alt="CREATV MYNDZ" width="1400" height="593" fetchpriority="high">
-        <p class="label" data-reveal style="--d:.15s">DREAMS MATERIALIZERS</p>
+      <div class="hero-meta label" data-reveal>
+        <span data-i18n="independent">COLECTIVO CREATIVO INDEPENDIENTE</span>
+        <span>DREAMS MATERIALIZERS</span>
+        <span>CRTV© <span class="year"></span></span>
       </div>
-      <div class="hero-foot">
-        <p class="hero-tagline" data-reveal style="--d:.3s" data-i18n="tagline">Tomamos las ideas, exploramos los límites de la creatividad y las traemos a la realidad.</p>
-        <ul class="clocks label" data-reveal style="--d:.4s">
-          <li>BOGOTÁ<b data-tz="America/Bogota">--:--</b></li>
-          <li>MIAMI<b data-tz="America/New_York">--:--</b></li>
-          <li>MADRID<b data-tz="Europe/Madrid">--:--</b></li>
-        </ul>
+      <div></div>
+      <div>
+        <h1 class="display hero-title" data-reveal>
+          <span class="sr-only">CREATV MYNDZ — </span>
+          <span><i>GLOBAL</i></span>
+          <span class="indent"><i style="--d:.08s">CREATIVE</i></span>
+          <span><i style="--d:.16s">DEALERS<sup>©</sup></i></span>
+        </h1>
+        <div class="hero-foot" data-reveal style="--d:.3s">
+          <p class="hero-tagline" data-i18n="tagline">Tomamos las ideas, exploramos los límites de la creatividad y las traemos a la realidad.</p>
+          <ul class="clocks label">
+            <li>BOGOTÁ<b data-tz="America/Bogota">--:--</b></li>
+            <li>MIAMI<b data-tz="America/New_York">--:--</b></li>
+            <li>MADRID<b data-tz="Europe/Madrid">--:--</b></li>
+          </ul>
+        </div>
       </div>
     </section>
 
-    <!-- ===== 01 · CRTV ===== -->
+    <div class="marquee" aria-hidden="true"><div class="marquee-track"><span>CREATV MYNDZ</span><span>GLOBAL CREATIVE DEALERS</span><span>DREAMS MATERIALIZERS</span><span>BOGOTÁ · MIAMI · MADRID</span><span>CREATV MYNDZ</span><span>GLOBAL CREATIVE DEALERS</span><span>DREAMS MATERIALIZERS</span><span>BOGOTÁ · MIAMI · MADRID</span><span>CREATV MYNDZ</span><span>GLOBAL CREATIVE DEALERS</span><span>DREAMS MATERIALIZERS</span><span>BOGOTÁ · MIAMI · MADRID</span><span>CREATV MYNDZ</span><span>GLOBAL CREATIVE DEALERS</span><span>DREAMS MATERIALIZERS</span><span>BOGOTÁ · MIAMI · MADRID</span></div></div>
+
+    <!-- ===== 01 · PROYECTOS ===== -->
     <section class="work" id="crtv">
-      <div class="wrap">
-        <div class="section-head label" data-reveal>
-          <span data-i18n="crtv_head">CREATIVE PLAYGROUND</span>
-          <span class="idx">(01)</span>
-        </div>
-        <!-- La lista sale de assets/projects.js -->
-        <ul class="project-list" id="project-list"></ul>
-        <div class="work-more">
-          <a class="text-link" href="playground.html" data-i18n="crtv_cta">EXPLORAR GARDEN →</a>
-        </div>
+      <div class="section-head" data-reveal>
+        <h2 class="display section-title" data-i18n="work_head">PROYECTOS SELECCIONADOS</h2>
+        <span class="label" data-count>(14)</span>
       </div>
-      <div class="preview" id="preview" aria-hidden="true"><img alt=""></div>
+      <!-- Salen de assets/projects.js: los primeros CRTV con imagen -->
+      <ul class="featured" id="featured"></ul>
+      <a class="big-link" href="proyectos.html"><span data-i18n="work_all">VER TODOS LOS PROYECTOS</span><span class="arrow" aria-hidden="true">→</span></a>
     </section>
 
     <!-- ===== 02 · CREATIVIDAD INFINITA ===== -->
     <section class="about" id="nosotros">
-      <div class="wrap">
-        <div class="section-head label" data-reveal>
-          <span>CREATV MYNDZ</span>
-          <span class="idx">(02)</span>
+      <div class="section-head label" data-reveal>
+        <span>CREATV MYNDZ</span>
+        <span>(02)</span>
+      </div>
+      <h2 class="display about-title" data-reveal data-i18n="ab_title">CREATIVIDAD INFINITA</h2>
+      <div class="about-grid">
+        <div data-reveal>
+          <p class="lead" data-i18n="ab_p1">Creemos en la creatividad como propósito de vida y razón de nuestra existencia. Todos somos creativos, y tenemos ese don.</p>
+          <p style="margin-top:1.6rem"><a class="text-link" href="#wakeup" data-i18n="ab_cta">COMENZAR A CREAR →</a></p>
         </div>
-        <h2 class="display" data-reveal data-i18n="ab_title">CREATIVIDAD INFINITA</h2>
-        <p class="lead" data-reveal style="--d:.1s" data-i18n="ab_p1">Creemos en la creatividad como propósito de vida y razón de nuestra existencia. Todos somos creativos, y tenemos ese don.</p>
-        <ul class="principles">
-          <li data-reveal><strong data-i18n="ab_c1t">CREER</strong><span data-i18n="ab_c1d">Cree en ti, cree en tus ideas.</span></li>
-          <li data-reveal style="--d:.1s"><strong data-i18n="ab_c2t">CREAR</strong><span data-i18n="ab_c2d">Nunca pares de crear. Materializa esas ideas: son un regalo.</span></li>
-          <li data-reveal style="--d:.2s"><strong data-i18n="ab_c3t">CRECER</strong><span data-i18n="ab_c3d">Cuando cumples la 1 y la 2, es inevitable.</span></li>
+        <ul class="principles" data-reveal style="--d:.1s">
+          <li><span class="n label">01</span><strong data-i18n="ab_c1t">CREER</strong><span data-i18n="ab_c1d">Cree en ti, cree en tus ideas.</span></li>
+          <li><span class="n label">02</span><strong data-i18n="ab_c2t">CREAR</strong><span data-i18n="ab_c2d">Nunca pares de crear. Materializa esas ideas: son un regalo.</span></li>
+          <li><span class="n label">03</span><strong data-i18n="ab_c3t">CRECER</strong><span data-i18n="ab_c3d">Cuando cumples la 1 y la 2, es inevitable.</span></li>
         </ul>
-        <a class="text-link" href="#wakeup" data-i18n="ab_cta">COMENZAR A CREAR →</a>
       </div>
     </section>
 
     <!-- ===== 03 · WAKE UP ===== -->
     <section class="wakeup" id="wakeup">
-      <div class="wrap">
-        <div class="section-head label" data-reveal>
-          <span data-i18n="wu_kicker">DESPERTAR CREATIVO</span>
-          <span class="idx">(03)</span>
+      <div class="section-head label" data-reveal>
+        <span data-i18n="wu_kicker">DESPERTAR CREATIVO</span>
+        <span>(03)</span>
+      </div>
+      <div class="wakeup-card" data-reveal>
+        <div>
+          <img class="wakeup-logo" src="assets/img/logo-wakeup.png" alt="WAKE UP!" width="261" height="197" loading="lazy">
+          <p class="wakeup-sub" data-i18n="wu_sub">La creatividad no es algo que se entrena: se recuerda. Es algo que durmieron dentro de ti, y puedes despertarla. Despierta tu potencial, despierta tu propósito, despierta la forma más pura de crear que hay en ti.</p>
         </div>
-        <div class="wakeup-card" data-reveal>
-          <div>
-            <img class="wakeup-logo" src="assets/img/logo-wakeup.png" alt="WAKE UP!" width="261" height="197" loading="lazy">
-            <p class="wakeup-sub" data-i18n="wu_sub">La creatividad no es algo que se entrena: se recuerda. Es algo que durmieron dentro de ti, y puedes despertarla. Despierta tu potencial, despierta tu propósito, despierta la forma más pura de crear que hay en ti.</p>
-          </div>
-          <div class="wakeup-side">
-            <ul class="features">
-              <li data-i18n="wu_f1">Programa despertar.</li>
-              <li data-i18n="wu_f2">Serie de audios e hipnosis para despertar tu CREATV.</li>
-              <li data-i18n="wu_f3">Acceso al Discord y a la comunidad CREATV MYNDZ.</li>
-            </ul>
-            <!-- La página de venta completa vive en wakeup.html -->
-            <div class="wakeup-actions">
-              <a class="btn" href="wakeup.html" data-i18n="wu_cta">CONOCER EL PROGRAMA →</a>
-              <a class="text-link" href="wakeup-program.html" data-i18n="wu_preview">Ver construcción del programa →</a>
-            </div>
+        <div class="wakeup-side">
+          <ul class="features">
+            <li><span class="n label">01</span><span data-i18n="wu_f1">Programa despertar.</span></li>
+            <li><span class="n label">02</span><span data-i18n="wu_f2">Serie de audios e hipnosis para despertar tu CREATV.</span></li>
+            <li><span class="n label">03</span><span data-i18n="wu_f3">Acceso al Discord y a la comunidad CREATV MYNDZ.</span></li>
+          </ul>
+          <!-- La página de venta completa vive en wakeup.html -->
+          <div class="wakeup-actions">
+            <a class="btn" href="wakeup.html" data-i18n="wu_cta">CONOCER EL PROGRAMA →</a>
+            <a class="text-link" href="wakeup-program.html" data-i18n="wu_preview">Ver construcción del programa →</a>
           </div>
         </div>
       </div>
@@ -137,22 +146,31 @@
   </main>
 
   <footer class="footer">
-    <div class="footer-card">
-      <div class="footer-top">
-        <div>
-          <img class="footer-logo" src="assets/img/logo-creatv.webp" alt="CREATV MYNDZ" width="1400" height="593" loading="lazy">
-          <p class="label" data-i18n="footer_line">CREATIVE DEALERS</p>
-        </div>
+    <div class="footer-cols">
+      <div>
+        <span class="label" data-i18n="independent">COLECTIVO CREATIVO INDEPENDIENTE</span>
+        <p data-i18n="tagline">Tomamos las ideas, exploramos los límites de la creatividad y las traemos a la realidad.</p>
+      </div>
+      <div>
+        <span class="label" data-i18n="footer_nav">NAVEGA</span>
         <ul class="footer-links">
-          <li><a href="playground.html">Creative Playground</a></li>
-          <li><a href="wakeup.html">Wake Up</a></li>
+          <li><a href="proyectos.html" data-i18n="nav_work">PROYECTOS</a></li>
+          <li><a href="#nosotros" data-i18n="nav_about">NOSOTROS</a></li>
+          <li><a href="#wakeup" data-i18n="nav_wakeup">WAKE UP</a></li>
+        </ul>
+      </div>
+      <div>
+        <span class="label" data-i18n="footer_more">MÁS</span>
+        <ul class="footer-links">
+          <li><a href="wakeup.html">WAKE UP!</a></li>
           <li><a href="lab.html" data-i18n="footer_lab">Página de prueba</a></li>
         </ul>
       </div>
-      <div class="footer-bottom label">
-        <span>CREATV MYNDZ © <span class="year"></span></span>
-        <span>DREAMS MATERIALIZERS</span>
-      </div>
+    </div>
+    <p class="display wordmark" aria-hidden="true">CREATV MYNDZ</p>
+    <div class="footer-bottom label">
+      <span>CREATV MYNDZ © <span class="year"></span></span>
+      <span>GLOBAL CREATIVE DEALERS</span>
     </div>
   </footer>
 

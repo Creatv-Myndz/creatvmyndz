@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>PROYECTOS — CREATV MYNDZ</title>
+  <meta name="description" content="Todos los CRTV de CREATV MYNDZ, uno por uno.">
+  <meta name="theme-color" content="#0a1238">
+  <meta property="og:title" content="PROYECTOS — CREATV MYNDZ">
+  <meta property="og:description" content="Todos los CRTV de CREATV MYNDZ, uno por uno.">
+  <meta property="og:image" content="https://creatvmyndz.com/assets/img/og-playground.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://creatvmyndz.com/proyectos.html">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="PROYECTOS — CREATV MYNDZ">
+  <meta name="twitter:description" content="Todos los CRTV de CREATV MYNDZ, uno por uno.">
+  <meta name="twitter:image" content="https://creatvmyndz.com/assets/img/og-playground.jpg">
+  <link rel="canonical" href="https://creatvmyndz.com/proyectos.html">
+  <link rel="icon" href="assets/img/favicon.png" sizes="any">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-tight-latin.woff2" crossorigin>
+  <link rel="preload" as="image" href="assets/img/bg/cielo.webp">
+  <link rel="stylesheet" href="assets/minimal.css">
+</head>
+<body>
+
+  <!-- ===== FONDO: cielo + vidrio empañado + tono oscuro ===== -->
+  <div class="bg" aria-hidden="true"></div>
+  <div class="fog" aria-hidden="true"></div>
+  <div class="tint" aria-hidden="true"></div>
+
+  <!-- ===== BARRA SUPERIOR ===== -->
+  <header class="topbar">
+    <a href="index.html#inicio" aria-label="CREATV MYNDZ — inicio"><img class="topbar-logo" src="assets/img/logo-creatv.webp" alt="CREATV MYNDZ" width="1400" height="593"></a>
+    <nav class="topbar-nav" aria-label="Navegación principal">
+      <a href="proyectos.html" class="active" aria-current="page" data-i18n="nav_work">PROYECTOS</a>
+      <a href="index.html#nosotros" data-i18n="nav_about">NOSOTROS</a>
+      <a href="index.html#wakeup" data-i18n="nav_wakeup">WAKE UP</a>
+    </nav>
+    <div class="topbar-right">
+      <span class="label flying" id="flying">✈ 00%</span>
+      <div class="lang-switch">
+        <button class="lang active" data-lang="es" type="button" aria-pressed="true">ES</button>
+        <button class="lang" data-lang="en" type="button" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== DOCK: navegación en el celular, al alcance del pulgar ===== -->
+  <nav class="dock" aria-label="Navegación">
+    <a class="dock-home" href="index.html#inicio" aria-label="Inicio">↑</a>
+    <a href="proyectos.html" class="active" aria-current="page" data-i18n="nav_work">PROYECTOS</a>
+    <a href="index.html#nosotros" data-i18n="nav_about">NOSOTROS</a>
+    <a href="index.html#wakeup" data-i18n="nav_wakeup">WAKE UP</a>
+  </nav>
+
+  <main>
+    <header class="page-head">
+      <div class="section-head label" data-reveal>
+        <span>CREATIVE PLAYGROUND</span>
+        <span data-count>(14)</span>
+      </div>
+      <h1 class="display page-title" data-reveal><span data-i18n="nav_work">PROYECTOS</span></h1>
+      <p class="page-lead" data-reveal style="--d:.1s" data-i18n="pg_lead">Todos los CRTV de CREATV MYNDZ, uno por uno. Creative Playground.</p>
+    </header>
+
+    <section class="work-page">
+      <div class="controls">
+        <div class="chips" role="group" aria-label="Filtrar">
+          <button class="chip" type="button" data-filter="all" aria-pressed="true"><span data-i18n="f_all">TODOS</span><sup></sup></button>
+          <button class="chip" type="button" data-filter="done" aria-pressed="false"><span data-i18n="f_done">HECHOS</span><sup></sup></button>
+          <button class="chip" type="button" data-filter="soon" aria-pressed="false"><span data-i18n="f_soon">PRÓXIMOS</span><sup></sup></button>
+        </div>
+        <div class="chips" role="group" aria-label="Vista">
+          <button class="chip" type="button" data-view="list" aria-pressed="true" data-i18n="v_list">LISTA</button>
+          <button class="chip" type="button" data-view="grid" aria-pressed="false" data-i18n="v_grid">GRILLA</button>
+        </div>
+      </div>
+      <!-- La lista y la grilla salen de assets/projects.js -->
+      <ul class="project-list" id="project-list"></ul>
+      <ul class="gallery" id="gallery" hidden></ul>
+      <div class="preview" id="preview" aria-hidden="true"><img alt=""></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-cols">
+      <div>
+        <span class="label" data-i18n="independent">COLECTIVO CREATIVO INDEPENDIENTE</span>
+        <p data-i18n="tagline">Tomamos las ideas, exploramos los límites de la creatividad y las traemos a la realidad.</p>
+      </div>
+      <div>
+        <span class="label" data-i18n="footer_nav">NAVEGA</span>
+        <ul class="footer-links">
+          <li><a href="proyectos.html" data-i18n="nav_work">PROYECTOS</a></li>
+          <li><a href="index.html#nosotros" data-i18n="nav_about">NOSOTROS</a></li>
+          <li><a href="index.html#wakeup" data-i18n="nav_wakeup">WAKE UP</a></li>
+        </ul>
+      </div>
+      <div>
+        <span class="label" data-i18n="footer_more">MÁS</span>
+        <ul class="footer-links">
+          <li><a href="wakeup.html">WAKE UP!</a></li>
+          <li><a href="lab.html" data-i18n="footer_lab">Página de prueba</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="display wordmark" aria-hidden="true">CREATV MYNDZ</p>
+    <div class="footer-bottom label">
+      <span>CREATV MYNDZ © <span class="year"></span></span>
+      <span>GLOBAL CREATIVE DEALERS</span>
+    </div>
+  </footer>
+
+  <script src="assets/projects.js"></script>
+  <script src="assets/minimal.js"></script>
+</body>
+</html>

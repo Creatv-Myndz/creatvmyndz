@@ -1,7 +1,7 @@
 /* ============================================================
-   CREATV MYNDZ — LÓGICA DEL DISEÑO MINIMALISTA
+   CREATV MYNDZ — LÓGICA DEL SITIO
    ------------------------------------------------------------
-   index.html, playground.html y crtv-*.html. Los proyectos salen de
+   index.html, proyectos.html y crtv-*.html. Los proyectos salen de
    assets/projects.js (cárgalo antes que este archivo donde haga falta).
    ============================================================ */
 
@@ -12,10 +12,14 @@ document.documentElement.classList.add("js");
    ------------------------------------------------------------ */
 const I18N = {
   es: {
-    nav_crtv: "CRTV", nav_about: "NOSOTROS", nav_wakeup: "WAKE UP",
+    nav_work: "PROYECTOS", nav_about: "NOSOTROS", nav_wakeup: "WAKE UP",
     tagline: "Tomamos las ideas, exploramos los límites de la creatividad y las traemos a la realidad.",
-    crtv_head: "CREATIVE PLAYGROUND",
-    crtv_cta: "EXPLORAR GARDEN →",
+    independent: "COLECTIVO CREATIVO INDEPENDIENTE",
+    work_head: "PROYECTOS SELECCIONADOS",
+    work_all: "VER TODOS LOS PROYECTOS",
+    pg_lead: "Todos los CRTV de CREATV MYNDZ, uno por uno. Creative Playground.",
+    f_all: "TODOS", f_done: "HECHOS", f_soon: "PRÓXIMOS",
+    v_list: "LISTA", v_grid: "GRILLA",
     soon: "PRÓXIMO",
     ab_title: "CREATIVIDAD INFINITA",
     ab_p1: "Creemos en la creatividad como propósito de vida y razón de nuestra existencia. Todos somos creativos, y tenemos ese don.",
@@ -31,17 +35,20 @@ const I18N = {
     wu_cta: "CONOCER EL PROGRAMA →",
     wu_preview: "Ver construcción del programa →",
     footer_lab: "Página de prueba",
-    footer_line: "CREATIVE DEALERS",
-    pg_sub: "Todos los CRTV de CREATV MYNDZ, uno por uno.",
-    back: "← CREATV MYNDZ",
-    back_pg: "← PLAYGROUND",
+    footer_nav: "NAVEGA",
+    footer_more: "MÁS",
+    back_work: "← PROYECTOS",
     prev: "← ANTERIOR", next: "SIGUIENTE →"
   },
   en: {
-    nav_crtv: "CRTV", nav_about: "ABOUT", nav_wakeup: "WAKE UP",
+    nav_work: "WORK", nav_about: "ABOUT", nav_wakeup: "WAKE UP",
     tagline: "We take ideas, explore the limits of creativity and bring them to reality.",
-    crtv_head: "CREATIVE PLAYGROUND",
-    crtv_cta: "EXPLORE GARDEN →",
+    independent: "INDEPENDENT CREATIVE COLLECTIVE",
+    work_head: "SELECTED WORK",
+    work_all: "SEE ALL WORK",
+    pg_lead: "Every CRTV by CREATV MYNDZ, one by one. Creative Playground.",
+    f_all: "ALL", f_done: "DONE", f_soon: "SOON",
+    v_list: "LIST", v_grid: "GRID",
     soon: "SOON",
     ab_title: "INFINITE CREATIVITY",
     ab_p1: "We believe creativity is a life purpose and the reason we exist. We are all creative — that gift is already in you.",
@@ -57,10 +64,9 @@ const I18N = {
     wu_cta: "SEE THE PROGRAM →",
     wu_preview: "See the program in progress →",
     footer_lab: "Test page",
-    footer_line: "CREATIVE DEALERS",
-    pg_sub: "Every CRTV by CREATV MYNDZ, one by one.",
-    back: "← CREATV MYNDZ",
-    back_pg: "← PLAYGROUND",
+    footer_nav: "NAVIGATE",
+    footer_more: "MORE",
+    back_work: "← WORK",
     prev: "← PREVIOUS", next: "NEXT →"
   }
 };
@@ -76,6 +82,7 @@ const t = key => I18N[lang][key] || I18N.es[key] || "";
 const PREFIX = "CRTV";
 const code = n => (n === null || n === undefined) ? PREFIX : PREFIX + " " + String(n).padStart(2, "0");
 const hasPage = p => !!p.link && p.status !== "soon";
+const HAS_PROJECTS = typeof PROJECTS !== "undefined";
 
 function applyLang() {
   document.documentElement.lang = lang;
@@ -85,8 +92,8 @@ function applyLang() {
     b.classList.toggle("active", on);
     b.setAttribute("aria-pressed", on);
   });
-  renderList();
-  renderGallery();
+  renderFeatured();
+  renderWork();
 }
 
 document.querySelectorAll(".lang").forEach(b => {
@@ -95,64 +102,151 @@ document.querySelectorAll(".lang").forEach(b => {
 
 
 /* ------------------------------------------------------------
-   PORTADA: lista de CRTV
+   TARJETA Y FILA DE PROYECTO
    ------------------------------------------------------------ */
-const listEl = document.getElementById("project-list");
+function makeCard(p, i) {
+  const li = document.createElement("li");
+  const linked = hasPage(p);
+  li.className = "card " + p.status + (linked ? " linked" : "");
+  li.dataset.reveal = "";
+  li.style.setProperty("--d", (i % 3) * 0.08 + "s");
 
-function renderList() {
-  if (!listEl || typeof PROJECTS === "undefined") return;
-  listEl.innerHTML = "";
-  PROJECTS.forEach(p => {
-    const li = document.createElement("li");
-    const linked = hasPage(p);
-    li.className = "project-row " + p.status + (linked ? "" : " nolink");
+  const box = document.createElement(linked ? "a" : "div");
+  if (linked) box.href = p.link;
 
-    const a = document.createElement(linked ? "a" : "span");
-    if (linked) a.href = p.link;
-    if (linked && p.image) a.dataset.preview = p.image;
+  const media = document.createElement("div");
+  media.className = "card-media";
+  if (linked && p.image) {
+    const img = document.createElement("img");
+    img.src = p.image; img.alt = p.title; img.loading = "lazy";
+    img.width = 512; img.height = 640;
+    media.appendChild(img);
+  } else {
+    const empty = document.createElement("span");
+    empty.className = "card-empty label";
+    empty.textContent = p.status === "soon" ? t("soon") : code(p.num);
+    media.appendChild(empty);
+  }
 
-    const num = document.createElement("span");
-    num.className = "p-num label";
-    num.textContent = code(p.num);
+  const meta = document.createElement("div");
+  meta.className = "card-meta";
+  const n = document.createElement("span"); n.className = "label"; n.textContent = code(p.num);
+  const title = document.createElement("span"); title.className = "card-title"; title.textContent = p.title;
+  const arrow = document.createElement("span"); arrow.className = "label label-ink"; arrow.textContent = linked ? "↗" : "";
+  meta.append(n, title, arrow);
 
-    const title = document.createElement("span");
-    title.className = "p-title";
-    title.textContent = p.title;
-    if (p.status === "soon") title.setAttribute("aria-label", t("soon"));
-
-    a.append(num, title);
-
-    if (linked && p.image) {
-      const img = document.createElement("img");
-      img.className = "p-thumb";
-      img.src = p.image; img.alt = ""; img.loading = "lazy";
-      img.width = 52; img.height = 64;
-      a.appendChild(img);
-    }
-
-    const go = document.createElement("span");
-    go.className = "p-go" + (linked ? "" : " label");
-    go.textContent = p.status === "soon" ? t("soon") : (linked ? "→" : "");
-    go.setAttribute("aria-hidden", "true");
-    a.appendChild(go);
-
-    li.appendChild(a);
-    listEl.appendChild(li);
-  });
+  box.append(media, meta);
+  li.appendChild(box);
+  return li;
 }
 
-/* Vista previa que sigue al cursor (solo con mouse). */
+function makeRow(p) {
+  const li = document.createElement("li");
+  const linked = hasPage(p);
+  li.className = "project-row " + p.status + (linked ? "" : " nolink");
+
+  const a = document.createElement(linked ? "a" : "span");
+  if (linked) a.href = p.link;
+  if (linked && p.image) a.dataset.preview = p.image;
+
+  const num = document.createElement("span");
+  num.className = "p-num label";
+  num.textContent = code(p.num);
+
+  const title = document.createElement("span");
+  title.className = "p-title";
+  title.textContent = p.title;
+  if (p.status === "soon") title.setAttribute("aria-label", t("soon"));
+  a.append(num, title);
+
+  if (linked && p.image) {
+    const img = document.createElement("img");
+    img.className = "p-thumb";
+    img.src = p.image; img.alt = ""; img.loading = "lazy";
+    img.width = 56; img.height = 68;
+    a.appendChild(img);
+  }
+
+  const go = document.createElement("span");
+  go.className = "p-go" + (linked ? "" : " label");
+  go.textContent = p.status === "soon" ? t("soon") : (linked ? "↗" : "");
+  go.setAttribute("aria-hidden", "true");
+  a.appendChild(go);
+
+  li.appendChild(a);
+  return li;
+}
+
+
+/* ------------------------------------------------------------
+   PORTADA: proyectos seleccionados (los primeros con imagen)
+   ------------------------------------------------------------ */
+const featuredEl = document.getElementById("featured");
+const FEATURED_COUNT = 4;
+
+function renderFeatured() {
+  if (!featuredEl || !HAS_PROJECTS) return;
+  featuredEl.innerHTML = "";
+  PROJECTS.filter(p => hasPage(p) && p.image).slice(0, FEATURED_COUNT)
+    .forEach((p, i) => featuredEl.appendChild(makeCard(p, i)));
+  document.querySelectorAll("[data-count]").forEach(el => {
+    el.textContent = "(" + String(PROJECTS.length).padStart(2, "0") + ")";
+  });
+  observeReveal();
+}
+
+
+/* ------------------------------------------------------------
+   PÁGINA PROYECTOS: filtro + vista lista / grilla
+   ------------------------------------------------------------ */
+const listEl = document.getElementById("project-list");
+const galleryEl = document.getElementById("gallery");
+let filter = "all";
+let view = storage.get("cm-view") === "grid" ? "grid" : "list";
+
+function renderWork() {
+  if (!HAS_PROJECTS || (!listEl && !galleryEl)) return;
+  const items = PROJECTS.filter(p => filter === "all" || p.status === filter);
+
+  if (listEl) {
+    listEl.innerHTML = "";
+    items.forEach(p => listEl.appendChild(makeRow(p)));
+    listEl.hidden = view !== "list";
+  }
+  if (galleryEl) {
+    galleryEl.innerHTML = "";
+    items.forEach((p, i) => galleryEl.appendChild(makeCard(p, i)));
+    galleryEl.hidden = view !== "grid";
+  }
+
+  document.querySelectorAll("[data-filter]").forEach(b => {
+    b.setAttribute("aria-pressed", b.dataset.filter === filter);
+    const sup = b.querySelector("sup");
+    if (sup) sup.textContent = PROJECTS.filter(p => b.dataset.filter === "all" || p.status === b.dataset.filter).length;
+  });
+  document.querySelectorAll("[data-view]").forEach(b => b.setAttribute("aria-pressed", b.dataset.view === view));
+  observeReveal();
+}
+
+document.querySelectorAll("[data-filter]").forEach(b => {
+  b.addEventListener("click", () => { filter = b.dataset.filter; renderWork(); });
+});
+document.querySelectorAll("[data-view]").forEach(b => {
+  b.addEventListener("click", () => { view = b.dataset.view; storage.set("cm-view", view); renderWork(); });
+});
+
+/* Vista previa que sigue al cursor sobre la lista (solo con mouse). */
 const preview = document.getElementById("preview");
 if (preview && listEl && matchMedia("(hover: hover) and (pointer: fine)").matches) {
   const img = preview.querySelector("img");
   let px = 0, py = 0, cx = 0, cy = 0, raf = 0;
   const follow = () => {
     cx += (px - cx) * 0.18; cy += (py - cy) * 0.18;
-    preview.style.transform = `translate3d(${cx}px, ${cy}px, 0) translate(-50%, -50%) scale(${preview.classList.contains("on") ? 1 : 0.92})`;
+    preview.style.transform = `translate3d(${cx}px, ${cy}px, 0) translate(-50%, -50%)`;
     raf = (Math.abs(px - cx) > 0.5 || Math.abs(py - cy) > 0.5) ? requestAnimationFrame(follow) : 0;
   };
   listEl.addEventListener("mousemove", e => {
-    px = e.clientX + 40; py = e.clientY;
+    px = e.clientX; py = e.clientY;
     const row = e.target.closest("a[data-preview]");
     if (row) {
       if (img.getAttribute("src") !== row.dataset.preview) img.src = row.dataset.preview;
@@ -166,68 +260,16 @@ if (preview && listEl && matchMedia("(hover: hover) and (pointer: fine)").matche
 
 
 /* ------------------------------------------------------------
-   PLAYGROUND: galería
-   ------------------------------------------------------------ */
-const galleryEl = document.getElementById("gallery");
-
-function renderGallery() {
-  if (!galleryEl || typeof PROJECTS === "undefined") return;
-  galleryEl.innerHTML = "";
-  PROJECTS.forEach((p, i) => {
-    const li = document.createElement("li");
-    li.className = "card " + p.status;
-    li.dataset.reveal = "";
-    li.style.setProperty("--d", (i % 4) * 0.07 + "s");
-
-    const linked = hasPage(p);
-    const box = document.createElement(linked ? "a" : "div");
-    if (linked) box.href = p.link;
-
-    const media = document.createElement("div");
-    media.className = "card-media";
-    if (linked && p.image) {
-      const img = document.createElement("img");
-      img.src = p.image; img.alt = p.title; img.loading = "lazy";
-      img.width = 512; img.height = 640;
-      media.appendChild(img);
-    } else {
-      const empty = document.createElement("span");
-      empty.className = "card-empty label";
-      empty.textContent = p.status === "soon" ? t("soon") : "CRTV";
-      media.appendChild(empty);
-    }
-
-    const meta = document.createElement("div");
-    meta.className = "card-meta label";
-    const n = document.createElement("span"); n.textContent = code(p.num);
-    const arrow = document.createElement("span"); arrow.textContent = linked ? "→" : "";
-    meta.append(n, arrow);
-
-    const title = document.createElement("span");
-    title.className = "card-title";
-    title.textContent = p.title;
-
-    box.append(media, meta, title);
-    li.appendChild(box);
-    galleryEl.appendChild(li);
-  });
-  observeReveal();
-}
-
-
-/* ------------------------------------------------------------
    DETALLE DE UN CRTV: anterior / siguiente
    ------------------------------------------------------------ */
 const crtvNav = document.getElementById("crtv-nav");
-if (crtvNav && typeof PROJECTS !== "undefined") {
+if (crtvNav && HAS_PROJECTS) {
   const pages = PROJECTS.filter(hasPage);
   const here = location.pathname.split("/").pop();
   const i = pages.findIndex(p => p.link === here);
   if (i !== -1) {
-    const prev = pages[(i - 1 + pages.length) % pages.length];
-    const next = pages[(i + 1) % pages.length];
-    crtvNav.querySelector("[data-prev]").href = prev.link;
-    crtvNav.querySelector("[data-next]").href = next.link;
+    crtvNav.querySelector("[data-prev]").href = pages[(i - 1 + pages.length) % pages.length].link;
+    crtvNav.querySelector("[data-next]").href = pages[(i + 1) % pages.length].link;
   }
 }
 
@@ -259,15 +301,16 @@ updateFlying();
 
 
 /* ------------------------------------------------------------
-   DOCK: marca la sección en la que estás
+   NAVEGACIÓN: marca la sección en la que estás (barra y dock)
    ------------------------------------------------------------ */
-const dockLinks = [...document.querySelectorAll(".dock a[data-section]")];
-const sections = dockLinks.map(a => document.getElementById(a.dataset.section)).filter(Boolean);
+const navLinks = [...document.querySelectorAll("a[data-section]")];
+const sectionIds = [...new Set(navLinks.map(a => a.dataset.section))];
+const sections = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
 if (sections.length && "IntersectionObserver" in window) {
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (!e.isIntersecting) return;
-      dockLinks.forEach(a => a.classList.toggle("active", a.dataset.section === e.target.id));
+      navLinks.forEach(a => a.classList.toggle("active", a.dataset.section === e.target.id));
     });
   }, { rootMargin: "-45% 0px -50% 0px" });
   sections.forEach(s => io.observe(s));
@@ -286,7 +329,7 @@ function observeReveal() {
       entries.forEach(e => {
         if (e.isIntersecting) { e.target.classList.add("in"); revealIO.unobserve(e.target); }
       });
-    }, { rootMargin: "0px 0px -8% 0px" });
+    }, { rootMargin: "0px 0px -6% 0px" });
   }
   els.forEach(el => revealIO.observe(el));
 }

@@ -21,50 +21,85 @@
   <link rel="icon" href="assets/img/favicon.png" sizes="any">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <link rel="preload" as="image" href="assets/img/crtvs/perreo-santo.webp">
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-tight-latin.woff2" crossorigin>
   <link rel="preload" as="image" href="assets/img/bg/cielo.webp">
   <link rel="stylesheet" href="assets/minimal.css">
 </head>
 <body>
 
+  <!-- ===== FONDO: cielo + vidrio empañado + tono oscuro ===== -->
   <div class="bg" aria-hidden="true"></div>
   <div class="fog" aria-hidden="true"></div>
   <div class="tint" aria-hidden="true"></div>
-  <span class="corner tl" aria-hidden="true"></span><span class="corner tr" aria-hidden="true"></span>
-  <span class="corner bl" aria-hidden="true"></span><span class="corner br" aria-hidden="true"></span>
 
+  <!-- ===== BARRA SUPERIOR ===== -->
   <header class="topbar">
-    <div class="topbar-left">
-      <a class="brand" href="playground.html" data-i18n="back_pg">← PLAYGROUND</a>
-    </div>
-    <div class="lang-switch">
-      <button class="lang active" data-lang="es" type="button" aria-pressed="true">ES</button>
-      <button class="lang" data-lang="en" type="button" aria-pressed="false">EN</button>
+    <a href="index.html#inicio" aria-label="CREATV MYNDZ — inicio"><img class="topbar-logo" src="assets/img/logo-creatv.webp" alt="CREATV MYNDZ" width="1400" height="593"></a>
+    <nav class="topbar-nav" aria-label="Navegación principal">
+      <a href="proyectos.html" class="active" aria-current="page" data-i18n="nav_work">PROYECTOS</a>
+      <a href="index.html#nosotros" data-i18n="nav_about">NOSOTROS</a>
+      <a href="index.html#wakeup" data-i18n="nav_wakeup">WAKE UP</a>
+    </nav>
+    <div class="topbar-right">
+      <span class="label flying" id="flying">✈ 00%</span>
+      <div class="lang-switch">
+        <button class="lang active" data-lang="es" type="button" aria-pressed="true">ES</button>
+        <button class="lang" data-lang="en" type="button" aria-pressed="false">EN</button>
+      </div>
     </div>
   </header>
 
-  <nav class="dock" aria-label="Navegación principal">
-    <a class="dock-home" href="index.html" aria-label="Inicio">↑</a>
-    <a href="playground.html" class="active" data-i18n="nav_crtv">CRTV</a>
+  <!-- ===== DOCK: navegación en el celular, al alcance del pulgar ===== -->
+  <nav class="dock" aria-label="Navegación">
+    <a class="dock-home" href="index.html#inicio" aria-label="Inicio">↑</a>
+    <a href="proyectos.html" class="active" aria-current="page" data-i18n="nav_work">PROYECTOS</a>
     <a href="index.html#nosotros" data-i18n="nav_about">NOSOTROS</a>
     <a href="index.html#wakeup" data-i18n="nav_wakeup">WAKE UP</a>
   </nav>
 
   <main class="crtv-page">
-    <div class="wrap">
-      <div class="section-head label">
-        <span>CRTV 02</span>
-        <span class="idx">CREATV MYNDZ</span>
-      </div>
-      <h1 class="display">PERREO SANTO</h1>
-      <figure class="crtv-figure">
-        <img src="assets/img/crtvs/perreo-santo.webp" alt="PERREO SANTO" width="1423" height="1600">
-      </figure>
-      <nav class="crtv-nav label" id="crtv-nav" aria-label="Otros CRTV">
-        <a class="text-link" data-prev href="playground.html" data-i18n="prev">← ANTERIOR</a>
-        <a class="text-link" data-next href="playground.html" data-i18n="next">SIGUIENTE →</a>
-      </nav>
+    <div class="section-head label">
+      <a class="text-link" href="proyectos.html" data-i18n="back_work">← PROYECTOS</a>
+      <span>CRTV 02</span>
     </div>
+    <h1 class="display">PERREO SANTO</h1>
+    <figure class="crtv-figure">
+      <img src="assets/img/crtvs/perreo-santo.webp" alt="PERREO SANTO" width="1423" height="1600">
+    </figure>
+    <nav class="crtv-nav label" id="crtv-nav" aria-label="Otros CRTV">
+      <a class="text-link" data-prev href="proyectos.html" data-i18n="prev">← ANTERIOR</a>
+      <a class="text-link" data-next href="proyectos.html" data-i18n="next">SIGUIENTE →</a>
+    </nav>
   </main>
+
+  <footer class="footer">
+    <div class="footer-cols">
+      <div>
+        <span class="label" data-i18n="independent">COLECTIVO CREATIVO INDEPENDIENTE</span>
+        <p data-i18n="tagline">Tomamos las ideas, exploramos los límites de la creatividad y las traemos a la realidad.</p>
+      </div>
+      <div>
+        <span class="label" data-i18n="footer_nav">NAVEGA</span>
+        <ul class="footer-links">
+          <li><a href="proyectos.html" data-i18n="nav_work">PROYECTOS</a></li>
+          <li><a href="index.html#nosotros" data-i18n="nav_about">NOSOTROS</a></li>
+          <li><a href="index.html#wakeup" data-i18n="nav_wakeup">WAKE UP</a></li>
+        </ul>
+      </div>
+      <div>
+        <span class="label" data-i18n="footer_more">MÁS</span>
+        <ul class="footer-links">
+          <li><a href="wakeup.html">WAKE UP!</a></li>
+          <li><a href="lab.html" data-i18n="footer_lab">Página de prueba</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="display wordmark" aria-hidden="true">CREATV MYNDZ</p>
+    <div class="footer-bottom label">
+      <span>CREATV MYNDZ © <span class="year"></span></span>
+      <span>GLOBAL CREATIVE DEALERS</span>
+    </div>
+  </footer>
 
   <script src="assets/projects.js"></script>
   <script src="assets/minimal.js"></script>
