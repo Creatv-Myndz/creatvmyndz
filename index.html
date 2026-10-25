@@ -21,6 +21,7 @@
   <link rel="icon" href="assets/img/favicon.png" sizes="any">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-tight-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/space-mono-latin.woff2" crossorigin>
   <link rel="preload" as="image" href="assets/img/bg/cielo.webp">
   <link rel="stylesheet" href="assets/minimal.css">
 </head>
@@ -33,8 +34,8 @@
 
   <!-- ===== BARRA SUPERIOR ===== -->
   <header class="topbar">
-    <a href="#inicio" aria-label="CREATV MYNDZ — inicio"><img class="topbar-logo" src="assets/img/logo-creatv.webp" alt="CREATV MYNDZ" width="1400" height="593"></a>
-    <nav class="topbar-nav" aria-label="Navegación principal">
+    <a href="#inicio" aria-label="CREATV MYNDZ"><img class="topbar-logo" src="assets/img/logo-creatv-blur.webp" alt="CREATV MYNDZ" width="480" height="231"></a>
+    <nav class="topbar-nav" data-i18n-aria="aria_nav" aria-label="Navegación principal">
       <a href="proyectos.html" data-i18n="nav_work">PROYECTOS</a>
       <a href="#nosotros" data-section="nosotros" data-i18n="nav_about">NOSOTROS</a>
       <a href="#wakeup" data-section="wakeup" data-i18n="nav_wakeup">WAKE UP</a>
@@ -49,21 +50,31 @@
   </header>
 
   <!-- ===== DOCK: navegación en el celular, al alcance del pulgar ===== -->
-  <nav class="dock" aria-label="Navegación">
-    <a class="dock-home" href="#inicio" data-section="inicio" aria-label="Inicio">↑</a>
+  <nav class="dock" data-i18n-aria="aria_nav" aria-label="Navegación">
+    <a class="dock-home" href="#inicio" data-section="inicio" data-i18n-aria="aria_home" aria-label="Inicio">↑</a>
     <a href="proyectos.html" data-i18n="nav_work">PROYECTOS</a>
     <a href="#nosotros" data-section="nosotros" data-i18n="nav_about">NOSOTROS</a>
     <a href="#wakeup" data-section="wakeup" data-i18n="nav_wakeup">WAKE UP</a>
   </nav>
+
+  <!-- ===== RELOJES: barra fija abajo, en letra de código ===== -->
+  <div class="clockbar" role="timer" aria-live="off">
+    <span class="cb-tag"><i class="cb-dot" aria-hidden="true"></i><span data-i18n="local_time">// HORA LOCAL</span></span>
+    <span class="cb-times">
+      <span>[BOG]&nbsp;<b data-tz="America/Bogota">--:--:--</b></span>
+      <span>[MIA]&nbsp;<b data-tz="America/New_York">--:--:--</b></span>
+      <span>[MAD]&nbsp;<b data-tz="Europe/Madrid">--:--:--</b></span>
+    </span>
+    <span class="cb-end" aria-hidden="true">CRTV_<span class="year"></span><i class="cb-cursor">▮</i></span>
+  </div>
 
   <main>
 
     <!-- ===== INICIO ===== -->
     <section class="hero" id="inicio">
       <div class="hero-meta label" data-reveal>
-        <span data-i18n="independent">COLECTIVO CREATIVO INDEPENDIENTE</span>
-        <span>DREAMS MATERIALIZERS</span>
-        <span>CRTV© <span class="year"></span></span>
+        <span>GLOBAL CREATIVE DEALERS</span>
+        <span>CRTV <span class="year"></span></span>
       </div>
       <div></div>
       <div>
@@ -75,11 +86,6 @@
         </h1>
         <div class="hero-foot" data-reveal style="--d:.3s">
           <p class="hero-tagline" data-i18n="tagline">Tomamos las ideas, exploramos los límites de la creatividad y las traemos a la realidad.</p>
-          <ul class="clocks label">
-            <li>BOGOTÁ<b data-tz="America/Bogota">--:--</b></li>
-            <li>MIAMI<b data-tz="America/New_York">--:--</b></li>
-            <li>MADRID<b data-tz="Europe/Madrid">--:--</b></li>
-          </ul>
         </div>
       </div>
     </section>
@@ -89,7 +95,7 @@
     <!-- ===== 01 · PROYECTOS ===== -->
     <section class="work" id="crtv">
       <div class="section-head" data-reveal>
-        <h2 class="display section-title" data-i18n="work_head">PROYECTOS SELECCIONADOS</h2>
+        <h2 class="display section-title" data-i18n="work_head">PROYECTOS CREATIVOS</h2>
         <span class="label" data-count>(14)</span>
       </div>
       <!-- Salen de assets/projects.js: los primeros CRTV con imagen -->
@@ -148,7 +154,7 @@
   <footer class="footer">
     <div class="footer-cols">
       <div>
-        <span class="label" data-i18n="independent">COLECTIVO CREATIVO INDEPENDIENTE</span>
+        <span class="label">GLOBAL CREATIVE DEALERS</span>
         <p data-i18n="tagline">Tomamos las ideas, exploramos los límites de la creatividad y las traemos a la realidad.</p>
       </div>
       <div>

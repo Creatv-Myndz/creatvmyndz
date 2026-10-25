@@ -22,6 +22,7 @@
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <link rel="preload" as="image" href="assets/img/crtvs/cajita-feliz-dtmf.webp">
   <link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-tight-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/space-mono-latin.woff2" crossorigin>
   <link rel="preload" as="image" href="assets/img/bg/cielo.webp">
   <link rel="stylesheet" href="assets/minimal.css">
 </head>
@@ -34,8 +35,8 @@
 
   <!-- ===== BARRA SUPERIOR ===== -->
   <header class="topbar">
-    <a href="index.html#inicio" aria-label="CREATV MYNDZ — inicio"><img class="topbar-logo" src="assets/img/logo-creatv.webp" alt="CREATV MYNDZ" width="1400" height="593"></a>
-    <nav class="topbar-nav" aria-label="Navegación principal">
+    <a href="index.html#inicio" aria-label="CREATV MYNDZ"><img class="topbar-logo" src="assets/img/logo-creatv-blur.webp" alt="CREATV MYNDZ" width="480" height="231"></a>
+    <nav class="topbar-nav" data-i18n-aria="aria_nav" aria-label="Navegación principal">
       <a href="proyectos.html" class="active" aria-current="page" data-i18n="nav_work">PROYECTOS</a>
       <a href="index.html#nosotros" data-i18n="nav_about">NOSOTROS</a>
       <a href="index.html#wakeup" data-i18n="nav_wakeup">WAKE UP</a>
@@ -50,12 +51,23 @@
   </header>
 
   <!-- ===== DOCK: navegación en el celular, al alcance del pulgar ===== -->
-  <nav class="dock" aria-label="Navegación">
-    <a class="dock-home" href="index.html#inicio" aria-label="Inicio">↑</a>
+  <nav class="dock" data-i18n-aria="aria_nav" aria-label="Navegación">
+    <a class="dock-home" href="index.html#inicio" data-i18n-aria="aria_home" aria-label="Inicio">↑</a>
     <a href="proyectos.html" class="active" aria-current="page" data-i18n="nav_work">PROYECTOS</a>
     <a href="index.html#nosotros" data-i18n="nav_about">NOSOTROS</a>
     <a href="index.html#wakeup" data-i18n="nav_wakeup">WAKE UP</a>
   </nav>
+
+  <!-- ===== RELOJES: barra fija abajo, en letra de código ===== -->
+  <div class="clockbar" role="timer" aria-live="off">
+    <span class="cb-tag"><i class="cb-dot" aria-hidden="true"></i><span data-i18n="local_time">// HORA LOCAL</span></span>
+    <span class="cb-times">
+      <span>[BOG]&nbsp;<b data-tz="America/Bogota">--:--:--</b></span>
+      <span>[MIA]&nbsp;<b data-tz="America/New_York">--:--:--</b></span>
+      <span>[MAD]&nbsp;<b data-tz="Europe/Madrid">--:--:--</b></span>
+    </span>
+    <span class="cb-end" aria-hidden="true">CRTV_<span class="year"></span><i class="cb-cursor">▮</i></span>
+  </div>
 
   <main class="crtv-page">
     <div class="section-head label">
@@ -66,7 +78,7 @@
     <figure class="crtv-figure">
       <img src="assets/img/crtvs/cajita-feliz-dtmf.webp" alt="CAJITA FELIZ DtMF" width="1423" height="2400">
     </figure>
-    <nav class="crtv-nav label" id="crtv-nav" aria-label="Otros CRTV">
+    <nav class="crtv-nav label" id="crtv-nav" data-i18n-aria="aria_more" aria-label="Otros CRTV">
       <a class="text-link" data-prev href="proyectos.html" data-i18n="prev">← ANTERIOR</a>
       <a class="text-link" data-next href="proyectos.html" data-i18n="next">SIGUIENTE →</a>
     </nav>
@@ -75,7 +87,7 @@
   <footer class="footer">
     <div class="footer-cols">
       <div>
-        <span class="label" data-i18n="independent">COLECTIVO CREATIVO INDEPENDIENTE</span>
+        <span class="label">GLOBAL CREATIVE DEALERS</span>
         <p data-i18n="tagline">Tomamos las ideas, exploramos los límites de la creatividad y las traemos a la realidad.</p>
       </div>
       <div>

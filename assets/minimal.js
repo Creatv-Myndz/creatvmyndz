@@ -14,8 +14,11 @@ const I18N = {
   es: {
     nav_work: "PROYECTOS", nav_about: "NOSOTROS", nav_wakeup: "WAKE UP",
     tagline: "Tomamos las ideas, exploramos los límites de la creatividad y las traemos a la realidad.",
-    independent: "COLECTIVO CREATIVO INDEPENDIENTE",
-    work_head: "PROYECTOS SELECCIONADOS",
+    work_head: "PROYECTOS CREATIVOS",
+    local_time: "// HORA LOCAL",
+    title_work: "PROYECTOS — CREATV MYNDZ",
+    aria_nav: "Navegación principal", aria_home: "Inicio", aria_filter: "Filtrar",
+    aria_view: "Vista", aria_more: "Otros CRTV",
     work_all: "VER TODOS LOS PROYECTOS",
     pg_lead: "Todos los CRTV de CREATV MYNDZ, uno por uno. Creative Playground.",
     f_all: "TODOS", f_done: "HECHOS", f_soon: "PRÓXIMOS",
@@ -43,8 +46,11 @@ const I18N = {
   en: {
     nav_work: "WORK", nav_about: "ABOUT", nav_wakeup: "WAKE UP",
     tagline: "We take ideas, explore the limits of creativity and bring them to reality.",
-    independent: "INDEPENDENT CREATIVE COLLECTIVE",
-    work_head: "SELECTED WORK",
+    work_head: "CREATIVE PROJECTS",
+    local_time: "// LOCAL TIME",
+    title_work: "WORK — CREATV MYNDZ",
+    aria_nav: "Main navigation", aria_home: "Home", aria_filter: "Filter",
+    aria_view: "View", aria_more: "More CRTV",
     work_all: "SEE ALL WORK",
     pg_lead: "Every CRTV by CREATV MYNDZ, one by one. Creative Playground.",
     f_all: "ALL", f_done: "DONE", f_soon: "SOON",
@@ -87,6 +93,7 @@ const HAS_PROJECTS = typeof PROJECTS !== "undefined";
 function applyLang() {
   document.documentElement.lang = lang;
   document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = t(el.dataset.i18n); });
+  document.querySelectorAll("[data-i18n-aria]").forEach(el => el.setAttribute("aria-label", t(el.dataset.i18nAria)));
   document.querySelectorAll(".lang").forEach(b => {
     const on = b.dataset.lang === lang;
     b.classList.toggle("active", on);
@@ -118,24 +125,27 @@ function makeCard(p, i) {
   media.className = "card-media";
   if (linked && p.image) {
     const img = document.createElement("img");
-    img.src = p.image; img.alt = p.title; img.loading = "lazy";
+    img.src = p.image; img.alt = ""; img.loading = "lazy";
     img.width = 512; img.height = 640;
     media.appendChild(img);
-  } else {
-    const empty = document.createElement("span");
-    empty.className = "card-empty label";
-    empty.textContent = p.status === "soon" ? t("soon") : code(p.num);
-    media.appendChild(empty);
   }
 
-  const meta = document.createElement("div");
-  meta.className = "card-meta";
-  const n = document.createElement("span"); n.className = "label"; n.textContent = code(p.num);
+  // Código y título van encima de la imagen (con blur), no debajo.
+  const over = document.createElement("div");
+  over.className = "card-over";
+  const top = document.createElement("div");
+  top.className = "card-top";
+  const n = document.createElement("span"); n.className = "label card-code"; n.textContent = code(p.num);
+  const arrow = document.createElement("span");
+  arrow.setAttribute("aria-hidden", "true");
+  if (linked) { arrow.className = "card-arrow"; arrow.textContent = "↗"; }
+  else if (p.status === "soon") { arrow.className = "label"; arrow.textContent = t("soon"); }
+  top.append(n, arrow);
   const title = document.createElement("span"); title.className = "card-title"; title.textContent = p.title;
-  const arrow = document.createElement("span"); arrow.className = "label label-ink"; arrow.textContent = linked ? "↗" : "";
-  meta.append(n, title, arrow);
+  over.append(top, title);
+  media.appendChild(over);
 
-  box.append(media, meta);
+  box.append(media);
   li.appendChild(box);
   return li;
 }
@@ -280,12 +290,12 @@ if (crtvNav && HAS_PROJECTS) {
 function updateClocks() {
   document.querySelectorAll("[data-tz]").forEach(el => {
     el.textContent = new Intl.DateTimeFormat("es-CO", {
-      hour: "2-digit", minute: "2-digit", hour12: false, timeZone: el.dataset.tz
+      hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false, timeZone: el.dataset.tz
     }).format(new Date());
   });
 }
 updateClocks();
-setInterval(updateClocks, 20000);
+setInterval(updateClocks, 1000);
 
 document.querySelectorAll(".year").forEach(el => { el.textContent = new Date().getFullYear(); });
 
