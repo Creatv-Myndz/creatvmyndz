@@ -21,20 +21,52 @@
   <link rel="icon" href="assets/img/favicon.png" sizes="any">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <link rel="preload" as="image" href="assets/img/crtvs/las-palabras-nos-hacen.webp">
-  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="preload" as="image" href="assets/img/bg/cielo.webp">
+  <link rel="stylesheet" href="assets/minimal.css">
 </head>
 <body>
 
+  <div class="bg" aria-hidden="true"></div>
+  <div class="fog" aria-hidden="true"></div>
+  <div class="tint" aria-hidden="true"></div>
+  <span class="corner tl" aria-hidden="true"></span><span class="corner tr" aria-hidden="true"></span>
+  <span class="corner bl" aria-hidden="true"></span><span class="corner br" aria-hidden="true"></span>
+
   <header class="topbar">
     <div class="topbar-left">
-      <a class="back-index" href="playground.html">↑ CREATIVE PLAYGROUND</a>
+      <a class="brand" href="playground.html" data-i18n="back_pg">← PLAYGROUND</a>
+    </div>
+    <div class="lang-switch">
+      <button class="lang active" data-lang="es" type="button" aria-pressed="true">ES</button>
+      <button class="lang" data-lang="en" type="button" aria-pressed="false">EN</button>
     </div>
   </header>
 
-  <main class="crtv-detail">
-    <h1 class="sr-only">LAS PALABRAS NOS HACEN_</h1>
-    <img src="assets/img/crtvs/las-palabras-nos-hacen.webp" alt="LAS PALABRAS NOS HACEN_" width="1423" height="2400">
+  <nav class="dock" aria-label="Navegación principal">
+    <a class="dock-home" href="index.html" aria-label="Inicio">↑</a>
+    <a href="playground.html" class="active" data-i18n="nav_crtv">CRTV</a>
+    <a href="index.html#nosotros" data-i18n="nav_about">NOSOTROS</a>
+    <a href="index.html#wakeup" data-i18n="nav_wakeup">WAKE UP</a>
+  </nav>
+
+  <main class="crtv-page">
+    <div class="wrap">
+      <div class="section-head label">
+        <span>CRTV 05</span>
+        <span class="idx">CREATV MYNDZ</span>
+      </div>
+      <h1 class="display">LAS PALABRAS NOS HACEN_</h1>
+      <figure class="crtv-figure">
+        <img src="assets/img/crtvs/las-palabras-nos-hacen.webp" alt="LAS PALABRAS NOS HACEN_" width="1423" height="2400">
+      </figure>
+      <nav class="crtv-nav label" id="crtv-nav" aria-label="Otros CRTV">
+        <a class="text-link" data-prev href="playground.html" data-i18n="prev">← ANTERIOR</a>
+        <a class="text-link" data-next href="playground.html" data-i18n="next">SIGUIENTE →</a>
+      </nav>
+    </div>
   </main>
 
+  <script src="assets/projects.js"></script>
+  <script src="assets/minimal.js"></script>
 </body>
 </html>

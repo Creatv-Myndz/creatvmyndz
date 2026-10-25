@@ -21,73 +21,64 @@
   <link rel="icon" href="assets/img/favicon.png" sizes="any">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <link rel="preload" as="font" type="font/woff2" href="assets/fonts/outfit-latin.woff2" crossorigin>
-  <link rel="preload" as="image" href="assets/floor/d/0001.webp" media="(min-aspect-ratio: 1/1)">
-  <link rel="preload" as="image" href="assets/floor/m/0001.webp" media="(max-aspect-ratio: 1/1)">
-  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="preload" as="image" href="assets/img/bg/cielo.webp">
+  <link rel="stylesheet" href="assets/minimal.css">
 </head>
 <body>
 
-  <!-- ===== CAÍDA: al entrar, unas décimas bajando del cielo al pasto
-       (viene de VER TODOS LOS CRTV en la portada). Se quita sola. ===== -->
-  <div class="playground-fall" id="playground-fall" aria-hidden="true"></div>
+  <div class="bg" aria-hidden="true"></div>
+  <div class="fog" aria-hidden="true"></div>
+  <div class="tint" aria-hidden="true"></div>
+  <span class="corner tl" aria-hidden="true"></span><span class="corner tr" aria-hidden="true"></span>
+  <span class="corner bl" aria-hidden="true"></span><span class="corner br" aria-hidden="true"></span>
 
-  <!-- ===== PASTO: mismo motor que el cielo de la portada, pero con las
-       fotos del prado (assets/floor) en vez del cielo ===== -->
-  <canvas id="sky" data-frames="assets/floor" aria-hidden="true"></canvas>
-  <div class="scrim" id="scrim" aria-hidden="true"></div>
-
-  <!-- ===== BARRA SUPERIOR ===== -->
   <header class="topbar">
     <div class="topbar-left">
-      <a class="back-index" href="index.html">↑ CREATV MYNDZ</a>
-      <span class="flying-row"><span class="plane" aria-hidden="true">✈</span><span id="flying">FLYING 0%</span></span>
-      <span id="clocks" class="clocks fades">BOGOTÁ · MIAMI · MADRID</span>
+      <a class="brand" href="index.html" data-i18n="back">← CREATV MYNDZ</a>
     </div>
-
-    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu">
-      <span data-i18n="menu">MENÚ</span>
-    </button>
-
-    <div class="topbar-right">
-      <span class="crtv-mark fades">CRTV©</span>
-      <button id="lang-es" class="lang active" type="button" aria-pressed="true">ES</button>
-      <button id="lang-en" class="lang" type="button" aria-pressed="false">EN</button>
+    <div class="lang-switch">
+      <button class="lang active" data-lang="es" type="button" aria-pressed="true">ES</button>
+      <button class="lang" data-lang="en" type="button" aria-pressed="false">EN</button>
     </div>
   </header>
 
-  <!-- ===== MENÚ ===== -->
-  <nav class="menu" id="menu" hidden aria-label="Menú principal">
-    <button class="menu-close" id="menu-close" type="button" aria-label="Cerrar menú">✕</button>
-    <ul class="menu-list">
-      <li><a href="index.html#crtv"><span class="menu-num">01</span><span data-i18n="m_projects">CRTV</span></a></li>
-      <li><a href="index.html#nosotros"><span class="menu-num">02</span><span data-i18n="m_about">PLAYGROUND</span></a></li>
-      <li><a href="index.html#wakeup"><span class="menu-num">03</span><span data-i18n="m_wakeup">WAKE UP</span></a></li>
-    </ul>
-    <p class="menu-foot" data-i18n="footer_line">CREATIVE DEALERS</p>
+  <nav class="dock" aria-label="Navegación principal">
+    <a class="dock-home" href="index.html" aria-label="Inicio">↑</a>
+    <a href="playground.html" class="active" aria-current="page" data-i18n="nav_crtv">CRTV</a>
+    <a href="index.html#nosotros" data-i18n="nav_about">NOSOTROS</a>
+    <a href="index.html#wakeup" data-i18n="nav_wakeup">WAKE UP</a>
   </nav>
 
-  <!-- ===== CRTV: la lista completa — lo primero que se ve al entrar.
-       El logo va arriba, dentro del <main>, así que sube con el scroll
-       junto con la lista en vez de quedar en una pantalla aparte. ===== -->
   <main>
-    <h1 class="sr-only">CREATIVE PLAYGROUND — todos los CRTV de CREATV MYNDZ</h1>
-    <div class="playground-logo-wrap">
-      <img class="playground-logo" src="assets/img/logo-creativ-playground.webp" alt="CREATIVE PLAYGROUND" width="1520" height="344">
-    </div>
-    <ul id="project-list" class="project-list"></ul>
+    <header class="page-head">
+      <div class="wrap">
+        <div class="section-head label" data-reveal>
+          <span>CRTV</span>
+          <span class="idx">(01)</span>
+        </div>
+        <h1 class="display" data-reveal>CREATIVE PLAYGROUND</h1>
+        <p class="lead" data-reveal style="--d:.1s" data-i18n="pg_sub">Todos los CRTV de CREATV MYNDZ, uno por uno.</p>
+      </div>
+    </header>
+
+    <section class="gallery-section">
+      <div class="wrap">
+        <!-- La galería sale de assets/projects.js -->
+        <ul class="gallery" id="gallery"></ul>
+      </div>
+    </section>
   </main>
 
+  <footer class="footer">
+    <div class="footer-card">
+      <div class="footer-bottom label" style="padding-top:0">
+        <span>CREATV MYNDZ © <span class="year"></span></span>
+        <span data-i18n="footer_line">CREATIVE DEALERS</span>
+      </div>
+    </div>
+  </footer>
+
   <script src="assets/projects.js"></script>
-  <script src="assets/app.js"></script>
-  <script>
-    // Se quita sola cuando termina de caer; si el sistema pide menos
-    // movimiento, ni siquiera se muestra.
-    var fallEl = document.getElementById("playground-fall");
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      fallEl.remove();
-    } else {
-      fallEl.addEventListener("animationend", function () { fallEl.remove(); });
-    }
-  </script>
+  <script src="assets/minimal.js"></script>
 </body>
 </html>

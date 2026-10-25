@@ -75,7 +75,7 @@ const PROJECTS = [
     area: "", year: "",
     desc: PENDIENTE,
     link: "crtv-cajita-feliz-ferxxo.html",
-    image: ""
+    image: "assets/img/crtvs/thumb/cajita-feliz-ferxxo.webp"
   },
   {
     id: "perreo-santo",
@@ -85,7 +85,7 @@ const PROJECTS = [
     area: "", year: "",
     desc: PENDIENTE,
     link: "crtv-perreo-santo.html",
-    image: ""
+    image: "assets/img/crtvs/thumb/perreo-santo.webp"
   },
   {
     id: "dtmf-fc-barcelona",
@@ -95,7 +95,7 @@ const PROJECTS = [
     area: "", year: "",
     desc: PENDIENTE,
     link: "crtv-dtmf-fc-barcelona.html",
-    image: ""
+    image: "assets/img/crtvs/thumb/dtmf-fc-barcelona.webp"
   },
   {
     id: "las-palabras-nos-hacen",
@@ -105,7 +105,7 @@ const PROJECTS = [
     area: "", year: "",
     desc: PENDIENTE,
     link: "crtv-las-palabras-nos-hacen.html",
-    image: ""
+    image: "assets/img/crtvs/thumb/las-palabras-nos-hacen.webp"
   },
   {
     id: "cajita-feliz-dtmf",
@@ -115,7 +115,7 @@ const PROJECTS = [
     area: "", year: "",
     desc: PENDIENTE,
     link: "crtv-cajita-feliz-dtmf.html",
-    image: ""
+    image: "assets/img/crtvs/thumb/cajita-feliz-dtmf.webp"
   },
   {
     id: "pokemor",
@@ -125,7 +125,7 @@ const PROJECTS = [
     area: "", year: "",
     desc: PENDIENTE,
     link: "crtv-pokemor.html",
-    image: ""
+    image: "assets/img/crtvs/thumb/pokemor.webp"
   },
   {
     id: "happy-house",
@@ -145,7 +145,7 @@ const PROJECTS = [
     area: "", year: "",
     desc: PENDIENTE,
     link: "crtv-underdogs.html",
-    image: ""
+    image: "assets/img/crtvs/thumb/underdogs.webp"
   },
   {
     id: "jordan-blessd",
@@ -155,7 +155,7 @@ const PROJECTS = [
     area: "", year: "",
     desc: PENDIENTE,
     link: "crtv-jordan-blessd.html",
-    image: ""
+    image: "assets/img/crtvs/thumb/jordan-blessd.webp"
   },
 
   /* ---------- PRÓXIMOS (salen borrosos) ---------- */
