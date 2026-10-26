@@ -354,6 +354,34 @@ p{margin:0;max-width:64ch}
 @media (max-width:820px){.refine{grid-template-columns:1fr}.rf-arrow{display:none}}
 @media (max-width:1100px){.nav ul{display:none}.lang{margin-left:auto}}
 .cat{overflow-wrap:anywhere}
+.b360{background:var(--ash);border-bottom:1px solid var(--line)}
+.b360-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,5vw,72px);align-items:center}
+.b360 h2{font-size:clamp(40px,5.6vw,80px)}
+.ring{container-type:inline-size;position:relative;aspect-ratio:1;max-width:560px;width:100%;justify-self:center;border-radius:50%;border:1px dashed var(--line)}
+.ring::before{content:"";position:absolute;inset:16%;border-radius:50%;border:1px solid var(--line)}
+.ring-core{position:absolute;inset:31%;border-radius:50%;overflow:hidden;background:#000;display:grid;place-items:center;box-shadow:0 0 0 6px var(--char),0 0 60px rgba(228,83,47,.25)}
+.ring-core img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 45%}
+.ring-core span{position:relative;font-family:var(--f-display);font-weight:900;font-size:clamp(14px,1.6vw,20px);letter-spacing:.08em;color:var(--char);background:rgba(255,255,255,.85);padding:4px 10px;border-radius:999px;display:flex;gap:6px;align-items:baseline}
+.ring-core b{color:var(--sear)}
+.ring a{--r:44cqw;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(calc(var(--i)*45deg - 90deg)) translate(var(--r)) rotate(calc(var(--i)*-45deg + 90deg));background:var(--char);border:1px solid var(--line);border-radius:999px;padding:7px 12px;font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--bone);text-decoration:none;white-space:nowrap;display:flex;gap:6px;transition:border-color .2s,color .2s}
+.ring a small{color:var(--ember)}
+.ring a:hover{border-color:var(--ember);color:var(--ember)}
+@media (max-width:900px){.b360-grid{grid-template-columns:1fr}}
+@media (max-width:560px){.ring{aspect-ratio:auto;border:0;border-radius:0;display:grid;grid-template-columns:1fr 1fr;gap:8px}.ring::before{display:none}.ring-core{position:relative;inset:auto;grid-column:1/-1;aspect-ratio:16/9;border-radius:4px;box-shadow:none}.ring a{position:static;transform:none;white-space:normal}}
+.rf-art.photo{background:#fff;overflow:hidden}.rf-art.photo img{width:100%;height:100%;object-fit:cover}
+.forks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:28px}
+.forks figure{margin:0;background:#fff;border-radius:4px;overflow:hidden;display:flex;flex-direction:column}
+.forks img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
+.forks figcaption{background:var(--char);padding:12px 14px;font-family:var(--f-display);font-weight:800;font-size:20px;text-transform:uppercase}
+@media (max-width:820px){.forks{grid-template-columns:1fr}}
+.chefc{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:16px;margin-top:clamp(40px,5vw,64px)}
+.chefc figure{margin:0;display:flex;flex-direction:column;gap:10px;min-width:0}
+.chefc img{width:100%;border-radius:4px;display:block;object-fit:cover}
+.cc-a img{aspect-ratio:4/5}.cc-b img{aspect-ratio:4/5;background:#000}
+.chefc figcaption{font-size:14px;color:var(--smoke)}.chefc figcaption b{display:block;font-family:var(--f-display);font-weight:900;font-size:22px;text-transform:uppercase;color:var(--bone)}
+.chefc figcaption a{color:var(--ember)}
+@media (max-width:700px){.chefc{grid-template-columns:1fr}}
+
 @media (prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
@@ -394,7 +422,7 @@ p{margin:0;max-width:64ch}
   <div class="wrap">
     <div class="hero-top">
       <img src="assets/img/bryngrill/logo-cream.png" alt="BRYN" width="170" height="52">
-      <span class="tag"><span class="en">Creative proposal · Phase 1 · 3 months</span><span class="es">Propuesta creativa · Fase 1 · 3 meses</span><span class="sv">Kreativt förslag · Fas 1 · 3 månader</span></span>
+      <span class="tag"><span class="en">360 branding proposal · Phase 1 · 3 months</span><span class="es">Propuesta de branding 360 · Fase 1 · 3 meses</span><span class="sv">Förslag för 360-branding · Fas 1 · 3 månader</span></span>
     </div>
     <h1><span class="en">Made for the moments that matter.</span><span class="es">Hecho para los momentos que importan.</span><span class="sv">Gjord för stunderna som betyder något.</span><span class="w"><span class="en">Good food tastes better shared.</span><span class="es">La buena comida sabe mejor compartida.</span><span class="sv">God mat smakar bättre när den delas.</span></span></h1>
     <div class="hero-foot">
@@ -403,6 +431,22 @@ p{margin:0;max-width:64ch}
     </div>
   </div>
 </header>
+
+
+<!-- 360 -->
+<section id="b360" class="b360">
+  <div class="wrap b360-grid">
+    <div class="stack">
+      <span class="eyebrow"><span class="en">The promise · 360 branding</span><span class="es">La promesa · Branding 360</span><span class="sv">Löftet · 360-branding</span></span>
+      <h2><span class="en">One brand.<br><span class="w">Every touchpoint. Worldwide.</span></span><span class="es">Una marca.<br><span class="w">Cada punto de contacto. En todo el mundo.</span></span><span class="sv">Ett varumärke.<br><span class="w">Varje kontaktpunkt. Över hela världen.</span></span></h2>
+      <p class="lead"><span class="en">This is not a social media plan with a logo on top. It is 360 branding: the mark, the product, the content, the chefs, the restaurants and the community all tell the same story, so BRYN is seen as what it can be: a global brand.</span><span class="es">Esto no es un plan de redes con un logo encima. Es branding 360: la marca, el producto, el contenido, los chefs, los restaurantes y la comunidad cuentan la misma historia, para que BRYN se vea como lo que puede ser: una marca global.</span><span class="sv">Det här är ingen plan för sociala medier med en logotyp ovanpå. Det är 360-branding: märket, produkten, innehållet, kockarna, restaurangerna och communityn berättar samma historia, så att BRYN ses som det den kan bli: ett globalt varumärke.</span></p>
+    </div>
+    <nav class="ring" aria-label="360">
+      <div class="ring-core"><img src="assets/img/bryngrill/chef-fire.jpg" alt=""><span>BRYN<b>360</b></span></div>
+      <a style="--i:0" href="#refine"><small>01</small><span class="en">The mark</span><span class="es">La marca</span><span class="sv">Märket</span></a><a style="--i:1" href="#refine"><small>02</small><span class="en">Product</span><span class="es">Producto</span><span class="sv">Produkten</span></a><a style="--i:2" href="#making"><small>03</small><span class="en">Content</span><span class="es">Contenido</span><span class="sv">Innehåll</span></a><a style="--i:3" href="#partners"><small>04</small><span class="en">Chefs</span><span class="es">Chefs</span><span class="sv">Kockar</span></a><a style="--i:4" href="#world"><small>05</small><span class="en">Restaurants</span><span class="es">Restaurantes</span><span class="sv">Restauranger</span></a><a style="--i:5" href="#community"><small>06</small><span class="en">Community</span><span class="es">Comunidad</span><span class="sv">Community</span></a><a style="--i:6" href="#belong"><small>07</small><span class="en">Book & manual</span><span class="es">Libro y manual</span><span class="sv">Bok och manual</span></a><a style="--i:7" href="#world"><small>08</small><span class="en">Global map</span><span class="es">Mapa global</span><span class="sv">Global karta</span></a>
+    </nav>
+  </div>
+</section>
 
 <!-- STUDY -->
 <section id="study">
@@ -695,6 +739,10 @@ p{margin:0;max-width:64ch}
       <figure class="ig"><iframe src="https://www.instagram.com/p/DRNMkj-jD2M/embed" loading="lazy" title="Chef Maya on Instagram" scrolling="no" allowtransparency="true"></iframe><figcaption><b><span class="en">Chef Maya at work</span><span class="es">Chef Maya en acción</span><span class="sv">Chef Maya i arbete</span></b><span class="en">Tomahawk as edible art. This is the level BRYN sits next to.</span><span class="es">El tomahawk como arte comestible. Este es el nivel junto al que se sienta BRYN.</span><span class="sv">Tomahawk som ätbar konst. Det är den nivån BRYN ställer sig bredvid.</span> <a href="https://www.instagram.com/p/DRNMkj-jD2M/" target="_blank" rel="noopener">Instagram ↗</a></figcaption></figure>
       <figure class="ig"><iframe src="https://www.instagram.com/p/DYWBl6cO4tS/embed" loading="lazy" title="Grill collab format on Instagram" scrolling="no" allowtransparency="true"></iframe><figcaption><b><span class="en">The kind of collab</span><span class="es">El tipo de collab</span><span class="sv">Typen av samarbete</span></b><span class="en">The product at the center of the cook, shown working. A similar grill demo reached 124K likes.</span><span class="es">El producto en el centro de la cocción, mostrando cómo funciona. Una demo parecida llegó a 124K likes.</span><span class="sv">Produkten i centrum av tillagningen, i arbete. En liknande grilldemo fick 124K gilla-markeringar.</span> <a href="https://www.instagram.com/p/DYWBl6cO4tS/" target="_blank" rel="noopener">Instagram ↗</a></figcaption></figure>
     </div>
+    <div class="chefc">
+      <figure class="cc-a"><img src="assets/img/bryngrill/chef-fire.jpg" alt="A steak lifted on a carving fork through smoke over an open grill"><figcaption><b><span class="en">Chef content</span><span class="es">Contenido de chef</span><span class="sv">Kockinnehåll</span></b><span class="en">Fire, smoke, hands and a fork. Shot dark, close and real: the look of the chef series and of every BRYN Table video.</span><span class="es">Fuego, humo, manos y un tenedor. Oscuro, cerca y real: el look de la serie con chefs y de cada video de la BRYN Table.</span><span class="sv">Eld, rök, händer och en gaffel. Mörkt, nära och på riktigt: utseendet för kockserien och varje BRYN Table-video.</span> <a href="https://co.pinterest.com/pin/1140958886883282527/" target="_blank" rel="noopener">Pinterest ↗</a></figcaption></figure>
+      <figure class="cc-b"><img src="assets/img/bryngrill/chef-ref.jpg" alt="Black and white editorial poster of a chef in a kitchen"><figcaption><b><span class="en">The chef as a brand</span><span class="es">El chef como marca</span><span class="sv">Kocken som varumärke</span></b><span class="en">Editorial black and white, like a magazine cover: how Chef Maya’s BRYN series can look. Reference: chef brand strategy by Marcus Ribeiro.</span><span class="es">Blanco y negro editorial, como una portada de revista: así puede verse la serie BRYN de Chef Maya. Referencia: estrategia de marca para chef de Marcus Ribeiro.</span><span class="sv">Redaktionellt svartvitt, som ett tidningsomslag: så kan Chef Mayas BRYN-serie se ut. Referens: varumärkesstrategi för kock av Marcus Ribeiro.</span></figcaption></figure>
+    </div>
   </div>
 </section>
 
@@ -752,11 +800,20 @@ p{margin:0;max-width:64ch}
       <p class="lead"><span class="en">BRYN does not need a new logo. It already has its best asset: the Y is a fork. The refine is more perception than visuals: one simple mark people remember, trust and want to own.</span><span class="es">BRYN no necesita un logo nuevo. Ya tiene su mejor activo: la Y es un tenedor. El ajuste es más de percepción que visual: una marca simple que la gente recuerda, en la que confía y que quiere tener.</span><span class="sv">BRYN behöver ingen ny logotyp. Den har redan sin bästa tillgång: Y:et är en gaffel. Justeringen handlar mer om uppfattning än om det visuella: ett enkelt märke som folk minns, litar på och vill äga.</span></p>
     </div>
     <div class="refine">
-      <div class="rf"><div class="rf-art"><img src="assets/img/bryngrill/logo-sear.png" alt="BRYN logo today"></div><small><span class="en">Today</span><span class="es">Hoy</span><span class="sv">I dag</span></small><b><span class="en">The full logo</span><span class="es">El logo completo</span><span class="sv">Hela logotypen</span></b><span><span class="en">Stays as the signature. Nothing people know is lost.</span><span class="es">Se queda como firma. No se pierde nada de lo que la gente ya conoce.</span><span class="sv">Blir kvar som signatur. Inget folk känner igen försvinner.</span></span></div>
+      <div class="rf"><div class="rf-art photo"><img src="assets/img/bryngrill/logo-today.jpg" alt="BRYN logo today"></div><small><span class="en">Today</span><span class="es">Hoy</span><span class="sv">I dag</span></small><b><span class="en">The full logo</span><span class="es">El logo completo</span><span class="sv">Hela logotypen</span></b><span><span class="en">Stays as the signature. Nothing people know is lost.</span><span class="es">Se queda como firma. No se pierde nada de lo que la gente ya conoce.</span><span class="sv">Blir kvar som signatur. Inget folk känner igen försvinner.</span></span></div>
       <div class="rf-arrow" aria-hidden="true">→</div>
-      <div class="rf"><div class="rf-art big"><svg class="ym" viewBox="0 0 100 112" aria-hidden="true"><use href="#ymark"/></svg></div><small><span class="en">The mark</span><span class="es">La marca</span><span class="sv">Märket</span></small><b><span class="en">The fork, alone</span><span class="es">El tenedor, solo</span><span class="sv">Gaffeln, ensam</span></b><span><span class="en">The Y becomes the symbol: icon, stamp, pin, seal.</span><span class="es">La Y se vuelve el símbolo: ícono, sello, pin, estampa.</span><span class="sv">Y:et blir symbolen: ikon, stämpel, nål, sigill.</span></span></div>
+      <div class="rf"><div class="rf-art photo"><img src="assets/img/bryngrill/logo-mark.jpg" alt="BRYN wordmark above the Y fork mark"></div><small><span class="en">The mark</span><span class="es">La marca</span><span class="sv">Märket</span></small><b><span class="en">The fork, alone</span><span class="es">El tenedor, solo</span><span class="sv">Gaffeln, ensam</span></b><span><span class="en">The Y becomes the symbol: icon, stamp, pin, seal.</span><span class="es">La Y se vuelve el símbolo: ícono, sello, pin, estampa.</span><span class="sv">Y:et blir symbolen: ikon, stämpel, nål, sigill.</span></span></div>
       <div class="rf-arrow" aria-hidden="true">→</div>
       <div class="rf"><div class="rf-art uses"><span class="u1"><svg class="ym" viewBox="0 0 100 112" aria-hidden="true"><use href="#ymark"/></svg></span><span class="u2"><svg class="ym" viewBox="0 0 100 112" aria-hidden="true"><use href="#ymark"/></svg><em>No. 0427</em></span><span class="u3"><svg class="ym" viewBox="0 0 100 112" aria-hidden="true"><use href="#ymark"/></svg></span></div><small><span class="en">In use</span><span class="es">En uso</span><span class="sv">I bruk</span></small><b><span class="en">One mark everywhere</span><span class="es">Una marca en todo</span><span class="sv">Ett märke överallt</span></b><span><span class="en">App icon, club seal, map pin, branding iron on the steak.</span><span class="es">Ícono de app, sello del club, pin del mapa, hierro de marcar sobre la carne.</span><span class="sv">Appikon, klubbsigill, kartnål, brännjärn på köttet.</span></span></div>
+    </div>
+    <div class="stack" style="margin-top:clamp(48px,6vw,80px)">
+      <span class="eyebrow"><span class="en">The idea behind the mark</span><span class="es">La idea detrás de la marca</span><span class="sv">Idén bakom märket</span></span>
+      <h3 style="font-size:clamp(30px,3.8vw,52px)"><span class="en">The logo is a fork. <span class="w">The fork is the tool.</span></span><span class="es">El logo es un tenedor. <span class="w">El tenedor es la herramienta.</span></span><span class="sv">Logotypen är en gaffel. <span class="w">Gaffeln är verktyget.</span></span></h3>
+    </div>
+    <div class="forks">
+      <figure><img src="assets/img/bryngrill/fork-3.jpg" alt="The Y mark next to grilled steak on a carving fork"><figcaption><span class="en">It holds the steak.</span><span class="es">Sostiene la carne.</span><span class="sv">Den håller köttet.</span></figcaption></figure>
+      <figure><img src="assets/img/bryngrill/fork-4.jpg" alt="The Y mark next to a cylinder grill basket on a wooden handle"><figcaption><span class="en">It turns over the fire.</span><span class="es">Gira sobre el fuego.</span><span class="sv">Den vänds över elden.</span></figcaption></figure>
+      <figure><img src="assets/img/bryngrill/fork-5.jpg" alt="The Y mark next to a BRYN grill basket with the logo on the handle"><figcaption><span class="en">It carries the seal.</span><span class="es">Lleva el sello.</span><span class="sv">Den bär sigillet.</span></figcaption></figure>
     </div>
     <ol class="rules rf-rules">
       <li><span>01</span><span class="en">Fewer colors, more confidence: BRYN red, charcoal and bone, used with discipline.</span><span class="es">Menos colores, más seguridad: rojo BRYN, carbón y hueso, usados con disciplina.</span><span class="sv">Färre färger, mer självförtroende: BRYN-rött, kol och benvitt, använt med disciplin.</span></li>
@@ -822,7 +879,7 @@ p{margin:0;max-width:64ch}
     <div class="stack">
       <span class="eyebrow"><span class="en">10 · What BRYN gets</span><span class="es">10 · Lo que BRYN logra</span><span class="sv">10 · Vad BRYN får</span></span>
       <h2><span class="en">From a product<br>to a brand<br><span class="w">that lasts.</span></span><span class="es">De un producto<br>a una marca<br><span class="w">que trasciende.</span></span><span class="sv">Från en produkt<br>till ett varumärke<br><span class="w">som består.</span></span></h2>
-      <p class="lead"><span class="en">This project gives BRYN what a discount can’t: a brand people recognize, a community that grows, and a system built to scale for years.</span><span class="es">Este proyecto le da a BRYN lo que un descuento no puede: una marca que la gente reconoce, una comunidad que crece sola y un sistema hecho para escalar a largo plazo.</span><span class="sv">Projektet ger BRYN det en rabatt inte kan: ett varumärke folk känner igen, en community som växer och ett system byggt för att skala i flera år.</span></p>
+      <p class="lead"><span class="en">This project gives BRYN what a discount can’t: a brand people recognize, a community that grows, and a system built to scale for years. All of it is 360 branding with one promise: a global brand vision for BRYN.</span><span class="es">Este proyecto le da a BRYN lo que un descuento no puede: una marca que la gente reconoce, una comunidad que crece sola y un sistema hecho para escalar a largo plazo. Todo es branding 360 con una promesa: una visión de marca global para BRYN.</span><span class="sv">Projektet ger BRYN det en rabatt inte kan: ett varumärke folk känner igen, en community som växer och ett system byggt för att skala i flera år. Allt är 360-branding med ett löfte: en global varumärkesvision för BRYN.</span></p>
     </div>
     <div class="outc">
 <div><b><span class="en">Scale</span><span class="es">Escalar</span><span class="sv">Skala</span></b><span><span class="en">Growth that doesn’t depend on the next sale.</span><span class="es">Crecimiento que no depende de la próxima rebaja.</span><span class="sv">Tillväxt som inte hänger på nästa rea.</span></span></div><div><b><span class="en">Seen as a brand</span><span class="es">Percibida como marca</span><span class="sv">Uppfattas som ett varumärke</span></b><span><span class="en">Not a basket people buy, a name people trust.</span><span class="es">No una canasta que se compra, un nombre en el que se confía.</span><span class="sv">Inte en korg folk köper, ett namn folk litar på.</span></span></div><div><b><span class="en">Community</span><span class="es">Comunidad</span><span class="sv">Community</span></b><span><span class="en">People who belong, post and come back.</span><span class="es">Gente que pertenece, publica y vuelve.</span><span class="sv">Människor som hör till, delar och kommer tillbaka.</span></span></div><div><b><span class="en">Scalable</span><span class="es">Escalable</span><span class="sv">Skalbart</span></b><span><span class="en">One axis that works on every channel.</span><span class="es">Un eje que funciona en cada canal.</span><span class="sv">En axel som fungerar i varje kanal.</span></span></div><div><b><span class="en">Long term</span><span class="es">Largo plazo</span><span class="sv">Långsiktigt</span></b><span><span class="en">Foundations that keep working after month 3.</span><span class="es">Bases que siguen funcionando después del mes 3.</span><span class="sv">En grund som fortsätter fungera efter månad 3.</span></span></div><div><b><span class="en">A brand that transcends</span><span class="es">Una marca que trasciende</span><span class="sv">Ett varumärke som växer bortom produkten</span></b><span><span class="en">From the grill to the table, merch, email and new products.</span><span class="es">De la parrilla a la mesa, el merch, el email y productos nuevos.</span><span class="sv">Från grillen till bordet, merch, mejl och nya produkter.</span></span></div>
