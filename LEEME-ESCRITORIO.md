@@ -218,3 +218,5 @@ En `data/escritorio.json → extras`, por `id` del CRTV:
 - Íconos: Creando.. = reloj de arena, Creatvfy = computador, Cualquiera puede crear = libros, Creative Dealers = bloque con C.
 - El logo va pequeño arriba a la izquierda. Las ventanas son más grandes (780 px; Paint, Fotos y Explorers 980 px; carpetas 880 px).
 - Todos los íconos se guardan como PNG RGBA: con PNG de paleta algunos Safari no los mostraban dentro de las carpetas.
+- Ya no existe la carpeta Playground: todos los proyectos van en el escritorio. En el celular van primero los
+  proyectos y después los accesos, apilados desde arriba (hasta 5 filas por página).
