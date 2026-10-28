@@ -80,12 +80,6 @@
       "enlace_interno": "portada.html#dealing"
     },
     {
-      "id": "proyectos-creativos",
-      "titulo": "Playground",
-      "icono": "assets/iconos/playground.png",
-      "abre": "carpeta"
-    },
-    {
       "id": "proximamente",
       "titulo": {
         "es": "Creando..",
@@ -229,15 +223,11 @@
     "_comentario": "Por CRTV (id de assets/projects.js): 'titulo' es el nombre como se ve en el escritorio; 'icono' reemplaza la miniatura; 'videos' van ENCIMA de la imagen del proyecto en Paint (x, y, w, h en % de la imagen; YouTube mantiene 16:9). tipo 'youtube' (id, inicio en segundos) o 'video' (src de un .mp4; vacío = no se muestra).",
     "cajita-feliz-dtmf": {
       "icono": "assets/iconos/cajita-dtmf.png",
-      "titulo": "Cajita Feliz DtMF",
-      "carpeta": "proyectos-creativos",
-      "tambienEnEscritorio": true
+      "titulo": "Cajita Feliz DtMF"
     },
     "cajita-feliz-ferxxo": {
       "icono": "assets/iconos/cajita-ferxxo.png",
-      "titulo": "Cajita Feliz de Ferxxo",
-      "carpeta": "proyectos-creativos",
-      "tambienEnEscritorio": true
+      "titulo": "Cajita Feliz de Ferxxo"
     },
     "perreo-santo": {
       "icono": "assets/iconos/perreo-santo.png",
@@ -293,13 +283,11 @@
     },
     "las-palabras-nos-hacen": {
       "icono": "assets/iconos/las-palabras.png",
-      "titulo": "Las Palabras Nos Hacen",
-      "carpeta": "proyectos-creativos"
+      "titulo": "Las Palabras Nos Hacen"
     },
     "dtmf-fc-barcelona": {
       "titulo": "DtMF x FC Barcelona",
-      "icono": "assets/iconos/silla.png",
-      "carpeta": "proyectos-creativos"
+      "icono": "assets/iconos/silla.png"
     },
     "happy-house": {
       "titulo": "Happy House",
@@ -307,8 +295,7 @@
     },
     "underdogs": {
       "titulo": "Underdogs / Perro Negro x Undergold",
-      "icono": "assets/iconos/perro-negro.png",
-      "carpeta": "proyectos-creativos"
+      "icono": "assets/iconos/perro-negro.png"
     },
     "snoopy-flops": {
       "titulo": "Snoopy Flops",

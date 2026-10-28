@@ -182,17 +182,16 @@ function layout(){
   if(ph){
     // Celular: como la pantalla de inicio de un iPhone. 3 columnas, varias páginas que se
     // deslizan hacia la derecha, y cada ícono un poco corrido para que no se vea en cuadrícula.
-    const fixedFirst=order.filter(p=>p.fijo).concat(order.filter(p=>!p.fijo));
-    const logo=$("#topLogo").getBoundingClientRect(),top=logo.bottom-cssPx("--mb")+6;
-    // hasta 4 filas por página (así hay varias páginas para deslizar) y los íconos repartidos parejo entre páginas
-    const cols=3,cw=W/cols,rows=Math.max(2,Math.min(4,Math.floor((H-top-20)/120))),ch=Math.min(150,(H-top-20)/rows);
-    const pages=Math.max(1,Math.ceil(fixedFirst.length/(cols*rows))),per=Math.ceil(fixedFirst.length/pages);
-    const used=Math.ceil(per/cols),ch2=Math.min(175,(H-top-30)/used),oy=top+(H-top-30-used*ch2)/2;
+    // primero los proyectos (CRTV), después los accesos; todo junto y apilado desde arriba
+    const fixedFirst=order.filter(p=>p.tipoItem!=="acceso").concat(order.filter(p=>p.tipoItem==="acceso"));
+    const logo=$("#topLogo").getBoundingClientRect(),top=logo.bottom-cssPx("--mb")+4;
+    const cols=3,cw=W/cols,ch=Math.max(104,Math.min(122,(H-top-24)/5)),rows=Math.max(2,Math.floor((H-top-24)/ch)),per=cols*rows;
+    const pages=Math.max(1,Math.ceil(fixedFirst.length/per));
     PAGES=pages;
     return fixedFirst.map((p,k)=>{
       const pg=Math.floor(k/per),i=k%per,row=Math.floor(i/cols),col=i%cols,r=rng(p.id+"#");
-      const jx=(r()-.5)*34+(row%2?10:-10),jy=(r()-.5)*26;
-      return {p,x:pg*W+Math.min(cw*(col+1)-50,Math.max(cw*col+50,cw*(col+.5)+jx)),y:oy+ch2*(row+.5)+jy};
+      const jx=(r()-.5)*24+(row%2?8:-8),jy=(r()-.5)*12;
+      return {p,x:pg*W+Math.min(cw*(col+1)-48,Math.max(cw*col+48,cw*(col+.5)+jx)),y:top+ch*(row+.5)+jy};
     });
   }
   PAGES=1;
