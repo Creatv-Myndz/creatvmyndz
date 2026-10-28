@@ -49,6 +49,7 @@ const I18N={
       b_back:"Atrás",b_fwd:"Adelante",b_stop:"Detener",b_refresh:"Actualizar",b_home:"Inicio",b_addr:"Dirección",b_zone:"Zona de Internet",done:"Listo",
       myndTitle:"Iniciar sesión · Mynd",myndTxt:"El centro de control de CREATV MYNDZ. Escribe el código de acceso.",myndCode:"Código de acceso",
       myndBad:"Código incorrecto. Pídelo a Camilo.",myndOk:"Acceso concedido. Abriendo Mynd…",dealersGo:"Ver Creative Dealing →",
+      photos:"fotos",
       pw_bar:"Advertencia",pw_title:"¿ESTÁS EN EL BAÑO?",pw_text:"NUESTRA WEB ES MEJOR EN EL PC. ¡VE A VERLA!",pw_ok:"Ok, ya voy",pw_stay:"Seguir aquí"},
   en:{m_projects:"<u>P</u>rojects",m_wall:"<u>W</u>allpaper",about:"About CREATV MYNDZ",lang_aria:"Change language (Español)",desk:"Desktop",
       empty:"Projects will show up here, one by one.",start:"Start",programs:"Programs",
@@ -78,6 +79,7 @@ const I18N={
       b_back:"Back",b_fwd:"Forward",b_stop:"Stop",b_refresh:"Refresh",b_home:"Home",b_addr:"Address",b_zone:"Internet zone",done:"Done",
       myndTitle:"Log on · Mynd",myndTxt:"The CREATV MYNDZ control center. Type the access code.",myndCode:"Access code",
       myndBad:"Wrong code. Ask Camilo for it.",myndOk:"Access granted. Opening Mynd…",dealersGo:"See Creative Dealing →",
+      photos:"photos",
       pw_bar:"Warning",pw_title:"ARE YOU IN THE BATHROOM?",pw_text:"OUR WEBSITE IS BETTER ON A PC. GO CHECK IT OUT!",pw_ok:"Ok, on my way",pw_stay:"Stay here"}
 };
 const t=k=>I18N[lang][k]??I18N.es[k]??"";
@@ -177,28 +179,29 @@ function layout(){
     // Celular: cuadrícula de 4 columnas con un poco de desorden, debajo del logo.
     // La primera casilla (arriba a la izquierda) es para los íconos fijos (Explorers).
     const logo=$("#topLogo").getBoundingClientRect(),top=logo.bottom-cssPx("--mb")+4,fixed=document.querySelectorAll("#fixedIcons .ico").length;
-    const cols=4,n=order.length+fixed,rows=Math.ceil(n/cols),cw=W/cols,ch=Math.max(92,(H-top-28)/Math.max(rows,1));
-    const fx=$("#fixedIcons");if(fx){fx.style.left=(cw*.5-36)+"px";fx.style.top=(cssPx("--mb")+top+ch*.42-40)+"px";}
+    const cols=4,n=order.length+fixed,rows=Math.ceil(n/cols),cw=W/cols,ch=Math.max(86,(H-top-14)/Math.max(rows,1));
+    const fx=$("#fixedIcons");if(fx){fx.style.left=(cw*.5-36)+"px";fx.style.top=(cssPx("--mb")+top+ch*.5-38)+"px";}
     return order.map((p,k)=>{
       if(moved[p.id])return {p,x:moved[p.id][0]*W,y:moved[p.id][1]*H};
       const i=k+fixed,r=rng(p.id+"#"),row=Math.floor(i/cols),col=i%cols;
-      return {p,x:Math.min(W-42,Math.max(42,cw*(col+.5)+(r()-.5)*12)),y:top+ch*row+ch*.42+(r()-.5)*8};
+      return {p,x:Math.min(W-42,Math.max(42,cw*(col+.5)+(r()-.5)*12)),y:top+ch*row+ch*.5+(r()-.5)*6};
     });
   }
   {const fx=$("#fixedIcons");if(fx){fx.style.left="";fx.style.top="";}}
-  // PC: una nube desordenada; cada ícono es una caja que no puede cruzarse con otra
-  const BW=112,BH=118,cx=W/2,cy=H*.54,rx=W*.42,ry=H*.42,boxes=[...busy];
-  return order.map(p=>{
+  // PC: parece aleatorio pero es una cuadrícula con un poco de desorden, para que todo se vea bien
+  const cw=128,chh=124,cols=Math.max(3,Math.floor((W-80)/cw)),boxes=[...busy],cells=[];
+  const rows=Math.max(2,Math.floor((H-20)/chh)),ox=(W-cols*cw)/2,oy=(H-rows*chh)/2+10;
+  for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
+    const x=ox+cw*(c+.5),y=oy+chh*(r+.5),b={l:x-56,t:y-56,r:x+56,b:y+56};
+    if(!boxes.some(o=>hit(o,b)))cells.push([x,y]);
+  }
+  // reparte los íconos por toda la pantalla (no todos juntos): baraja las casillas con una semilla fija
+  const sr=rng("creatv-escritorio");for(let i=cells.length-1;i>0;i--){const j=Math.floor(sr()*(i+1));[cells[i],cells[j]]=[cells[j],cells[i]];}
+  return order.map((p,k)=>{
     if(moved[p.id])return {p,x:moved[p.id][0]*W,y:moved[p.id][1]*H};
     if(p.x!=null&&p.y!=null)return {p,x:p.x/100*W,y:p.y/100*H};
-    const r=rng(p.id+"·");let best=null,bestN=1e9;
-    for(let k=0;k<400;k++){
-      const a=r()*Math.PI*2,d=Math.sqrt(r())*(1+k/400*.25);
-      const x=Math.min(W-60,Math.max(60,cx+Math.cos(a)*d*rx)),y=Math.min(H-BH/2-6,Math.max(BH/2+6,cy+Math.sin(a)*d*ry));
-      const b={l:x-BW/2,t:y-BH/2,r:x+BW/2,b:y+BH/2},n=boxes.filter(o=>hit(o,b)).length;
-      if(n<bestN){best=[x,y,b];bestN=n;}if(!n)break;
-    }
-    boxes.push(best[2]);return {p,x:best[0],y:best[1]};
+    const r=rng(p.id+"·"),cell=cells[k%Math.max(cells.length,1)]||[W/2,H/2];
+    return {p,x:cell[0]+(r()-.5)*30,y:cell[1]+(r()-.5)*22};
   });
 }
 function thumbHTML(p){
@@ -233,7 +236,7 @@ function openWin(key,title,html,{icon=FOLDER,status,info="",cls="",menu,noMenu=f
   if(!w){
     w=document.createElement("section");w.dataset.k=key;w.setAttribute("role","dialog");$("#wins").appendChild(w);
     w.className="win "+cls;
-    const off=(openCount++%6)*26,ww=Math.min(cls.includes("dialog")?380:cls.includes("paint")||cls.includes("browser")?760:cls.includes("mines")?300:620,innerWidth-32);
+    const off=(openCount++%6)*26,ww=Math.min(cls.includes("dialog")?380:cls.includes("paint")||cls.includes("browser")||cls.includes("fotos")?760:cls.includes("mines")?300:620,innerWidth-32);
     w.style.left=Math.max(16,(innerWidth-ww)/2+off-60)+"px";w.style.top=(cssPx("--mb")+innerHeight*.06+off)+"px";
   }
   w.setAttribute("aria-label",title);
@@ -299,6 +302,7 @@ function appWin(a){
   if(a.enlace){window.open(a.enlace,"_blank","noopener");return;}
   if(a.juego==="buscaminas"){minesWin();return;}
   if(a.contacto){contactWin(a);return;}
+  if(a.collage){fotosWin(a);return;}
   let w;
   if(a.id==="papelera"){
     const ideas=a.ideas||[];
@@ -312,7 +316,7 @@ function listWin(){
   const list=ITEMS.filter(p=>p.tipoItem!=="acceso"),n=list.length;
   const w=openWin("proyectos","Creative Playground",n?`<ul class="list">${list.map(p=>`<li><button data-open-p="${esc(p.id)}">${p.estado==="proximo"?iconHTML(D.proximoIcono||WARN,"li-ico"):p.portada?`<img src="${esc(p.portada)}" alt="">`:iconHTML(FOLDER,"li-ico")}<span><b>${esc(L(p.titulo))}</b><br><small>${esc(p.codigo||"")}${p.estado==="proximo"?" · "+t("inBuild"):""}</small></span></button></li>`).join("")}</ul>`
     :`<div class="soon">${iconHTML(FOLDER)}<b>${t("noProjects")}</b><span>${t("noProjectsTxt")}</span></div>`,
-    {icon:"assets/iconos/creatv-paleta.png",info:n+" "+t(n===1?"obj":"objs")});
+    {icon:"assets/iconos/cerebro-azul.png",info:n+" "+t(n===1?"obj":"objs")});
   reg(w,listWin);
 }
 function aboutWin(){
@@ -357,6 +361,15 @@ function myndWin(p){
 function dealersWin(p){
   const w=openWin("a:"+p.id,"Creative Dealers",`<div class="soon">${iconHTML(p.icono)}<b>Creative Dealers</b><span>${esc(L(p.texto))}</span>${p.enlace_interno?`<a class="btn95" href="${esc(p.enlace_interno)}">${t("dealersGo")}</a>`:""}</div>`,{icon:p.icono});
   reg(w,()=>dealersWin(p));
+}
+
+// ---------- Fotos: un collage de los proyectos (data/escritorio.json → fotos.imagenes; si está vacío, las de los CRTV)
+function fotosWin(a){
+  const own=(D.fotos?.imagenes||[]).filter(Boolean);
+  const imgs=own.length?own:ITEMS.filter(p=>p.imagen).map(p=>p.imagen);
+  const w=openWin("app:"+a.id,L(a.nombre),imgs.length?`<div class="collage">${imgs.map((src,i)=>`<a href="${esc(src)}" target="_blank" rel="noopener" style="--r:${((i*37)%9-4)*.7}deg"><img src="${esc(src)}" alt="" loading="lazy"></a>`).join("")}</div>`
+    :`<div class="soon">${iconHTML(a.icono)}<b>${esc(L(a.nombre))}</b><span>${t("soon")}</span></div>`,{icon:a.icono,info:imgs.length+" "+t("photos"),cls:"fotos-win"});
+  reg(w,()=>fotosWin(a));
 }
 
 // ---------- Contáctanos: el mensaje llega al correo de SITE.leadEmail (assets/projects.js) vía FormSubmit
@@ -413,7 +426,7 @@ function minesWin(){
   function win(){
     over=true;stop();face.textContent="😎";left.textContent="000";
     cells.forEach((c,i)=>{if(c.m){c.f=true;draw(i);}});
-    foot.innerHTML=`<p class="mn-won">${t("won")}</p><button class="btn95" data-next>${t("nextLevel")}</button>`;
+    foot.innerHTML=`<p class="mn-won">${t("won")}</p><button class="btn95" data-next="0">${t("nextLevel")}</button>`;
   }
   function act(i,flag){
     if(over)return;const c=cells[i];
@@ -423,24 +436,29 @@ function minesWin(){
     if(c.m){over=true;stop();face.textContent="😵";cells.forEach((x,j)=>{if(x.m){x.o=true;draw(j);}});return;}
     open(i);if(cells.every(x=>x.m||x.o))win();
   }
-  // Nivel 2: ya no es juego. La frase se destapa casilla por casilla.
-  function phrase(){
-    const lines=(L(D.buscaminas?.frase)||["I'M","HAPPY","I","KNOW","YOU"]).map(s=>String(s).toUpperCase());
-    const C=Math.max(10,...lines.map(s=>[...s].length+2)),R=lines.length*2+3,COLORS=["#e00000","#0000d0","#008000"];
+  // Después de ganar ya no es juego: cada "Siguiente" destapa la frase que sigue (data/escritorio.json → buscaminas.frases)
+  const FRASES=D.buscaminas?.frases||[{es:["ME","ALEGRA","CONOCERTE"],en:["I'M","HAPPY","I","KNOW","YOU"]}];
+  function phrase(n){
+    const f=FRASES[n];if(!f)return;
+    const lines=(L(f)||[]).map(x=>String(x).toUpperCase());
+    const C=Math.max(10,...lines.map(x=>[...x].length+2)),R=lines.length+2,COLORS=["#e00000","#0000d0","#008000"];
     const map=new Map();let ci=0;
-    lines.forEach((s,li)=>{const ch=[...s],row=2+li*2,start=Math.floor((C-ch.length)/2);ch.forEach((l,k)=>{map.set(row*C+start+k,{l,c:COLORS[ci++%3]});});});
+    lines.forEach((x,li)=>{const ch=[...x],start=Math.floor((C-ch.length)/2);ch.forEach((l,k)=>{if(l!==" ")map.set((1+li)*C+start+k,{l,c:COLORS[ci++%3]});});});
     grid.className="mn-grid phrase";grid.style.setProperty("--n",C);
     grid.innerHTML=Array.from({length:C*R},()=>`<span class="mc"></span>`).join("");
-    face.textContent="🙂";foot.innerHTML="";
+    face.textContent=n===FRASES.length-1?"😎":"🙂";foot.innerHTML="";
     const d=new Date();left.textContent=String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0");time.textContent=d.getFullYear();
-    [...map.entries()].forEach(([i,{l,c}],k)=>setTimeout(()=>{const b=grid.children[i];if(!b)return;b.className="mc open letter";b.style.color=c;b.textContent=l;},120+k*90));
+    const cells=[...map.entries()];
+    cells.forEach(([i,{l,c}],k)=>setTimeout(()=>{const b=grid.children[i];if(!b)return;b.className="mc open letter";b.style.color=c;b.textContent=l;},100+k*45));
+    // el botón aparece cuando termina de destaparse la frase
+    if(f.boton)setTimeout(()=>{if(document.body.contains(w))foot.innerHTML=`<button class="btn95" data-next="${n+1}">${esc(L(f.boton))}</button>`;},200+cells.length*45);
   }
   grid.addEventListener("click",e=>{const b=e.target.closest("button.mc");if(b)act(+b.dataset.i,flagMode);});
   grid.addEventListener("contextmenu",e=>{const b=e.target.closest("button.mc");if(b){e.preventDefault();act(+b.dataset.i,true);}});
   face.addEventListener("click",reset);
   foot.addEventListener("click",e=>{
     const fb=e.target.closest("[data-flag]");if(fb){flagMode=!flagMode;fb.textContent=flagLabel();fb.classList.toggle("on",flagMode);}
-    if(e.target.closest("[data-next]"))phrase();
+    const nx=e.target.closest("[data-next]");if(nx)phrase(+nx.dataset.next||0);
   });
   reset();
 }

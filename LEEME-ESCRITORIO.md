@@ -173,3 +173,18 @@ En `data/escritorio.json → extras`, por `id` del CRTV:
 - Los CRTV próximos usan el ícono `proximoIcono` (carpeta con papeles), salvo que tengan su propio `icono` (Snoopy).
 - Ojo con marcas de otros: Duo (Duolingo), Instagram, Snoopy (Peanuts), Ash (Pokémon), la C y las dos personas
   (Microsoft) se usan por decisión de CREATV MYNDZ.
+
+## Cambios recientes
+
+- Fondo por defecto: **Nubes 95** (`assets/fondos/nubes-95.webp`, nubes pixeladas estilo Windows 95, sin blur).
+- Íconos del escritorio: parecen regados al azar, pero van en una cuadrícula con un poco de desorden para que
+  ningún nombre se tape (en PC y en celular). Los nombres llevan un fondito azul oscuro para leerse sobre las nubes.
+- Nuevos accesos: **Por Amor al Arte** → camilovegga.com, **Galadsy** → galadsy.com. Mynd usa el ícono de aviso.
+- Creative Playground (escritorio y botón Inicio del dock) usa el cerebro azul `cerebro-azul.png`.
+- Dock: Inicio (cerebro) · Spotify · Instagram · Videos (YouTube) · Fotos | Contáctanos | Papelera de ideas.
+  - **Spotify** todavía no tiene enlace: agrega `"enlace": "https://open.spotify.com/..."` en su bloque.
+  - **Videos** apunta a `https://www.youtube.com/@camilovegga`: confirmar que es el canal correcto.
+  - **Fotos** (`"collage": true`) muestra un collage con `fotos.imagenes` del JSON; si está vacío, usa las imágenes de los CRTV.
+- **Buscaminas**: al ganar, cada "Siguiente" destapa la frase siguiente de `buscaminas.frases`
+  (la última no tiene botón).
+

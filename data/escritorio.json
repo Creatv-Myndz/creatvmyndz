@@ -1,6 +1,15 @@
 {
-  "fondo": "aurora",
+  "fondo": "nubes-95",
   "fondos": [
+    {
+      "id": "nubes-95",
+      "nombre": {
+        "es": "Nubes 95",
+        "en": "Clouds 95"
+      },
+      "imagen": "assets/fondos/nubes-95.webp",
+      "blur": 0
+    },
     {
       "id": "aurora",
       "nombre": "Aurora",
@@ -37,7 +46,7 @@
     {
       "id": "creative-playground",
       "titulo": "Creative Playground",
-      "icono": "assets/iconos/creatv-paleta.png",
+      "icono": "assets/iconos/cerebro-azul.png",
       "abre": "proyectos"
     },
     {
@@ -63,7 +72,7 @@
     {
       "id": "mynd",
       "titulo": "Mynd",
-      "icono": "assets/iconos/cerebro.png",
+      "icono": "assets/iconos/aviso.png",
       "abre": "mynd"
     },
     {
@@ -76,24 +85,99 @@
         "en": "Universal creativity applied to global brands. We take culture, turn it into ideas and materialize them for brands that speak to the world."
       },
       "enlace_interno": "index.html#dealing"
+    },
+    {
+      "id": "por-amor-al-arte",
+      "titulo": "Por Amor al Arte",
+      "icono": "assets/iconos/por-amor-al-arte.png",
+      "enlace": "https://camilovegga.com"
+    },
+    {
+      "id": "galadsy",
+      "titulo": "Galadsy",
+      "icono": "assets/iconos/galadsy.png",
+      "enlace": "https://galadsy.com"
     }
   ],
   "buscaminas": {
-    "_comentario": "Nivel fácil: 6x6 con 3 minas (el primer clic nunca es mina y abre una zona grande). Al ganar, 'Siguiente nivel' destapa la frase.",
-    "frase": {
-      "es": [
-        "ME",
-        "ALEGRA",
-        "CONOCERTE"
-      ],
-      "en": [
-        "I'M",
-        "HAPPY",
-        "I",
-        "KNOW",
-        "YOU"
-      ]
-    }
+    "_comentario": "Nivel fácil: 6x6 con 3 minas. Al ganar, cada 'Siguiente' destapa la frase que sigue. Una línea por fila; \"\" deja una fila vacía.",
+    "frases": [
+      {
+        "es": [
+          "EL MIEDO",
+          "DA MALOS",
+          "CONSEJOS,",
+          "",
+          "NO TE DEJA",
+          "CREAR Y",
+          "SER LIBRE"
+        ],
+        "en": [
+          "FEAR GIVES",
+          "BAD ADVICE,",
+          "",
+          "IT WON'T",
+          "LET YOU",
+          "CREATE AND",
+          "BE FREE"
+        ],
+        "boton": {
+          "es": "Siguiente nivel ▸",
+          "en": "Next level ▸"
+        }
+      },
+      {
+        "es": [
+          "EL CONTRARIO",
+          "DEL AMOR NO",
+          "ES EL ODIO,",
+          "ES EL MIEDO",
+          "",
+          "COMIENZA A",
+          "CREAR DESDE",
+          "EL AMOR, Y",
+          "NO DESDE",
+          "EL MIEDO."
+        ],
+        "en": [
+          "THE OPPOSITE",
+          "OF LOVE IS",
+          "NOT HATE,",
+          "IT'S FEAR",
+          "",
+          "START",
+          "CREATING",
+          "FROM LOVE,",
+          "NOT FROM",
+          "FEAR."
+        ],
+        "boton": {
+          "es": "Siguiente…",
+          "en": "Next…"
+        }
+      },
+      {
+        "es": [
+          "AHORA DEJA",
+          "DE JUGAR",
+          "ESTE JUEGO",
+          "",
+          "Y COMIENZA",
+          "A JUGAR EN",
+          "LA VIDA",
+          "REAL!!"
+        ],
+        "en": [
+          "NOW STOP",
+          "PLAYING",
+          "THIS GAME",
+          "",
+          "AND START",
+          "PLAYING IN",
+          "REAL LIFE!!"
+        ]
+      }
+    ]
   },
   "proyectos": [],
   "extras": {
@@ -192,50 +276,28 @@
   },
   "dock": [
     {
-      "id": "paint",
-      "nombre": "Paint",
-      "icono": "assets/iconos/paint.png",
+      "id": "spotify",
+      "nombre": "Spotify",
+      "icono": "assets/iconos/spotify.png",
       "texto": {
-        "es": "Diseño y edición. Muy pronto.",
-        "en": "Design and editing. Coming soon."
+        "es": "Nuestra música en Spotify. Muy pronto.",
+        "en": "Our music on Spotify. Coming soon."
       }
     },
     {
-      "id": "ilustracion",
-      "nombre": {
-        "es": "Ilustración",
-        "en": "Illustration"
-      },
-      "icono": "assets/iconos/paleta.svg",
-      "texto": {
-        "es": "Ilustración y dibujo. Muy pronto.",
-        "en": "Illustration and drawing. Coming soon."
-      }
+      "id": "instagram",
+      "nombre": "Instagram",
+      "icono": "assets/iconos/instagram.png",
+      "enlace": "https://instagram.com/creatvmyndz"
     },
     {
-      "id": "animacion",
+      "id": "videos",
       "nombre": {
-        "es": "Animación",
-        "en": "Animation"
+        "es": "Videos",
+        "en": "Videos"
       },
-      "icono": "assets/iconos/animacion.svg",
-      "texto": {
-        "es": "Animación y motion. Muy pronto.",
-        "en": "Animation and motion. Coming soon."
-      }
-    },
-    "|",
-    {
-      "id": "notas",
-      "nombre": {
-        "es": "Notas",
-        "en": "Notes"
-      },
-      "icono": "assets/iconos/notas.png",
-      "texto": {
-        "es": "Escritos, guiones y pensamientos. Muy pronto.",
-        "en": "Writing, scripts and thoughts. Coming soon."
-      }
+      "icono": "assets/iconos/youtube.png",
+      "enlace": "https://www.youtube.com/@camilovegga"
     },
     {
       "id": "fotos",
@@ -243,31 +305,10 @@
         "es": "Fotos",
         "en": "Photos"
       },
-      "icono": "assets/iconos/fotos.svg",
-      "texto": {
-        "es": "Fotografía. Muy pronto.",
-        "en": "Photography. Coming soon."
-      }
-    },
-    {
-      "id": "musica",
-      "nombre": {
-        "es": "Música",
-        "en": "Music"
-      },
-      "icono": "assets/iconos/musica.svg",
-      "texto": {
-        "es": "Música y sonido. Muy pronto.",
-        "en": "Music and sound. Coming soon."
-      }
+      "icono": "assets/iconos/fotos.png",
+      "collage": true
     },
     "|",
-    {
-      "id": "instagram",
-      "nombre": "Instagram",
-      "icono": "assets/iconos/instagram.png",
-      "enlace": "https://instagram.com/creatvmyndz"
-    },
     {
       "id": "contacto",
       "nombre": {
@@ -288,5 +329,9 @@
       "ideas": []
     }
   ],
-  "proximoIcono": "assets/iconos/carpeta-proximo.png"
+  "proximoIcono": "assets/iconos/carpeta-proximo.png",
+  "fotos": {
+    "_comentario": "Collage de la app Fotos. Agrega rutas de imágenes aquí; si está vacío, usa las imágenes de los CRTV.",
+    "imagenes": []
+  }
 }
