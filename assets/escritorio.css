@@ -77,7 +77,7 @@ u{text-decoration:underline;text-underline-offset:2px}
 .ico.drag .th{opacity:.75}
 
 /* Aviso de escritorio vacío: una cajita de diálogo clásica */
-#empty{position:fixed;left:50%;top:46%;transform:translate(-50%,-50%);display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--face);box-shadow:var(--raised),4px 4px 0 rgba(0,0,0,.35);max-width:calc(100vw - 32px)}
+#empty{position:fixed;left:50%;top:46%;transform:translate(-50%,-50%);width:max-content;display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--face);box-shadow:var(--raised),4px 4px 0 rgba(0,0,0,.35);max-width:calc(100vw - 32px)}
 #empty[hidden]{display:none}
 #empty img{width:32px;height:32px;image-rendering:pixelated;flex:none}
 #empty span{font:20px/1.05 var(--pixel)}
