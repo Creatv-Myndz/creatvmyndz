@@ -23,7 +23,7 @@ let lang=(()=>{try{return localStorage.getItem("cm-lang")==="en"?"en":"es"}catch
 const I18N={
   es:{m_projects:"<u>P</u>royectos",m_wall:"<u>F</u>ondo",about:"Próximamente CREATV MYNDZ",lang_aria:"Cambiar idioma (English)",desk:"Escritorio",
       empty:"Los proyectos van a aparecer aquí, uno por uno.",start:"Inicio",programs:"Programas",
-      s_mines:"<u>J</u>ugar!!",s_contact:"<u>C</u>ontáctanos",s_bin:"<u>P</u>apelera de ideas",s_about:"<u>P</u>róximamente CREATV MYNDZ",
+      s_mines:"<u>B</u>uscaminas",s_contact:"<u>C</u>ontáctanos",s_bin:"<u>P</u>apelera de ideas",s_about:"<u>P</u>róximamente CREATV MYNDZ",
       close:"Cerrar",ready:"Listo",
       menu:["<u>A</u>rchivo","<u>E</u>dición","<u>V</u>er","Ay<u>u</u>da"],
       menuPaint:["<u>A</u>rchivo","<u>E</u>dición","<u>V</u>er","<u>I</u>magen","<u>O</u>pciones","Ay<u>u</u>da"],
@@ -40,8 +40,8 @@ const I18N={
       obj:"objeto",objs:"objetos",inBuild:"en construcción",
       aboutTxt:"El escritorio de CREATV MYNDZ.<br>Proyectos creativos, ideas y procesos.",goSite:"Ver la portada clásica",
       soon:"Muy pronto.",
-      mines:"Jugar!!",newGame:"Nuevo juego",flagMode:"Modo bandera",yes:"sí",no:"no",
-      won:"¡Ganaste!",lost:"¡Boom! Perdiste.",retry:"Volver a intentar",nextLevel:"Siguiente nivel ▸",cell:"casilla",
+      mines:"Buscaminas",newGame:"Nuevo juego",flagMode:"Modo bandera",yes:"sí",no:"no",
+      won:"¡Ganaste!",tapCell:"Toca una casilla para empezar",lost:"¡Boom! Perdiste.",retry:"Volver a intentar",nextLevel:"Siguiente nivel ▸",cell:"casilla",
       contact:"Contáctanos",c_intro:"Escríbenos: proyectos, ideas, colaboraciones o un saludo.",c_name:"Nombre",c_mail:"Tu correo",c_msg:"Mensaje",
       c_send:"Enviar",c_sending:"Enviando…",c_ok:"¡Mensaje enviado! Te respondemos pronto.",c_err:"No se pudo enviar. Escríbenos directo a",
       explore:"Explora tu creatividad",exploreSoon:"Muy pronto vas a encontrar aquí ejercicios, ideas y herramientas para despertar tu creatividad.",
@@ -53,7 +53,7 @@ const I18N={
       pw_bar:"Advertencia",pw_title:"¿ESTÁS EN EL BAÑO?",pw_text:"NUESTRA WEB ES MEJOR EN EL PC. ¡VE A VERLA!",pw_ok:"Ok, ya voy",pw_stay:"Seguir aquí"},
   en:{m_projects:"<u>P</u>rojects",m_wall:"<u>W</u>allpaper",about:"Coming soon: CREATV MYNDZ",lang_aria:"Change language (Español)",desk:"Desktop",
       empty:"Projects will show up here, one by one.",start:"Start",programs:"Programs",
-      s_mines:"<u>P</u>lay!!",s_contact:"<u>C</u>ontact us",s_bin:"Idea <u>b</u>in",s_about:"<u>C</u>oming soon: CREATV MYNDZ",
+      s_mines:"<u>M</u>inesweeper",s_contact:"<u>C</u>ontact us",s_bin:"Idea <u>b</u>in",s_about:"<u>C</u>oming soon: CREATV MYNDZ",
       close:"Close",ready:"Ready",
       menu:["<u>F</u>ile","<u>E</u>dit","<u>V</u>iew","<u>H</u>elp"],
       menuPaint:["<u>F</u>ile","<u>E</u>dit","<u>V</u>iew","<u>I</u>mage","<u>O</u>ptions","<u>H</u>elp"],
@@ -70,8 +70,8 @@ const I18N={
       obj:"object",objs:"objects",inBuild:"under construction",
       aboutTxt:"The CREATV MYNDZ desktop.<br>Creative projects, ideas and processes.",goSite:"See the classic homepage",
       soon:"Coming soon.",
-      mines:"Play!!",newGame:"New game",flagMode:"Flag mode",yes:"on",no:"off",
-      won:"You won!",lost:"Boom! You lost.",retry:"Try again",nextLevel:"Next level ▸",cell:"cell",
+      mines:"Minesweeper",newGame:"New game",flagMode:"Flag mode",yes:"on",no:"off",
+      won:"You won!",tapCell:"Tap a cell to start",lost:"Boom! You lost.",retry:"Try again",nextLevel:"Next level ▸",cell:"cell",
       contact:"Contact us",c_intro:"Write to us: projects, ideas, collaborations or just to say hi.",c_name:"Name",c_mail:"Your email",c_msg:"Message",
       c_send:"Send",c_sending:"Sending…",c_ok:"Message sent! We'll get back to you soon.",c_err:"Couldn't send it. Write to us directly at",
       explore:"Explore your creativity",exploreSoon:"Very soon you'll find exercises, ideas and tools here to wake up your creativity.",
@@ -104,7 +104,7 @@ const iconHTML=(src,cls="")=>src?`<img class="${cls}${PIXEL.test(src)?" px":""}"
 const FOLDER="assets/iconos/carpeta.png", WARN="assets/iconos/aviso.png", PAINT="assets/iconos/paint.png";
 
 let D={fondo:"",fondos:[],accesos:[],proyectos:[],dock:[],buscaminas:{}};
-let ITEMS=[];
+let ITEMS=[],PAGES=1;
 
 // ---------- los CRTV del Creative Playground (assets/projects.js) como proyectos del escritorio
 const code=n=>n==null?"CRTV":"CRTV "+String(n).padStart(2,"0");
@@ -174,23 +174,28 @@ function rng(seed){let h=1779033703^seed.length;for(let i=0;i<seed.length;i++){h
 function deskSize(){return [innerWidth,innerHeight-cssPx("--mb")-cssPx("--tb")];}
 function layout(){
   const [W,H]=deskSize(),moved=store.get("pos")||{},ph=phone();
-  const order=ITEMS.filter(p=>onDesk(p)&&!p.fijo&&!(p.zona==="camilo"&&!phone())).sort((a,b)=>rng(a.id)()-rng(b.id)());
+  const order=ITEMS.filter(p=>onDesk(p)&&(!p.fijo||phone())).sort((a,b)=>rng(a.id)()-rng(b.id)());
   // Zonas ocupadas: logo de arriba, íconos fijos (Explorers) y Duo
   const busy=[];
-  ["#topLogo","#fixedIcons .ico","#cornerR","#cornerBR:not([hidden])"].forEach(sel=>document.querySelectorAll(sel).forEach(el=>{const r=el.getBoundingClientRect();if(r.width)busy.push({l:r.left-8,t:r.top-cssPx("--mb")-8,r:r.right+8,b:r.bottom-cssPx("--mb")+8});}));
+  ["#topLogo","#fixedIcons .ico","#cornerR"].forEach(sel=>document.querySelectorAll(sel).forEach(el=>{const r=el.getBoundingClientRect();if(r.width)busy.push({l:r.left-8,t:r.top-cssPx("--mb")-8,r:r.right+8,b:r.bottom-cssPx("--mb")+8});}));
   const hit=(a,b)=>a.l<b.r&&b.l<a.r&&a.t<b.b&&b.t<a.b;
   if(ph){
-    // Celular: cuadrícula de 4 columnas con un poco de desorden, debajo del logo.
-    // La primera casilla (arriba a la izquierda) es para los íconos fijos (Explorers).
-    const logo=$("#topLogo").getBoundingClientRect(),top=logo.bottom-cssPx("--mb")+4,fixed=document.querySelectorAll("#fixedIcons .ico").length;
-    const cols=4,n=order.length+fixed,rows=Math.ceil(n/cols),cw=W/cols,ch=Math.max(86,(H-top-14)/Math.max(rows,1));
-    const fx=$("#fixedIcons");if(fx){fx.style.left=(cw*.5-36)+"px";fx.style.top=(cssPx("--mb")+top+ch*.5-38)+"px";}
-    return order.map((p,k)=>{
-      if(moved[p.id])return {p,x:moved[p.id][0]*W,y:moved[p.id][1]*H};
-      const i=k+fixed,r=rng(p.id+"#"),row=Math.floor(i/cols),col=i%cols;
-      return {p,x:Math.min(W-42,Math.max(42,cw*(col+.5)+(r()-.5)*12)),y:top+ch*row+ch*.5+(r()-.5)*6};
+    // Celular: como la pantalla de inicio de un iPhone. 3 columnas, varias páginas que se
+    // deslizan hacia la derecha, y cada ícono un poco corrido para que no se vea en cuadrícula.
+    const fixedFirst=order.filter(p=>p.fijo).concat(order.filter(p=>!p.fijo));
+    const logo=$("#topLogo").getBoundingClientRect(),top=logo.bottom-cssPx("--mb")+6;
+    // hasta 4 filas por página (así hay varias páginas para deslizar) y los íconos repartidos parejo entre páginas
+    const cols=3,cw=W/cols,rows=Math.max(2,Math.min(4,Math.floor((H-top-20)/120))),ch=Math.min(150,(H-top-20)/rows);
+    const pages=Math.max(1,Math.ceil(fixedFirst.length/(cols*rows))),per=Math.ceil(fixedFirst.length/pages);
+    const used=Math.ceil(per/cols),ch2=Math.min(175,(H-top-30)/used),oy=top+(H-top-30-used*ch2)/2;
+    PAGES=pages;
+    return fixedFirst.map((p,k)=>{
+      const pg=Math.floor(k/per),i=k%per,row=Math.floor(i/cols),col=i%cols,r=rng(p.id+"#");
+      const jx=(r()-.5)*34+(row%2?10:-10),jy=(r()-.5)*26;
+      return {p,x:pg*W+Math.min(cw*(col+1)-50,Math.max(cw*col+50,cw*(col+.5)+jx)),y:oy+ch2*(row+.5)+jy};
     });
   }
+  PAGES=1;
   {const fx=$("#fixedIcons");if(fx){fx.style.left="";fx.style.top="";}}
   // PC: un grupo centrado y ordenado (como un escritorio moderno), con filas un poco corridas
   // para que parezca suelto; nada se monta encima de otra cosa.
@@ -232,15 +237,16 @@ function icoHTML(p,style=""){return `<button class="ico ${p.tipoItem} ${p.estado
 function renderDesk(){
   if(!ITEMS.length&&!D.fondos.length)return;
   // Los accesos con "esquina": true van fijos arriba a la izquierda, al lado del logo
-  $("#fixedIcons").innerHTML=ITEMS.filter(p=>p.fijo).map(p=>icoHTML(p)).join("");
-  // Esquina de abajo a la derecha: proyectos de Camilo Vegga (en el celular van en la cuadrícula)
-  const cam=ITEMS.filter(p=>p.zona==="camilo"),br=$("#cornerBR");
-  br.hidden=phone()||!cam.length;
-  br.querySelector(".cbr-title").textContent=L(D.zonaCamilo?.titulo)||"Camilo Vegga";
-  br.querySelector(".cbr-icons").innerHTML=phone()?"":cam.map(p=>icoHTML(p)).join("");
+  $("#fixedIcons").innerHTML=phone()?"":ITEMS.filter(p=>p.fijo).map(p=>icoHTML(p)).join("");
   $("#desk").innerHTML=layout().map(({p,x,y})=>`<button class="ico ${p.tipoItem} ${p.estado||""}" data-p="${esc(p.id)}" style="left:${x}px;top:${y}px" aria-label="${esc(L(p.titulo))}">${thumbHTML(p)}<span class="lb">${esc(L(p.titulo))}</span></button>`).join("");
+  // páginas (celular): cada una del ancho de la pantalla, con puntitos abajo
+  const desk=$("#desk");desk.querySelectorAll(".page").forEach(e=>e.remove());
+  for(let k=0;k<PAGES;k++)desk.insertAdjacentHTML("afterbegin",`<div class="page" aria-hidden="true"></div>`);
+  const dots=$("#pageDots");dots.hidden=PAGES<2;
+  dots.innerHTML=Array.from({length:PAGES},(_,k)=>`<i class="${k?"":"on"}"></i>`).join("");
   $("#empty").hidden=ITEMS.length>0;
 }
+$("#desk").addEventListener("scroll",()=>{const d=$("#desk"),k=Math.round(d.scrollLeft/innerWidth);$("#pageDots").querySelectorAll("i").forEach((e,i)=>e.classList.toggle("on",i===k));},{passive:true});
 
 // ---------- dock flotante (como un Mac moderno, con íconos retro)
 function renderDock(){
@@ -443,7 +449,7 @@ function minesWin(){
   const stop=()=>clearInterval(timer);w._stop=stop;
   const flagLabel=()=>`${t("flagMode")}: ${flagMode?t("yes"):t("no")}`;
   function reset(){
-    stop();cells=Array.from({length:N*N},()=>({m:false,o:false,f:false,n:0}));over=false;started=false;flagMode=false;
+    grid.onclick=null;stop();cells=Array.from({length:N*N},()=>({m:false,o:false,f:false,n:0}));over=false;started=false;flagMode=false;
     face.textContent="🙂";time.textContent="000";left.textContent=led(M);grid.className="mn-grid";grid.style.setProperty("--n",N);
     grid.innerHTML=cells.map((_,i)=>`<button class="mc" data-i="${i}" aria-label="${t("cell")}"></button>`).join("");
     foot.innerHTML=`<button class="btn95 mn-flag" data-flag>${flagLabel()}</button>`;
@@ -455,11 +461,13 @@ function minesWin(){
     cells.forEach((c,i)=>c.n=nb(i).filter(j=>cells[j].m).length);
     started=true;t0=Date.now();timer=setInterval(()=>{time.textContent=led(Math.floor((Date.now()-t0)/1000));if(!document.body.contains(w))stop();},1000);
   }
-  function draw(i){const c=cells[i],b=grid.children[i];b.className="mc"+(c.o?" open n"+c.n:"")+(c.f?" flag":"")+(c.o&&c.m?" boom":"");b.textContent=c.o?(c.m?"✹":(c.n||"")):(c.f?"⚑":"");}
+  const BOMB=`<img class="bomb" src="${icon}" alt="">`;
+  function draw(i,hit){const c=cells[i],b=grid.children[i];b.className="mc"+(c.o?" open n"+c.n:"")+(c.f?" flag":"")+(hit?" boom":"");
+    if(c.o&&c.m)b.innerHTML=BOMB;else b.textContent=c.o?(c.n||""):(c.f?"⚑":"");}
   function open(i){const c=cells[i];if(c.o||c.f)return;c.o=true;draw(i);if(!c.m&&c.n===0)nb(i).forEach(open);}
   function win(){
     over=true;stop();face.textContent="😎";left.textContent="000";
-    cells.forEach((c,i)=>{if(c.m){c.f=true;draw(i);}});
+    cells.forEach((c,i)=>{if(c.m){c.o=true;draw(i);}});
     foot.innerHTML=`<p class="mn-won">${t("won")}</p><button class="btn95" data-next="0">${t("nextLevel")}</button>`;
   }
   function act(i,flag){
@@ -467,7 +475,7 @@ function minesWin(){
     if(flag){if(c.o)return;c.f=!c.f;draw(i);left.textContent=led(M-cells.filter(x=>x.f).length);return;}
     if(!started)plant(i);
     if(c.f)return;
-    if(c.m){over=true;stop();face.textContent="😵";cells.forEach((x,j)=>{if(x.m){x.o=true;draw(j);}});
+    if(c.m){over=true;stop();face.textContent="😵";cells.forEach((x,j)=>{if(x.m){x.o=true;draw(j,j===i);}});
       foot.innerHTML=`<p class="mn-won">${t("lost")}</p><button class="btn95" data-retry>${t("retry")}</button>`;return;}
     open(i);if(cells.every(x=>x.m||x.o))win();
   }
@@ -479,21 +487,29 @@ function minesWin(){
     const C=Math.max(10,...lines.map(x=>[...x].length+2)),R=lines.length+2,COLORS=["#e00000","#0000d0","#008000"];
     const map=new Map();let ci=0;
     lines.forEach((x,li)=>{const ch=[...x],start=Math.floor((C-ch.length)/2);ch.forEach((l,k)=>{if(l!==" ")map.set((1+li)*C+start+k,{l,c:COLORS[ci++%3]});});});
+    // tapada: parece otro nivel del juego; la frase se destapa cuando tocan cualquier casilla
     grid.className="mn-grid phrase";grid.style.setProperty("--n",C);
-    grid.innerHTML=Array.from({length:C*R},()=>`<span class="mc"></span>`).join("");
-    face.textContent=n===FRASES.length-1?"😎":"🙂";foot.innerHTML="";
-    const d=new Date();left.textContent=String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0");time.textContent=d.getFullYear();
-    const cells=[...map.entries()];
-    cells.forEach(([i,{l,c}],k)=>setTimeout(()=>{const b=grid.children[i];if(!b)return;b.className="mc open letter";b.style.color=c;b.textContent=l;},100+k*45));
-    // el botón aparece cuando termina de destaparse la frase
-    if(f.boton)setTimeout(()=>{if(document.body.contains(w))foot.innerHTML=`<button class="btn95" data-next="${n+1}">${esc(L(f.boton))}</button>`;},200+cells.length*45);
+    grid.innerHTML=Array.from({length:C*R},(_,i)=>`<button class="mc" data-p="${i}" aria-label="${t("cell")}"></button>`).join("");
+    face.textContent="🙂";foot.innerHTML=`<p class="mn-won">${t("tapCell")}</p>`;
+    left.textContent=led(0);time.textContent="000";
+    let shown=false;
+    grid.onclick=e=>{
+      const b0=e.target.closest(".mc");if(!b0||shown)return;shown=true;
+      face.textContent=n===FRASES.length-1?"😎":"😮";foot.innerHTML="";
+      const d=new Date();left.textContent=String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0");time.textContent=d.getFullYear();
+      [...grid.children].forEach(b=>{if(!map.has(+b.dataset.p))b.className="mc open";});
+      const letters=[...map.entries()];
+      letters.forEach(([i,{l,c}],k)=>setTimeout(()=>{const b=grid.children[i];if(!b)return;b.className="mc open letter";b.style.color=c;b.textContent=l;},80+k*45));
+      if(f.boton)setTimeout(()=>{if(document.body.contains(w))foot.innerHTML=`<button class="btn95" ${f.cierra?"data-endgame":`data-next="${n+1}"`}>${esc(L(f.boton))}</button>`;},180+letters.length*45);
+    };
   }
-  grid.addEventListener("click",e=>{const b=e.target.closest("button.mc");if(b)act(+b.dataset.i,flagMode);});
-  grid.addEventListener("contextmenu",e=>{const b=e.target.closest("button.mc");if(b){e.preventDefault();act(+b.dataset.i,true);}});
+  grid.addEventListener("click",e=>{const b=e.target.closest("button.mc[data-i]");if(b)act(+b.dataset.i,flagMode);});
+  grid.addEventListener("contextmenu",e=>{const b=e.target.closest("button.mc[data-i]");if(b){e.preventDefault();act(+b.dataset.i,true);}});
   face.addEventListener("click",reset);
   foot.addEventListener("click",e=>{
     const fb=e.target.closest("[data-flag]");if(fb){flagMode=!flagMode;fb.textContent=flagLabel();fb.classList.toggle("on",flagMode);}
     if(e.target.closest("[data-retry]")){reset();return;}
+    if(e.target.closest("[data-endgame]")){closeWin(w);return;}
     const nx=e.target.closest("[data-next]");if(nx)phrase(+nx.dataset.next||0);
   });
   reset();
@@ -504,8 +520,10 @@ function phoneWarning(){
   const isPhone=matchMedia("(pointer:coarse)").matches&&Math.min(screen.width,screen.height)<=820;
   let seen=false;try{seen=sessionStorage.getItem("cm-desk-bano")==="1"}catch(e){}
   if(!isPhone||seen)return;
-  $("#phoneWarn").hidden=false;
-  try{sessionStorage.setItem("cm-desk-bano","1")}catch(e){}
+  // sale cuando ya llevan un minuto interactuando con la página
+  let started=false;
+  const go=()=>{if(started)return;started=true;setTimeout(()=>{if(document.hidden)return;$("#phoneWarn").hidden=false;try{sessionStorage.setItem("cm-desk-bano","1")}catch(e){}},60000);};
+  ["pointerdown","scroll","touchstart"].forEach(ev=>addEventListener(ev,go,{once:true,passive:true,capture:true}));
 }
 document.addEventListener("click",e=>{if(e.target.closest("[data-pw-close]"))$("#phoneWarn").hidden=true;},true);
 
@@ -528,7 +546,8 @@ document.addEventListener("pointerdown",e=>{
   document.querySelectorAll(".ico.sel").forEach(x=>x!==ico&&x.classList.remove("sel"));
   const w=e.target.closest(".win");if(w)w.style.zIndex=++zTop;
   if(e.target.closest("[data-close]"))return;
-  if(ico&&ico.closest("#fixedIcons,#cornerBR")){ico.classList.add("sel");return;}
+  if(ico&&ico.closest("#fixedIcons")){ico.classList.add("sel");return;}
+  if(ico&&phone()){ico.classList.add("sel");return;}
   if(ico){ico.classList.add("sel");drag={el:ico,kind:"ico",sx:e.clientX,sy:e.clientY,ox:parseFloat(ico.style.left),oy:parseFloat(ico.style.top),moved:false};ico.setPointerCapture(e.pointerId);}
   else if(wbar&&!phone()){const r=w.getBoundingClientRect();drag={el:w,kind:"win",sx:e.clientX,sy:e.clientY,ox:r.left,oy:r.top,moved:false};wbar.setPointerCapture(e.pointerId);}
 });
@@ -542,10 +561,11 @@ document.addEventListener("pointerup",e=>{if(!drag)return;const d=drag;drag=null
     // caería sobre un botón de la ventana recién abierta.
     else if(phone()||e.pointerType!=="mouse")tapOpen=d.el;}});
 // Los íconos de la esquina se abren con un clic (doble clic también sirve)
-document.addEventListener("click",e=>{const c=e.target.closest("#fixedIcons .ico,#cornerBR .ico");if(c)openItem(itemById(c.dataset.p));});
+document.addEventListener("click",e=>{const c=e.target.closest("#fixedIcons .ico");if(c)openItem(itemById(c.dataset.p));});
 document.addEventListener("dblclick",e=>{const ico=e.target.closest("#desk .ico");if(ico)openItem(itemById(ico.dataset.p));});
 document.addEventListener("click",e=>{
   if(tapOpen){const el=tapOpen;tapOpen=null;if(e.target.closest(".ico")===el){openItem(itemById(el.dataset.p));return;}}
+  if(phone()){const ic=e.target.closest("#desk .ico");if(ic){openItem(itemById(ic.dataset.p));return;}}
   const c=e.target.closest("[data-close]");if(c){closeWin(c.closest(".win"));return;}
   if(e.target.closest("#langBtn")){closeMenus();setLang(lang==="es"?"en":"es");return;}
   const a=e.target.closest("[data-app]");if(a){closeMenus();const app=D.dock.find(x=>x&&x.id===a.dataset.app);app&&appWin(app);return;}
