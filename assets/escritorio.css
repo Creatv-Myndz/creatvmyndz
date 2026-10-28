@@ -216,6 +216,17 @@ u{text-decoration:underline;text-underline-offset:2px}
 .wall-btn img{width:24px;height:24px;image-rendering:pixelated}
 #cornerR{gap:8px}
 
+/* Personalizar: escoger fondo */
+.win.wall-win{width:min(880px,calc(100vw - 32px))}
+.wp-intro{margin:0 0 12px}
+.wallpicks{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px}
+.wpick{display:flex;flex-direction:column;gap:6px;padding:5px;background:var(--face);box-shadow:var(--raised);text-align:center;font-size:13px}
+.wpick img{width:100%;aspect-ratio:16/10;object-fit:cover;box-shadow:var(--sunken)}
+.wpick:hover{filter:brightness(1.05)}
+.wpick.on{box-shadow:var(--sunken);outline:2px solid var(--sel);outline-offset:2px}
+.wpick.on span{background:var(--sel);color:#fff}
+@media (max-width:640px){.wallpicks{grid-template-columns:repeat(2,1fr);gap:10px}}
+
 /* Registro con correo */
 #signup{position:fixed;inset:0;z-index:95;display:grid;place-items:center;padding:16px;background:rgba(0,10,40,.35)}
 #signup[hidden]{display:none}
