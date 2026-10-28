@@ -1,0 +1,316 @@
+/* ============================================================
+   CREATV MYNDZ · ESCRITORIO RETRO (index.html, la página principal)
+   Mezcla de moderno y clásico: ventanas y menús Windows 95/98
+   (bordes biselados, barra de título azul marino), íconos
+   pixelados y brillantes, y un dock flotante como en un Mac
+   moderno. Todo el contenido sale de data/escritorio.json;
+   ver LEEME-ESCRITORIO.md.
+   ============================================================ */
+:root{
+  --face:#c0c0c0; --hi:#fff; --lite:#dfdfdf; --shade:#808080; --dark:#0a0a0a;
+  --navy:#000080; --sel:#0a246a; --tip:#ffffe1;
+  --sys:Tahoma,"Segoe UI",Verdana,Geneva,sans-serif;
+  --pixel:"VT323","Lucida Console",ui-monospace,monospace;
+  --blur:10px; --mb:0px; --tb:110px;
+  --raised:inset -1px -1px var(--dark),inset 1px 1px var(--hi),inset -2px -2px var(--shade),inset 2px 2px var(--lite);
+  --sunken:inset 1px 1px var(--shade),inset -1px -1px var(--hi),inset 2px 2px var(--dark),inset -2px -2px var(--lite);
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#008080;color:#000;font:13px/1.45 var(--sys);overflow:hidden;overscroll-behavior:none;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+img{display:block}
+u{text-decoration:underline;text-underline-offset:2px}
+.px{image-rendering:pixelated}
+.sunken{box-shadow:var(--sunken)}
+
+
+/* ===== FONDO =====
+   El blur va en una capa más grande que la pantalla (inset negativo)
+   para que los bordes no se vean lavados. */
+#wall{position:fixed;inset:calc(var(--blur) * -3);background:#008080 center/cover no-repeat;filter:blur(var(--blur));transform:scale(1.02);transition:filter .5s ease}
+
+/* ===== ARRIBA (sin barra) =====
+   Logo CREATV MYNDZ al centro, levitando muy sutil. Duo (idioma) a la derecha.
+   Explorers fijo a la izquierda, a ~10% del borde y un poco abajo. */
+#topLogo{position:fixed;z-index:20;top:calc(14px + env(safe-area-inset-top, 0px));left:50%;transform:translateX(-50%);padding:4px;border-radius:8px}
+#topLogo img{display:block;width:150px;height:auto;filter:drop-shadow(0 2px 10px rgba(0,30,80,.45))}
+@keyframes levitate{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-5px) rotate(-.6deg)}}
+#fixedIcons{position:fixed;z-index:20;left:10%;top:22%;display:flex;flex-direction:column;gap:10px}
+#fixedIcons .ico{position:relative;transform:none;width:90px}
+/* Abajo a la derecha: proyectos de Camilo Vegga */
+#cornerBR{position:fixed;z-index:20;right:18px;bottom:calc(var(--tb) + 6px);display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 8px 6px;border-radius:14px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+#cornerBR[hidden]{display:none}
+.cbr-title{font:16px/1 var(--pixel);color:#fff;padding:2px 8px;border-radius:3px;background:rgba(0,28,90,.55)}
+.cbr-icons{display:flex;gap:4px}
+#cornerBR .ico{position:relative;transform:none;width:84px}
+#cornerR{position:fixed;z-index:20;top:calc(12px + env(safe-area-inset-top, 0px));right:14px;display:flex;align-items:center;gap:10px}
+.lang-btn{display:flex;align-items:center;gap:4px;padding:4px 10px;border-radius:999px;background:rgba(0,28,90,.55);color:#fff;font:18px/1 var(--pixel);letter-spacing:.04em;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.lang-btn i{font-style:normal;opacity:.55}
+.lang-btn:hover i{opacity:1}
+
+/* ===== MENÚS (Fondo e Inicio) ===== */
+.menu{position:fixed;z-index:60;min-width:220px;padding:3px;background:var(--face);box-shadow:var(--raised),3px 3px 0 rgba(0,0,0,.35)}
+.menu[hidden]{display:none!important}
+.menu button{display:flex;width:100%;align-items:center;gap:8px;padding:5px 22px 5px 6px;text-align:left;font-size:13px;white-space:nowrap}
+.menu button:hover,.menu button:focus-visible{background:var(--navy);color:#fff;outline:0}
+.menu button .ck{width:14px;flex:none;text-align:center}
+.menu button[aria-disabled="true"]{color:var(--shade);text-shadow:1px 1px var(--hi);pointer-events:none}
+.menu hr{border:0;margin:3px 2px;height:2px;box-shadow:inset 0 1px var(--shade),inset 0 -1px var(--hi)}
+.menu .mtitle{padding:4px 6px 2px;font:18px/1 var(--pixel);color:var(--shade)}
+/* Menú Inicio: franja lateral con la marca, como Windows 98 */
+.start{display:flex;padding:3px;min-width:250px}
+.start-side{flex:none;width:30px;background:linear-gradient(0deg,var(--navy),#1084d0);display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px}
+.start-side span{writing-mode:vertical-rl;transform:rotate(180deg);color:#c0c0c0;font:22px/1 var(--pixel);letter-spacing:.06em;white-space:nowrap}
+.start-side b{color:#fff;font-weight:400}
+.start-items{flex:1;display:flex;flex-direction:column}
+.start-items button{padding:7px 10px;gap:12px;font-size:14px}
+.start-items img{width:32px;height:32px;image-rendering:pixelated;object-fit:contain}
+.start-items img.smooth{image-rendering:auto}
+.start-items i{margin-left:auto;font-style:normal}
+.start-items hr{border:0;margin:3px 2px;height:2px;box-shadow:inset 0 1px var(--shade),inset 0 -1px var(--hi)}
+
+/* ===== ESCRITORIO E ÍCONOS =====
+   Moderno (miniaturas limpias en desorden, nombres pequeños) + retro
+   (letra pixelada, selección azul como en Windows). */
+#desk{position:fixed;inset:var(--mb) 0 var(--tb) 0;touch-action:none}
+.ico{position:absolute;width:96px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;user-select:none;-webkit-user-select:none;transform:translate(-50%,-50%);touch-action:none}
+.ico .th{position:relative;width:52px;height:52px;border:1px solid rgba(255,255,255,.85);background:#fff;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.ico .th img{width:100%;height:100%;object-fit:cover;object-position:top}
+.ico .th img.px{object-fit:contain;image-rendering:pixelated}
+/* Accesos y CRTV en construcción: ícono suelto, sin marco */
+.ico .th.bare{background:none;border:0;box-shadow:none;display:grid;place-items:center}
+.ico .th.bare img{width:46px;height:46px;object-fit:contain;filter:drop-shadow(0 4px 8px rgba(0,0,0,.35))}
+.ico.acceso .th.bare{width:72px;height:56px}
+.ico .th.bare.custom{width:92px;height:64px;margin-bottom:4px}
+.ico .th.bare.custom img{width:92px;height:64px}
+.ico.acceso .th.bare img{width:72px;height:56px}
+.ico .lb{font:17px/.95 var(--pixel);letter-spacing:.02em;color:#fff;text-shadow:1px 1px 0 rgba(0,0,0,.6);padding:2px 5px 3px;border-radius:3px;background:rgba(0,28,90,.55);max-width:104px;overflow-wrap:anywhere}
+.ico:hover .th{transform:translateY(-2px);transition:transform .15s}
+.ico.sel .th:not(.bare)::after{content:"";position:absolute;inset:0;background:rgba(10,36,106,.45)}
+.ico.sel .th.bare img{filter:drop-shadow(0 4px 8px rgba(0,0,0,.35)) brightness(.75) sepia(1) hue-rotate(190deg) saturate(3)}
+.ico.sel .lb{background:var(--sel);color:#fff;text-shadow:none;outline:1px dotted #ffff7f}
+.ico.drag{z-index:5}
+.ico.drag .th{opacity:.75}
+/* El ícono "C" flota suavemente */
+.ico[data-p="creative-playground"] .th img{animation:float 3.2s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-6px)}}
+
+#empty{position:fixed;left:50%;top:46%;transform:translate(-50%,-50%);width:max-content;display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--face);box-shadow:var(--raised),4px 4px 0 rgba(0,0,0,.35);max-width:calc(100vw - 32px)}
+#empty[hidden]{display:none}
+#empty img{width:32px;height:32px;image-rendering:pixelated;flex:none}
+#empty span{font:20px/1.05 var(--pixel)}
+
+/* ===== DOCK FLOTANTE (moderno, con íconos retro) ===== */
+#taskbar{position:fixed;z-index:40;left:50%;bottom:calc(26px + env(safe-area-inset-bottom, 0px));transform:translateX(-50%);
+  display:flex;align-items:flex-end;gap:4px;padding:7px 10px;max-width:calc(100vw - 16px);
+  border-radius:18px;background:rgba(225,228,236,.42);-webkit-backdrop-filter:blur(24px) saturate(1.6);backdrop-filter:blur(24px) saturate(1.6);
+  border:1px solid rgba(255,255,255,.55);box-shadow:0 12px 40px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.6)}
+#dock{display:flex;align-items:flex-end;gap:4px}
+.app,#startBtn{position:relative;flex:none;width:50px;height:50px;display:grid;place-items:center;border-radius:12px;transform-origin:50% 100%;transition:transform .16s cubic-bezier(.3,.7,.3,1)}
+.app img{width:42px;height:42px;object-fit:contain;filter:drop-shadow(0 3px 4px rgba(0,0,0,.3))}
+.app img.px{width:40px;height:40px}
+.app[data-app=videos]{width:64px}
+.app[data-app=contacto] img,.app[data-app=papelera] img{width:48px;height:48px}
+.app[data-app=por-amor-al-arte] img{width:50px;height:44px;filter:drop-shadow(0 3px 4px rgba(0,0,0,.45)) brightness(1.05)}
+.app[data-app=videos] img{width:60px;height:42px}
+#startBtn img{width:50px;height:auto;image-rendering:pixelated;filter:drop-shadow(0 3px 4px rgba(0,0,0,.3))}
+#startBtn[aria-expanded="true"]{background:rgba(255,255,255,.35)}
+.app.on::after{content:"";position:absolute;left:50%;bottom:-5px;width:4px;height:4px;margin-left:-2px;background:#000;box-shadow:0 0 0 1px rgba(255,255,255,.7)}
+.tip{position:absolute;left:50%;bottom:calc(100% + 10px);transform:translateX(-50%);padding:2px 6px;background:var(--tip);border:1px solid #000;font-size:12px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .1s;color:#000}
+.app:hover .tip,#startBtn:hover .tip{opacity:1}
+.sep{flex:none;width:1px;align-self:stretch;margin:4px 3px;background:rgba(0,0,0,.22);box-shadow:1px 0 rgba(255,255,255,.5)}
+
+/* ===== VENTANAS (clásicas Windows 98) ===== */
+.win{position:fixed;z-index:25;width:min(620px,calc(100vw - 32px));max-height:calc(100vh - var(--mb) - var(--tb) - 30px);display:flex;flex-direction:column;padding:3px;background:var(--face);box-shadow:var(--raised),8px 10px 30px rgba(0,0,0,.35);animation:pop .16s ease-out}
+@keyframes pop{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
+.win .bar{flex:none;height:24px;display:flex;align-items:center;gap:5px;padding:0 2px 0 4px;touch-action:none;color:#fff;background:linear-gradient(90deg,var(--navy),#1084d0)}
+.win .bar .wi{width:16px;height:16px;flex:none;object-fit:contain}
+.win .bar b{flex:1;font:700 13px/1 var(--sys);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.win .ctl{display:flex;gap:2px}
+.win .ctl i{width:18px;height:16px;display:grid;place-items:center;background:var(--face);box-shadow:var(--raised);font:700 11px/1 var(--sys);font-style:normal;color:#000}
+.win .ctl .x{margin-left:2px;font-size:14px;cursor:pointer}
+.win .ctl .x:active{box-shadow:var(--sunken)}
+.win .menurow{flex:none;display:flex;gap:2px;padding:3px 2px 2px;font-size:13px}
+.win .menurow span{padding:1px 6px}
+.win .menurow span:hover{box-shadow:inset -1px -1px var(--shade),inset 1px 1px var(--hi)}
+.win .body{flex:1;min-height:0;overflow:auto;margin:2px;padding:16px 18px 20px;background:#fff;box-shadow:var(--sunken);font-size:14px;line-height:1.55}
+.win .status{flex:none;display:flex;gap:3px;padding-top:3px;font-size:12px}
+.win .status span{padding:2px 8px;box-shadow:inset 1px 1px var(--shade),inset -1px -1px var(--hi);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.win .status span:first-child{flex:1}
+.win .status a{color:var(--navy);font-weight:700}
+.btn95{display:inline-flex;align-items:center;justify-content:center;min-width:84px;margin-top:12px;padding:6px 16px;background:var(--face);box-shadow:var(--raised);color:#000;text-decoration:none;font-size:13px}
+.btn95:active{box-shadow:var(--sunken)}
+.btn95:focus-visible{outline:1px dotted #000;outline-offset:-5px}
+.win .body .soon{display:flex;flex-direction:column;align-items:center;gap:10px;padding:18px 0 6px;text-align:center}
+.win .body .soon img{width:64px;height:64px;object-fit:contain}
+.win .body .soon b{font:24px/1 var(--pixel);text-transform:uppercase}
+.win .body ul.list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.win .body ul.list button{display:flex;width:100%;align-items:center;gap:10px;padding:5px 6px;text-align:left}
+.win .body ul.list button:hover,.win .body ul.list button:focus-visible{background:var(--navy);color:#fff;outline:0}
+.win .body ul.list img{width:36px;height:36px;object-fit:cover;object-position:top;border:1px solid #000;flex:none}
+.win .body ul.list img.li-ico{border:0;object-fit:contain}
+.win .body .idea{padding:8px 0;border-bottom:1px dotted var(--shade)}
+.about-logo{width:min(320px,80%);margin:4px auto 10px;filter:invert(1) contrast(1.3)}
+
+/* Explora: navegador retro */
+.win.browser-win{width:min(760px,calc(100vw - 32px))}
+.win.browser-win .body{padding:0;background:var(--face);box-shadow:none;display:flex;flex-direction:column;overflow:hidden}
+.browser{flex:1;min-height:0;display:flex;flex-direction:column;gap:3px}
+.b-tools{display:flex;gap:2px;padding:3px 4px;box-shadow:inset 0 -1px var(--shade),inset 0 1px var(--hi);overflow:hidden}
+.b-tools span{display:flex;flex-direction:column;align-items:center;min-width:58px;padding:2px 6px;font-size:12px}
+.b-tools span i{font-style:normal;font-size:18px;line-height:1.1}
+.b-tools span:hover{box-shadow:inset -1px -1px var(--shade),inset 1px 1px var(--hi)}
+.b-addr{display:flex;align-items:center;gap:6px;padding:2px 4px;font-size:12px}
+.b-url{flex:1;display:flex;align-items:center;gap:5px;padding:3px 5px;background:#fff;box-shadow:var(--sunken);font-size:13px;overflow:hidden;white-space:nowrap}
+.b-url img{width:16px;height:16px;object-fit:contain}
+.b-page{flex:1;min-height:260px;overflow:auto;margin:0 2px;background:#fff;box-shadow:var(--sunken);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px 20px}
+.b-page .b-logo{width:110px;height:auto;margin-bottom:14px;animation:float 3.2s ease-in-out infinite}
+.b-page h2{margin:0 0 8px;font:44px/1 var(--pixel);color:#0a3d9c;letter-spacing:.02em}
+.b-page p{margin:0;max-width:44ch;font-size:15px}
+.win .status .z-ico{width:14px;height:14px;display:inline-block;vertical-align:-2px;object-fit:contain}
+
+/* Mynd: inicio de sesión retro */
+.win.login-win{width:min(400px,calc(100vw - 32px))}
+.login{display:flex;flex-direction:column;gap:10px}
+.lg-head{display:flex;gap:12px;align-items:center}
+.lg-head .lg-ico{width:56px;height:auto;image-rendering:pixelated;flex:none}
+.lg-head b{display:block;font:24px/1 var(--pixel)}
+.lg-head span{font-size:13px}
+.login label{display:flex;flex-direction:column;gap:3px;font-size:13px}
+.login input{font:16px var(--sys);letter-spacing:.1em;padding:5px 6px;border:0;background:#fff;box-shadow:var(--sunken);outline:0}
+.lg-err{min-height:18px;margin:0;font-size:13px;color:#a00}
+.lg-btns{display:flex;justify-content:flex-end;gap:8px}
+.lg-btns .btn95{margin-top:0}
+
+/* Fotos: collage */
+.win.fotos-win .body{background:#3a3a3a;padding:14px}
+.collage{columns:150px;column-gap:10px}
+.collage a{display:block;break-inside:avoid;margin:0 0 10px;padding:6px 6px 18px;background:#fff;box-shadow:2px 3px 8px rgba(0,0,0,.5);transform:rotate(var(--r));transition:transform .2s}
+.collage a:hover{transform:rotate(0) scale(1.03);position:relative;z-index:1}
+.collage img{width:100%;height:auto;display:block}
+
+/* Contáctanos */
+.contact{display:flex;flex-direction:column;gap:10px}
+.contact .c-intro{display:flex;gap:10px;align-items:center;margin:0}
+.contact .c-ico{width:44px;height:auto;flex:none}
+.contact label{display:flex;flex-direction:column;gap:3px;font-size:13px}
+.contact input,.contact textarea{font:14px var(--sys);padding:5px 6px;border:0;background:#fff;box-shadow:var(--sunken);outline:0;resize:vertical}
+.contact input:focus,.contact textarea:focus{outline:1px dotted #000;outline-offset:2px}
+.contact .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.contact .c-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.contact .c-row .btn95{margin-top:0}
+.contact .c-state{font-size:13px}
+
+/* Aviso del baño (solo celular) */
+#phoneWarn{position:fixed;inset:0;z-index:90;display:flex;align-items:flex-end;justify-content:center;padding:16px 12px calc(16px + env(safe-area-inset-bottom, 0px))}
+#phoneWarn[hidden]{display:none}
+.pw-photo{position:absolute;inset:0;background:#06142e url("img/escritorio/bano.webp") center/cover no-repeat}
+.pw-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,10,40,0) 40%,rgba(0,10,40,.6))}
+.pw-box{position:relative;width:100%;max-width:400px;padding:3px;background:var(--face);box-shadow:var(--raised),0 20px 50px rgba(0,0,0,.5);animation:sheet .3s cubic-bezier(.2,.8,.2,1)}
+.pw-bar{height:26px;display:flex;align-items:center;gap:6px;padding:0 3px 0 5px;color:#fff;background:linear-gradient(90deg,var(--navy),#1084d0)}
+.pw-bar img{width:18px;height:18px;image-rendering:pixelated}
+.pw-bar b{flex:1;font:700 13px/1 var(--sys)}
+.pw-x{width:22px;height:20px;background:var(--face);box-shadow:var(--raised);color:#000;font:700 14px/1 var(--sys)}
+.pw-body{padding:16px 14px 10px;text-align:center}
+.pw-title{margin:0 0 6px;font:34px/1 var(--pixel)}
+.pw-text{margin:0 0 14px;font:22px/1.1 var(--pixel)}
+.pw-btns{display:flex;justify-content:center;gap:10px}
+.pw-btns .btn95{margin-top:0}
+@keyframes sheet{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+
+/* Mensaje del sistema (Ok / Cancelar) */
+.win.dialog{width:min(380px,calc(100vw - 32px))}
+.win.dialog .body{background:var(--face);box-shadow:none;padding:18px 16px 6px}
+.win.dialog .msg{display:flex;gap:14px;align-items:flex-start}
+.win.dialog .msg img{width:40px;height:40px;flex:none;object-fit:contain}
+.win.dialog .msg p{margin:2px 0 0;font-size:14px}
+.win.dialog .msg-btns{display:flex;justify-content:center;gap:10px;padding:8px 0 4px}
+
+/* Un CRTV abierto en "Paint" */
+.win.paint-win{width:min(760px,calc(100vw - 32px))}
+.win.paint-win .body{padding:0;background:var(--face);box-shadow:none;display:flex;flex-direction:column;overflow:hidden}
+.paint{flex:1;min-height:0;display:flex;gap:4px}
+.tools{flex:none;width:56px;display:grid;grid-template-columns:repeat(2,25px);grid-auto-rows:25px;gap:1px;align-content:start;padding:2px}
+.tools span{display:grid;place-items:center;background:var(--face);box-shadow:var(--raised);font-size:13px;line-height:1}
+.tools span.on{box-shadow:var(--sunken);background:repeating-conic-gradient(var(--face) 0 25%,#fff 0 50%) 0 0/2px 2px}
+.toolopt{grid-column:span 2;height:60px;margin-top:6px;box-shadow:var(--sunken)}
+.canvas{flex:1;min-width:0;overflow:auto;background:#808080;box-shadow:var(--sunken);padding:4px}
+.canvas .art{position:relative;max-width:640px}
+.canvas img{width:100%;max-width:640px;height:auto;background:#fff;box-shadow:2px 2px 0 rgba(0,0,0,.35)}
+/* Videos encima de la imagen del proyecto */
+.canvas .ov{position:absolute;background:#000;box-shadow:0 4px 14px rgba(0,0,0,.45)}
+.canvas .ov.yt{aspect-ratio:16/9;border:2px solid #fff}
+.canvas .ov iframe{width:100%;height:100%;border:0;display:block}
+.canvas .ov.vid{border-radius:6%/3%;overflow:hidden}
+.canvas .ov video{width:100%;height:100%;object-fit:cover;display:block}
+.canvas .blank{width:100%;aspect-ratio:4/3;background:#fff;display:grid;place-items:center;font:28px var(--pixel)}
+.palette{flex:none;display:flex;align-items:center;gap:6px;padding:6px 2px 2px}
+.palette .cur{position:relative;width:30px;height:30px;box-shadow:var(--sunken);background:var(--face);flex:none}
+.palette .cur i{position:absolute;width:13px;height:13px;border:1px solid #808080}
+.palette .cur i:first-child{left:5px;top:5px;background:#000;z-index:1}
+.palette .cur i:last-child{left:12px;top:12px;background:#fff}
+.palette .cols{display:grid;grid-template-columns:repeat(14,15px);grid-template-rows:repeat(2,15px);gap:1px;overflow:hidden}
+.palette .cols i{box-shadow:inset 1px 1px var(--shade),inset -1px -1px var(--hi);border:1px solid #000}
+
+/* Buscaminas */
+.win.mines-win{width:auto}
+.win.mines-win .body{background:var(--face);box-shadow:none;padding:6px}
+.mines{display:flex;flex-direction:column;align-items:center;gap:8px;padding:6px;box-shadow:var(--raised)}
+.mn-top{align-self:stretch;display:flex;justify-content:space-between;align-items:center;padding:4px 6px;box-shadow:var(--sunken)}
+.led{min-width:46px;padding:0 3px;background:#000;color:#f00;font:30px/1 var(--pixel);letter-spacing:.06em;text-align:center}
+.face{width:32px;height:32px;display:grid;place-items:center;background:var(--face);box-shadow:var(--raised);font-size:18px;line-height:1}
+.face:active{box-shadow:var(--sunken)}
+.mn-grid{display:grid;grid-template-columns:repeat(var(--n),24px);grid-auto-rows:24px;box-shadow:var(--sunken);padding:3px}
+.mc{background:var(--face);box-shadow:var(--raised);font:700 15px/1 var(--sys);display:grid;place-items:center}
+.mc.flag{color:#d00}
+.mc.open{box-shadow:none;border:1px solid #a0a0a0;margin:0 -1px -1px 0;background:#c8c8c8}
+.mc.boom{background:#f00}
+.mc.n1{color:#00f}.mc.n2{color:#008000}.mc.n3{color:#f00}.mc.n4{color:#000080}.mc.n5{color:#800000}.mc.n6{color:#008080}.mc.n7{color:#000}.mc.n8{color:#808080}
+.mn-foot{display:flex;flex-direction:column;align-items:center;gap:6px;min-height:34px}
+.mn-foot .btn95{margin-top:0}
+.mn-won{margin:0;font:22px/1 var(--pixel)}
+.mn-grid.phrase{grid-template-columns:repeat(var(--n),22px);grid-auto-rows:22px}
+.mn-grid.phrase span.mc.letter{font-size:15px}
+.mn-grid.phrase span.mc{background:var(--face);box-shadow:var(--raised)}
+.mn-grid.phrase span.mc.letter{box-shadow:none;border:1px solid #a0a0a0;background:#c8c8c8;font:700 15px/1 var(--sys);animation:pop .2s ease-out}
+.mn-flag{margin-top:0;font-size:12px;padding:4px 10px}
+.mn-flag.on{box-shadow:var(--sunken)}
+
+/* ===== CELULAR: mismo escritorio, ventanas como hoja desde abajo ===== */
+@media (max-width:640px){
+  :root{--tb:92px}
+  #topLogo img{width:104px}
+  #fixedIcons{left:4%;top:15%}
+  #fixedIcons .ico{width:72px}
+  #cornerR{right:8px}
+  .ico{width:80px}
+  .ico .th{width:44px;height:44px}
+  .ico .th.bare img{width:40px;height:40px}
+  .ico.acceso .th.bare{width:58px;height:44px}
+  .ico.acceso .th.bare img{width:58px;height:44px}
+  .ico .th.bare.custom{width:64px;height:46px;margin-bottom:3px}
+  .ico .th.bare.custom img{width:64px;height:46px}
+  .b-tools span{min-width:44px;padding:2px 3px}
+  .ico .lb{font-size:14px;line-height:1.15;max-width:84px;padding:0 4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;max-height:2.3em;border-top:2px solid rgba(0,28,90,.55);border-bottom:2px solid rgba(0,28,90,.55)}
+  .app[data-app=contacto] img,.app[data-app=papelera] img,.app[data-app=por-amor-al-arte] img{width:28px;height:28px}
+  #taskbar{gap:0;padding:5px 6px;border-radius:16px;bottom:calc(18px + env(safe-area-inset-bottom, 0px))}
+  #dock{gap:0}
+  .app,#startBtn{width:28px;height:40px;border-radius:8px}
+  .app img,.app img.px{width:26px;height:26px}
+  .app[data-app=videos]{width:38px}
+  .app[data-app=videos] img{width:36px;height:25px}
+  #startBtn img{width:30px}
+  .sep{margin:6px 2px}
+  .tip{display:none}
+  .win{left:6px!important;right:6px;top:auto!important;bottom:calc(var(--tb) + env(safe-area-inset-bottom, 0px) + 4px);width:auto!important;max-height:calc(100dvh - var(--mb) - var(--tb) - 20px);animation:sheet .22s cubic-bezier(.2,.8,.2,1)}
+  @keyframes sheet{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+  .win .ctl i:not(.x){display:none}
+  .win .ctl .x{width:28px;height:20px}
+  .tools{display:none}
+  .palette .cols{grid-template-columns:repeat(14,1fr);flex:1}
+  .mn-grid{grid-template-columns:repeat(var(--n),34px);grid-auto-rows:34px}
+  .mn-grid.phrase{grid-template-columns:repeat(var(--n),minmax(0,26px));grid-auto-rows:26px}
+  .start{left:6px!important;right:6px;min-width:0}
+  #fondoMenu{left:4px!important;right:4px;min-width:0}
+}
+@media (prefers-reduced-motion:reduce){#topLogo img,.win,#wall,.ico[data-p="creative-playground"] .th img{animation:none;transition:none}}

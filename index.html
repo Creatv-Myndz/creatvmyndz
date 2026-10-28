@@ -1,166 +1,84 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>CREATV MYNDZ — Dreams Materializers</title>
-  <meta name="description" content="CREATV MYNDZ: tomamos las ideas, exploramos los límites de la creatividad y las traemos a la realidad. Conoce los CRTV y despierta tu creatividad con WAKE UP.">
-  <meta name="theme-color" content="#0a1238">
-  <meta property="og:title" content="CREATV MYNDZ — Dreams Materializers">
-  <meta property="og:description" content="Tomamos las ideas, exploramos los límites de la creatividad y las traemos a la realidad.">
-  <meta property="og:image" content="https://creatvmyndz.com/assets/img/og.jpg">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:url" content="https://creatvmyndz.com/">
-  <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="CREATV MYNDZ — Dreams Materializers">
-  <meta name="twitter:description" content="Tomamos las ideas, exploramos los límites de la creatividad y las traemos a la realidad.">
-  <meta name="twitter:image" content="https://creatvmyndz.com/assets/img/og.jpg">
-  <link rel="canonical" href="https://creatvmyndz.com/">
-  <link rel="icon" href="assets/img/favicon.png" sizes="any">
-  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
-  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/outfit-latin.woff2" crossorigin>
-  <link rel="preload" as="image" href="assets/sky/d/0001.webp" media="(min-aspect-ratio: 1/1)">
-  <link rel="preload" as="image" href="assets/sky/m/0001.webp" media="(max-aspect-ratio: 1/1)">
-  <link rel="stylesheet" href="assets/styles.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>CREATV MYNDZ — Global Creative Dealers</title>
+<meta name="description" content="El escritorio de CREATV MYNDZ — Global Creative Dealers. Proyectos creativos, ideas y procesos.">
+<meta name="theme-color" content="#c0c0c0">
+<meta property="og:title" content="CREATV MYNDZ — Global Creative Dealers">
+<meta property="og:description" content="El escritorio de CREATV MYNDZ: proyectos creativos, ideas y procesos.">
+<meta property="og:image" content="https://creatvmyndz.com/assets/img/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:url" content="https://creatvmyndz.com/">
+<link rel="canonical" href="https://creatvmyndz.com/">
+<link rel="icon" href="assets/img/favicon.png" sizes="any">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preload" as="image" href="assets/fondos/colina.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/escritorio.css">
 </head>
 <body>
+<!-- Fondo de pantalla. Todo el contenido sale de data/escritorio.json -->
+<div id="wall" aria-hidden="true"></div>
 
-  <!-- ===== CIELO: video de fondo controlado por el scroll ===== -->
-  <canvas id="sky" aria-hidden="true"></canvas>
-  <div class="scrim" id="scrim" aria-hidden="true"></div>
+<!-- ===== ARRIBA (sin barra): logo CREATV MYNDZ al centro, levitando; Duo a la derecha ===== -->
+<button id="topLogo" data-win="sobre" data-i18n-aria="about" aria-label="Sobre CREATV MYNDZ"><img src="assets/img/logo-creatv-blanco.webp" alt="CREATV MYNDZ" width="700" height="297"></button>
+<!-- Íconos fijos (Creative Playground): a la izquierda, un poco abajo -->
+<div id="fixedIcons"></div>
+<!-- Abajo a la derecha: los proyectos de Camilo Vegga (accesos con "zona": "camilo") -->
+<div id="cornerBR" hidden><span class="cbr-title"></span><div class="cbr-icons"></div></div>
+<div id="cornerR">
+  <button id="langBtn" class="lang-btn" data-i18n-aria="lang_aria" aria-label="Cambiar idioma"><b id="langCode">ES</b><span>/</span><i id="langOther">EN</i></button>
+</div>
+<div id="fondoMenu" class="menu" role="menu" hidden></div>
 
-  <!-- ===== BARRA SUPERIOR ===== -->
-  <header class="topbar">
-    <div class="topbar-left">
-      <span class="flying-row"><span class="plane" aria-hidden="true">✈</span><span id="flying">FLYING 0%</span></span>
-      <span id="clocks" class="clocks fades">BOGOTÁ · MIAMI · MADRID</span>
-    </div>
+<main id="desk" data-i18n-aria="desk" aria-label="Escritorio"></main>
+<div id="empty" hidden>
+  <img src="assets/iconos/carpeta.png" alt="" width="32" height="32">
+  <span data-i18n="empty">Los proyectos van a aparecer aquí, uno por uno.</span>
+</div>
 
-    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu">
-      <span data-i18n="menu">MENÚ</span>
-    </button>
+<!-- ===== DOCK FLOTANTE (moderno, con íconos retro) ===== -->
+<footer id="taskbar">
+  <button id="startBtn" aria-haspopup="true" aria-expanded="false" data-i18n-aria="start" aria-label="Inicio"><img src="assets/iconos/nube.png" alt="" width="164" height="98"><span class="tip" role="tooltip" data-i18n="start">Inicio</span></button>
+  <span class="sep" aria-hidden="true"></span>
+  <nav id="dock" data-i18n-aria="programs" aria-label="Programas"></nav>
+</footer>
 
-    <div class="topbar-right">
-      <span class="crtv-mark fades">CRTV©</span>
-      <button id="lang-es" class="lang active" type="button" aria-pressed="true">ES</button>
-      <button id="lang-en" class="lang" type="button" aria-pressed="false">EN</button>
-    </div>
-  </header>
-
-  <!-- ===== MENÚ ===== -->
-  <nav class="menu" id="menu" hidden aria-label="Menú principal">
-    <button class="menu-close" id="menu-close" type="button" aria-label="Cerrar menú">✕</button>
-    <ul class="menu-list">
-      <li><a href="#crtv"><span class="menu-num">01</span><span data-i18n="m_projects">CRTV</span></a></li>
-      <li><a href="#nosotros"><span class="menu-num">02</span><span data-i18n="m_about">PLAYGROUND</span></a></li>
-      <li><a href="#wakeup"><span class="menu-num">03</span><span data-i18n="m_wakeup">WAKE UP</span></a></li>
-    </ul>
-    <p class="menu-foot" data-i18n="footer_line">CREATIVE DEALERS</p>
-  </nav>
-
-  <main id="contenido">
-
-  <!-- ===== HERO ===== -->
-  <section class="hero scene" id="inicio" data-enter="no">
-   <div class="pin">
-    <div class="hero-inner depth">
-      <h1 class="sr-only">CREATV MYNDZ — Dreams Materializers</h1>
-      <img class="logo" src="assets/img/logo-creatv.webp" alt="CREATV MYNDZ" width="1400" height="593" fetchpriority="high">
-    </div>
-   </div>
-  </section>
-
-  <!-- ===== MANIFIESTO (CREATV MASK) ===== -->
-  <section class="manifesto scene" id="manifiesto">
-   <div class="pin">
-    <a class="mask-link depth" href="https://creatvmask.com/">
-      <img class="studio-logo" src="assets/img/logo-creatv-studios.webp" alt="CREATV STUDIOS" width="1414" height="337">
-      <img class="mask-logo" src="assets/mask/img/logo-creativmask.webp" alt="CREATV MASK" width="1254" height="1254">
-      <span class="pill-btn" data-i18n="mask_cta">VER PROYECTO</span>
-    </a>
-   </div>
-  </section>
-
-  <!-- ===== CRTV (creative playground) ===== -->
-  <section class="crtv scene" id="crtv">
-   <div class="pin">
-    <a class="project-inner depth" href="playground.html">
-      <img class="playground-logo" src="assets/img/logo-creativ-playground.webp" alt="CREATIVE PLAYGROUND" width="1520" height="344">
-      <span class="pill-btn" data-i18n="crtv_cta">EXPLORAR GARDEN</span>
-    </a>
-   </div>
-  </section>
-
-  <!-- ===== CREATIVIDAD INFINITA (quiénes somos) ===== -->
-  <section class="about scene" id="nosotros">
-   <div class="pin">
-    <div class="about-inner">
-      <div class="depth">
-        <h2 data-i18n="ab_title">CREATIVIDAD INFINITA</h2>
-        <p data-i18n="ab_p1">
-          Creemos en la creatividad como propósito de vida y razón de nuestra existencia.
-          Todos somos creativos, y tenemos ese don.
-        </p>
-      </div>
-      <ul class="about-grid">
-        <li class="depth-item"><strong data-i18n="ab_c1t">CREER</strong><span data-i18n="ab_c1d">Cree en ti, cree en tus ideas.</span></li>
-        <li class="depth-item"><strong data-i18n="ab_c2t">CREAR</strong><span data-i18n="ab_c2d">Nunca pares de crear. Materializa esas ideas: son un regalo.</span></li>
-        <li class="depth-item"><strong data-i18n="ab_c3t">CRECER</strong><span data-i18n="ab_c3d">Cuando cumples la 1 y la 2, es inevitable.</span></li>
-      </ul>
-      <a class="pill-btn depth-item" href="#wakeup" data-i18n="ab_cta">COMENZAR A CREAR →</a>
-    </div>
-   </div>
-  </section>
-
-  <!-- ===== WAKE UP ===== -->
-  <section class="wakeup scene" id="wakeup" data-exit="no">
-   <div class="pin">
-    <div class="wakeup-inner">
-      <div class="wakeup-head depth">
-        <p class="wakeup-kicker" data-i18n="wu_kicker">DESPERTAR CREATIVO</p>
-        <img class="wakeup-logo" src="assets/img/logo-wakeup.png" alt="WAKE UP!" width="261" height="197" loading="lazy">
-        <p class="wakeup-sub" data-i18n="wu_sub">
-          La creatividad no es algo que se entrena: se recuerda. Es algo que durmieron dentro
-          de ti, y puedes despertarla. Despierta tu potencial, despierta tu propósito,
-          despierta la forma más pura de crear que hay en ti.
-        </p>
-      </div>
-
-      <ul class="wakeup-features">
-        <li class="depth-item"><span aria-hidden="true">◉</span><p data-i18n="wu_f1">Programa despertar.</p></li>
-        <li class="depth-item"><span aria-hidden="true">◉</span><p data-i18n="wu_f2">Serie de audios e hipnosis para despertar tu CREATV.</p></li>
-        <li class="depth-item"><span aria-hidden="true">◉</span><p data-i18n="wu_f3">Acceso al Discord y a la comunidad CREATV MYNDZ.</p></li>
-      </ul>
-
-      <!-- La página de venta completa (qué es, cómo funciona, los 10
-           módulos, lista de espera) vive en wakeup.html. -->
-      <a class="pill-btn wakeup-cta depth" href="wakeup.html" data-i18n="wu_cta">CONOCER EL PROGRAMA →</a>
-
-      <a class="wakeup-preview-link depth-item" href="wakeup-program.html" data-i18n="wu_preview">Ver construcción del programa →</a>
-    </div>
-   </div>
-  </section>
-
-  </main>
-
-  <footer class="footer">
-    <div class="footer-line">
-      <span>CREATV MYNDZ © <span id="year"></span></span>
-      <span data-i18n="footer_line">CREATIVE DEALERS</span>
-    </div>
-    <a class="footer-lab-link" href="lab.html" data-i18n="footer_lab">Página de prueba →</a>
-  </footer>
-
-  <!-- ===== AVISO DE SCROLL: para que se note que hay que bajar.
-       Se apaga sola apenas la persona hace scroll (assets/app.js). ===== -->
-  <div class="scroll-hint" id="scroll-hint" aria-hidden="true">
-    <span>EXPLORAR</span>
-    <span class="scroll-hint-arrow">↓</span>
+<!-- Menú Inicio -->
+<div id="startMenu" class="menu start" role="menu" hidden>
+  <div class="start-side" aria-hidden="true"><span>CREATV <b>MYNDZ</b></span></div>
+  <div class="start-items">
+    <button role="menuitem" data-win="proyectos"><img src="assets/iconos/c-flotante.png" alt="" class="smooth"><span><u>C</u>reative Playground</span></button>
+    <button role="menuitem" data-open-p="mynd"><img src="assets/iconos/aviso.png" alt=""><span><u>M</u>ynd</span></button>
+    <button role="menuitem" data-open-p="buscaminas-acceso"><img src="assets/iconos/buscaminas.png" alt="" class="smooth"><span data-i18n-html="s_mines"><u>J</u>ugar!!</span></button>
+    <button role="menuitem" data-app-open="contacto"><img src="assets/iconos/contacto.png" alt="" class="smooth"><span data-i18n-html="s_contact"><u>C</u>ontáctanos</span></button>
+    <button role="menuitem" data-app-open="papelera"><img src="assets/iconos/papelera.png" alt="" class="smooth"><span data-i18n-html="s_bin"><u>P</u>apelera de ideas</span></button>
+    <hr>
+    <button role="menuitem" data-win="sobre"><img src="assets/iconos/cdrom.png" alt=""><span data-i18n-html="s_about"><u>P</u>róximamente CREATV MYNDZ</span></button>
   </div>
+</div>
 
-  <script src="assets/projects.js"></script>
-  <script src="assets/app.js"></script>
+<!-- Aviso solo para quien entra desde el celular -->
+<div id="phoneWarn" hidden role="dialog" aria-modal="true" aria-labelledby="pwTitle">
+  <div class="pw-photo" aria-hidden="true"></div>
+  <div class="pw-box">
+    <div class="pw-bar"><img src="assets/iconos/aviso.png" alt=""><b data-i18n="pw_bar">Advertencia</b><button class="pw-x" data-pw-close data-i18n-aria="close" aria-label="Cerrar">×</button></div>
+    <div class="pw-body">
+      <p id="pwTitle" class="pw-title" data-i18n="pw_title">¿ESTÁS EN EL BAÑO?</p>
+      <p class="pw-text" data-i18n="pw_text">NUESTRA WEB ES MEJOR EN EL PC. ¡VE A VERLA!</p>
+      <div class="pw-btns"><button class="btn95" data-pw-close data-i18n="pw_ok">Ok, ya voy</button><button class="btn95" data-pw-close data-i18n="pw_stay">Seguir aquí</button></div>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="wallFile" accept="image/*" hidden>
+<div id="wins"></div>
+
+<script src="assets/projects.js"></script>
+<script src="assets/escritorio.js"></script>
 </body>
 </html>

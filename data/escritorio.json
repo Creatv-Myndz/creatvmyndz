@@ -1,0 +1,346 @@
+{
+  "fondo": "colina",
+  "fondos": [
+    {
+      "id": "colina",
+      "nombre": {
+        "es": "Colina",
+        "en": "Hill"
+      },
+      "imagen": "assets/fondos/colina.webp",
+      "blur": 3
+    },
+    {
+      "id": "nubes-95",
+      "nombre": {
+        "es": "Nubes 95",
+        "en": "Clouds 95"
+      },
+      "imagen": "assets/fondos/nubes-95.webp",
+      "blur": 0
+    },
+    {
+      "id": "aurora",
+      "nombre": "Aurora",
+      "imagen": "assets/fondos/aurora.webp",
+      "blur": 10
+    },
+    {
+      "id": "teal-95",
+      "nombre": "Teal 95",
+      "imagen": "assets/fondos/teal-95.webp",
+      "blur": 0
+    },
+    {
+      "id": "atardecer",
+      "nombre": {
+        "es": "Atardecer pixel",
+        "en": "Pixel sunset"
+      },
+      "imagen": "assets/fondos/atardecer-pixel.webp",
+      "blur": 10
+    },
+    {
+      "id": "mosaico",
+      "nombre": {
+        "es": "Mosaico",
+        "en": "Mosaic"
+      },
+      "imagen": "assets/fondos/mosaico.webp",
+      "blur": 10
+    }
+  ],
+  "creativePlayground": true,
+  "accesos": [
+    {
+      "id": "creative-playground",
+      "titulo": "Creative Playground",
+      "icono": "assets/iconos/c-flotante.png",
+      "abre": "proyectos",
+      "fijo": true
+    },
+    {
+      "id": "buscaminas-acceso",
+      "titulo": {
+        "es": "Jugar!!",
+        "en": "Play!!"
+      },
+      "icono": "assets/iconos/buscaminas.png",
+      "juego": "buscaminas",
+      "zona": "camilo"
+    },
+    {
+      "id": "creative-dealers",
+      "titulo": "Creative Dealers",
+      "icono": "assets/iconos/carpeta.png",
+      "abre": "dealers",
+      "texto": {
+        "es": "Creatividad universal aplicada a marcas globales. Tomamos la cultura, la convertimos en ideas y las materializamos para marcas que le hablan al mundo.",
+        "en": "Universal creativity applied to global brands. We take culture, turn it into ideas and materialize them for brands that speak to the world."
+      },
+      "enlace_interno": "portada.html#dealing"
+    },
+    {
+      "id": "por-amor-al-arte",
+      "titulo": "Por Amor al Arte",
+      "icono": "assets/iconos/por-amor-al-arte.png",
+      "enlace": "https://camilovegga.com"
+    },
+    {
+      "id": "galadsy",
+      "titulo": "Galadsy",
+      "icono": "assets/iconos/galadsy.png",
+      "enlace": "https://galadsy.com"
+    },
+    {
+      "id": "spotify",
+      "titulo": "Spotify",
+      "icono": "assets/iconos/spotify.png",
+      "zona": "camilo",
+      "texto": {
+        "es": "Nuestra música en Spotify. Muy pronto.",
+        "en": "Our music on Spotify. Coming soon."
+      }
+    }
+  ],
+  "buscaminas": {
+    "_comentario": "Nivel fácil: 6x6 con 3 minas. Al ganar, cada 'Siguiente' destapa la frase que sigue. Una línea por fila; \"\" deja una fila vacía.",
+    "frases": [
+      {
+        "es": [
+          "EL MIEDO",
+          "DA MALOS",
+          "CONSEJOS,",
+          "",
+          "NO TE DEJA",
+          "CREAR Y",
+          "SER LIBRE"
+        ],
+        "en": [
+          "FEAR GIVES",
+          "BAD ADVICE,",
+          "",
+          "IT WON'T",
+          "LET YOU",
+          "CREATE AND",
+          "BE FREE"
+        ],
+        "boton": {
+          "es": "Siguiente nivel ▸",
+          "en": "Next level ▸"
+        }
+      },
+      {
+        "es": [
+          "EL CONTRARIO",
+          "DEL AMOR NO",
+          "ES EL ODIO,",
+          "ES EL MIEDO",
+          "",
+          "COMIENZA A",
+          "CREAR DESDE",
+          "EL AMOR, Y",
+          "NO DESDE",
+          "EL MIEDO."
+        ],
+        "en": [
+          "THE OPPOSITE",
+          "OF LOVE IS",
+          "NOT HATE,",
+          "IT'S FEAR",
+          "",
+          "START",
+          "CREATING",
+          "FROM LOVE,",
+          "NOT FROM",
+          "FEAR."
+        ],
+        "boton": {
+          "es": "Siguiente…",
+          "en": "Next…"
+        }
+      },
+      {
+        "es": [
+          "CUANDO HACES",
+          "TODO DESDE",
+          "EL AMOR, ESO",
+          "ES JUGAR AL",
+          "SIGUIENTE",
+          "NIVEL!",
+          "",
+          "COMIENZA",
+          "A JUGAR"
+        ],
+        "en": [
+          "WHEN YOU DO",
+          "EVERYTHING",
+          "FROM LOVE,",
+          "THAT'S",
+          "PLAYING AT",
+          "THE NEXT",
+          "LEVEL!",
+          "",
+          "START",
+          "PLAYING"
+        ]
+      }
+    ]
+  },
+  "proyectos": [],
+  "extras": {
+    "_comentario": "Por CRTV (id de assets/projects.js): 'titulo' es el nombre como se ve en el escritorio; 'icono' reemplaza la miniatura; 'videos' van ENCIMA de la imagen del proyecto en Paint (x, y, w, h en % de la imagen; YouTube mantiene 16:9). tipo 'youtube' (id, inicio en segundos) o 'video' (src de un .mp4; vacío = no se muestra).",
+    "cajita-feliz-dtmf": {
+      "icono": "assets/iconos/cajita-dtmf.png",
+      "titulo": "Cajita Feliz DtMF"
+    },
+    "cajita-feliz-ferxxo": {
+      "icono": "assets/iconos/cajita-ferxxo.png",
+      "titulo": "Cajita Feliz de Ferxxo"
+    },
+    "perreo-santo": {
+      "icono": "assets/iconos/perreo-santo.png",
+      "videos": [
+        {
+          "tipo": "video",
+          "src": "",
+          "x": 18.7,
+          "y": 60.0,
+          "w": 16.0,
+          "h": 27.1,
+          "_nota": "celular 1: falta el video"
+        },
+        {
+          "tipo": "video",
+          "src": "",
+          "x": 41.9,
+          "y": 60.0,
+          "w": 16.3,
+          "h": 27.1,
+          "_nota": "celular 2: falta el video"
+        },
+        {
+          "tipo": "video",
+          "src": "",
+          "x": 64.9,
+          "y": 60.0,
+          "w": 16.3,
+          "h": 27.1,
+          "_nota": "celular 3: falta el video"
+        }
+      ],
+      "titulo": "Perreo Santo"
+    },
+    "pokemor": {
+      "icono": "assets/iconos/pokemor.png",
+      "titulo": "Pokémor — Pokémon del Reggaetón"
+    },
+    "jordan-blessd": {
+      "videos": [
+        {
+          "tipo": "youtube",
+          "id": "y0u16r_mF4A",
+          "inicio": 4,
+          "x": 34,
+          "y": 31.5,
+          "w": 32,
+          "_nota": "tapa el VER DROP"
+        }
+      ],
+      "icono": "assets/iconos/jordan-blessd.png",
+      "titulo": "Jordan x Blessd"
+    },
+    "las-palabras-nos-hacen": {
+      "icono": "assets/iconos/las-palabras.png",
+      "titulo": "Las Palabras Nos Hacen"
+    },
+    "dtmf-fc-barcelona": {
+      "titulo": "DtMF x FC Barcelona",
+      "icono": "assets/iconos/silla.png"
+    },
+    "happy-house": {
+      "titulo": "Happy House"
+    },
+    "underdogs": {
+      "titulo": "Underdogs / Perro Negro x Undergold",
+      "icono": "assets/iconos/perro-negro.png"
+    },
+    "snoopy-flops": {
+      "titulo": "Snoopy Flops",
+      "icono": "assets/iconos/snoopy.png"
+    },
+    "forja-game": {
+      "titulo": "Forja Game in Real Life"
+    },
+    "carriel-de-ryan": {
+      "titulo": "Carriel de Ryan"
+    },
+    "joya-por-amor-al-arte": {
+      "titulo": "Joya por Amor al Arte"
+    },
+    "tiempo-vs-amor": {
+      "titulo": "Tiempo vs Amor (Reloj)"
+    }
+  },
+  "dock": [
+    {
+      "id": "instagram",
+      "nombre": "Instagram",
+      "icono": "assets/iconos/instagram.png",
+      "enlace": "https://instagram.com/creatvmyndz"
+    },
+    {
+      "id": "videos",
+      "nombre": {
+        "es": "Videos",
+        "en": "Videos"
+      },
+      "icono": "assets/iconos/youtube.png",
+      "enlace": "https://www.youtube.com/@camilovegga"
+    },
+    {
+      "id": "fotos",
+      "nombre": {
+        "es": "Fotos",
+        "en": "Photos"
+      },
+      "icono": "assets/iconos/fotos.png",
+      "collage": true
+    },
+    {
+      "id": "por-amor-al-arte",
+      "nombre": "Por Amor al Arte",
+      "icono": "assets/iconos/por-amor-al-arte.png",
+      "enlace": "https://camilovegga.com"
+    },
+    "|",
+    {
+      "id": "contacto",
+      "nombre": {
+        "es": "Contáctanos",
+        "en": "Contact us"
+      },
+      "icono": "assets/iconos/contacto.png",
+      "contacto": true
+    },
+    "|",
+    {
+      "id": "papelera",
+      "nombre": {
+        "es": "Papelera de ideas",
+        "en": "Idea bin"
+      },
+      "icono": "assets/iconos/papelera.png",
+      "ideas": []
+    }
+  ],
+  "proximoIcono": "assets/iconos/carpeta-proximo.png",
+  "fotos": {
+    "_comentario": "Collage de la app Fotos. Agrega rutas de imágenes aquí; si está vacío, usa las imágenes de los CRTV.",
+    "imagenes": []
+  },
+  "zonaCamilo": {
+    "titulo": "Camilo Vegga",
+    "_comentario": "Los accesos con \"zona\": \"camilo\" van juntos en la esquina de abajo a la derecha (en el celular, en la cuadrícula)."
+  }
+}

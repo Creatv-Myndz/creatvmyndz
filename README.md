@@ -124,7 +124,9 @@ Gumroad, Hotmart…).
 ## 5. Estructura
 
 ```
-index.html              la página completa
+index.html              la portada (diseño minimalista: assets/minimal.css + assets/minimal.js)
+proyectos.html          todos los CRTV (lista / grilla); playground.html reenvía aquí
+assets/img/bg/          foto de fondo (cielo.webp) y su versión empañada (cielo-blur.webp)
 assets/projects.js      ← CONTENIDO: proyectos, correos y redes (lo que editas a diario)
 assets/app.js           lógica: cielo con scroll, menú, idioma ES/EN, modal, relojes
 assets/styles.css       estilos
