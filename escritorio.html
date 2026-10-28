@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>CREATV MYNDZ · Escritorio</title>
+<meta name="description" content="El escritorio de CREATV MYNDZ — Global Creative Dealers. Proyectos creativos, ideas y procesos.">
+<meta name="theme-color" content="#c0c0c0">
+<meta property="og:title" content="CREATV MYNDZ · Escritorio">
+<meta property="og:description" content="El escritorio de CREATV MYNDZ: proyectos creativos, ideas y procesos.">
+<meta property="og:image" content="https://creatvmyndz.com/assets/img/og.jpg">
+<meta property="og:url" content="https://creatvmyndz.com/escritorio.html">
+<link rel="icon" href="assets/img/favicon.png" sizes="any">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/escritorio.css">
+</head>
+<body>
+<!-- Fondo de pantalla. Todo el contenido sale de data/escritorio.json -->
+<div id="wall" aria-hidden="true"></div>
+
+<!-- ===== BARRA DE MENÚ (arriba) ===== -->
+<header id="menubar">
+  <div class="mb-l">
+    <button class="mb-logo" data-win="sobre" aria-label="Sobre CREATV MYNDZ"><img src="assets/img/logo-creatv-blur.webp" alt="CREATV MYNDZ" width="480" height="231"></button>
+    <button class="mb-item" data-win="proyectos"><u>P</u>royectos</button>
+    <button class="mb-item" id="mbFondo" aria-haspopup="true" aria-expanded="false"><u>F</u>ondo</button>
+  </div>
+  <div class="mb-r"><span class="sunken" id="clock"></span></div>
+  <div id="fondoMenu" class="menu" role="menu" hidden></div>
+</header>
+
+<main id="desk" aria-label="Escritorio"></main>
+<div id="empty" hidden>
+  <img src="assets/iconos/carpeta.png" alt="" width="32" height="32">
+  <span>Los proyectos van a aparecer aquí, uno por uno.</span>
+</div>
+
+<!-- ===== BARRA DE TAREAS (abajo) ===== -->
+<footer id="taskbar">
+  <button id="startBtn" aria-haspopup="true" aria-expanded="false"><img src="assets/img/logo-creatv-blur.webp" alt="" width="480" height="231"><b>Inicio</b></button>
+  <nav id="dock" aria-label="Programas"></nav>
+  <div class="tray sunken"><img src="assets/iconos/cdrom.png" alt="" width="32" height="32"><span id="trayClock"></span></div>
+</footer>
+
+<!-- Menú Inicio -->
+<div id="startMenu" class="menu start" role="menu" hidden>
+  <div class="start-side" aria-hidden="true"><span>CREATV <b>MYNDZ</b></span></div>
+  <div class="start-items">
+    <button role="menuitem" data-win="proyectos"><img src="assets/iconos/carpeta.png" alt=""><span><u>P</u>royectos</span></button>
+    <button role="menuitem" data-start-fondo><img src="assets/iconos/paint.png" alt=""><span><u>F</u>ondo</span><i>▸</i></button>
+    <button role="menuitem" data-app-open="papelera"><img src="assets/iconos/papelera.png" alt=""><span>P<u>a</u>pelera</span></button>
+    <hr>
+    <button role="menuitem" data-win="sobre"><img src="assets/iconos/cdrom.png" alt=""><span><u>S</u>obre CREATV MYNDZ…</span></button>
+  </div>
+</div>
+
+<input type="file" id="wallFile" accept="image/*" hidden>
+<div id="wins"></div>
+
+<script src="assets/escritorio.js"></script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+/* ============================================================
+   CREATV MYNDZ · ESCRITORIO RETRO (escritorio.html)
+   Windows 95/98 (bordes biselados grises) + XP (barras de título
+   azules) + Vista (íconos brillantes). Todo el contenido sale de
+   data/escritorio.json; ver LEEME-ESCRITORIO.md.
+   ============================================================ */
+:root{
+  --face:#c0c0c0; --hi:#fff; --lite:#dfdfdf; --shade:#808080; --dark:#0a0a0a;
+  --navy:#000080; --sel:#0a246a; --tip:#ffffe1;
+  --sys:Tahoma,"Segoe UI",Verdana,Geneva,sans-serif;
+  --pixel:"VT323","Lucida Console",ui-monospace,monospace;
+  --blur:10px; --mb:30px; --tb:42px;
+  --raised:inset -1px -1px var(--dark),inset 1px 1px var(--hi),inset -2px -2px var(--shade),inset 2px 2px var(--lite);
+  --sunken:inset 1px 1px var(--shade),inset -1px -1px var(--hi),inset 2px 2px var(--dark),inset -2px -2px var(--lite);
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#008080;color:#000;font:13px/1.45 var(--sys);overflow:hidden;overscroll-behavior:none;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+img{display:block}
+u{text-decoration:underline;text-underline-offset:2px}
+.raised{box-shadow:var(--raised);background:var(--face)}
+.sunken{box-shadow:var(--sunken)}
+
+/* Cursor de flecha pixelada, solo con mouse */
+@media (hover:hover) and (pointer:fine){
+  html,body,button,.ico{cursor:url("iconos/cursor.png") 0 0,default}
+  a,.app,#startBtn,.mb-item,.menu button{cursor:url("iconos/cursor.png") 0 0,pointer}
+}
+
+/* ===== FONDO =====
+   El blur va en una capa más grande que la pantalla (inset negativo)
+   para que los bordes no se vean lavados. */
+#wall{position:fixed;inset:calc(var(--blur) * -3);background:#008080 center/cover no-repeat;filter:blur(var(--blur));transform:scale(1.02);transition:filter .5s ease}
+
+/* ===== BARRA DE MENÚ (arriba) ===== */
+#menubar{position:fixed;z-index:40;top:0;left:0;right:0;height:var(--mb);padding:0 4px;display:flex;align-items:center;justify-content:space-between;background:var(--face);box-shadow:inset 0 -1px var(--shade),inset 0 1px var(--hi),0 1px 0 var(--dark)}
+.mb-l,.mb-r{display:flex;align-items:center;gap:2px;height:100%}
+.mb-logo{height:24px;padding:0 8px;display:grid;place-items:center}
+.mb-logo img{height:17px;width:auto;filter:invert(1) contrast(1.4)}
+.mb-item{padding:3px 9px;font-size:13px}
+.mb-item:hover,.mb-logo:hover{box-shadow:inset -1px -1px var(--shade),inset 1px 1px var(--hi)}
+.mb-item[aria-expanded="true"]{box-shadow:inset 1px 1px var(--shade),inset -1px -1px var(--hi)}
+#clock{font:20px/1 var(--pixel);padding:3px 10px 2px;letter-spacing:.02em}
+
+/* ===== MENÚS (Fondo e Inicio) ===== */
+.menu{position:fixed;z-index:60;min-width:220px;padding:3px;background:var(--face);box-shadow:var(--raised),3px 3px 0 rgba(0,0,0,.35)}
+.menu button{display:flex;width:100%;align-items:center;gap:8px;padding:5px 22px 5px 6px;text-align:left;font-size:13px;white-space:nowrap}
+.menu button:hover,.menu button:focus-visible{background:var(--navy);color:#fff;outline:0}
+.menu button .ck{width:14px;flex:none;text-align:center}
+.menu button[aria-disabled="true"]{color:var(--shade);text-shadow:1px 1px var(--hi);pointer-events:none}
+.menu[hidden]{display:none!important}
+.menu hr{border:0;margin:3px 2px;height:2px;box-shadow:inset 0 1px var(--shade),inset 0 -1px var(--hi)}
+.menu .mtitle{padding:4px 6px 2px;font:18px/1 var(--pixel);color:var(--shade)}
+#fondoMenu{top:var(--mb)}
+
+/* Menú Inicio: franja lateral con la marca, como Windows 98 */
+.start{display:flex;padding:3px;min-width:240px;left:2px;bottom:calc(var(--tb) + env(safe-area-inset-bottom, 0px))}
+.start-side{flex:none;width:30px;background:linear-gradient(0deg,var(--navy),#1084d0);display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px}
+.start-side span{writing-mode:vertical-rl;transform:rotate(180deg);color:#c0c0c0;font:22px/1 var(--pixel);letter-spacing:.06em;white-space:nowrap}
+.start-side b{color:#fff;font-weight:400}
+.start-items{flex:1;display:flex;flex-direction:column}
+.start-items button{padding:7px 10px;gap:12px;font-size:14px}
+.start-items img{width:32px;height:32px;image-rendering:pixelated}
+.start-items i{margin-left:auto;font-style:normal}
+.start-items hr{border:0;margin:3px 2px;height:2px;box-shadow:inset 0 1px var(--shade),inset 0 -1px var(--hi)}
+
+/* ===== ESCRITORIO E ÍCONOS DE PROYECTOS ===== */
+#desk{position:fixed;inset:var(--mb) 0 var(--tb) 0;touch-action:none}
+.ico{position:absolute;width:104px;display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;user-select:none;-webkit-user-select:none;transform:translate(-50%,-50%);touch-action:none}
+.ico .th{position:relative;width:60px;height:60px;padding:2px;background:#fff;border:1px solid #000;box-shadow:2px 2px 0 rgba(0,0,0,.35)}
+.ico .th img{width:100%;height:100%;object-fit:cover}
+.ico .th img.px{image-rendering:pixelated;object-fit:contain}
+.ico .lb{font:19px/.95 var(--pixel);letter-spacing:.03em;text-transform:uppercase;color:#fff;text-shadow:1px 1px 0 #000,-1px 0 0 rgba(0,0,0,.35);padding:1px 3px 2px;max-width:112px;overflow-wrap:anywhere}
+.ico.sel .th::after{content:"";position:absolute;inset:0;background:rgba(10,36,106,.45)}
+.ico.sel .lb{background:var(--sel);text-shadow:none;outline:1px dotted #ffff7f;outline-offset:0}
+.ico.drag{z-index:5}
+.ico.drag .th{opacity:.75}
+
+/* Aviso de escritorio vacío: una cajita de diálogo clásica */
+#empty{position:fixed;left:50%;top:46%;transform:translate(-50%,-50%);display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--face);box-shadow:var(--raised),4px 4px 0 rgba(0,0,0,.35);max-width:calc(100vw - 32px)}
+#empty[hidden]{display:none}
+#empty img{width:32px;height:32px;image-rendering:pixelated;flex:none}
+#empty span{font:20px/1.05 var(--pixel)}
+
+/* ===== BARRA DE TAREAS (abajo) ===== */
+#taskbar{position:fixed;z-index:40;left:0;right:0;bottom:0;height:calc(var(--tb) + env(safe-area-inset-bottom, 0px));padding:3px 3px calc(3px + env(safe-area-inset-bottom, 0px));display:flex;align-items:center;gap:4px;background:var(--face);box-shadow:inset 0 1px var(--lite),inset 0 2px var(--hi),0 -1px 0 var(--face)}
+#startBtn{flex:none;height:34px;display:flex;align-items:center;gap:6px;padding:0 10px 0 6px;box-shadow:var(--raised);background:var(--face);font-weight:700;font-size:14px}
+#startBtn img{height:16px;width:auto;filter:invert(1) contrast(1.4)}
+#startBtn[aria-expanded="true"]{box-shadow:var(--sunken);padding-top:2px}
+#dock{flex:1;min-width:0;display:flex;align-items:center;gap:2px;padding:0 4px;overflow-x:auto;scrollbar-width:none;height:100%;box-shadow:-2px 0 0 -1px var(--shade)}
+#dock::-webkit-scrollbar{display:none}
+.app{position:relative;flex:none;width:38px;height:34px;display:grid;place-items:center}
+.app img{width:28px;height:28px;object-fit:contain;filter:drop-shadow(1px 1px 0 rgba(0,0,0,.25))}
+.app img.px{image-rendering:pixelated}
+.app:hover{box-shadow:inset -1px -1px var(--shade),inset 1px 1px var(--hi)}
+.app.on{box-shadow:var(--sunken);background:repeating-conic-gradient(var(--face) 0 25%,#e8e8e8 0 50%) 0 0/2px 2px}
+.app .tip{position:fixed;padding:2px 5px;background:var(--tip);border:1px solid #000;font-size:12px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .1s;z-index:70}
+.sep{flex:none;width:2px;height:26px;margin:0 3px;box-shadow:inset 1px 0 var(--shade),inset -1px 0 var(--hi)}
+.tray{flex:none;height:34px;display:flex;align-items:center;gap:6px;padding:0 10px 0 6px}
+.tray img{width:16px;height:16px;image-rendering:pixelated}
+#trayClock{font:20px/1 var(--pixel)}
+
+/* ===== VENTANAS (barra de título XP + cuerpo clásico) ===== */
+.win{position:fixed;z-index:25;width:min(620px,calc(100vw - 32px));max-height:calc(100vh - var(--mb) - var(--tb) - 32px);display:flex;flex-direction:column;padding:3px;background:var(--face);border-radius:8px 8px 0 0;box-shadow:var(--raised),6px 8px 24px rgba(0,0,0,.35);animation:pop .16s ease-out}
+@keyframes pop{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
+.win .bar{flex:none;height:30px;display:flex;align-items:center;gap:6px;padding:0 3px 0 8px;margin:-3px -3px 0;border-radius:8px 8px 0 0;touch-action:none;color:#fff;
+  background:linear-gradient(180deg,#0997ff 0%,#0053ee 8%,#0050ee 40%,#0066ff 88%,#0066ff 93%,#005bff 95%,#003dd7 96%,#003dd7 100%);box-shadow:inset 0 1px #3d95ff}
+.win .bar .wi{width:16px;height:16px;flex:none;image-rendering:pixelated;object-fit:contain}
+.win .bar b{flex:1;font:700 13px/1 "Trebuchet MS",var(--sys);text-shadow:1px 1px #0a1f5c;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.win .ctl{display:flex;gap:2px}
+.win .ctl i{width:22px;height:22px;display:grid;place-items:center;border:1px solid #fff;border-radius:3px;font:700 12px/1 var(--sys);font-style:normal;color:#fff;
+  background:radial-gradient(circle at 30% 30%,#5d9bff,#2663de 60%,#1b4fbf);box-shadow:inset -1px -1px rgba(0,0,0,.25)}
+.win .ctl .x{background:radial-gradient(circle at 30% 30%,#ef8f74,#e04a1f 60%,#b8320f);cursor:pointer;font-size:14px}
+.win .ctl .x:hover{filter:brightness(1.12)}
+.win .menurow{flex:none;display:flex;gap:2px;padding:3px 2px 2px;font-size:13px}
+.win .menurow span{padding:1px 6px}
+.win .menurow span:hover{box-shadow:inset -1px -1px var(--shade),inset 1px 1px var(--hi)}
+.win .body{flex:1;min-height:0;overflow:auto;margin:2px;padding:16px 18px 20px;background:#fff;box-shadow:var(--sunken);font-size:14px;line-height:1.55}
+.win .status{flex:none;display:flex;gap:3px;padding-top:3px;font-size:12px}
+.win .status span{padding:2px 8px;box-shadow:inset 1px 1px var(--shade),inset -1px -1px var(--hi);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.win .status span:first-child{flex:1}
+.win .body h2{margin:0 0 4px;font:700 22px/1.15 var(--sys)}
+.win .body .meta{font:18px/1 var(--pixel);text-transform:uppercase;color:#555;margin-bottom:12px}
+.win .body .cover{width:100%;max-height:48vh;object-fit:contain;background:#000;margin-bottom:12px;border:1px solid #000}
+.win .body .gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:6px;margin-top:12px}
+.win .body .gal img{width:100%;border:1px solid #000}
+.btn95{display:inline-flex;align-items:center;margin-top:12px;padding:6px 16px;background:var(--face);box-shadow:var(--raised);color:#000;text-decoration:none;font-size:13px}
+.btn95:active{box-shadow:var(--sunken)}
+.win .body .soon{display:flex;flex-direction:column;align-items:center;gap:10px;padding:18px 0 6px;text-align:center}
+.win .body .soon img{width:64px;height:64px;object-fit:contain}
+.win .body .soon img.px{image-rendering:pixelated}
+.win .body .soon b{font:24px/1 var(--pixel);text-transform:uppercase}
+.win .body ul.list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.win .body ul.list button{display:flex;width:100%;align-items:center;gap:10px;padding:5px 6px;text-align:left}
+.win .body ul.list button:hover,.win .body ul.list button:focus-visible{background:var(--navy);color:#fff;outline:0}
+.win .body ul.list img{width:36px;height:36px;object-fit:cover;border:1px solid #000}
+.win .body .idea{padding:8px 0;border-bottom:1px dotted var(--shade)}
+.about-logo{width:min(320px,80%);margin:4px auto 10px;filter:invert(1) contrast(1.3)}
+
+/* ===== CELULAR: mismo escritorio, ventanas como hoja desde abajo ===== */
+@media (max-width:640px){
+  :root{--mb:30px;--tb:46px}
+  .mb-item{padding:3px 7px}
+  .ico{width:86px}
+  .ico .th{width:52px;height:52px}
+  .ico .lb{font-size:17px;max-width:90px}
+  #startBtn b{display:none}
+  #startBtn{padding:0 8px}
+  .tray{display:none}
+  #dock{gap:0;padding:0 2px}
+  .app{width:31px}
+  .app img{width:24px;height:24px}
+  .sep{margin:0;height:22px}
+  .app .tip{display:none}
+  .win{left:6px!important;right:6px;top:auto!important;bottom:calc(var(--tb) + env(safe-area-inset-bottom, 0px) + 6px);width:auto;max-height:calc(100dvh - var(--mb) - var(--tb) - 24px);animation:sheet .22s cubic-bezier(.2,.8,.2,1)}
+  @keyframes sheet{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+  .win .ctl i:not(.x){display:none}
+  .win .ctl .x{width:30px;height:26px}
+  .start{left:0;right:0;min-width:0}
+  #fondoMenu{left:4px!important;right:4px;min-width:0}
+}
+@media (prefers-reduced-motion:reduce){.win,#wall{animation:none;transition:none}}

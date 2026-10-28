@@ -1,0 +1,26 @@
+{
+  "fondo": "aurora",
+  "fondos": [
+    { "id": "aurora", "nombre": "Aurora", "imagen": "assets/fondos/aurora.webp", "blur": 10 },
+    { "id": "teal-95", "nombre": "Teal 95", "imagen": "assets/fondos/teal-95.webp", "blur": 0 },
+    { "id": "atardecer", "nombre": "Atardecer pixel", "imagen": "assets/fondos/atardecer-pixel.webp", "blur": 10 },
+    { "id": "mosaico", "nombre": "Mosaico", "imagen": "assets/fondos/mosaico.webp", "blur": 10 }
+  ],
+
+  "proyectos": [],
+
+  "dock": [
+    { "id": "paint", "nombre": "Paint", "icono": "assets/iconos/paint.png", "texto": "Diseño y edición. Muy pronto." },
+    { "id": "ilustracion", "nombre": "Ilustración", "icono": "assets/iconos/paleta.svg", "texto": "Ilustración y dibujo. Muy pronto." },
+    { "id": "animacion", "nombre": "Animación", "icono": "assets/iconos/animacion.svg", "texto": "Animación y motion. Muy pronto." },
+    "|",
+    { "id": "notas", "nombre": "Notas", "icono": "assets/iconos/notas.png", "texto": "Escritos, guiones y pensamientos. Muy pronto." },
+    { "id": "fotos", "nombre": "Fotos", "icono": "assets/iconos/fotos.svg", "texto": "Fotografía. Muy pronto." },
+    { "id": "musica", "nombre": "Música", "icono": "assets/iconos/musica.svg", "texto": "Música y sonido. Muy pronto." },
+    "|",
+    { "id": "instagram", "nombre": "Instagram", "icono": "assets/iconos/camara.svg", "enlace": "https://instagram.com/creatvmyndz" },
+    { "id": "correo", "nombre": "Correo", "icono": "assets/iconos/correo.png", "texto": "Escríbenos. Muy pronto." },
+    "|",
+    { "id": "papelera", "nombre": "Papelera · Ideas", "icono": "assets/iconos/papelera.png", "iconoLleno": "assets/iconos/papelera-llena.png", "ideas": [] }
+  ]
+}

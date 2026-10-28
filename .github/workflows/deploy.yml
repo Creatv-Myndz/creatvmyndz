@@ -33,6 +33,8 @@ jobs:
           cp CNAME dist/
           cp robots.txt sitemap.xml favicon.ico dist/
           cp -r assets dist/
+          # Contenido del escritorio retro (escritorio.html)
+          cp -r data dist/
           # Material que vive en el repo pero no debe salir a producción:
           # los PDF crudos de los CRTV y los 121 frames del giro 3D (sección
           # apagada). Se quedan en el repo/disco, no en el sitio.
