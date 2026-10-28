@@ -220,3 +220,14 @@ En `data/escritorio.json → extras`, por `id` del CRTV:
 - Todos los íconos se guardan como PNG RGBA: con PNG de paleta algunos Safari no los mostraban dentro de las carpetas.
 - Ya no existe la carpeta Playground: todos los proyectos van en el escritorio. En el celular van primero los
   proyectos y después los accesos, apilados desde arriba (hasta 5 filas por página).
+
+## Fondos con el pincel y registro de correos
+
+- **Pincel** (arriba a la derecha, al lado de ES/EN): pasa al siguiente fondo de `"fondos"` y se guarda en el
+  navegador del visitante. Todos los fondos llevan el mismo blur suave (3 px). Fondos: Colina, Explorar (lupa),
+  Pradera, Resbaladero, Pájaros y Baño. Para agregar otro: súbelo a `assets/fondos/` y añádelo a la lista.
+- **Registro**: al entrar (a los 2,5 s, una vez por visita y nunca más si ya se registró) sale "¿Quieres ver más
+  creatividad?". El correo llega a `SITE.leadEmail` (con copia a `SITE.ccEmail`) vía FormSubmit, con el asunto
+  "Nuevo registro · CREATV MYNDZ". La primera vez FormSubmit pide confirmar el correo de activación.
+  Para tener una base de datos ordenada, se pueden exportar esos correos o cambiar el destino a un servicio de
+  listas (Mailchimp, Brevo, Google Sheets) en la función `signup()` de `assets/escritorio.js`.

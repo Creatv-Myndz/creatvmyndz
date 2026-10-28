@@ -11,43 +11,49 @@
       "blur": 3
     },
     {
-      "id": "nubes-95",
+      "id": "lupa",
       "nombre": {
-        "es": "Nubes 95",
-        "en": "Clouds 95"
+        "es": "Explorar",
+        "en": "Explore"
       },
-      "imagen": "assets/fondos/nubes-95.webp",
-      "blur": 0
+      "imagen": "assets/fondos/lupa.webp",
+      "blur": 3
     },
     {
-      "id": "aurora",
-      "nombre": "Aurora",
-      "imagen": "assets/fondos/aurora.webp",
-      "blur": 10
-    },
-    {
-      "id": "teal-95",
-      "nombre": "Teal 95",
-      "imagen": "assets/fondos/teal-95.webp",
-      "blur": 0
-    },
-    {
-      "id": "atardecer",
+      "id": "pradera",
       "nombre": {
-        "es": "Atardecer pixel",
-        "en": "Pixel sunset"
+        "es": "Pradera",
+        "en": "Meadow"
       },
-      "imagen": "assets/fondos/atardecer-pixel.webp",
-      "blur": 10
+      "imagen": "assets/fondos/pradera.webp",
+      "blur": 3
     },
     {
-      "id": "mosaico",
+      "id": "resbaladero",
       "nombre": {
-        "es": "Mosaico",
-        "en": "Mosaic"
+        "es": "Resbaladero",
+        "en": "Slide"
       },
-      "imagen": "assets/fondos/mosaico.webp",
-      "blur": 10
+      "imagen": "assets/fondos/resbaladero.webp",
+      "blur": 3
+    },
+    {
+      "id": "pajaros",
+      "nombre": {
+        "es": "Pájaros",
+        "en": "Birds"
+      },
+      "imagen": "assets/fondos/pajaros.webp",
+      "blur": 3
+    },
+    {
+      "id": "bano",
+      "nombre": {
+        "es": "Baño",
+        "en": "Bathroom"
+      },
+      "imagen": "assets/fondos/bano.webp",
+      "blur": 3
     }
   ],
   "creativePlayground": true,
@@ -384,5 +390,6 @@
     "_comentario": "Collage de la app Fotos. Agrega rutas de imágenes aquí; si está vacío, usa las imágenes de los CRTV.",
     "imagenes": []
   },
-  "_carpetas": "Un acceso con \"abre\": \"carpeta\" es una carpeta. Lo que lleve \"carpeta\": \"<id>\" (accesos o extras de los CRTV) va adentro y no en el escritorio, salvo que tenga \"tambienEnEscritorio\": true."
+  "_carpetas": "Un acceso con \"abre\": \"carpeta\" es una carpeta. Lo que lleve \"carpeta\": \"<id>\" (accesos o extras de los CRTV) va adentro y no en el escritorio, salvo que tenga \"tambienEnEscritorio\": true.",
+  "_fondos": "El pincel de arriba a la derecha pasa al siguiente fondo de esta lista (se guarda en el navegador del visitante). Todos llevan el mismo blur suave."
 }
