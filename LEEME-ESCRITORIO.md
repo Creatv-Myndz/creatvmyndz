@@ -223,7 +223,7 @@ En `data/escritorio.json → extras`, por `id` del CRTV:
 
 ## Fondos con el pincel y registro de correos
 
-- **Pincel** (arriba a la derecha, al lado de ES/EN): pasa al siguiente fondo de `"fondos"` y se guarda en el
+- **Pincel** (arriba a la derecha, al lado de ES/EN): abre la ventana "Personalizar" con todos los fondos de `"fondos"` (miniaturas en `assets/fondos/mini/`); el visitante escoge uno y se guarda en el
   navegador del visitante. Todos los fondos llevan el mismo blur suave (3 px). Fondos: Colina, Explorar (lupa),
   Pradera, Resbaladero, Pájaros y Baño. Para agregar otro: súbelo a `assets/fondos/` y añádelo a la lista.
 - **Registro** (hoy APAGADO: `"registro": false` en el JSON; pon `true` para encenderlo): al entrar (a los 2,5 s, una vez por visita y nunca más si ya se registró) sale "¿Quieres ver más

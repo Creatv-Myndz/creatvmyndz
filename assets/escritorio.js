@@ -50,7 +50,7 @@ const I18N={
       myndTitle:"Iniciar sesión · Mynd",myndTxt:"El centro de control de CREATV MYNDZ. Escribe el código de acceso.",myndCode:"Código de acceso",
       myndBad:"Código incorrecto. Pídelo a Camilo.",myndOk:"Acceso concedido. Abriendo Mynd…",dealersGo:"Ver Creative Dealing →",
       photos:"fotos",
-      wall_aria:"Cambiar fondo",su_bar:"Únete a CREATV MYNDZ",su_title:"¿QUIERES VER MÁS CREATIVIDAD?",su_text:"Regístrate con tu correo y te mandamos los nuevos proyectos, ideas y lanzamientos.",
+      wall_aria:"Cambiar fondo",wall_title:"Personalizar · Fondo de pantalla",wall_intro:"Escoge tu fondo de pantalla.",walls:"fondos",su_bar:"Únete a CREATV MYNDZ",su_title:"¿QUIERES VER MÁS CREATIVIDAD?",su_text:"Regístrate con tu correo y te mandamos los nuevos proyectos, ideas y lanzamientos.",
       su_ph:"tu@correo.com",su_btn:"Registrarme",su_later:"Ahora no",su_sending:"Enviando…",su_ok:"¡Listo! Ya eres parte de CREATV MYNDZ.",su_err:"No se pudo enviar. Intenta de nuevo.",su_bad:"Escribe un correo válido.",
       pw_bar:"Advertencia",pw_title:"¿ESTÁS EN EL BAÑO?",pw_text:"NUESTRA WEB ES MEJOR EN EL PC. ¡VE A VERLA!",pw_ok:"Ok, ya voy",pw_stay:"Seguir aquí"},
   en:{m_projects:"<u>P</u>rojects",m_wall:"<u>W</u>allpaper",about:"Coming soon: CREATV MYNDZ",lang_aria:"Change language (Español)",desk:"Desktop",
@@ -82,7 +82,7 @@ const I18N={
       myndTitle:"Log on · Mynd",myndTxt:"The CREATV MYNDZ control center. Type the access code.",myndCode:"Access code",
       myndBad:"Wrong code. Ask Camilo for it.",myndOk:"Access granted. Opening Mynd…",dealersGo:"See Creative Dealing →",
       photos:"photos",
-      wall_aria:"Change wallpaper",su_bar:"Join CREATV MYNDZ",su_title:"WANT TO SEE MORE CREATIVITY?",su_text:"Sign up with your email and we'll send you new projects, ideas and launches.",
+      wall_aria:"Change wallpaper",wall_title:"Personalize · Wallpaper",wall_intro:"Choose your wallpaper.",walls:"wallpapers",su_bar:"Join CREATV MYNDZ",su_title:"WANT TO SEE MORE CREATIVITY?",su_text:"Sign up with your email and we'll send you new projects, ideas and launches.",
       su_ph:"you@email.com",su_btn:"Sign me up",su_later:"Not now",su_sending:"Sending…",su_ok:"Done! You're part of CREATV MYNDZ now.",su_err:"Couldn't send it. Please try again.",su_bad:"Type a valid email.",
       pw_bar:"Warning",pw_title:"ARE YOU IN THE BATHROOM?",pw_text:"OUR WEBSITE IS BETTER ON A PC. GO CHECK IT OUT!",pw_ok:"Ok, on my way",pw_stay:"Stay here"}
 };
@@ -138,6 +138,16 @@ function blurFor(f){const lvl=store.get("blur")||"suave",base=f?.blur??10;return
 // El fondo lo elige CREATV MYNDZ en data/escritorio.json ("fondo"); los visitantes ya no lo cambian.
 // El visitante cambia el fondo con el pincel (arriba a la derecha); se guarda en su navegador.
 function currentFondo(){const id=store.get("fondo");return D.fondos.find(x=>x.id===id)||D.fondos.find(x=>x.id===D.fondo)||D.fondos[0];}
+// Ventana "Personalizar": muestra todos los fondos y el visitante escoge uno
+const mini=src=>src.replace("assets/fondos/","assets/fondos/mini/");
+function setWall(id){const f=D.fondos.find(x=>x.id===id);if(!f)return;
+  const im=new Image();im.onload=()=>{store.set("fondo",f.id);applyWall();document.querySelectorAll("[data-wall]").forEach(b=>b.classList.toggle("on",b.dataset.wall===f.id));};im.src=f.imagen;}
+function wallWin(){
+  const cur=currentFondo()?.id;
+  const w=openWin("personalizar",t("wall_title"),`<p class="wp-intro">${t("wall_intro")}</p><div class="wallpicks">${D.fondos.map(f=>`<button class="wpick${f.id===cur?" on":""}" data-wall="${esc(f.id)}"><img src="${esc(mini(f.imagen))}" alt="" loading="lazy" onerror="this.src='${esc(f.imagen)}'"><span>${esc(L(f.nombre))}</span></button>`).join("")}</div>`,
+    {icon:"assets/iconos/pincel.png",cls:"wall-win",info:D.fondos.length+" "+t("walls")});
+  reg(w,wallWin);
+}
 function nextWall(){const i=D.fondos.indexOf(currentFondo()),f=D.fondos[(i+1)%D.fondos.length];if(!f)return;
   const im=new Image();im.onload=()=>{store.set("fondo",f.id);applyWall();};im.src=f.imagen;}
 function applyWall(){
@@ -272,7 +282,7 @@ function openWin(key,title,html,{icon=FOLDER,status,info="",cls="",menu,noMenu=f
   if(!w){
     w=document.createElement("section");w.dataset.k=key;w.setAttribute("role","dialog");$("#wins").appendChild(w);
     w.className="win "+cls;
-    const off=(openCount++%6)*26,ww=Math.min(cls.includes("folder")?880:cls.includes("dialog")?440:cls.includes("paint")||cls.includes("browser")||cls.includes("fotos")?980:cls.includes("mines")?300:780,innerWidth-32);
+    const off=(openCount++%6)*26,ww=Math.min(cls.includes("folder")||cls.includes("wall-win")?880:cls.includes("dialog")?440:cls.includes("paint")||cls.includes("browser")||cls.includes("fotos")?980:cls.includes("mines")?300:780,innerWidth-32);
     w.style.left=Math.max(16,(innerWidth-ww)/2+off-40)+"px";w.style.top=(cssPx("--mb")+innerHeight*.04+off)+"px";
   }
   w.setAttribute("aria-label",title);
@@ -594,7 +604,8 @@ document.addEventListener("click",e=>{
   if(tapOpen){const el=tapOpen;tapOpen=null;if(e.target.closest(".ico")===el){openItem(itemById(el.dataset.p));return;}}
   if(phone()){const ic=e.target.closest("#desk .ico");if(ic){openItem(itemById(ic.dataset.p));return;}}
   const c=e.target.closest("[data-close]");if(c){closeWin(c.closest(".win"));return;}
-  if(e.target.closest("#wallBtn")){closeMenus();nextWall();return;}
+  if(e.target.closest("#wallBtn")){closeMenus();wallWin();return;}
+  const wp=e.target.closest("[data-wall]");if(wp){setWall(wp.dataset.wall);return;}
   if(e.target.closest("#langBtn")){closeMenus();setLang(lang==="es"?"en":"es");return;}
   const a=e.target.closest("[data-app]");if(a){closeMenus();const app=D.dock.find(x=>x&&x.id===a.dataset.app);app&&appWin(app);return;}
   const ao=e.target.closest("[data-app-open]");if(ao){closeMenus();const app=D.dock.find(x=>x&&x.id===ao.dataset.appOpen);app&&appWin(app);return;}
