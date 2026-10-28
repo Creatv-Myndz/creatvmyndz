@@ -231,3 +231,12 @@ En `data/escritorio.json → extras`, por `id` del CRTV:
   "Nuevo registro · CREATV MYNDZ". La primera vez FormSubmit pide confirmar el correo de activación.
   Para tener una base de datos ordenada, se pueden exportar esos correos o cambiar el destino a un servicio de
   listas (Mailchimp, Brevo, Google Sheets) en la función `signup()` de `assets/escritorio.js`.
+
+## Distribución fija en PC
+
+- `distribucionPC.posiciones` en el JSON guarda dónde va cada ícono (píxeles de una pantalla de referencia de
+  2000×1039, centro 1000,520). La forma se mantiene en cualquier pantalla; si no cabe entre el logo, Explorers y
+  el dock, todo se achica un poco. `distribucionPC.esquina` pone íconos contra la esquina de abajo a la derecha
+  (Buscaminas). Un proyecto nuevo sin posición se acomoda solo alrededor sin taparse.
+- El celular usa el mismo orden (de arriba a abajo, de izquierda a derecha).
+- Logo: centrado arriba (15 % de la altura en PC, 26 px en el celular).
