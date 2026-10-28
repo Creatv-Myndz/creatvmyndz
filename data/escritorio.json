@@ -71,7 +71,7 @@
     {
       "id": "creative-dealers",
       "titulo": "Creative Dealers",
-      "icono": "assets/iconos/carpeta.png",
+      "icono": "assets/iconos/bloque-c.png",
       "abre": "dealers",
       "texto": {
         "es": "Creatividad universal aplicada a marcas globales. Tomamos la cultura, la convertimos en ideas y las materializamos para marcas que le hablan al mundo.",
@@ -91,13 +91,13 @@
         "es": "Creando..",
         "en": "Creating.."
       },
-      "icono": "assets/iconos/carpeta-proximo.png",
+      "icono": "assets/iconos/reloj-arena.png",
       "abre": "carpeta"
     },
     {
       "id": "creatvfy",
       "titulo": "Creatvfy",
-      "icono": "assets/iconos/carpeta.png",
+      "icono": "assets/iconos/computador.png",
       "abre": "carpeta",
       "texto": {
         "es": "Programas de despertar creativo. Próximamente.",
