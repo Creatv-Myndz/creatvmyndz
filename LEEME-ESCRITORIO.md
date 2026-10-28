@@ -113,8 +113,24 @@ Nada se sube al servidor. *Quitar mi fondo* vuelve a los fondos de la marca.
   clics. Por eso existe `.menu[hidden]{display:none!important}`.
 - **Publicación:** el workflow `.github/workflows/deploy.yml` copia `data/` al sitio; sin eso el escritorio
   no carga su contenido.
-- **Íconos:** son dibujos propios inspirados en esa época. No se usan logos de Microsoft, Adobe, Winamp
-  ni el logo de Instagram (la "C" con anillo y la cámara retro son originales). `creatv-paleta.png` es arte
-  de la marca CREATV.
+- **Íconos:** los pixelados y brillantes (`paint`, `notas`, `paleta`, `camara`, `buho`, cursores…) son dibujos
+  propios. `creatv-paleta.png` es arte de la marca CREATV. Ver abajo los que llegaron del equipo.
 - **Cursores:** flecha pixelada (`cursor.png`) y manito que señala con el dedo pequeño (`cursor-mano.png`,
   punto activo en 22,0). Solo con mouse; en el celular no se usan.
+
+## Idioma, Buscaminas, contacto y aviso del celular
+
+- **Idioma:** el búho pixelado de la barra de arriba cambia entre español e inglés (comparte la preferencia
+  `cm-lang` con el resto de creatvmyndz.com). En el JSON, cualquier texto puede ser `"texto"` o
+  `{ "es": "...", "en": "..." }`. Los textos fijos de la interfaz están en `I18N` dentro de `assets/escritorio.js`.
+- **Buscaminas:** nivel fácil (6×6, 3 minas; el primer clic nunca es mina y abre una zona grande, se gana en
+  segundos). Al ganar, "Siguiente nivel" ya no es juego: se destapa la frase de `"buscaminas": { "frase": … }`
+  (una palabra o grupo por línea, en los dos idiomas). Está en el dock y como ícono del escritorio.
+- **Contáctanos** (ícono de dos personas, `"contacto": true`): formulario que manda el mensaje por FormSubmit
+  al correo `SITE.leadEmail` de `assets/projects.js` (con copia a `SITE.ccEmail`). La primera vez FormSubmit
+  manda un correo de activación a esa dirección: hay que confirmarlo.
+- **Aviso del baño:** solo para quien entra desde un celular (pantalla táctil y pequeña), una vez por visita.
+  Foto en `assets/img/escritorio/bano.webp`; textos `pw_*` en `I18N`.
+- **Íconos que mandó el equipo y se usan tal cual:** `c-flotante.png`, `contacto.png`, `papelera.png`,
+  `creatv-paleta.png` (se les quitó solo el fondo blanco). Ojo: la "C" y las dos personas son logos de
+  Microsoft (Internet Explorer y MSN); se usan como guiño retro por decisión de CREATV MYNDZ.

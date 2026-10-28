@@ -3,32 +3,42 @@
   "fondos": [
     { "id": "aurora", "nombre": "Aurora", "imagen": "assets/fondos/aurora.webp", "blur": 10 },
     { "id": "teal-95", "nombre": "Teal 95", "imagen": "assets/fondos/teal-95.webp", "blur": 0 },
-    { "id": "atardecer", "nombre": "Atardecer pixel", "imagen": "assets/fondos/atardecer-pixel.webp", "blur": 10 },
-    { "id": "mosaico", "nombre": "Mosaico", "imagen": "assets/fondos/mosaico.webp", "blur": 10 }
+    { "id": "atardecer", "nombre": { "es": "Atardecer pixel", "en": "Pixel sunset" }, "imagen": "assets/fondos/atardecer-pixel.webp", "blur": 10 },
+    { "id": "mosaico", "nombre": { "es": "Mosaico", "en": "Mosaic" }, "imagen": "assets/fondos/mosaico.webp", "blur": 10 }
   ],
 
   "creativePlayground": true,
 
   "accesos": [
     { "id": "creative-playground", "titulo": "Creative Playground", "icono": "assets/iconos/creatv-paleta.png", "abre": "proyectos" },
-    { "id": "c", "titulo": "Muy pronto", "icono": "assets/iconos/c-flotante.png", "texto": "Algo nuevo viene en camino. Muy pronto te contamos de qué se trata." }
+    { "id": "c", "titulo": { "es": "Muy pronto", "en": "Coming soon" }, "icono": "assets/iconos/c-flotante.png",
+      "texto": { "es": "Algo nuevo viene en camino. Muy pronto te contamos de qué se trata.", "en": "Something new is on the way. We'll tell you what it is very soon." } },
+    { "id": "buscaminas-acceso", "titulo": { "es": "Buscaminas", "en": "Minesweeper" }, "icono": "assets/iconos/buscaminas.png", "juego": "buscaminas" }
   ],
+
+  "buscaminas": {
+    "_comentario": "Nivel fácil: 6x6 con 3 minas (el primer clic nunca es mina y abre una zona grande). Al ganar, 'Siguiente nivel' destapa la frase.",
+    "frase": {
+      "es": ["ME", "ALEGRA", "CONOCERTE"],
+      "en": ["I'M", "HAPPY", "I", "KNOW", "YOU"]
+    }
+  },
 
   "proyectos": [],
 
   "dock": [
-    { "id": "paint", "nombre": "Paint", "icono": "assets/iconos/paint.png", "texto": "Diseño y edición. Muy pronto." },
-    { "id": "ilustracion", "nombre": "Ilustración", "icono": "assets/iconos/paleta.svg", "texto": "Ilustración y dibujo. Muy pronto." },
-    { "id": "animacion", "nombre": "Animación", "icono": "assets/iconos/animacion.svg", "texto": "Animación y motion. Muy pronto." },
+    { "id": "paint", "nombre": "Paint", "icono": "assets/iconos/paint.png", "texto": { "es": "Diseño y edición. Muy pronto.", "en": "Design and editing. Coming soon." } },
+    { "id": "ilustracion", "nombre": { "es": "Ilustración", "en": "Illustration" }, "icono": "assets/iconos/paleta.svg", "texto": { "es": "Ilustración y dibujo. Muy pronto.", "en": "Illustration and drawing. Coming soon." } },
+    { "id": "animacion", "nombre": { "es": "Animación", "en": "Animation" }, "icono": "assets/iconos/animacion.svg", "texto": { "es": "Animación y motion. Muy pronto.", "en": "Animation and motion. Coming soon." } },
     "|",
-    { "id": "notas", "nombre": "Notas", "icono": "assets/iconos/notas.png", "texto": "Escritos, guiones y pensamientos. Muy pronto." },
-    { "id": "fotos", "nombre": "Fotos", "icono": "assets/iconos/fotos.svg", "texto": "Fotografía. Muy pronto." },
-    { "id": "musica", "nombre": "Música", "icono": "assets/iconos/musica.svg", "texto": "Música y sonido. Muy pronto." },
+    { "id": "notas", "nombre": { "es": "Notas", "en": "Notes" }, "icono": "assets/iconos/notas.png", "texto": { "es": "Escritos, guiones y pensamientos. Muy pronto.", "en": "Writing, scripts and thoughts. Coming soon." } },
+    { "id": "fotos", "nombre": { "es": "Fotos", "en": "Photos" }, "icono": "assets/iconos/fotos.svg", "texto": { "es": "Fotografía. Muy pronto.", "en": "Photography. Coming soon." } },
+    { "id": "musica", "nombre": { "es": "Música", "en": "Music" }, "icono": "assets/iconos/musica.svg", "texto": { "es": "Música y sonido. Muy pronto.", "en": "Music and sound. Coming soon." } },
     "|",
     { "id": "instagram", "nombre": "Instagram", "icono": "assets/iconos/camara.svg", "enlace": "https://instagram.com/creatvmyndz" },
-    { "id": "correo", "nombre": "Correo", "icono": "assets/iconos/correo.png", "texto": "Escríbenos. Muy pronto." },
-    { "id": "buscaminas", "nombre": "Buscaminas", "icono": "assets/iconos/buscaminas.png", "juego": "buscaminas" },
+    { "id": "contacto", "nombre": { "es": "Contáctanos", "en": "Contact us" }, "icono": "assets/iconos/contacto.png", "contacto": true },
+    { "id": "buscaminas", "nombre": { "es": "Buscaminas", "en": "Minesweeper" }, "icono": "assets/iconos/buscaminas.png", "juego": "buscaminas" },
     "|",
-    { "id": "papelera", "nombre": "Por reciclar", "icono": "assets/iconos/papelera.png", "ideas": [] }
+    { "id": "papelera", "nombre": { "es": "Por reciclar", "en": "To recycle" }, "icono": "assets/iconos/papelera.png", "ideas": [] }
   ]
 }
