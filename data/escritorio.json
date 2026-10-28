@@ -7,6 +7,13 @@
     { "id": "mosaico", "nombre": "Mosaico", "imagen": "assets/fondos/mosaico.webp", "blur": 10 }
   ],
 
+  "creativePlayground": true,
+
+  "accesos": [
+    { "id": "creative-playground", "titulo": "Creative Playground", "icono": "assets/iconos/creatv-paleta.png", "abre": "proyectos" },
+    { "id": "c", "titulo": "Muy pronto", "icono": "assets/iconos/c-flotante.png", "texto": "Algo nuevo viene en camino. Muy pronto te contamos de qué se trata." }
+  ],
+
   "proyectos": [],
 
   "dock": [
@@ -20,7 +27,8 @@
     "|",
     { "id": "instagram", "nombre": "Instagram", "icono": "assets/iconos/camara.svg", "enlace": "https://instagram.com/creatvmyndz" },
     { "id": "correo", "nombre": "Correo", "icono": "assets/iconos/correo.png", "texto": "Escríbenos. Muy pronto." },
+    { "id": "buscaminas", "nombre": "Buscaminas", "icono": "assets/iconos/buscaminas.png", "juego": "buscaminas" },
     "|",
-    { "id": "papelera", "nombre": "Papelera · Ideas", "icono": "assets/iconos/papelera.png", "iconoLleno": "assets/iconos/papelera-llena.png", "ideas": [] }
+    { "id": "papelera", "nombre": "Por reciclar", "icono": "assets/iconos/papelera.png", "ideas": [] }
   ]
 }

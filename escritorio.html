@@ -38,20 +38,21 @@
   <span>Los proyectos van a aparecer aquí, uno por uno.</span>
 </div>
 
-<!-- ===== BARRA DE TAREAS (abajo) ===== -->
+<!-- ===== DOCK FLOTANTE (moderno, con íconos retro) ===== -->
 <footer id="taskbar">
-  <button id="startBtn" aria-haspopup="true" aria-expanded="false"><img src="assets/img/logo-creatv-blur.webp" alt="" width="480" height="231"><b>Inicio</b></button>
+  <button id="startBtn" aria-haspopup="true" aria-expanded="false" aria-label="Inicio"><img src="assets/iconos/creatv-paleta.png" alt="" width="320" height="242"><span class="tip" role="tooltip">Inicio</span></button>
+  <span class="sep" aria-hidden="true"></span>
   <nav id="dock" aria-label="Programas"></nav>
-  <div class="tray sunken"><img src="assets/iconos/cdrom.png" alt="" width="32" height="32"><span id="trayClock"></span></div>
 </footer>
 
 <!-- Menú Inicio -->
 <div id="startMenu" class="menu start" role="menu" hidden>
   <div class="start-side" aria-hidden="true"><span>CREATV <b>MYNDZ</b></span></div>
   <div class="start-items">
-    <button role="menuitem" data-win="proyectos"><img src="assets/iconos/carpeta.png" alt=""><span><u>P</u>royectos</span></button>
+    <button role="menuitem" data-win="proyectos"><img src="assets/iconos/carpeta.png" alt=""><span><u>C</u>reative Playground</span></button>
     <button role="menuitem" data-start-fondo><img src="assets/iconos/paint.png" alt=""><span><u>F</u>ondo</span><i>▸</i></button>
-    <button role="menuitem" data-app-open="papelera"><img src="assets/iconos/papelera.png" alt=""><span>P<u>a</u>pelera</span></button>
+    <button role="menuitem" data-app-open="buscaminas"><img src="assets/iconos/buscaminas.png" alt=""><span><u>B</u>uscaminas</span></button>
+    <button role="menuitem" data-app-open="papelera"><img src="assets/iconos/papelera.png" alt=""><span>Por <u>r</u>eciclar</span></button>
     <hr>
     <button role="menuitem" data-win="sobre"><img src="assets/iconos/cdrom.png" alt=""><span><u>S</u>obre CREATV MYNDZ…</span></button>
   </div>
@@ -60,6 +61,7 @@
 <input type="file" id="wallFile" accept="image/*" hidden>
 <div id="wins"></div>
 
+<script src="assets/projects.js"></script>
 <script src="assets/escritorio.js"></script>
 </body>
 </html>

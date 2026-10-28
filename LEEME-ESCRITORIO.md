@@ -17,9 +17,29 @@ Todo el contenido vive en **`data/escritorio.json`**. Para cambiar algo casi nun
 
 ---
 
-## Agregar un proyecto
+## Los CRTV del Creative Playground (automático)
 
-Cada proyecto es un ícono en el escritorio, con su nombre debajo en letra retro.
+Con `"creativePlayground": true`, **cada CRTV de `assets/projects.js` es un ícono del escritorio**
+(el mismo archivo que alimenta la página de proyectos). No hay que copiarlos al JSON:
+
+- CRTV terminado con página → se abre como un archivo en **Paint** (`nombre.bmp - Paint`) con la imagen
+  completa (`assets/img/crtvs/<id>.webp`) y, abajo, "Abrir proyecto ↗".
+- CRTV terminado sin material todavía (sin `link`) → mensaje del sistema: "estamos preparando el material".
+- CRTV próximo (`status: "soon"`) → ícono de aviso amarillo y mensaje del sistema "Estamos trabajando en
+  este CRTV", con botones Ok / Cancelar.
+
+## Íconos sueltos del escritorio (`"accesos"`)
+
+```json
+{ "id": "c", "titulo": "Muy pronto", "icono": "assets/iconos/c-flotante.png", "texto": "Mensaje que sale al abrirlo." }
+```
+
+- `"abre": "proyectos"` abre la lista del Creative Playground (así está el ícono CREATV con paleta).
+- `"enlace"` abre un link. Si no, muestra `texto` en un mensaje del sistema.
+- El ícono `c` flota suavemente (animación en el CSS).
+
+## Agregar un proyecto extra (fuera de los CRTV)
+
 Agrega un bloque en `"proyectos"`:
 
 ```json
@@ -53,8 +73,9 @@ En `"dock"`, en el orden en que aparecen. `"|"` dibuja un separador.
 
 - Con `"texto"` abre una ventana con ese texto.
 - Con `"enlace"` abre ese link en otra pestaña (así está Instagram).
-- La **papelera** (`"id": "papelera"`) son las ideas sueltas: `"ideas": [{ "titulo": "…", "texto": "…" }]`.
-  Si tiene ideas, usa el ícono `iconoLleno`.
+- Con `"juego": "buscaminas"` abre el Buscaminas (9×9, 10 minas; clic derecho o "modo bandera" en el celular).
+- La papelera **Por reciclar** (`"id": "papelera"`) son las ideas sueltas: `"ideas": [{ "titulo": "…", "texto": "…" }]`.
+- El primer botón del dock (ícono CREATV con paleta) abre el menú **Inicio**.
 
 ## Agregar o cambiar un fondo
 
@@ -82,7 +103,10 @@ Nada se sube al servidor. *Quitar mi fondo* vuelve a los fondos de la marca.
 
 - **Blur sin bordes lavados:** la capa del fondo es más grande que la pantalla (`inset` negativo según el blur).
 - **Nombres legibles sobre cualquier fondo:** letra blanca con sombra negra de 1 px, como en Windows.
-- **Las ventanas no tapan la barra de tareas:** si una ventana se pasa, se sube sola (`keepAboveTaskbar`).
+- **Las ventanas no tapan el dock:** si una ventana se pasa, se sube sola (`keepAboveDock`). Se mide con
+  `offsetHeight`, no con `getBoundingClientRect`, porque la animación de entrada achica la ventana un instante.
+- **Íconos dentro de la pantalla en el celular:** van en una cuadrícula de 4 con un poco de desorden, y
+  nunca se salen por los bordes.
 - **Celular:** las ventanas salen como hoja desde abajo, por encima de la barra de tareas.
 - **Doble clic contra toque:** en PC se abre con doble clic; en celular con un toque. Arrastrar no abre.
 - **`hidden` y `display`:** si un elemento con `hidden` tiene `display:flex` en el CSS, sigue visible y tapa los
@@ -90,4 +114,7 @@ Nada se sube al servidor. *Quitar mi fondo* vuelve a los fondos de la marca.
 - **Publicación:** el workflow `.github/workflows/deploy.yml` copia `data/` al sitio; sin eso el escritorio
   no carga su contenido.
 - **Íconos:** son dibujos propios inspirados en esa época. No se usan logos de Microsoft, Adobe, Winamp
-  ni el logo de Instagram.
+  ni el logo de Instagram (la "C" con anillo y la cámara retro son originales). `creatv-paleta.png` es arte
+  de la marca CREATV.
+- **Cursores:** flecha pixelada (`cursor.png`) y manito que señala con el dedo pequeño (`cursor-mano.png`,
+  punto activo en 22,0). Solo con mouse; en el celular no se usan.
