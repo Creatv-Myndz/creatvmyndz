@@ -51,7 +51,8 @@
       "texto": {
         "es": "Explora tu creatividad",
         "en": "Explore your creativity"
-      }
+      },
+      "esquina": true
     },
     {
       "id": "buscaminas-acceso",
@@ -82,7 +83,7 @@
   },
   "proyectos": [],
   "extras": {
-    "_comentario": "Por CRTV (id de assets/projects.js): 'icono' reemplaza la miniatura en el escritorio; 'videos' van ENCIMA de la imagen del proyecto en Paint. x, y, w (y h para 'video') son % de la imagen; YouTube mantiene 16:9. tipo 'youtube' (id, inicio en segundos) o 'video' (src de un .mp4). Un video con src vacío no se muestra.",
+    "_comentario": "Por CRTV (id de assets/projects.js): 'icono' reemplaza la miniatura en el escritorio; 'videos' van ENCIMA de la imagen del proyecto en Paint. x, y, w (y h para 'video') son % de la imagen; YouTube mantiene 16:9. tipo 'youtube' (id, inicio en segundos) o 'video' (src de un .mp4). Un video con src vacío no se muestra. 'esquina': true en un acceso lo pone fijo arriba a la izquierda, al lado del logo.",
     "cajita-feliz-dtmf": {
       "icono": "assets/iconos/cajita-dtmf.png"
     },
@@ -135,7 +136,11 @@
           "w": 32,
           "_nota": "tapa el VER DROP"
         }
-      ]
+      ],
+      "icono": "assets/iconos/jordan-blessd.png"
+    },
+    "las-palabras-nos-hacen": {
+      "icono": "assets/iconos/las-palabras.png"
     }
   },
   "dock": [

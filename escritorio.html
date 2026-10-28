@@ -21,20 +21,18 @@
 <!-- Fondo de pantalla. Todo el contenido sale de data/escritorio.json -->
 <div id="wall" aria-hidden="true"></div>
 
-<!-- ===== BARRA DE MENÚ (arriba) ===== -->
-<header id="menubar">
-  <div class="mb-l">
-    <button class="mb-logo" data-win="sobre" data-i18n-aria="about" aria-label="Sobre CREATV MYNDZ"><img src="assets/img/logo-creatv-blur.webp" alt="CREATV MYNDZ" width="480" height="231"></button>
-    <button class="mb-item" data-win="proyectos" data-i18n-html="m_projects"><u>P</u>royectos</button>
-    <button class="mb-item" id="mbFondo" aria-haspopup="true" aria-expanded="false" data-i18n-html="m_wall"><u>F</u>ondo</button>
-  </div>
-  <div class="mb-r">
-    <!-- Idioma: el búho cambia entre español e inglés -->
-    <button id="langBtn" class="lang-owl" data-i18n-aria="lang_aria" aria-label="Cambiar idioma"><img src="assets/iconos/buho.png" alt="" width="32" height="32"><b id="langCode">ES</b></button>
-    <span class="sunken" id="clock"></span>
-  </div>
-  <div id="fondoMenu" class="menu" role="menu" hidden></div>
-</header>
+<!-- ===== ESQUINAS (sin barra de arriba, como un escritorio moderno) ===== -->
+<!-- Arriba a la izquierda: logo CREATV MYNDZ y el ícono EXPLORA -->
+<div id="cornerL">
+  <button class="corner-logo" data-win="sobre" data-i18n-aria="about" aria-label="Sobre CREATV MYNDZ"><img src="assets/img/logo-creatv-pixel.png" alt="CREATV MYNDZ" width="280" height="116"></button>
+  <div id="cornerIcons"></div>
+</div>
+<!-- Arriba a la derecha: reloj y Duo, que cambia el idioma -->
+<div id="cornerR">
+  <span id="clock"></span>
+  <button id="langBtn" class="lang-duo" data-i18n-aria="lang_aria" aria-label="Cambiar idioma"><img src="assets/iconos/duo.png" alt="" width="160" height="134"><b id="langCode">ES</b></button>
+</div>
+<div id="fondoMenu" class="menu" role="menu" hidden></div>
 
 <main id="desk" data-i18n-aria="desk" aria-label="Escritorio"></main>
 <div id="empty" hidden>
@@ -55,7 +53,7 @@
   <div class="start-items">
     <button role="menuitem" data-win="proyectos"><img src="assets/iconos/creatv-paleta.png" alt="" class="smooth"><span><u>C</u>reative Playground</span></button>
     <button role="menuitem" data-start-fondo><img src="assets/iconos/paint.png" alt=""><span data-i18n-html="m_wall"><u>F</u>ondo</span><i>▸</i></button>
-    <button role="menuitem" data-app-open="buscaminas"><img src="assets/iconos/buscaminas.png" alt=""><span data-i18n-html="s_mines"><u>B</u>uscaminas</span></button>
+    <button role="menuitem" data-app-open="buscaminas"><img src="assets/iconos/buscaminas.png" alt="" class="smooth"><span data-i18n-html="s_mines"><u>B</u>uscaminas</span></button>
     <button role="menuitem" data-app-open="contacto"><img src="assets/iconos/contacto.png" alt="" class="smooth"><span data-i18n-html="s_contact"><u>C</u>ontáctanos</span></button>
     <button role="menuitem" data-app-open="papelera"><img src="assets/iconos/papelera.png" alt="" class="smooth"><span data-i18n-html="s_bin">Por <u>r</u>eciclar</span></button>
     <hr>

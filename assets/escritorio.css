@@ -11,7 +11,7 @@
   --navy:#000080; --sel:#0a246a; --tip:#ffffe1;
   --sys:Tahoma,"Segoe UI",Verdana,Geneva,sans-serif;
   --pixel:"VT323","Lucida Console",ui-monospace,monospace;
-  --blur:10px; --mb:30px; --tb:94px;
+  --blur:10px; --mb:0px; --tb:110px;
   --raised:inset -1px -1px var(--dark),inset 1px 1px var(--hi),inset -2px -2px var(--shade),inset 2px 2px var(--lite);
   --sunken:inset 1px 1px var(--shade),inset -1px -1px var(--hi),inset 2px 2px var(--dark),inset -2px -2px var(--lite);
 }
@@ -26,7 +26,7 @@ u{text-decoration:underline;text-underline-offset:2px}
 /* Cursores retro (solo con mouse): flecha pixelada y la manito que señala con el dedo pequeño */
 @media (hover:hover) and (pointer:fine){
   html,body,.win .bar{cursor:url("iconos/cursor.png") 0 0,default}
-  a,button,.ico,.app,#startBtn,.mb-item,.menu button,.mc,[data-close]{cursor:url("iconos/cursor-mano.png") 22 0,pointer}
+  a,button,.ico,.app,#startBtn,.menu button,.mc,[data-close]{cursor:url("iconos/cursor-mano.png") 22 0,pointer}
 }
 
 /* ===== FONDO =====
@@ -34,21 +34,20 @@ u{text-decoration:underline;text-underline-offset:2px}
    para que los bordes no se vean lavados. */
 #wall{position:fixed;inset:calc(var(--blur) * -3);background:#008080 center/cover no-repeat;filter:blur(var(--blur));transform:scale(1.02);transition:filter .5s ease}
 
-/* ===== BARRA DE MENÚ (arriba): gris clásico, un poco translúcido ===== */
-#menubar{position:fixed;z-index:40;top:0;left:0;right:0;height:var(--mb);padding:0 4px;display:flex;align-items:center;justify-content:space-between;
-  background:rgba(192,192,192,.88);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:inset 0 -1px var(--shade),inset 0 1px var(--hi),0 1px 0 var(--dark)}
-.mb-l,.mb-r{display:flex;align-items:center;gap:2px;height:100%}
-.mb-logo{height:24px;padding:0 8px;display:grid;place-items:center}
-.mb-logo img{height:17px;width:auto;filter:invert(1) contrast(1.4)}
-.mb-item{padding:3px 9px;font-size:13px}
-.mb-item:hover,.mb-logo:hover{box-shadow:inset -1px -1px var(--shade),inset 1px 1px var(--hi)}
-.mb-item[aria-expanded="true"]{box-shadow:inset 1px 1px var(--shade),inset -1px -1px var(--hi)}
-#clock{font:20px/1 var(--pixel);padding:3px 10px 2px;letter-spacing:.02em}
-/* Idioma: búho pixelado (ES / EN) */
-.lang-owl{display:flex;align-items:center;gap:3px;height:26px;padding:0 6px 0 3px;margin-right:4px}
-.lang-owl:hover{box-shadow:inset -1px -1px var(--shade),inset 1px 1px var(--hi)}
-.lang-owl img{width:24px;height:24px;image-rendering:pixelated}
-.lang-owl b{font:20px/1 var(--pixel);color:#1f7a00}
+/* ===== ESQUINAS (sin barra de arriba, como un escritorio moderno) =====
+   Izquierda: logo CREATV MYNDZ pixelado en blanco + EXPLORA. Derecha: reloj + Duo (idioma). */
+#cornerL{position:fixed;z-index:20;top:calc(14px + env(safe-area-inset-top, 0px));left:16px;display:flex;align-items:flex-start;gap:14px}
+.corner-logo{padding:4px;border-radius:6px}
+.corner-logo img{width:110px;height:auto;image-rendering:pixelated;filter:drop-shadow(0 2px 6px rgba(0,0,0,.45))}
+.corner-logo:hover{background:rgba(255,255,255,.12)}
+#cornerIcons{display:flex;gap:6px}
+#cornerIcons .ico{position:relative;transform:none;width:84px}
+#cornerR{position:fixed;z-index:20;top:calc(12px + env(safe-area-inset-top, 0px));right:14px;display:flex;align-items:center;gap:10px}
+#clock{font:22px/1 var(--pixel);color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6);letter-spacing:.03em}
+.lang-duo{position:relative;display:grid;place-items:center;width:62px;height:56px;border-radius:12px;transition:transform .15s}
+.lang-duo:hover{transform:translateY(-2px) rotate(-4deg)}
+.lang-duo img{width:58px;height:auto;filter:drop-shadow(0 4px 8px rgba(0,0,0,.4))}
+.lang-duo b{position:absolute;right:-4px;bottom:-2px;padding:0 4px;background:#fff;border:1px solid #000;font:16px/1.1 var(--pixel);color:#1f7a00}
 
 /* ===== MENÚS (Fondo e Inicio) ===== */
 .menu{position:fixed;z-index:60;min-width:220px;padding:3px;background:var(--face);box-shadow:var(--raised),3px 3px 0 rgba(0,0,0,.35)}
@@ -59,7 +58,6 @@ u{text-decoration:underline;text-underline-offset:2px}
 .menu button[aria-disabled="true"]{color:var(--shade);text-shadow:1px 1px var(--hi);pointer-events:none}
 .menu hr{border:0;margin:3px 2px;height:2px;box-shadow:inset 0 1px var(--shade),inset 0 -1px var(--hi)}
 .menu .mtitle{padding:4px 6px 2px;font:18px/1 var(--pixel);color:var(--shade)}
-#fondoMenu{top:var(--mb)}
 /* Menú Inicio: franja lateral con la marca, como Windows 98 */
 .start{display:flex;padding:3px;min-width:250px}
 .start-side{flex:none;width:30px;background:linear-gradient(0deg,var(--navy),#1084d0);display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px}
@@ -84,9 +82,9 @@ u{text-decoration:underline;text-underline-offset:2px}
 .ico .th.bare{background:none;border:0;box-shadow:none;display:grid;place-items:center}
 .ico .th.bare img{width:46px;height:46px;object-fit:contain;filter:drop-shadow(0 4px 8px rgba(0,0,0,.35))}
 .ico.acceso .th.bare{width:72px;height:56px}
-.ico .th.bare.custom{width:92px;height:60px}
-.ico .th.bare.custom img{width:100%;height:100%}
-.ico.acceso .th.bare img{width:100%;height:100%}
+.ico .th.bare.custom{width:92px;height:64px;margin-bottom:4px}
+.ico .th.bare.custom img{width:92px;height:64px}
+.ico.acceso .th.bare img{width:72px;height:56px}
 .ico .lb{font:16px/.95 var(--pixel);letter-spacing:.04em;text-transform:uppercase;color:rgba(255,255,255,.92);text-shadow:0 1px 2px rgba(0,0,0,.7),0 0 8px rgba(0,0,0,.35);padding:1px 3px 2px;max-width:104px;overflow-wrap:anywhere}
 .ico:hover .th{transform:translateY(-2px);transition:transform .15s}
 .ico.sel .th:not(.bare)::after{content:"";position:absolute;inset:0;background:rgba(10,36,106,.45)}
@@ -104,7 +102,7 @@ u{text-decoration:underline;text-underline-offset:2px}
 #empty span{font:20px/1.05 var(--pixel)}
 
 /* ===== DOCK FLOTANTE (moderno, con íconos retro) ===== */
-#taskbar{position:fixed;z-index:40;left:50%;bottom:calc(12px + env(safe-area-inset-bottom, 0px));transform:translateX(-50%);
+#taskbar{position:fixed;z-index:40;left:50%;bottom:calc(26px + env(safe-area-inset-bottom, 0px));transform:translateX(-50%);
   display:flex;align-items:flex-end;gap:4px;padding:7px 10px;max-width:calc(100vw - 16px);
   border-radius:18px;background:rgba(225,228,236,.42);-webkit-backdrop-filter:blur(24px) saturate(1.6);backdrop-filter:blur(24px) saturate(1.6);
   border:1px solid rgba(255,255,255,.55);box-shadow:0 12px 40px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.6)}
@@ -256,17 +254,24 @@ u{text-decoration:underline;text-underline-offset:2px}
 
 /* ===== CELULAR: mismo escritorio, ventanas como hoja desde abajo ===== */
 @media (max-width:640px){
-  :root{--tb:74px}
-  .mb-item{padding:3px 7px}
+  :root{--tb:92px}
+  #cornerL{left:10px;gap:6px}
+  .corner-logo img{width:76px}
+  #cornerIcons .ico{width:70px}
+  #cornerR{right:8px;gap:6px}
+  #clock{font-size:18px}
+  .lang-duo{width:48px;height:44px}
+  .lang-duo img{width:44px}
   .ico{width:80px}
   .ico .th{width:44px;height:44px}
   .ico .th.bare img{width:40px;height:40px}
   .ico.acceso .th.bare{width:58px;height:44px}
-  .ico .th.bare.custom{width:76px;height:48px}
+  .ico.acceso .th.bare img{width:58px;height:44px}
+  .ico .th.bare.custom{width:64px;height:46px;margin-bottom:3px}
+  .ico .th.bare.custom img{width:64px;height:46px}
   .b-tools span{min-width:44px;padding:2px 3px}
   .ico .lb{font-size:14px;max-width:80px}
-  .lang-owl{margin-right:0}
-  #taskbar{gap:0;padding:5px 6px;border-radius:16px;bottom:calc(8px + env(safe-area-inset-bottom, 0px))}
+  #taskbar{gap:0;padding:5px 6px;border-radius:16px;bottom:calc(18px + env(safe-area-inset-bottom, 0px))}
   #dock{gap:0}
   .app,#startBtn{width:28px;height:40px;border-radius:8px}
   .app img,.app img.px{width:26px;height:26px}

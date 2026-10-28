@@ -153,3 +153,12 @@ En `data/escritorio.json → extras`, por `id` del CRTV:
 - El ícono "EXPLORA" (la C) abre un navegador retro con "Explora tu creatividad".
 - `pokemor.png` se reconstruyó casilla por casilla desde una plantilla de pixel art (magicoloriage.com), sin fondo.
 
+## Esquinas (no hay barra de arriba)
+
+- Arriba a la izquierda: logo CREATV MYNDZ pixelado en blanco (`assets/img/logo-creatv-pixel.png`, abre "Sobre")
+  y los accesos con `"esquina": true` (hoy: EXPLORA). No se arrastran y se abren con un clic.
+- Arriba a la derecha: reloj y **Duo** (`assets/iconos/duo.png`), que cambia entre ES y EN.
+- El menú **Fondo** se abre desde el menú Inicio (botón CREATV del dock).
+- El dock flota 26 px por encima del borde de abajo (18 px en el celular).
+- Ojo: Duo es el personaje de Duolingo; se usa por decisión de CREATV MYNDZ.
+
