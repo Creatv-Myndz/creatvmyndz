@@ -193,3 +193,13 @@ En `data/escritorio.json → extras`, por `id` del CRTV:
 - Idioma: botón "ES / EN" arriba a la derecha (sin Duo). Cursores: los normales del sistema.
 - Dock: Inicio (nube) · Spotify · Instagram · Videos · Fotos · Por Amor al Arte | Contáctanos | Papelera de ideas.
 
+
+## Carpetas
+
+- Un acceso con `"abre": "carpeta"` es una carpeta (se abre como ventana con sus íconos ordenados).
+- Lo que lleve `"carpeta": "<id>"` va adentro y no en el escritorio; con `"tambienEnEscritorio": true` va en los dos lados.
+  - **Proyectos creativos** (ícono Cajita DtMF): Cajitas Felices, Las Palabras Nos Hacen, Perro Negro Undergold, DtMF x FC Barcelona. Las dos Cajitas también siguen en el escritorio.
+  - **Próximamente**: los CRTV pendientes (Forja Game, Carriel de Ryan, Joya, Tiempo vs Amor, Happy House).
+  - **Creatvfy**: Wake Up! (abre `wakeup.html`), Cualquiera puede crear (ebook) y CREATV Kids.
+- Para mover un CRTV a una carpeta: en `extras.<id>` pon `"carpeta": "proyectos-creativos"` (o la que sea).
+- El escritorio en PC es un grupo centrado: filas parejas, centradas y un poco corridas entre sí.
