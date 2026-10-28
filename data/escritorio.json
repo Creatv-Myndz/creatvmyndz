@@ -391,5 +391,7 @@
     "imagenes": []
   },
   "_carpetas": "Un acceso con \"abre\": \"carpeta\" es una carpeta. Lo que lleve \"carpeta\": \"<id>\" (accesos o extras de los CRTV) va adentro y no en el escritorio, salvo que tenga \"tambienEnEscritorio\": true.",
-  "_fondos": "El pincel de arriba a la derecha pasa al siguiente fondo de esta lista (se guarda en el navegador del visitante). Todos llevan el mismo blur suave."
+  "_fondos": "El pincel de arriba a la derecha pasa al siguiente fondo de esta lista (se guarda en el navegador del visitante). Todos llevan el mismo blur suave.",
+  "registro": false,
+  "_registro": "true = sale la ventana de registro con correo al entrar; false = apagada."
 }
