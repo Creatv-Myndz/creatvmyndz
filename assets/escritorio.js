@@ -89,7 +89,7 @@ function applyStatic(){
   document.querySelectorAll("[data-i18n]").forEach(el=>el.textContent=t(el.dataset.i18n));
   document.querySelectorAll("[data-i18n-html]").forEach(el=>el.innerHTML=t(el.dataset.i18nHtml));
   document.querySelectorAll("[data-i18n-aria]").forEach(el=>el.setAttribute("aria-label",t(el.dataset.i18nAria)));
-  $("#langCode").textContent=lang.toUpperCase();
+  $("#langCode").textContent=lang.toUpperCase();$("#langOther").textContent=lang==="es"?"EN":"ES";
 }
 function setLang(l){
   lang=l;try{localStorage.setItem("cm-lang",l)}catch(e){}
@@ -189,7 +189,7 @@ function layout(){
   }
   {const fx=$("#fixedIcons");if(fx){fx.style.left="";fx.style.top="";}}
   // PC: parece aleatorio pero es una cuadrícula con un poco de desorden, para que todo se vea bien
-  const cw=128,chh=124,cols=Math.max(3,Math.floor((W-80)/cw)),boxes=[...busy],cells=[];
+  const cw=128,chh=130,cols=Math.max(3,Math.floor((W-80)/cw)),boxes=[...busy],cells=[];
   const rows=Math.max(2,Math.floor((H-20)/chh)),ox=(W-cols*cw)/2,oy=(H-rows*chh)/2+10;
   for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
     const x=ox+cw*(c+.5),y=oy+chh*(r+.5),b={l:x-56,t:y-56,r:x+56,b:y+56};
@@ -201,7 +201,7 @@ function layout(){
     if(moved[p.id])return {p,x:moved[p.id][0]*W,y:moved[p.id][1]*H};
     if(p.x!=null&&p.y!=null)return {p,x:p.x/100*W,y:p.y/100*H};
     const r=rng(p.id+"·"),cell=cells[k%Math.max(cells.length,1)]||[W/2,H/2];
-    return {p,x:cell[0]+(r()-.5)*30,y:cell[1]+(r()-.5)*22};
+    return {p,x:cell[0]+(r()-.5)*30,y:cell[1]+(r()-.5)*10};
   });
 }
 function thumbHTML(p){
@@ -316,7 +316,7 @@ function listWin(){
   const list=ITEMS.filter(p=>p.tipoItem!=="acceso"),n=list.length;
   const w=openWin("proyectos","Creative Playground",n?`<ul class="list">${list.map(p=>`<li><button data-open-p="${esc(p.id)}">${p.estado==="proximo"?iconHTML(D.proximoIcono||WARN,"li-ico"):p.portada?`<img src="${esc(p.portada)}" alt="">`:iconHTML(FOLDER,"li-ico")}<span><b>${esc(L(p.titulo))}</b><br><small>${esc(p.codigo||"")}${p.estado==="proximo"?" · "+t("inBuild"):""}</small></span></button></li>`).join("")}</ul>`
     :`<div class="soon">${iconHTML(FOLDER)}<b>${t("noProjects")}</b><span>${t("noProjectsTxt")}</span></div>`,
-    {icon:"assets/iconos/cerebro-azul.png",info:n+" "+t(n===1?"obj":"objs")});
+    {icon:"assets/iconos/c-flotante.png",info:n+" "+t(n===1?"obj":"objs")});
   reg(w,listWin);
 }
 function aboutWin(){
@@ -514,7 +514,7 @@ document.addEventListener("click",e=>{
   if(e.target.closest("#langBtn")){closeMenus();setLang(lang==="es"?"en":"es");return;}
   const a=e.target.closest("[data-app]");if(a){closeMenus();const app=D.dock.find(x=>x&&x.id===a.dataset.app);app&&appWin(app);return;}
   const ao=e.target.closest("[data-app-open]");if(ao){closeMenus();const app=D.dock.find(x=>x&&x.id===ao.dataset.appOpen);app&&appWin(app);return;}
-  const op=e.target.closest("[data-open-p]");if(op){closeMenus();openItem(itemById(op.dataset.openP));return;}
+  const op=e.target.closest("[data-open-p]");if(op){closeMenus();if(op.dataset.openP==="mynd"){myndWin({id:"mynd",icono:"assets/iconos/aviso.png"});return;}openItem(itemById(op.dataset.openP));return;}
   const fm=e.target.closest("[data-fondo]");if(fm){store.del("mio");store.set("fondo",fm.dataset.fondo);applyWall();closeMenus();return;}
   if(e.target.closest("[data-subir]")){closeMenus();$("#wallFile").click();return;}
   if(e.target.closest("[data-quitar]")){store.del("mio");applyWall();closeMenus();return;}

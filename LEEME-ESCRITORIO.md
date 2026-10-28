@@ -187,4 +187,9 @@ En `data/escritorio.json → extras`, por `id` del CRTV:
   - **Fotos** (`"collage": true`) muestra un collage con `fotos.imagenes` del JSON; si está vacío, usa las imágenes de los CRTV.
 - **Buscaminas**: al ganar, cada "Siguiente" destapa la frase siguiente de `buscaminas.frases`
   (la última no tiene botón).
+- Fondo por defecto: **Colina** (`assets/fondos/colina.webp`, blur 3 px para separar los íconos).
+- El ícono fijo de la izquierda (la C) ahora se llama **Creative Playground** y abre la lista de proyectos.
+- Primer botón del dock (menú Inicio): la **nube** pixelada (`nube.png`). Mynd solo está en el menú Inicio.
+- Idioma: botón "ES / EN" arriba a la derecha (sin Duo). Cursores: los normales del sistema.
+- Dock: Inicio (nube) · Spotify · Instagram · Videos · Fotos · Por Amor al Arte | Contáctanos | Papelera de ideas.
 

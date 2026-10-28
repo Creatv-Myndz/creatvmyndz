@@ -23,11 +23,6 @@ u{text-decoration:underline;text-underline-offset:2px}
 .px{image-rendering:pixelated}
 .sunken{box-shadow:var(--sunken)}
 
-/* Cursores retro (solo con mouse): flecha pixelada y la manito que señala con el dedo pequeño */
-@media (hover:hover) and (pointer:fine){
-  html,body,.win .bar{cursor:url("iconos/cursor.png") 0 0,default}
-  a,button,.ico,.app,#startBtn,.menu button,.mc,[data-close]{cursor:url("iconos/cursor-mano.png") 22 0,pointer}
-}
 
 /* ===== FONDO =====
    El blur va en una capa más grande que la pantalla (inset negativo)
@@ -43,10 +38,9 @@ u{text-decoration:underline;text-underline-offset:2px}
 #fixedIcons{position:fixed;z-index:20;left:10%;top:22%;display:flex;flex-direction:column;gap:10px}
 #fixedIcons .ico{position:relative;transform:none;width:90px}
 #cornerR{position:fixed;z-index:20;top:calc(12px + env(safe-area-inset-top, 0px));right:14px;display:flex;align-items:center;gap:10px}
-.lang-duo{position:relative;display:grid;place-items:center;width:62px;height:56px;border-radius:12px;transition:transform .15s}
-.lang-duo:hover{transform:translateY(-2px) rotate(-4deg)}
-.lang-duo img{width:58px;height:auto;filter:drop-shadow(0 4px 8px rgba(0,0,0,.4))}
-.lang-duo b{position:absolute;right:-4px;bottom:-2px;padding:0 4px;background:#fff;border:1px solid #000;font:16px/1.1 var(--pixel);color:#1f7a00}
+.lang-btn{display:flex;align-items:center;gap:4px;padding:4px 10px;border-radius:999px;background:rgba(0,28,90,.55);color:#fff;font:18px/1 var(--pixel);letter-spacing:.04em;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.lang-btn i{font-style:normal;opacity:.55}
+.lang-btn:hover i{opacity:1}
 
 /* ===== MENÚS (Fondo e Inicio) ===== */
 .menu{position:fixed;z-index:60;min-width:220px;padding:3px;background:var(--face);box-shadow:var(--raised),3px 3px 0 rgba(0,0,0,.35)}
@@ -92,7 +86,7 @@ u{text-decoration:underline;text-underline-offset:2px}
 .ico.drag{z-index:5}
 .ico.drag .th{opacity:.75}
 /* El ícono "C" flota suavemente */
-.ico[data-p="explora"] .th img{animation:float 3.2s ease-in-out infinite}
+.ico[data-p="creative-playground"] .th img{animation:float 3.2s ease-in-out infinite}
 @keyframes float{50%{transform:translateY(-6px)}}
 
 #empty{position:fixed;left:50%;top:46%;transform:translate(-50%,-50%);width:max-content;display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--face);box-shadow:var(--raised),4px 4px 0 rgba(0,0,0,.35);max-width:calc(100vw - 32px)}
@@ -109,7 +103,9 @@ u{text-decoration:underline;text-underline-offset:2px}
 .app,#startBtn{position:relative;flex:none;width:50px;height:50px;display:grid;place-items:center;border-radius:12px;transform-origin:50% 100%;transition:transform .16s cubic-bezier(.3,.7,.3,1)}
 .app img{width:42px;height:42px;object-fit:contain;filter:drop-shadow(0 3px 4px rgba(0,0,0,.3))}
 .app img.px{width:40px;height:40px}
-#startBtn img{width:48px;height:auto;filter:drop-shadow(0 3px 4px rgba(0,0,0,.3))}
+.app[data-app=videos]{width:64px}
+.app[data-app=videos] img{width:60px;height:42px}
+#startBtn img{width:50px;height:auto;image-rendering:pixelated;filter:drop-shadow(0 3px 4px rgba(0,0,0,.3))}
 #startBtn[aria-expanded="true"]{background:rgba(255,255,255,.35)}
 .app.on::after{content:"";position:absolute;left:50%;bottom:-5px;width:4px;height:4px;margin-left:-2px;background:#000;box-shadow:0 0 0 1px rgba(255,255,255,.7)}
 .tip{position:absolute;left:50%;bottom:calc(100% + 10px);transform:translateX(-50%);padding:2px 6px;background:var(--tip);border:1px solid #000;font-size:12px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .1s;color:#000}
@@ -279,8 +275,6 @@ u{text-decoration:underline;text-underline-offset:2px}
   #fixedIcons{left:4%;top:15%}
   #fixedIcons .ico{width:72px}
   #cornerR{right:8px}
-  .lang-duo{width:48px;height:44px}
-  .lang-duo img{width:44px}
   .ico{width:80px}
   .ico .th{width:44px;height:44px}
   .ico .th.bare img{width:40px;height:40px}
@@ -294,6 +288,8 @@ u{text-decoration:underline;text-underline-offset:2px}
   #dock{gap:0}
   .app,#startBtn{width:28px;height:40px;border-radius:8px}
   .app img,.app img.px{width:26px;height:26px}
+  .app[data-app=videos]{width:38px}
+  .app[data-app=videos] img{width:36px;height:25px}
   #startBtn img{width:30px}
   .sep{margin:6px 2px}
   .tip{display:none}
@@ -308,4 +304,4 @@ u{text-decoration:underline;text-underline-offset:2px}
   .start{left:6px!important;right:6px;min-width:0}
   #fondoMenu{left:4px!important;right:4px;min-width:0}
 }
-@media (prefers-reduced-motion:reduce){#topLogo img,.win,#wall,.ico[data-p="explora"] .th img{animation:none;transition:none}}
+@media (prefers-reduced-motion:reduce){#topLogo img,.win,#wall,.ico[data-p="creative-playground"] .th img{animation:none;transition:none}}

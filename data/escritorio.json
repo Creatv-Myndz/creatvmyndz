@@ -1,6 +1,15 @@
 {
-  "fondo": "nubes-95",
+  "fondo": "colina",
   "fondos": [
+    {
+      "id": "colina",
+      "nombre": {
+        "es": "Colina",
+        "en": "Hill"
+      },
+      "imagen": "assets/fondos/colina.webp",
+      "blur": 3
+    },
     {
       "id": "nubes-95",
       "nombre": {
@@ -46,19 +55,9 @@
     {
       "id": "creative-playground",
       "titulo": "Creative Playground",
-      "icono": "assets/iconos/cerebro-azul.png",
-      "abre": "proyectos"
-    },
-    {
-      "id": "explorers",
-      "titulo": "Explorers",
       "icono": "assets/iconos/c-flotante.png",
-      "abre": "explora",
-      "fijo": true,
-      "texto": {
-        "es": "Explora tu creatividad",
-        "en": "Explore your creativity"
-      }
+      "abre": "proyectos",
+      "fijo": true
     },
     {
       "id": "buscaminas-acceso",
@@ -68,12 +67,6 @@
       },
       "icono": "assets/iconos/buscaminas.png",
       "juego": "buscaminas"
-    },
-    {
-      "id": "mynd",
-      "titulo": "Mynd",
-      "icono": "assets/iconos/aviso.png",
-      "abre": "mynd"
     },
     {
       "id": "creative-dealers",
@@ -307,6 +300,12 @@
       },
       "icono": "assets/iconos/fotos.png",
       "collage": true
+    },
+    {
+      "id": "por-amor-al-arte",
+      "nombre": "Por Amor al Arte",
+      "icono": "assets/iconos/por-amor-al-arte.png",
+      "enlace": "https://camilovegga.com"
     },
     "|",
     {
