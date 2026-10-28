@@ -81,6 +81,64 @@
       "enlace_interno": "portada.html#dealing"
     },
     {
+      "id": "proyectos-creativos",
+      "titulo": {
+        "es": "Proyectos creativos",
+        "en": "Creative projects"
+      },
+      "icono": "assets/iconos/cajita-dtmf.png",
+      "abre": "carpeta"
+    },
+    {
+      "id": "proximamente",
+      "titulo": {
+        "es": "Próximamente",
+        "en": "Coming soon"
+      },
+      "icono": "assets/iconos/carpeta-proximo.png",
+      "abre": "carpeta"
+    },
+    {
+      "id": "creatvfy",
+      "titulo": "Creatvfy",
+      "icono": "assets/iconos/carpeta.png",
+      "abre": "carpeta",
+      "texto": {
+        "es": "Programas de despertar creativo. Próximamente.",
+        "en": "Creative awakening programs. Coming soon."
+      }
+    },
+    {
+      "id": "wake-up",
+      "titulo": "Wake Up!",
+      "icono": "assets/iconos/archivo-wakeup.png",
+      "carpeta": "creatvfy",
+      "enlace_interno": "wakeup.html"
+    },
+    {
+      "id": "cualquiera-puede-crear",
+      "titulo": {
+        "es": "Cualquiera puede crear",
+        "en": "Anyone can create"
+      },
+      "icono": "assets/iconos/libros.png",
+      "carpeta": "creatvfy",
+      "texto": {
+        "es": "Cualquiera puede crear: el libro (ebook). Próximamente.",
+        "en": "Anyone can create: the book (ebook). Coming soon."
+      }
+    },
+    {
+      "id": "creatv-kids",
+      "titulo": "CREATV Kids",
+      "icono": "assets/iconos/creatv-kids.png",
+      "carpeta": "creatvfy",
+      "texto": {
+        "es": "CREATV Kids: despertar creativo para niños. Próximamente.",
+        "en": "CREATV Kids: creative awakening for kids. Coming soon."
+      }
+    },
+    {
       "id": "por-amor-al-arte",
       "titulo": "Por Amor al Arte",
       "icono": "assets/iconos/por-amor-al-arte.png",
@@ -192,11 +250,15 @@
     "_comentario": "Por CRTV (id de assets/projects.js): 'titulo' es el nombre como se ve en el escritorio; 'icono' reemplaza la miniatura; 'videos' van ENCIMA de la imagen del proyecto en Paint (x, y, w, h en % de la imagen; YouTube mantiene 16:9). tipo 'youtube' (id, inicio en segundos) o 'video' (src de un .mp4; vacío = no se muestra).",
     "cajita-feliz-dtmf": {
       "icono": "assets/iconos/cajita-dtmf.png",
-      "titulo": "Cajita Feliz DtMF"
+      "titulo": "Cajita Feliz DtMF",
+      "carpeta": "proyectos-creativos",
+      "tambienEnEscritorio": true
     },
     "cajita-feliz-ferxxo": {
       "icono": "assets/iconos/cajita-ferxxo.png",
-      "titulo": "Cajita Feliz de Ferxxo"
+      "titulo": "Cajita Feliz de Ferxxo",
+      "carpeta": "proyectos-creativos",
+      "tambienEnEscritorio": true
     },
     "perreo-santo": {
       "icono": "assets/iconos/perreo-santo.png",
@@ -252,34 +314,42 @@
     },
     "las-palabras-nos-hacen": {
       "icono": "assets/iconos/las-palabras.png",
-      "titulo": "Las Palabras Nos Hacen"
+      "titulo": "Las Palabras Nos Hacen",
+      "carpeta": "proyectos-creativos"
     },
     "dtmf-fc-barcelona": {
       "titulo": "DtMF x FC Barcelona",
-      "icono": "assets/iconos/silla.png"
+      "icono": "assets/iconos/silla.png",
+      "carpeta": "proyectos-creativos"
     },
     "happy-house": {
-      "titulo": "Happy House"
+      "titulo": "Happy House",
+      "carpeta": "proximamente"
     },
     "underdogs": {
       "titulo": "Underdogs / Perro Negro x Undergold",
-      "icono": "assets/iconos/perro-negro.png"
+      "icono": "assets/iconos/perro-negro.png",
+      "carpeta": "proyectos-creativos"
     },
     "snoopy-flops": {
       "titulo": "Snoopy Flops",
       "icono": "assets/iconos/snoopy.png"
     },
     "forja-game": {
-      "titulo": "Forja Game in Real Life"
+      "titulo": "Forja Game in Real Life",
+      "carpeta": "proximamente"
     },
     "carriel-de-ryan": {
-      "titulo": "Carriel de Ryan"
+      "titulo": "Carriel de Ryan",
+      "carpeta": "proximamente"
     },
     "joya-por-amor-al-arte": {
-      "titulo": "Joya por Amor al Arte"
+      "titulo": "Joya por Amor al Arte",
+      "carpeta": "proximamente"
     },
     "tiempo-vs-amor": {
-      "titulo": "Tiempo vs Amor (Reloj)"
+      "titulo": "Tiempo vs Amor (Reloj)",
+      "carpeta": "proximamente"
     }
   },
   "dock": [
@@ -342,5 +412,6 @@
   "zonaCamilo": {
     "titulo": "Camilo Vegga",
     "_comentario": "Los accesos con \"zona\": \"camilo\" van juntos en la esquina de abajo a la derecha (en el celular, en la cuadrícula)."
-  }
+  },
+  "_carpetas": "Un acceso con \"abre\": \"carpeta\" es una carpeta. Lo que lleve \"carpeta\": \"<id>\" (accesos o extras de los CRTV) va adentro y no en el escritorio, salvo que tenga \"tambienEnEscritorio\": true."
 }

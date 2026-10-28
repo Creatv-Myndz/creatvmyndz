@@ -125,6 +125,9 @@ function buildItems(){
   ];
 }
 
+// Lo que va dentro de una carpeta no se muestra suelto en el escritorio (salvo "tambienEnEscritorio")
+const onDesk=p=>!p.carpeta||p.tambienEnEscritorio;
+
 // ---------- fondo de pantalla
 function blurFor(f){const lvl=store.get("blur")||"suave",base=f?.blur??10;return lvl==="sin"?0:lvl==="fuerte"?Math.min(32,Math.max(14,base*2)):base;}
 // El fondo lo elige CREATV MYNDZ en data/escritorio.json ("fondo"); los visitantes ya no lo cambian.
@@ -171,7 +174,7 @@ function rng(seed){let h=1779033703^seed.length;for(let i=0;i<seed.length;i++){h
 function deskSize(){return [innerWidth,innerHeight-cssPx("--mb")-cssPx("--tb")];}
 function layout(){
   const [W,H]=deskSize(),moved=store.get("pos")||{},ph=phone();
-  const order=ITEMS.filter(p=>!p.fijo&&!(p.zona==="camilo"&&!phone())).sort((a,b)=>rng(a.id)()-rng(b.id)());
+  const order=ITEMS.filter(p=>onDesk(p)&&!p.fijo&&!(p.zona==="camilo"&&!phone())).sort((a,b)=>rng(a.id)()-rng(b.id)());
   // Zonas ocupadas: logo de arriba, íconos fijos (Explorers) y Duo
   const busy=[];
   ["#topLogo","#fixedIcons .ico","#cornerR","#cornerBR:not([hidden])"].forEach(sel=>document.querySelectorAll(sel).forEach(el=>{const r=el.getBoundingClientRect();if(r.width)busy.push({l:r.left-8,t:r.top-cssPx("--mb")-8,r:r.right+8,b:r.bottom-cssPx("--mb")+8});}));
@@ -189,20 +192,34 @@ function layout(){
     });
   }
   {const fx=$("#fixedIcons");if(fx){fx.style.left="";fx.style.top="";}}
-  // PC: parece aleatorio pero es una cuadrícula con un poco de desorden, para que todo se vea bien
-  const cw=128,chh=130,cols=Math.max(3,Math.floor((W-80)/cw)),boxes=[...busy],cells=[];
-  const rows=Math.max(2,Math.floor((H-20)/chh)),ox=(W-cols*cw)/2,oy=(H-rows*chh)/2+10;
-  for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
-    const x=ox+cw*(c+.5),y=oy+chh*(r+.5),b={l:x-56,t:y-56,r:x+56,b:y+56};
-    if(!boxes.some(o=>hit(o,b)))cells.push([x,y]);
+  // PC: un grupo centrado y ordenado (como un escritorio moderno), con filas un poco corridas
+  // para que parezca suelto; nada se monta encima de otra cosa.
+  const cw=136,chh=132,n=order.length,boxes=[...busy];
+  const maxCols=Math.max(3,Math.floor((W-110)/cw));
+  let cols=Math.min(maxCols,Math.max(3,Math.ceil(Math.sqrt(n*1.8))));
+  // filas parejas (ej. 12 → 4·4·4) y cada fila centrada; las filas impares van un poco corridas
+  let cells=[];
+  const build=(cols,dy)=>{
+    const c=[],rows=Math.ceil(n/cols),base=Math.floor(n/rows),extra=n%rows,gh=rows*chh,oy=Math.max(10,(H-gh)/2+18)+dy;
+    for(let r=0;r<rows;r++){
+      const k=base+(r<extra?1:0),shift=(r%2?cw*.22:-cw*.22),x0=W/2-k*cw/2+shift;
+      for(let q=0;q<k;q++)c.push([x0+cw*(q+.5),oy+chh*(r+.5)]);
+    }
+    return c;
+  };
+  const free=c=>c.every(([x,y])=>y<H-60&&x>58&&x<W-58&&!boxes.some(o=>hit(o,{l:x-60,t:y-58,r:x+60,b:y+62})));
+  // prueba columnas y, si algo cae sobre el logo o una esquina, baja todo el grupo un poco
+  search:for(let cc=cols;cc<=maxCols+1;cc++){
+    for(let dy=0;dy<=200;dy+=20){cells=build(Math.min(cc,maxCols),dy);if(free(cells))break search;}
+    for(let dy=-20;dy>=-120;dy-=20){cells=build(Math.min(cc,maxCols),dy);if(free(cells))break search;}
   }
-  // reparte los íconos por toda la pantalla (no todos juntos): baraja las casillas con una semilla fija
-  const sr=rng("creatv-escritorio");for(let i=cells.length-1;i>0;i--){const j=Math.floor(sr()*(i+1));[cells[i],cells[j]]=[cells[j],cells[i]];}
+  // orden de lectura (arriba-abajo, izquierda-derecha) con el orden "barajado" fijo de los íconos
+  cells.sort((a,b)=>a[1]-b[1]||a[0]-b[0]);
   return order.map((p,k)=>{
     if(moved[p.id])return {p,x:moved[p.id][0]*W,y:moved[p.id][1]*H};
     if(p.x!=null&&p.y!=null)return {p,x:p.x/100*W,y:p.y/100*H};
-    const r=rng(p.id+"·"),cell=cells[k%Math.max(cells.length,1)]||[W/2,H/2];
-    return {p,x:cell[0]+(r()-.5)*30,y:cell[1]+(r()-.5)*10};
+    const r=rng(p.id+"·"),cell=cells[k]||[W/2,H/2];
+    return {p,x:cell[0]+(r()-.5)*18,y:cell[1]+(r()-.5)*10};
   });
 }
 function thumbHTML(p){
@@ -242,7 +259,7 @@ function openWin(key,title,html,{icon=FOLDER,status,info="",cls="",menu,noMenu=f
   if(!w){
     w=document.createElement("section");w.dataset.k=key;w.setAttribute("role","dialog");$("#wins").appendChild(w);
     w.className="win "+cls;
-    const off=(openCount++%6)*26,ww=Math.min(cls.includes("dialog")?380:cls.includes("paint")||cls.includes("browser")||cls.includes("fotos")?760:cls.includes("mines")?300:620,innerWidth-32);
+    const off=(openCount++%6)*26,ww=Math.min(cls.includes("folder")?600:cls.includes("dialog")?380:cls.includes("paint")||cls.includes("browser")||cls.includes("fotos")?760:cls.includes("mines")?300:620,innerWidth-32);
     w.style.left=Math.max(16,(innerWidth-ww)/2+off-60)+"px";w.style.top=(cssPx("--mb")+innerHeight*.06+off)+"px";
   }
   w.setAttribute("aria-label",title);
@@ -293,6 +310,8 @@ function openItem(p){
   if(p.tipoItem==="acceso"){
     if(p.enlace){window.open(p.enlace,"_blank","noopener");return;}
     if(p.abre==="proyectos"){listWin();return;}
+    if(p.abre==="carpeta"){folderWin(p);return;}
+    if(p.enlace_interno&&!p.abre){location.href=p.enlace_interno;return;}
     if(p.abre==="explora"){exploraWin(p);return;}
     if(p.abre==="mynd"){myndWin(p);return;}
     if(p.abre==="dealers"){dealersWin(p);return;}
@@ -340,6 +359,15 @@ function exploraWin(p){
       <div class="b-page"><img src="${esc(p.icono)}" alt="" class="b-logo"><h2>${esc(txt.toUpperCase())}</h2><p>${t("exploreSoon")}</p></div>
     </div>`,{icon:p.icono,cls:"browser-win",menu:t("menuBrowser"),status:t("done"),info:`${iconHTML(p.icono,"z-ico")} ${t("b_zone")}`});
   reg(w,()=>exploraWin(p));
+}
+
+// ---------- Carpetas: se abren como una ventana con sus íconos ordenados
+function folderWin(f){
+  const items=ITEMS.filter(p=>p.carpeta===f.id),n=items.length;
+  const w=openWin("f:"+f.id,L(f.titulo),n?`<div class="folder">${items.map(p=>`<button class="fitem" data-open-p="${esc(p.id)}" aria-label="${esc(L(p.titulo))}">${thumbHTML(p)}<span class="lb">${esc(L(p.titulo))}</span></button>`).join("")}</div>`
+    :`<div class="soon">${iconHTML(f.icono)}<b>${esc(L(f.titulo))}</b><span>${esc(L(f.texto)||t("soon"))}</span></div>`,
+    {icon:f.icono,info:n+" "+t(n===1?"obj":"objs"),status:L(f.texto)||t("ready"),cls:"folder-win"});
+  reg(w,()=>folderWin(f));
 }
 
 // ---------- Mynd: el acceso a creatvmyndz.com/mynd, con su misma clave (solo el login, en estilo retro)
