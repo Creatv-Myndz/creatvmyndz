@@ -22,6 +22,11 @@ const SITE = {
   // Correo público que aparece abajo en la sección de newsletter.
   contactEmail: "dacoloradog@gmail.com",
 
+  // Video del banner CREATIVE PLAYGROUND en la portada. Sube el .mp4 a
+  // assets/video/ y pon aquí la ruta, p. ej. "assets/video/creative-playground.mp4".
+  // Mientras esté vacío, el banner muestra una cinta con las portadas de los CRTV.
+  playgroundVideo: "",
+
   // Redes: borra las que no uses o cambia la URL.
   social: [
     { label: "INSTAGRAM", url: "https://instagram.com/creatvmyndz" },
@@ -209,4 +214,23 @@ const PROJECTS = [
     link: "",
     image: ""
   }
+];
+
+
+/* ------------------------------------------------------------
+   3) MARCAS (cinta de logos de CREATIVE DEALING)
+   ------------------------------------------------------------
+   Sube cada logo (PNG o SVG blanco, con fondo transparente) a
+   assets/img/brands/ y agrégalo aquí:
+     { name: "NOMBRE DE LA MARCA", logo: "assets/img/brands/marca.png" }
+   Si `logo` va vacío, se muestra el nombre en texto.
+   ------------------------------------------------------------ */
+const BRANDS = [
+  // ⚠️ RELLENAR: estos son espacios de ejemplo hasta tener los logos reales.
+  { name: "MARCA 01", logo: "" },
+  { name: "MARCA 02", logo: "" },
+  { name: "MARCA 03", logo: "" },
+  { name: "MARCA 04", logo: "" },
+  { name: "MARCA 05", logo: "" },
+  { name: "MARCA 06", logo: "" }
 ];

@@ -14,13 +14,17 @@ const I18N = {
   es: {
     nav_work: "PROYECTOS", nav_about: "NOSOTROS", nav_wakeup: "WAKE UP",
     tagline: "Tomamos las ideas, exploramos los límites de la creatividad y las traemos a la realidad.",
-    work_head: "PROYECTOS CREATIVOS",
+    pg_cta: "VER PROYECTOS CREATIVOS",
+    mq_1: "CREER", mq_2: "CREAR", mq_3: "CRECER", mq_4: "CREATIVIDAD INFINITA",
+    dl_lead: "Creatividad universal aplicada a marcas globales.",
+    dl_sub: "Tomamos la cultura, la convertimos en ideas y las materializamos para marcas que le hablan al mundo.",
+    dl_brands: "MARCAS CON LAS QUE HEMOS TRABAJADO",
     local_time: "// HORA LOCAL",
     title_work: "PROYECTOS — CREATV MYNDZ",
     aria_nav: "Navegación principal", aria_home: "Inicio", aria_filter: "Filtrar",
     aria_view: "Vista", aria_more: "Otros CRTV",
     work_all: "VER TODOS LOS PROYECTOS",
-    pg_lead: "Todos los CRTV de CREATV MYNDZ, uno por uno. Creative Playground.",
+    pg_lead: "Todos los CRTV de CREATV MYNDZ, uno por uno.",
     f_all: "TODOS", f_done: "HECHOS", f_soon: "PRÓXIMOS",
     v_list: "LISTA", v_grid: "GRILLA",
     soon: "PRÓXIMO",
@@ -40,19 +44,23 @@ const I18N = {
     footer_lab: "Página de prueba",
     footer_nav: "NAVEGA",
     footer_more: "MÁS",
-    back_work: "← PROYECTOS",
+    back_work: "← PLAYGROUND",
     prev: "← ANTERIOR", next: "SIGUIENTE →"
   },
   en: {
     nav_work: "WORK", nav_about: "ABOUT", nav_wakeup: "WAKE UP",
     tagline: "We take ideas, explore the limits of creativity and bring them to reality.",
-    work_head: "CREATIVE PROJECTS",
+    pg_cta: "SEE CREATIVE PROJECTS",
+    mq_1: "BELIEVE", mq_2: "CREATE", mq_3: "GROW", mq_4: "INFINITE CREATIVITY",
+    dl_lead: "Universal creativity applied to global brands.",
+    dl_sub: "We take culture, turn it into ideas and materialize them for brands that speak to the world.",
+    dl_brands: "BRANDS WE HAVE WORKED WITH",
     local_time: "// LOCAL TIME",
     title_work: "WORK — CREATV MYNDZ",
     aria_nav: "Main navigation", aria_home: "Home", aria_filter: "Filter",
     aria_view: "View", aria_more: "More CRTV",
     work_all: "SEE ALL WORK",
-    pg_lead: "Every CRTV by CREATV MYNDZ, one by one. Creative Playground.",
+    pg_lead: "Every CRTV by CREATV MYNDZ, one by one.",
     f_all: "ALL", f_done: "DONE", f_soon: "SOON",
     v_list: "LIST", v_grid: "GRID",
     soon: "SOON",
@@ -72,7 +80,7 @@ const I18N = {
     footer_lab: "Test page",
     footer_nav: "NAVIGATE",
     footer_more: "MORE",
-    back_work: "← WORK",
+    back_work: "← PLAYGROUND",
     prev: "← PREVIOUS", next: "NEXT →"
   }
 };
@@ -203,6 +211,57 @@ function renderFeatured() {
     el.textContent = "(" + String(PROJECTS.length).padStart(2, "0") + ")";
   });
   observeReveal();
+}
+
+
+/* ------------------------------------------------------------
+   PORTADA: banner CREATIVE PLAYGROUND (video, o cinta de portadas)
+   ------------------------------------------------------------ */
+const pgVideo = document.getElementById("pg-video");
+const pgStrip = document.getElementById("pg-strip");
+if (pgVideo && typeof SITE !== "undefined" && SITE.playgroundVideo) {
+  pgVideo.src = SITE.playgroundVideo;
+  pgVideo.hidden = false;
+  if (pgStrip) pgStrip.hidden = true;
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    pgVideo.autoplay = true;
+    pgVideo.play().catch(() => {});
+  }
+} else if (pgStrip && HAS_PROJECTS) {
+  const imgs = PROJECTS.filter(p => hasPage(p) && p.image).map(p => p.image);
+  const track = document.createElement("div");
+  track.className = "pg-strip-track";
+  [...imgs, ...imgs].forEach(src => {
+    const img = document.createElement("img");
+    img.src = src; img.alt = ""; img.loading = "lazy"; img.width = 256; img.height = 320;
+    track.appendChild(img);
+  });
+  pgStrip.appendChild(track);
+}
+
+/* Cinta de logos de CREATIVE DEALING */
+const brandsEl = document.getElementById("brands");
+if (brandsEl && typeof BRANDS !== "undefined" && BRANDS.length) {
+  const make = b => {
+    const el = document.createElement("span");
+    el.className = "brand-item";
+    if (b.logo) {
+      const img = document.createElement("img");
+      img.src = b.logo; img.alt = b.name; img.loading = "lazy";
+      el.appendChild(img);
+    } else el.textContent = b.name;
+    return el;
+  };
+  // Dos copias seguidas para que la cinta gire sin cortes.
+  for (let k = 0; k < 2; k++) {
+    const group = document.createElement("div");
+    group.className = "brands-group";
+    if (k) group.setAttribute("aria-hidden", "true");
+    // Con pocas marcas, se repiten para que cada copia llene la pantalla.
+    const list = BRANDS.length < 10 ? [...BRANDS, ...BRANDS] : BRANDS;
+    list.forEach(b => group.appendChild(make(b)));
+    brandsEl.appendChild(group);
+  }
 }
 
 
