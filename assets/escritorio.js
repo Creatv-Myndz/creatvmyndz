@@ -526,6 +526,7 @@ function minesWin(){
 // ---------- registro con correo (base de datos de leads): sale al entrar, una vez por visita,
 // y nunca más si ya se registró. Llega a SITE.leadEmail (assets/projects.js) vía FormSubmit.
 function signup(){
+  if(!D.registro)return;   // apagado en data/escritorio.json ("registro": false)
   let done=false,seen=false;try{done=localStorage.getItem("cm-signup")==="1";seen=sessionStorage.getItem("cm-signup-seen")==="1"}catch(e){}
   if(done||seen)return;
   setTimeout(()=>{if(!$("#phoneWarn").hidden)return;$("#signup").hidden=false;try{sessionStorage.setItem("cm-signup-seen","1")}catch(e){};setTimeout(()=>$("#suForm").email.focus(),50);},2500);
