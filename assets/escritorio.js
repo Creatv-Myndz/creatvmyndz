@@ -265,8 +265,8 @@ function openWin(key,title,html,{icon=FOLDER,status,info="",cls="",menu,noMenu=f
   if(!w){
     w=document.createElement("section");w.dataset.k=key;w.setAttribute("role","dialog");$("#wins").appendChild(w);
     w.className="win "+cls;
-    const off=(openCount++%6)*26,ww=Math.min(cls.includes("folder")?600:cls.includes("dialog")?380:cls.includes("paint")||cls.includes("browser")||cls.includes("fotos")?760:cls.includes("mines")?300:620,innerWidth-32);
-    w.style.left=Math.max(16,(innerWidth-ww)/2+off-60)+"px";w.style.top=(cssPx("--mb")+innerHeight*.06+off)+"px";
+    const off=(openCount++%6)*26,ww=Math.min(cls.includes("folder")?880:cls.includes("dialog")?440:cls.includes("paint")||cls.includes("browser")||cls.includes("fotos")?980:cls.includes("mines")?300:780,innerWidth-32);
+    w.style.left=Math.max(16,(innerWidth-ww)/2+off-40)+"px";w.style.top=(cssPx("--mb")+innerHeight*.04+off)+"px";
   }
   w.setAttribute("aria-label",title);
   w.innerHTML=`<div class="bar">${iconHTML(icon,"wi")}<b>${esc(title)}</b><span class="ctl"><i aria-hidden="true">_</i><i aria-hidden="true">□</i><i class="x" data-close role="button" tabindex="0" aria-label="${t("close")}">×</i></span></div>

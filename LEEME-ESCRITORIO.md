@@ -215,3 +215,6 @@ En `data/escritorio.json → extras`, por `id` del CRTV:
 - Carpeta **Playground** (resbaladero, antes "Proyectos creativos") y carpeta **Creando..** (antes "Próximamente").
 - La C se llama **Explorers** y abre la lista de proyectos. La C también es el favicon.
 - Dock: Inicio · Instagram · Videos · Fotos · Por Amor al Arte · Spotify | Contáctanos | Papelera de ideas.
+- Íconos: Creando.. = reloj de arena, Creatvfy = computador, Cualquiera puede crear = libros, Creative Dealers = bloque con C.
+- El logo va pequeño arriba a la izquierda. Las ventanas son más grandes (780 px; Paint, Fotos y Explorers 980 px; carpetas 880 px).
+- Todos los íconos se guardan como PNG RGBA: con PNG de paleta algunos Safari no los mostraban dentro de las carpetas.
