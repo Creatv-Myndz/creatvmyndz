@@ -50,6 +50,8 @@ const I18N={
       myndTitle:"Iniciar sesión · Mynd",myndTxt:"El centro de control de CREATV MYNDZ. Escribe el código de acceso.",myndCode:"Código de acceso",
       myndBad:"Código incorrecto. Pídelo a Camilo.",myndOk:"Acceso concedido. Abriendo Mynd…",dealersGo:"Ver Creative Dealing →",
       photos:"fotos",
+      wall_aria:"Cambiar fondo",su_bar:"Únete a CREATV MYNDZ",su_title:"¿QUIERES VER MÁS CREATIVIDAD?",su_text:"Regístrate con tu correo y te mandamos los nuevos proyectos, ideas y lanzamientos.",
+      su_ph:"tu@correo.com",su_btn:"Registrarme",su_later:"Ahora no",su_sending:"Enviando…",su_ok:"¡Listo! Ya eres parte de CREATV MYNDZ.",su_err:"No se pudo enviar. Intenta de nuevo.",su_bad:"Escribe un correo válido.",
       pw_bar:"Advertencia",pw_title:"¿ESTÁS EN EL BAÑO?",pw_text:"NUESTRA WEB ES MEJOR EN EL PC. ¡VE A VERLA!",pw_ok:"Ok, ya voy",pw_stay:"Seguir aquí"},
   en:{m_projects:"<u>P</u>rojects",m_wall:"<u>W</u>allpaper",about:"Coming soon: CREATV MYNDZ",lang_aria:"Change language (Español)",desk:"Desktop",
       empty:"Projects will show up here, one by one.",start:"Start",programs:"Programs",
@@ -80,6 +82,8 @@ const I18N={
       myndTitle:"Log on · Mynd",myndTxt:"The CREATV MYNDZ control center. Type the access code.",myndCode:"Access code",
       myndBad:"Wrong code. Ask Camilo for it.",myndOk:"Access granted. Opening Mynd…",dealersGo:"See Creative Dealing →",
       photos:"photos",
+      wall_aria:"Change wallpaper",su_bar:"Join CREATV MYNDZ",su_title:"WANT TO SEE MORE CREATIVITY?",su_text:"Sign up with your email and we'll send you new projects, ideas and launches.",
+      su_ph:"you@email.com",su_btn:"Sign me up",su_later:"Not now",su_sending:"Sending…",su_ok:"Done! You're part of CREATV MYNDZ now.",su_err:"Couldn't send it. Please try again.",su_bad:"Type a valid email.",
       pw_bar:"Warning",pw_title:"ARE YOU IN THE BATHROOM?",pw_text:"OUR WEBSITE IS BETTER ON A PC. GO CHECK IT OUT!",pw_ok:"Ok, on my way",pw_stay:"Stay here"}
 };
 const t=k=>I18N[lang][k]??I18N.es[k]??"";
@@ -88,6 +92,7 @@ function applyStatic(){
   document.documentElement.lang=lang;
   document.querySelectorAll("[data-i18n]").forEach(el=>el.textContent=t(el.dataset.i18n));
   document.querySelectorAll("[data-i18n-html]").forEach(el=>el.innerHTML=t(el.dataset.i18nHtml));
+  document.querySelectorAll("[data-i18n-ph]").forEach(el=>el.setAttribute("placeholder",t(el.dataset.i18nPh)));
   document.querySelectorAll("[data-i18n-aria]").forEach(el=>el.setAttribute("aria-label",t(el.dataset.i18nAria)));
   $("#langCode").textContent=lang.toUpperCase();$("#langOther").textContent=lang==="es"?"EN":"ES";
 }
@@ -131,7 +136,10 @@ const onDesk=p=>!p.carpeta||p.tambienEnEscritorio;
 // ---------- fondo de pantalla
 function blurFor(f){const lvl=store.get("blur")||"suave",base=f?.blur??10;return lvl==="sin"?0:lvl==="fuerte"?Math.min(32,Math.max(14,base*2)):base;}
 // El fondo lo elige CREATV MYNDZ en data/escritorio.json ("fondo"); los visitantes ya no lo cambian.
-function currentFondo(){return D.fondos.find(x=>x.id===D.fondo)||D.fondos[0];}
+// El visitante cambia el fondo con el pincel (arriba a la derecha); se guarda en su navegador.
+function currentFondo(){const id=store.get("fondo");return D.fondos.find(x=>x.id===id)||D.fondos.find(x=>x.id===D.fondo)||D.fondos[0];}
+function nextWall(){const i=D.fondos.indexOf(currentFondo()),f=D.fondos[(i+1)%D.fondos.length];if(!f)return;
+  const im=new Image();im.onload=()=>{store.set("fondo",f.id);applyWall();};im.src=f.imagen;}
 function applyWall(){
   const f=currentFondo(),img=f?.imagen;
   $("#wall").style.backgroundImage=img?`url("${img}")`:"none";
@@ -515,13 +523,32 @@ function minesWin(){
 }
 
 // ---------- aviso del baño: solo para quien entra desde el celular (una vez por visita)
+// ---------- registro con correo (base de datos de leads): sale al entrar, una vez por visita,
+// y nunca más si ya se registró. Llega a SITE.leadEmail (assets/projects.js) vía FormSubmit.
+function signup(){
+  let done=false,seen=false;try{done=localStorage.getItem("cm-signup")==="1";seen=sessionStorage.getItem("cm-signup-seen")==="1"}catch(e){}
+  if(done||seen)return;
+  setTimeout(()=>{if(!$("#phoneWarn").hidden)return;$("#signup").hidden=false;try{sessionStorage.setItem("cm-signup-seen","1")}catch(e){};setTimeout(()=>$("#suForm").email.focus(),50);},2500);
+}
+document.addEventListener("click",e=>{if(e.target.closest("[data-su-close]"))$("#signup").hidden=true;},true);
+$("#suForm").addEventListener("submit",e=>{
+  e.preventDefault();const f=e.target,st=f.querySelector(".su-state"),email=f.email.value.trim();
+  if(f._honey.value)return;
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){st.textContent=t("su_bad");return;}
+  const site=typeof SITE!=="undefined"?SITE:{};st.textContent=t("su_sending");
+  fetch("https://formsubmit.co/ajax/"+encodeURIComponent(site.leadEmail||""),{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},
+    body:JSON.stringify({email,origen:"Registro del escritorio creatvmyndz.com",idioma:lang,_subject:"Nuevo registro · CREATV MYNDZ",_cc:site.ccEmail||undefined,_template:"table"})})
+    .then(r=>r.ok?r.json():Promise.reject()).then(()=>{st.textContent=t("su_ok");try{localStorage.setItem("cm-signup","1")}catch(_){};setTimeout(()=>{$("#signup").hidden=true;},1800);})
+    .catch(()=>{st.textContent=t("su_err");});
+});
+
 function phoneWarning(){
   const isPhone=matchMedia("(pointer:coarse)").matches&&Math.min(screen.width,screen.height)<=820;
   let seen=false;try{seen=sessionStorage.getItem("cm-desk-bano")==="1"}catch(e){}
   if(!isPhone||seen)return;
   // sale cuando ya llevan un minuto interactuando con la página
   let started=false;
-  const go=()=>{if(started)return;started=true;setTimeout(()=>{if(document.hidden)return;$("#phoneWarn").hidden=false;try{sessionStorage.setItem("cm-desk-bano","1")}catch(e){}},60000);};
+  const go=()=>{if(started)return;started=true;setTimeout(()=>{if(document.hidden||!$("#signup").hidden)return;$("#phoneWarn").hidden=false;try{sessionStorage.setItem("cm-desk-bano","1")}catch(e){}},60000);};
   ["pointerdown","scroll","touchstart"].forEach(ev=>addEventListener(ev,go,{once:true,passive:true,capture:true}));
 }
 document.addEventListener("click",e=>{if(e.target.closest("[data-pw-close]"))$("#phoneWarn").hidden=true;},true);
@@ -566,6 +593,7 @@ document.addEventListener("click",e=>{
   if(tapOpen){const el=tapOpen;tapOpen=null;if(e.target.closest(".ico")===el){openItem(itemById(el.dataset.p));return;}}
   if(phone()){const ic=e.target.closest("#desk .ico");if(ic){openItem(itemById(ic.dataset.p));return;}}
   const c=e.target.closest("[data-close]");if(c){closeWin(c.closest(".win"));return;}
+  if(e.target.closest("#wallBtn")){closeMenus();nextWall();return;}
   if(e.target.closest("#langBtn")){closeMenus();setLang(lang==="es"?"en":"es");return;}
   const a=e.target.closest("[data-app]");if(a){closeMenus();const app=D.dock.find(x=>x&&x.id===a.dataset.app);app&&appWin(app);return;}
   const ao=e.target.closest("[data-app-open]");if(ao){closeMenus();const app=D.dock.find(x=>x&&x.id===ao.dataset.appOpen);app&&appWin(app);return;}
@@ -584,6 +612,7 @@ document.addEventListener("keydown",e=>{
   if(e.key==="Enter"&&e.target.matches(".ico")){openItem(itemById(e.target.dataset.p));return;}
   if(e.key==="Enter"&&e.target.matches("[data-close]")){closeWin(e.target.closest(".win"));return;}
   if(e.key==="Escape"){if(!$("#phoneWarn").hidden){$("#phoneWarn").hidden=true;return;}
+    if(!$("#signup").hidden){$("#signup").hidden=true;return;}
     if(!$("#fondoMenu").hidden||!$("#startMenu").hidden){closeMenus();return;}
     const ws=[...document.querySelectorAll(".win")].sort((a,b)=>b.style.zIndex-a.style.zIndex);ws[0]&&closeWin(ws[0]);}
 });
@@ -595,6 +624,6 @@ let rt;addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(()=>{render
 // ---------- arranque
 applyStatic();
 fetch("data/escritorio.json",{cache:"no-cache"}).then(r=>r.json()).then(d=>{D=Object.assign(D,d);
-  buildItems();applyWall();renderDock();renderDesk();phoneWarning();
+  buildItems();applyWall();renderDock();renderDesk();phoneWarning();signup();
 }).catch(()=>{$("#empty").hidden=false;$("#empty span").textContent="No se pudo cargar el escritorio.";});
 })();

@@ -30,6 +30,7 @@
 <div id="fixedIcons"></div>
 
 <div id="cornerR">
+  <button id="wallBtn" class="wall-btn" data-i18n-aria="wall_aria" aria-label="Cambiar fondo"><img src="assets/iconos/pincel.png" alt="" width="64" height="64"></button>
   <button id="langBtn" class="lang-btn" data-i18n-aria="lang_aria" aria-label="Cambiar idioma"><b id="langCode">ES</b><span>/</span><i id="langOther">EN</i></button>
 </div>
 <div id="fondoMenu" class="menu" role="menu" hidden></div>
@@ -72,6 +73,21 @@
       <p class="pw-text" data-i18n="pw_text">NUESTRA WEB ES MEJOR EN EL PC. ¡VE A VERLA!</p>
       <div class="pw-btns"><button class="btn95" data-pw-close data-i18n="pw_ok">Ok, ya voy</button><button class="btn95" data-pw-close data-i18n="pw_stay">Seguir aquí</button></div>
     </div>
+  </div>
+</div>
+
+<!-- Registro: aparece al entrar (una vez por visita) para capturar correos -->
+<div id="signup" hidden role="dialog" aria-modal="true" aria-labelledby="suTitle">
+  <div class="su-box">
+    <div class="pw-bar"><img src="assets/iconos/c-flotante.png" alt=""><b data-i18n="su_bar">Únete a CREATV MYNDZ</b><button class="pw-x" data-su-close data-i18n-aria="close" aria-label="Cerrar">×</button></div>
+    <form class="su-body" id="suForm" novalidate>
+      <p id="suTitle" class="su-title" data-i18n="su_title">¿QUIERES VER MÁS CREATIVIDAD?</p>
+      <p class="su-text" data-i18n="su_text">Regístrate con tu correo y te mandamos los nuevos proyectos, ideas y lanzamientos.</p>
+      <input type="email" name="email" required autocomplete="email" data-i18n-ph="su_ph" placeholder="tu@correo.com">
+      <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <p class="su-state" role="status"></p>
+      <div class="pw-btns"><button class="btn95" type="submit" data-i18n="su_btn">Registrarme</button><button class="btn95" type="button" data-su-close data-i18n="su_later">Ahora no</button></div>
+    </form>
   </div>
 </div>
 
