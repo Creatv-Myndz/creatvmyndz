@@ -201,7 +201,9 @@ function layout(){
     // Celular: como la pantalla de inicio de un iPhone. 3 columnas, varias páginas que se
     // deslizan hacia la derecha, y cada ícono un poco corrido para que no se vea en cuadrícula.
     // primero los proyectos (CRTV), después los accesos; todo junto y apilado desde arriba
-    const fixedFirst=order.filter(p=>p.tipoItem!=="acceso").concat(order.filter(p=>p.tipoItem==="acceso"));
+    // mismo orden que la distribución del PC (de arriba a abajo, de izquierda a derecha)
+    const REFp=(D.distribucionPC||{}).posiciones||{},key=p=>REFp[p.id]?Math.round(REFp[p.id][1]/70)*10000+REFp[p.id][0]:1e9;
+    const fixedFirst=order.filter(p=>p.fijo).concat(order.filter(p=>!p.fijo).sort((a,b)=>key(a)-key(b)));
     const logo=$("#topLogo").getBoundingClientRect(),top=logo.bottom-cssPx("--mb")+4;
     const cols=3,cw=W/cols,ch=Math.max(104,Math.min(122,(H-top-24)/5)),rows=Math.max(2,Math.floor((H-top-24)/ch)),per=cols*rows;
     const pages=Math.max(1,Math.ceil(fixedFirst.length/per));
@@ -214,8 +216,32 @@ function layout(){
   }
   PAGES=1;
   {const fx=$("#fixedIcons");if(fx){fx.style.left="";fx.style.top="";}}
-  // PC: un grupo centrado y ordenado (como un escritorio moderno), con filas un poco corridas
-  // para que parezca suelto; nada se monta encima de otra cosa.
+  // PC: la distribución fija de data/escritorio.json (distribucionPC), relativa al centro de la pantalla.
+  const DP=D.distribucionPC||{},REF=DP.posiciones||{},CORNER=DP.esquina||{},placedFixed=[];
+  const refIds=order.filter(p=>REF[p.id]||CORNER[p.id]);
+  if(refIds.length){
+    const pts=Object.values(REF),minX=Math.min(...pts.map(q=>q[0]))-70,maxX=Math.max(...pts.map(q=>q[0]))+70,minY=Math.min(...pts.map(q=>q[1]))-65,maxY=Math.max(...pts.map(q=>q[1]))+65;
+    // cabe entre el logo (arriba), Explorers (izquierda) y el dock; si no, se achica todo un poco
+    const lg=$("#topLogo").getBoundingClientRect(),top=lg.bottom-cssPx("--mb")+10;
+    const ex=document.querySelector("#fixedIcons .ico"),exR=ex?ex.getBoundingClientRect().right+10:0;
+    const half=Math.max(1000-minX,maxX-1000);
+    const sc=Math.min(1,(W/2-exR)/half,(H-top-10)/(maxY-minY));
+    const cx=W/2,cy=Math.max(H/2,top-(minY-520)*sc);
+    document.documentElement.style.setProperty("--ico-s",sc.toFixed(3));
+    for(const p of refIds){
+      let x,y;
+      if(REF[p.id]){x=cx+(REF[p.id][0]-1000)*sc;y=cy+(REF[p.id][1]-520)*sc;}
+      else{x=W-CORNER[p.id][0];y=H-CORNER[p.id][1];}
+      if(moved[p.id]){x=moved[p.id][0]*W;y=moved[p.id][1]*H;}
+      placedFixed.push({p,x,y});busy.push({l:x-62,t:y-60,r:x+62,b:y+64});
+    }
+  }else document.documentElement.style.setProperty("--ico-s","1");
+  const rest=order.filter(p=>!REF[p.id]&&!CORNER[p.id]);
+  if(!rest.length)return placedFixed;
+  return placedFixed.concat(clusterLayout(rest,W,H,moved,busy,hit));
+}
+function clusterLayout(order,W,H,moved,busy,hit){
+  // Los íconos nuevos (sin posición fija): grupo centrado y ordenado; nada se monta encima de otra cosa.
   const cw=136,chh=132,n=order.length,boxes=[...busy];
   const maxCols=Math.max(3,Math.floor((W-110)/cw));
   let cols=Math.min(maxCols,Math.max(3,Math.ceil(Math.sqrt(n*1.8))));

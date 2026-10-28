@@ -393,5 +393,68 @@
   "_carpetas": "Un acceso con \"abre\": \"carpeta\" es una carpeta. Lo que lleve \"carpeta\": \"<id>\" (accesos o extras de los CRTV) va adentro y no en el escritorio, salvo que tenga \"tambienEnEscritorio\": true.",
   "_fondos": "El pincel de arriba a la derecha pasa al siguiente fondo de esta lista (se guarda en el navegador del visitante). Todos llevan el mismo blur suave.",
   "registro": false,
-  "_registro": "true = sale la ventana de registro con correo al entrar; false = apagada."
+  "_registro": "true = sale la ventana de registro con correo al entrar; false = apagada.",
+  "distribucionPC": {
+    "_comentario": "Posición de cada ícono en PC, en píxeles de una pantalla de referencia 2000×1039 (centro 1000, 520). Se mantiene la misma forma en cualquier pantalla; si no cabe, se achica todo un poco. 'esquina' = [distancia desde la derecha, distancia desde abajo]. Los íconos que no estén aquí se acomodan solos alrededor.",
+    "posiciones": {
+      "cajita-feliz-ferxxo": [
+        735,
+        402
+      ],
+      "perreo-santo": [
+        595,
+        484
+      ],
+      "pokemor": [
+        728,
+        554
+      ],
+      "creatvfy": [
+        856,
+        478
+      ],
+      "dtmf-fc-barcelona": [
+        620,
+        647
+      ],
+      "cajita-feliz-dtmf": [
+        857,
+        630
+      ],
+      "creative-dealers": [
+        996,
+        528
+      ],
+      "snoopy-flops": [
+        1100,
+        405
+      ],
+      "jordan-blessd": [
+        1110,
+        604
+      ],
+      "las-palabras-nos-hacen": [
+        1216,
+        508
+      ],
+      "proximamente": [
+        1225,
+        672
+      ],
+      "galadsy": [
+        1331,
+        454
+      ],
+      "underdogs": [
+        1349,
+        595
+      ]
+    },
+    "esquina": {
+      "buscaminas-acceso": [
+        160,
+        138
+      ]
+    }
+  }
 }
