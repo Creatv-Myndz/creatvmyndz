@@ -21,15 +21,11 @@
 <!-- Fondo de pantalla. Todo el contenido sale de data/escritorio.json -->
 <div id="wall" aria-hidden="true"></div>
 
-<!-- ===== ESQUINAS (sin barra de arriba, como un escritorio moderno) ===== -->
-<!-- Arriba a la izquierda: logo CREATV MYNDZ y el ícono EXPLORA -->
-<div id="cornerL">
-  <button class="corner-logo" data-win="sobre" data-i18n-aria="about" aria-label="Sobre CREATV MYNDZ"><img src="assets/img/logo-creatv-pixel.png" alt="CREATV MYNDZ" width="280" height="116"></button>
-  <div id="cornerIcons"></div>
-</div>
-<!-- Arriba a la derecha: reloj y Duo, que cambia el idioma -->
+<!-- ===== ARRIBA (sin barra): logo CREATV MYNDZ al centro, levitando; Duo a la derecha ===== -->
+<button id="topLogo" data-win="sobre" data-i18n-aria="about" aria-label="Sobre CREATV MYNDZ"><img src="assets/img/logo-creatv-pixel.png" alt="CREATV MYNDZ" width="560" height="301"></button>
+<!-- Íconos fijos (Explorers): a la izquierda, un poco abajo -->
+<div id="fixedIcons"></div>
 <div id="cornerR">
-  <span id="clock"></span>
   <button id="langBtn" class="lang-duo" data-i18n-aria="lang_aria" aria-label="Cambiar idioma"><img src="assets/iconos/duo.png" alt="" width="160" height="134"><b id="langCode">ES</b></button>
 </div>
 <div id="fondoMenu" class="menu" role="menu" hidden></div>
@@ -52,6 +48,7 @@
   <div class="start-side" aria-hidden="true"><span>CREATV <b>MYNDZ</b></span></div>
   <div class="start-items">
     <button role="menuitem" data-win="proyectos"><img src="assets/iconos/creatv-paleta.png" alt="" class="smooth"><span><u>C</u>reative Playground</span></button>
+    <button role="menuitem" data-open-p="mynd"><img src="assets/iconos/cerebro.png" alt=""><span><u>M</u>ynd</span></button>
     <button role="menuitem" data-start-fondo><img src="assets/iconos/paint.png" alt=""><span data-i18n-html="m_wall"><u>F</u>ondo</span><i>▸</i></button>
     <button role="menuitem" data-app-open="buscaminas"><img src="assets/iconos/buscaminas.png" alt="" class="smooth"><span data-i18n-html="s_mines"><u>B</u>uscaminas</span></button>
     <button role="menuitem" data-app-open="contacto"><img src="assets/iconos/contacto.png" alt="" class="smooth"><span data-i18n-html="s_contact"><u>C</u>ontáctanos</span></button>

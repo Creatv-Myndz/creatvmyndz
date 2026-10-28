@@ -41,18 +41,15 @@
       "abre": "proyectos"
     },
     {
-      "id": "explora",
-      "titulo": {
-        "es": "Explora",
-        "en": "Explore"
-      },
+      "id": "explorers",
+      "titulo": "Explorers",
       "icono": "assets/iconos/c-flotante.png",
       "abre": "explora",
+      "fijo": true,
       "texto": {
         "es": "Explora tu creatividad",
         "en": "Explore your creativity"
-      },
-      "esquina": true
+      }
     },
     {
       "id": "buscaminas-acceso",
@@ -62,6 +59,23 @@
       },
       "icono": "assets/iconos/buscaminas.png",
       "juego": "buscaminas"
+    },
+    {
+      "id": "mynd",
+      "titulo": "Mynd",
+      "icono": "assets/iconos/cerebro.png",
+      "abre": "mynd"
+    },
+    {
+      "id": "creative-dealers",
+      "titulo": "Creative Dealers",
+      "icono": "assets/iconos/carpeta.png",
+      "abre": "dealers",
+      "texto": {
+        "es": "Creatividad universal aplicada a marcas globales. Tomamos la cultura, la convertimos en ideas y las materializamos para marcas que le hablan al mundo.",
+        "en": "Universal creativity applied to global brands. We take culture, turn it into ideas and materialize them for brands that speak to the world."
+      },
+      "enlace_interno": "index.html#dealing"
     }
   ],
   "buscaminas": {
@@ -83,12 +97,14 @@
   },
   "proyectos": [],
   "extras": {
-    "_comentario": "Por CRTV (id de assets/projects.js): 'icono' reemplaza la miniatura en el escritorio; 'videos' van ENCIMA de la imagen del proyecto en Paint. x, y, w (y h para 'video') son % de la imagen; YouTube mantiene 16:9. tipo 'youtube' (id, inicio en segundos) o 'video' (src de un .mp4). Un video con src vacío no se muestra. 'esquina': true en un acceso lo pone fijo arriba a la izquierda, al lado del logo.",
+    "_comentario": "Por CRTV (id de assets/projects.js): 'titulo' es el nombre como se ve en el escritorio; 'icono' reemplaza la miniatura; 'videos' van ENCIMA de la imagen del proyecto en Paint (x, y, w, h en % de la imagen; YouTube mantiene 16:9). tipo 'youtube' (id, inicio en segundos) o 'video' (src de un .mp4; vacío = no se muestra).",
     "cajita-feliz-dtmf": {
-      "icono": "assets/iconos/cajita-dtmf.png"
+      "icono": "assets/iconos/cajita-dtmf.png",
+      "titulo": "Cajita Feliz DtMF"
     },
     "cajita-feliz-ferxxo": {
-      "icono": "assets/iconos/cajita-ferxxo.png"
+      "icono": "assets/iconos/cajita-ferxxo.png",
+      "titulo": "Cajita Feliz de Ferxxo"
     },
     "perreo-santo": {
       "icono": "assets/iconos/perreo-santo.png",
@@ -120,10 +136,12 @@
           "h": 27.1,
           "_nota": "celular 3: falta el video"
         }
-      ]
+      ],
+      "titulo": "Perreo Santo"
     },
     "pokemor": {
-      "icono": "assets/iconos/pokemor.png"
+      "icono": "assets/iconos/pokemor.png",
+      "titulo": "Pokémor — Pokémon del Reggaetón"
     },
     "jordan-blessd": {
       "videos": [
@@ -137,10 +155,39 @@
           "_nota": "tapa el VER DROP"
         }
       ],
-      "icono": "assets/iconos/jordan-blessd.png"
+      "icono": "assets/iconos/jordan-blessd.png",
+      "titulo": "Jordan x Blessd"
     },
     "las-palabras-nos-hacen": {
-      "icono": "assets/iconos/las-palabras.png"
+      "icono": "assets/iconos/las-palabras.png",
+      "titulo": "Las Palabras Nos Hacen"
+    },
+    "dtmf-fc-barcelona": {
+      "titulo": "DtMF x FC Barcelona",
+      "icono": "assets/iconos/silla.png"
+    },
+    "happy-house": {
+      "titulo": "Happy House"
+    },
+    "underdogs": {
+      "titulo": "Underdogs / Perro Negro x Undergold",
+      "icono": "assets/iconos/perro-negro.png"
+    },
+    "snoopy-flops": {
+      "titulo": "Snoopy Flops",
+      "icono": "assets/iconos/snoopy.png"
+    },
+    "forja-game": {
+      "titulo": "Forja Game in Real Life"
+    },
+    "carriel-de-ryan": {
+      "titulo": "Carriel de Ryan"
+    },
+    "joya-por-amor-al-arte": {
+      "titulo": "Joya por Amor al Arte"
+    },
+    "tiempo-vs-amor": {
+      "titulo": "Tiempo vs Amor (Reloj)"
     }
   },
   "dock": [
@@ -218,7 +265,7 @@
     {
       "id": "instagram",
       "nombre": "Instagram",
-      "icono": "assets/iconos/camara.svg",
+      "icono": "assets/iconos/instagram.png",
       "enlace": "https://instagram.com/creatvmyndz"
     },
     {
@@ -230,24 +277,16 @@
       "icono": "assets/iconos/contacto.png",
       "contacto": true
     },
-    {
-      "id": "buscaminas",
-      "nombre": {
-        "es": "Buscaminas",
-        "en": "Minesweeper"
-      },
-      "icono": "assets/iconos/buscaminas.png",
-      "juego": "buscaminas"
-    },
     "|",
     {
       "id": "papelera",
       "nombre": {
-        "es": "Por reciclar",
-        "en": "To recycle"
+        "es": "Papelera de ideas",
+        "en": "Idea bin"
       },
       "icono": "assets/iconos/papelera.png",
       "ideas": []
     }
-  ]
+  ],
+  "proximoIcono": "assets/iconos/carpeta-proximo.png"
 }

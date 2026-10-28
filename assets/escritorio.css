@@ -34,16 +34,15 @@ u{text-decoration:underline;text-underline-offset:2px}
    para que los bordes no se vean lavados. */
 #wall{position:fixed;inset:calc(var(--blur) * -3);background:#008080 center/cover no-repeat;filter:blur(var(--blur));transform:scale(1.02);transition:filter .5s ease}
 
-/* ===== ESQUINAS (sin barra de arriba, como un escritorio moderno) =====
-   Izquierda: logo CREATV MYNDZ pixelado en blanco + EXPLORA. Derecha: reloj + Duo (idioma). */
-#cornerL{position:fixed;z-index:20;top:calc(14px + env(safe-area-inset-top, 0px));left:16px;display:flex;align-items:flex-start;gap:14px}
-.corner-logo{padding:4px;border-radius:6px}
-.corner-logo img{width:110px;height:auto;image-rendering:pixelated;filter:drop-shadow(0 2px 6px rgba(0,0,0,.45))}
-.corner-logo:hover{background:rgba(255,255,255,.12)}
-#cornerIcons{display:flex;gap:6px}
-#cornerIcons .ico{position:relative;transform:none;width:84px}
+/* ===== ARRIBA (sin barra) =====
+   Logo CREATV MYNDZ al centro, levitando muy sutil. Duo (idioma) a la derecha.
+   Explorers fijo a la izquierda, a ~10% del borde y un poco abajo. */
+#topLogo{position:fixed;z-index:20;top:calc(14px + env(safe-area-inset-top, 0px));left:50%;transform:translateX(-50%);padding:4px;border-radius:8px}
+#topLogo img{display:block;width:170px;height:auto;image-rendering:pixelated;filter:drop-shadow(0 6px 12px rgba(0,0,0,.4));animation:levitate 4.5s ease-in-out infinite}
+@keyframes levitate{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-5px) rotate(-.6deg)}}
+#fixedIcons{position:fixed;z-index:20;left:10%;top:22%;display:flex;flex-direction:column;gap:10px}
+#fixedIcons .ico{position:relative;transform:none;width:90px}
 #cornerR{position:fixed;z-index:20;top:calc(12px + env(safe-area-inset-top, 0px));right:14px;display:flex;align-items:center;gap:10px}
-#clock{font:22px/1 var(--pixel);color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6);letter-spacing:.03em}
 .lang-duo{position:relative;display:grid;place-items:center;width:62px;height:56px;border-radius:12px;transition:transform .15s}
 .lang-duo:hover{transform:translateY(-2px) rotate(-4deg)}
 .lang-duo img{width:58px;height:auto;filter:drop-shadow(0 4px 8px rgba(0,0,0,.4))}
@@ -85,7 +84,7 @@ u{text-decoration:underline;text-underline-offset:2px}
 .ico .th.bare.custom{width:92px;height:64px;margin-bottom:4px}
 .ico .th.bare.custom img{width:92px;height:64px}
 .ico.acceso .th.bare img{width:72px;height:56px}
-.ico .lb{font:16px/.95 var(--pixel);letter-spacing:.04em;text-transform:uppercase;color:rgba(255,255,255,.92);text-shadow:0 1px 2px rgba(0,0,0,.7),0 0 8px rgba(0,0,0,.35);padding:1px 3px 2px;max-width:104px;overflow-wrap:anywhere}
+.ico .lb{font:17px/.95 var(--pixel);letter-spacing:.02em;color:rgba(255,255,255,.92);text-shadow:0 1px 2px rgba(0,0,0,.7),0 0 8px rgba(0,0,0,.35);padding:1px 3px 2px;max-width:104px;overflow-wrap:anywhere}
 .ico:hover .th{transform:translateY(-2px);transition:transform .15s}
 .ico.sel .th:not(.bare)::after{content:"";position:absolute;inset:0;background:rgba(10,36,106,.45)}
 .ico.sel .th.bare img{filter:drop-shadow(0 4px 8px rgba(0,0,0,.35)) brightness(.75) sepia(1) hue-rotate(190deg) saturate(3)}
@@ -165,6 +164,19 @@ u{text-decoration:underline;text-underline-offset:2px}
 .b-page h2{margin:0 0 8px;font:44px/1 var(--pixel);color:#0a3d9c;letter-spacing:.02em}
 .b-page p{margin:0;max-width:44ch;font-size:15px}
 .win .status .z-ico{width:14px;height:14px;display:inline-block;vertical-align:-2px;object-fit:contain}
+
+/* Mynd: inicio de sesión retro */
+.win.login-win{width:min(400px,calc(100vw - 32px))}
+.login{display:flex;flex-direction:column;gap:10px}
+.lg-head{display:flex;gap:12px;align-items:center}
+.lg-head .lg-ico{width:56px;height:auto;image-rendering:pixelated;flex:none}
+.lg-head b{display:block;font:24px/1 var(--pixel)}
+.lg-head span{font-size:13px}
+.login label{display:flex;flex-direction:column;gap:3px;font-size:13px}
+.login input{font:16px var(--sys);letter-spacing:.1em;padding:5px 6px;border:0;background:#fff;box-shadow:var(--sunken);outline:0}
+.lg-err{min-height:18px;margin:0;font-size:13px;color:#a00}
+.lg-btns{display:flex;justify-content:flex-end;gap:8px}
+.lg-btns .btn95{margin-top:0}
 
 /* Contáctanos */
 .contact{display:flex;flex-direction:column;gap:10px}
@@ -255,11 +267,10 @@ u{text-decoration:underline;text-underline-offset:2px}
 /* ===== CELULAR: mismo escritorio, ventanas como hoja desde abajo ===== */
 @media (max-width:640px){
   :root{--tb:92px}
-  #cornerL{left:10px;gap:6px}
-  .corner-logo img{width:76px}
-  #cornerIcons .ico{width:70px}
-  #cornerR{right:8px;gap:6px}
-  #clock{font-size:18px}
+  #topLogo img{width:110px}
+  #fixedIcons{left:4%;top:15%}
+  #fixedIcons .ico{width:72px}
+  #cornerR{right:8px}
   .lang-duo{width:48px;height:44px}
   .lang-duo img{width:44px}
   .ico{width:80px}
@@ -289,4 +300,4 @@ u{text-decoration:underline;text-underline-offset:2px}
   .start{left:6px!important;right:6px;min-width:0}
   #fondoMenu{left:4px!important;right:4px;min-width:0}
 }
-@media (prefers-reduced-motion:reduce){.win,#wall,.ico[data-p="explora"] .th img{animation:none;transition:none}}
+@media (prefers-reduced-motion:reduce){#topLogo img,.win,#wall,.ico[data-p="explora"] .th img{animation:none;transition:none}}

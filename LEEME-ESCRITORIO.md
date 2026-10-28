@@ -153,12 +153,23 @@ En `data/escritorio.json → extras`, por `id` del CRTV:
 - El ícono "EXPLORA" (la C) abre un navegador retro con "Explora tu creatividad".
 - `pokemor.png` se reconstruyó casilla por casilla desde una plantilla de pixel art (magicoloriage.com), sin fondo.
 
-## Esquinas (no hay barra de arriba)
+## Arriba (no hay barra)
 
-- Arriba a la izquierda: logo CREATV MYNDZ pixelado en blanco (`assets/img/logo-creatv-pixel.png`, abre "Sobre")
-  y los accesos con `"esquina": true` (hoy: EXPLORA). No se arrastran y se abren con un clic.
-- Arriba a la derecha: reloj y **Duo** (`assets/iconos/duo.png`), que cambia entre ES y EN.
+- Al centro: logo CREATV MYNDZ pixelado (`assets/img/logo-creatv-pixel.png`), levitando suave. Abre "Sobre".
+- A la izquierda (~10% del borde, un poco abajo): los accesos con `"fijo": true` (hoy: Explorers). No se arrastran
+  y se abren con un clic. En el celular ocupan la primera casilla de la cuadrícula.
+- Arriba a la derecha: **Duo** (`assets/iconos/duo.png`), cambia entre ES y EN. Ya no hay reloj.
 - El menú **Fondo** se abre desde el menú Inicio (botón CREATV del dock).
-- El dock flota 26 px por encima del borde de abajo (18 px en el celular).
-- Ojo: Duo es el personaje de Duolingo; se usa por decisión de CREATV MYNDZ.
+- Las ventanas no tienen el menú "Archivo Edición Ver Ayuda" (no tenía función).
+- Nombres en el escritorio: tal cual se escriben (sin forzar mayúsculas). Los de los CRTV se ponen en
+  `extras.<id>.titulo`.
 
+## Otros accesos
+
+- **Mynd** (cerebro): ventana de inicio de sesión retro con la misma clave de `mynd.html` (mismo hash). Si la
+  clave es correcta, abre el tablero de MYND CREATV en otra pestaña. Si cambia la clave o el tablero, hay que
+  cambiar `MYND_HASH` / `MYND_BOARD` en `assets/escritorio.js` **y** en `mynd.html`.
+- **Creative Dealers**: ventana con la descripción y un botón a la sección Creative Dealing de la portada.
+- Los CRTV próximos usan el ícono `proximoIcono` (carpeta con papeles), salvo que tengan su propio `icono` (Snoopy).
+- Ojo con marcas de otros: Duo (Duolingo), Instagram, Snoopy (Peanuts), Ash (Pokémon), la C y las dos personas
+  (Microsoft) se usan por decisión de CREATV MYNDZ.
