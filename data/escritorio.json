@@ -62,11 +62,12 @@
     {
       "id": "buscaminas-acceso",
       "titulo": {
-        "es": "Buscaminas",
-        "en": "Minesweeper"
+        "es": "Jugar!!",
+        "en": "Play!!"
       },
       "icono": "assets/iconos/buscaminas.png",
-      "juego": "buscaminas"
+      "juego": "buscaminas",
+      "zona": "camilo"
     },
     {
       "id": "creative-dealers",
@@ -77,7 +78,7 @@
         "es": "Creatividad universal aplicada a marcas globales. Tomamos la cultura, la convertimos en ideas y las materializamos para marcas que le hablan al mundo.",
         "en": "Universal creativity applied to global brands. We take culture, turn it into ideas and materialize them for brands that speak to the world."
       },
-      "enlace_interno": "index.html#dealing"
+      "enlace_interno": "portada.html#dealing"
     },
     {
       "id": "por-amor-al-arte",
@@ -90,6 +91,16 @@
       "titulo": "Galadsy",
       "icono": "assets/iconos/galadsy.png",
       "enlace": "https://galadsy.com"
+    },
+    {
+      "id": "spotify",
+      "titulo": "Spotify",
+      "icono": "assets/iconos/spotify.png",
+      "zona": "camilo",
+      "texto": {
+        "es": "Nuestra música en Spotify. Muy pronto.",
+        "en": "Our music on Spotify. Coming soon."
+      }
     }
   ],
   "buscaminas": {
@@ -151,23 +162,27 @@
       },
       {
         "es": [
-          "AHORA DEJA",
-          "DE JUGAR",
-          "ESTE JUEGO",
+          "CUANDO HACES",
+          "TODO DESDE",
+          "EL AMOR, ESO",
+          "ES JUGAR AL",
+          "SIGUIENTE",
+          "NIVEL!",
           "",
-          "Y COMIENZA",
-          "A JUGAR EN",
-          "LA VIDA",
-          "REAL!!"
+          "COMIENZA",
+          "A JUGAR"
         ],
         "en": [
-          "NOW STOP",
-          "PLAYING",
-          "THIS GAME",
+          "WHEN YOU DO",
+          "EVERYTHING",
+          "FROM LOVE,",
+          "THAT'S",
+          "PLAYING AT",
+          "THE NEXT",
+          "LEVEL!",
           "",
-          "AND START",
-          "PLAYING IN",
-          "REAL LIFE!!"
+          "START",
+          "PLAYING"
         ]
       }
     ]
@@ -269,15 +284,6 @@
   },
   "dock": [
     {
-      "id": "spotify",
-      "nombre": "Spotify",
-      "icono": "assets/iconos/spotify.png",
-      "texto": {
-        "es": "Nuestra música en Spotify. Muy pronto.",
-        "en": "Our music on Spotify. Coming soon."
-      }
-    },
-    {
       "id": "instagram",
       "nombre": "Instagram",
       "icono": "assets/iconos/instagram.png",
@@ -332,5 +338,9 @@
   "fotos": {
     "_comentario": "Collage de la app Fotos. Agrega rutas de imágenes aquí; si está vacío, usa las imágenes de los CRTV.",
     "imagenes": []
+  },
+  "zonaCamilo": {
+    "titulo": "Camilo Vegga",
+    "_comentario": "Los accesos con \"zona\": \"camilo\" van juntos en la esquina de abajo a la derecha (en el celular, en la cuadrícula)."
   }
 }

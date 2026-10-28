@@ -1,6 +1,6 @@
 # Escritorio retro de CREATV MYNDZ
 
-Página: **creatvmyndz.com/escritorio** (`escritorio.html`).
+Página: **creatvmyndz.com** (es la página principal, `index.html`; `/escritorio` reenvía aquí). La portada anterior quedó en `portada.html`.
 Viene del escritorio que estaba en la rama `escritorio` de `creatvmyndz/camilovegga`, pasado a la marca
 CREATV MYNDZ y a estilo retro (Windows 95/98 + XP + Vista).
 
@@ -8,7 +8,7 @@ Todo el contenido vive en **`data/escritorio.json`**. Para cambiar algo casi nun
 
 | Archivo | Qué es |
 | --- | --- |
-| `escritorio.html` | la página |
+| `index.html` | la página (antes `escritorio.html`) |
 | `assets/escritorio.css` | estilos retro (bordes biselados, barra azul XP, barra de tareas) |
 | `assets/escritorio.js` | lógica: fondo, íconos, ventanas, menús, reloj |
 | `data/escritorio.json` | **el contenido**: fondos, proyectos, programas, ideas |

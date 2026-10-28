@@ -1,80 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>CREATV MYNDZ · Escritorio</title>
-<meta name="description" content="El escritorio de CREATV MYNDZ — Global Creative Dealers. Proyectos creativos, ideas y procesos.">
-<meta name="theme-color" content="#c0c0c0">
-<meta property="og:title" content="CREATV MYNDZ · Escritorio">
-<meta property="og:description" content="El escritorio de CREATV MYNDZ: proyectos creativos, ideas y procesos.">
-<meta property="og:image" content="https://creatvmyndz.com/assets/img/og.jpg">
-<meta property="og:url" content="https://creatvmyndz.com/escritorio.html">
-<link rel="icon" href="assets/img/favicon.png" sizes="any">
-<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/escritorio.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CREATV MYNDZ</title>
+  <!-- El escritorio ahora es la página principal (index.html). -->
+  <meta name="robots" content="noindex">
+  <link rel="canonical" href="https://creatvmyndz.com/">
+  <meta http-equiv="refresh" content="0; url=./">
+  <link rel="icon" href="assets/img/favicon.png" sizes="any">
 </head>
-<body>
-<!-- Fondo de pantalla. Todo el contenido sale de data/escritorio.json -->
-<div id="wall" aria-hidden="true"></div>
-
-<!-- ===== ARRIBA (sin barra): logo CREATV MYNDZ al centro, levitando; Duo a la derecha ===== -->
-<button id="topLogo" data-win="sobre" data-i18n-aria="about" aria-label="Sobre CREATV MYNDZ"><img src="assets/img/logo-creatv-pixel.png" alt="CREATV MYNDZ" width="560" height="301"></button>
-<!-- Íconos fijos (Creative Playground): a la izquierda, un poco abajo -->
-<div id="fixedIcons"></div>
-<div id="cornerR">
-  <button id="langBtn" class="lang-btn" data-i18n-aria="lang_aria" aria-label="Cambiar idioma"><b id="langCode">ES</b><span>/</span><i id="langOther">EN</i></button>
-</div>
-<div id="fondoMenu" class="menu" role="menu" hidden></div>
-
-<main id="desk" data-i18n-aria="desk" aria-label="Escritorio"></main>
-<div id="empty" hidden>
-  <img src="assets/iconos/carpeta.png" alt="" width="32" height="32">
-  <span data-i18n="empty">Los proyectos van a aparecer aquí, uno por uno.</span>
-</div>
-
-<!-- ===== DOCK FLOTANTE (moderno, con íconos retro) ===== -->
-<footer id="taskbar">
-  <button id="startBtn" aria-haspopup="true" aria-expanded="false" data-i18n-aria="start" aria-label="Inicio"><img src="assets/iconos/nube.png" alt="" width="164" height="98"><span class="tip" role="tooltip" data-i18n="start">Inicio</span></button>
-  <span class="sep" aria-hidden="true"></span>
-  <nav id="dock" data-i18n-aria="programs" aria-label="Programas"></nav>
-</footer>
-
-<!-- Menú Inicio -->
-<div id="startMenu" class="menu start" role="menu" hidden>
-  <div class="start-side" aria-hidden="true"><span>CREATV <b>MYNDZ</b></span></div>
-  <div class="start-items">
-    <button role="menuitem" data-win="proyectos"><img src="assets/iconos/c-flotante.png" alt="" class="smooth"><span><u>C</u>reative Playground</span></button>
-    <button role="menuitem" data-open-p="mynd"><img src="assets/iconos/aviso.png" alt=""><span><u>M</u>ynd</span></button>
-    <button role="menuitem" data-start-fondo><img src="assets/iconos/paint.png" alt=""><span data-i18n-html="m_wall"><u>F</u>ondo</span><i>▸</i></button>
-    <button role="menuitem" data-open-p="buscaminas-acceso"><img src="assets/iconos/buscaminas.png" alt="" class="smooth"><span data-i18n-html="s_mines"><u>B</u>uscaminas</span></button>
-    <button role="menuitem" data-app-open="contacto"><img src="assets/iconos/contacto.png" alt="" class="smooth"><span data-i18n-html="s_contact"><u>C</u>ontáctanos</span></button>
-    <button role="menuitem" data-app-open="papelera"><img src="assets/iconos/papelera.png" alt="" class="smooth"><span data-i18n-html="s_bin">Por <u>r</u>eciclar</span></button>
-    <hr>
-    <button role="menuitem" data-win="sobre"><img src="assets/iconos/cdrom.png" alt=""><span data-i18n-html="s_about"><u>S</u>obre CREATV MYNDZ…</span></button>
-  </div>
-</div>
-
-<!-- Aviso solo para quien entra desde el celular -->
-<div id="phoneWarn" hidden role="dialog" aria-modal="true" aria-labelledby="pwTitle">
-  <div class="pw-photo" aria-hidden="true"></div>
-  <div class="pw-box">
-    <div class="pw-bar"><img src="assets/iconos/aviso.png" alt=""><b data-i18n="pw_bar">Advertencia</b><button class="pw-x" data-pw-close data-i18n-aria="close" aria-label="Cerrar">×</button></div>
-    <div class="pw-body">
-      <p id="pwTitle" class="pw-title" data-i18n="pw_title">¿ESTÁS EN EL BAÑO?</p>
-      <p class="pw-text" data-i18n="pw_text">NUESTRA WEB ES MEJOR EN EL PC. ¡VE A VERLA!</p>
-      <div class="pw-btns"><button class="btn95" data-pw-close data-i18n="pw_ok">Ok, ya voy</button><button class="btn95" data-pw-close data-i18n="pw_stay">Seguir aquí</button></div>
-    </div>
-  </div>
-</div>
-
-<input type="file" id="wallFile" accept="image/*" hidden>
-<div id="wins"></div>
-
-<script src="assets/projects.js"></script>
-<script src="assets/escritorio.js"></script>
-</body>
+<body><a href="./">CREATV MYNDZ →</a></body>
 </html>

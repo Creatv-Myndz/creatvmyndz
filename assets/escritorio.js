@@ -1,4 +1,4 @@
-// CREATV MYNDZ · el escritorio retro (escritorio.html). Todo sale de data/escritorio.json:
+// CREATV MYNDZ · el escritorio retro (index.html, la página principal). Todo sale de data/escritorio.json:
 //   fondo / fondos      → fondos de pantalla (el visitante los cambia desde el menú "Fondo")
 //   creativePlayground  → true = cada CRTV de assets/projects.js es un ícono del escritorio
 //   accesos             → íconos sueltos del escritorio (abren una ventana, la lista de proyectos, un juego o un enlace)
@@ -21,9 +21,9 @@ const cssPx=v=>parseInt(getComputedStyle(document.documentElement).getPropertyVa
 // ---------- idioma (comparte la preferencia con el resto de creatvmyndz.com)
 let lang=(()=>{try{return localStorage.getItem("cm-lang")==="en"?"en":"es"}catch(e){return "es"}})();
 const I18N={
-  es:{m_projects:"<u>P</u>royectos",m_wall:"<u>F</u>ondo",about:"Sobre CREATV MYNDZ",lang_aria:"Cambiar idioma (English)",desk:"Escritorio",
+  es:{m_projects:"<u>P</u>royectos",m_wall:"<u>F</u>ondo",about:"Próximamente CREATV MYNDZ",lang_aria:"Cambiar idioma (English)",desk:"Escritorio",
       empty:"Los proyectos van a aparecer aquí, uno por uno.",start:"Inicio",programs:"Programas",
-      s_mines:"<u>B</u>uscaminas",s_contact:"<u>C</u>ontáctanos",s_bin:"Por <u>r</u>eciclar",s_about:"<u>S</u>obre CREATV MYNDZ…",
+      s_mines:"<u>J</u>ugar!!",s_contact:"<u>C</u>ontáctanos",s_bin:"<u>P</u>apelera de ideas",s_about:"<u>P</u>róximamente CREATV MYNDZ",
       close:"Cerrar",ready:"Listo",
       menu:["<u>A</u>rchivo","<u>E</u>dición","<u>V</u>er","Ay<u>u</u>da"],
       menuPaint:["<u>A</u>rchivo","<u>E</u>dición","<u>V</u>er","<u>I</u>magen","<u>O</u>pciones","Ay<u>u</u>da"],
@@ -32,16 +32,16 @@ const I18N={
       tooHeavy:["No se pudo guardar","La imagen es muy pesada para guardarla en este navegador. Prueba con otra más liviana."],
       notImage:["No se pudo abrir","Ese archivo no parece una imagen."],
       sys:"Mensaje del sistema",ok:"Ok",cancel:"Cancelar",
-      soonMsg:"Estamos trabajando en este CRTV. Muy pronto vas a poder verlo.",
+      soonMsg:"Estamos creando un nuevo CRTV. Muy pronto vas a poder verlo.",
       noMaterial:"Este CRTV ya está hecho. Estamos preparando el material para mostrarlo aquí.",
       openProject:"Abrir proyecto ↗",
       binEmpty:"Nada por reciclar",binEmptyTxt:"Aquí van a caer las ideas sueltas.",idea:"idea",ideas:"ideas",
       noProjects:"Todavía no hay proyectos",noProjectsTxt:"Cada proyecto creativo va a aparecer como un ícono en el escritorio.",
       obj:"objeto",objs:"objetos",inBuild:"en construcción",
-      aboutTxt:"El escritorio de CREATV MYNDZ.<br>Proyectos creativos, ideas y procesos.",goSite:"Ir a creatvmyndz.com",
+      aboutTxt:"El escritorio de CREATV MYNDZ.<br>Proyectos creativos, ideas y procesos.",goSite:"Ver la portada clásica",
       soon:"Muy pronto.",
-      mines:"Buscaminas",newGame:"Nuevo juego",flagMode:"Modo bandera",yes:"sí",no:"no",
-      won:"¡Ganaste!",nextLevel:"Siguiente nivel ▸",cell:"casilla",
+      mines:"Jugar!!",newGame:"Nuevo juego",flagMode:"Modo bandera",yes:"sí",no:"no",
+      won:"¡Ganaste!",lost:"¡Boom! Perdiste.",retry:"Volver a intentar",nextLevel:"Siguiente nivel ▸",cell:"casilla",
       contact:"Contáctanos",c_intro:"Escríbenos: proyectos, ideas, colaboraciones o un saludo.",c_name:"Nombre",c_mail:"Tu correo",c_msg:"Mensaje",
       c_send:"Enviar",c_sending:"Enviando…",c_ok:"¡Mensaje enviado! Te respondemos pronto.",c_err:"No se pudo enviar. Escríbenos directo a",
       explore:"Explora tu creatividad",exploreSoon:"Muy pronto vas a encontrar aquí ejercicios, ideas y herramientas para despertar tu creatividad.",
@@ -51,9 +51,9 @@ const I18N={
       myndBad:"Código incorrecto. Pídelo a Camilo.",myndOk:"Acceso concedido. Abriendo Mynd…",dealersGo:"Ver Creative Dealing →",
       photos:"fotos",
       pw_bar:"Advertencia",pw_title:"¿ESTÁS EN EL BAÑO?",pw_text:"NUESTRA WEB ES MEJOR EN EL PC. ¡VE A VERLA!",pw_ok:"Ok, ya voy",pw_stay:"Seguir aquí"},
-  en:{m_projects:"<u>P</u>rojects",m_wall:"<u>W</u>allpaper",about:"About CREATV MYNDZ",lang_aria:"Change language (Español)",desk:"Desktop",
+  en:{m_projects:"<u>P</u>rojects",m_wall:"<u>W</u>allpaper",about:"Coming soon: CREATV MYNDZ",lang_aria:"Change language (Español)",desk:"Desktop",
       empty:"Projects will show up here, one by one.",start:"Start",programs:"Programs",
-      s_mines:"<u>M</u>inesweeper",s_contact:"<u>C</u>ontact us",s_bin:"To <u>r</u>ecycle",s_about:"<u>A</u>bout CREATV MYNDZ…",
+      s_mines:"<u>P</u>lay!!",s_contact:"<u>C</u>ontact us",s_bin:"Idea <u>b</u>in",s_about:"<u>C</u>oming soon: CREATV MYNDZ",
       close:"Close",ready:"Ready",
       menu:["<u>F</u>ile","<u>E</u>dit","<u>V</u>iew","<u>H</u>elp"],
       menuPaint:["<u>F</u>ile","<u>E</u>dit","<u>V</u>iew","<u>I</u>mage","<u>O</u>ptions","<u>H</u>elp"],
@@ -62,16 +62,16 @@ const I18N={
       tooHeavy:["Couldn't save it","That image is too heavy to store in this browser. Try a lighter one."],
       notImage:["Couldn't open it","That file doesn't look like an image."],
       sys:"System message",ok:"Ok",cancel:"Cancel",
-      soonMsg:"We're working on this CRTV. You'll be able to see it very soon.",
+      soonMsg:"We're creating a new CRTV. You'll be able to see it very soon.",
       noMaterial:"This CRTV is done. We're getting the material ready to show it here.",
       openProject:"Open project ↗",
       binEmpty:"Nothing to recycle",binEmptyTxt:"Loose ideas will land here.",idea:"idea",ideas:"ideas",
       noProjects:"No projects yet",noProjectsTxt:"Every creative project will show up as an icon on the desktop.",
       obj:"object",objs:"objects",inBuild:"under construction",
-      aboutTxt:"The CREATV MYNDZ desktop.<br>Creative projects, ideas and processes.",goSite:"Go to creatvmyndz.com",
+      aboutTxt:"The CREATV MYNDZ desktop.<br>Creative projects, ideas and processes.",goSite:"See the classic homepage",
       soon:"Coming soon.",
-      mines:"Minesweeper",newGame:"New game",flagMode:"Flag mode",yes:"on",no:"off",
-      won:"You won!",nextLevel:"Next level ▸",cell:"cell",
+      mines:"Play!!",newGame:"New game",flagMode:"Flag mode",yes:"on",no:"off",
+      won:"You won!",lost:"Boom! You lost.",retry:"Try again",nextLevel:"Next level ▸",cell:"cell",
       contact:"Contact us",c_intro:"Write to us: projects, ideas, collaborations or just to say hi.",c_name:"Name",c_mail:"Your email",c_msg:"Message",
       c_send:"Send",c_sending:"Sending…",c_ok:"Message sent! We'll get back to you soon.",c_err:"Couldn't send it. Write to us directly at",
       explore:"Explore your creativity",exploreSoon:"Very soon you'll find exercises, ideas and tools here to wake up your creativity.",
@@ -127,11 +127,12 @@ function buildItems(){
 
 // ---------- fondo de pantalla
 function blurFor(f){const lvl=store.get("blur")||"suave",base=f?.blur??10;return lvl==="sin"?0:lvl==="fuerte"?Math.min(32,Math.max(14,base*2)):base;}
-function currentFondo(){const id=store.get("fondo");return D.fondos.find(x=>x.id===id)||D.fondos.find(x=>x.id===D.fondo)||D.fondos[0];}
+// El fondo lo elige CREATV MYNDZ en data/escritorio.json ("fondo"); los visitantes ya no lo cambian.
+function currentFondo(){return D.fondos.find(x=>x.id===D.fondo)||D.fondos[0];}
 function applyWall(){
-  const mine=store.get("mio"),f=currentFondo(),img=mine||f?.imagen;
+  const f=currentFondo(),img=f?.imagen;
   $("#wall").style.backgroundImage=img?`url("${img}")`:"none";
-  document.documentElement.style.setProperty("--blur",blurFor(f)+"px");
+  document.documentElement.style.setProperty("--blur",(f?.blur??0)+"px");
   renderFondoMenu();
 }
 function renderFondoMenu(){
@@ -170,10 +171,10 @@ function rng(seed){let h=1779033703^seed.length;for(let i=0;i<seed.length;i++){h
 function deskSize(){return [innerWidth,innerHeight-cssPx("--mb")-cssPx("--tb")];}
 function layout(){
   const [W,H]=deskSize(),moved=store.get("pos")||{},ph=phone();
-  const order=ITEMS.filter(p=>!p.fijo).sort((a,b)=>rng(a.id)()-rng(b.id)());
+  const order=ITEMS.filter(p=>!p.fijo&&!(p.zona==="camilo"&&!phone())).sort((a,b)=>rng(a.id)()-rng(b.id)());
   // Zonas ocupadas: logo de arriba, íconos fijos (Explorers) y Duo
   const busy=[];
-  ["#topLogo","#fixedIcons .ico","#cornerR"].forEach(sel=>document.querySelectorAll(sel).forEach(el=>{const r=el.getBoundingClientRect();if(r.width)busy.push({l:r.left-8,t:r.top-cssPx("--mb")-8,r:r.right+8,b:r.bottom-cssPx("--mb")+8});}));
+  ["#topLogo","#fixedIcons .ico","#cornerR","#cornerBR:not([hidden])"].forEach(sel=>document.querySelectorAll(sel).forEach(el=>{const r=el.getBoundingClientRect();if(r.width)busy.push({l:r.left-8,t:r.top-cssPx("--mb")-8,r:r.right+8,b:r.bottom-cssPx("--mb")+8});}));
   const hit=(a,b)=>a.l<b.r&&b.l<a.r&&a.t<b.b&&b.t<a.b;
   if(ph){
     // Celular: cuadrícula de 4 columnas con un poco de desorden, debajo del logo.
@@ -215,6 +216,11 @@ function renderDesk(){
   if(!ITEMS.length&&!D.fondos.length)return;
   // Los accesos con "esquina": true van fijos arriba a la izquierda, al lado del logo
   $("#fixedIcons").innerHTML=ITEMS.filter(p=>p.fijo).map(p=>icoHTML(p)).join("");
+  // Esquina de abajo a la derecha: proyectos de Camilo Vegga (en el celular van en la cuadrícula)
+  const cam=ITEMS.filter(p=>p.zona==="camilo"),br=$("#cornerBR");
+  br.hidden=phone()||!cam.length;
+  br.querySelector(".cbr-title").textContent=L(D.zonaCamilo?.titulo)||"Camilo Vegga";
+  br.querySelector(".cbr-icons").innerHTML=phone()?"":cam.map(p=>icoHTML(p)).join("");
   $("#desk").innerHTML=layout().map(({p,x,y})=>`<button class="ico ${p.tipoItem} ${p.estado||""}" data-p="${esc(p.id)}" style="left:${x}px;top:${y}px" aria-label="${esc(L(p.titulo))}">${thumbHTML(p)}<span class="lb">${esc(L(p.titulo))}</span></button>`).join("");
   $("#empty").hidden=ITEMS.length>0;
 }
@@ -320,7 +326,7 @@ function listWin(){
   reg(w,listWin);
 }
 function aboutWin(){
-  const w=openWin("sobre",t("about"),`<div class="soon"><img class="about-logo" src="assets/img/logo-creatv-blur.webp" alt="CREATV MYNDZ"><b>GLOBAL CREATIVE DEALERS</b><span>${t("aboutTxt")}</span><a class="btn95" href="index.html">${t("goSite")}</a></div>`,
+  const w=openWin("sobre",t("about"),`<div class="soon"><img class="about-logo" src="assets/img/logo-creatv-blur.webp" alt="CREATV MYNDZ"><b>GLOBAL CREATIVE DEALERS</b><span>${t("aboutTxt")}</span><a class="btn95" href="portada.html">${t("goSite")}</a></div>`,
     {icon:"assets/iconos/cdrom.png",info:"CRTV "+new Date().getFullYear()});
   reg(w,aboutWin);
 }
@@ -433,7 +439,8 @@ function minesWin(){
     if(flag){if(c.o)return;c.f=!c.f;draw(i);left.textContent=led(M-cells.filter(x=>x.f).length);return;}
     if(!started)plant(i);
     if(c.f)return;
-    if(c.m){over=true;stop();face.textContent="😵";cells.forEach((x,j)=>{if(x.m){x.o=true;draw(j);}});return;}
+    if(c.m){over=true;stop();face.textContent="😵";cells.forEach((x,j)=>{if(x.m){x.o=true;draw(j);}});
+      foot.innerHTML=`<p class="mn-won">${t("lost")}</p><button class="btn95" data-retry>${t("retry")}</button>`;return;}
     open(i);if(cells.every(x=>x.m||x.o))win();
   }
   // Después de ganar ya no es juego: cada "Siguiente" destapa la frase que sigue (data/escritorio.json → buscaminas.frases)
@@ -458,6 +465,7 @@ function minesWin(){
   face.addEventListener("click",reset);
   foot.addEventListener("click",e=>{
     const fb=e.target.closest("[data-flag]");if(fb){flagMode=!flagMode;fb.textContent=flagLabel();fb.classList.toggle("on",flagMode);}
+    if(e.target.closest("[data-retry]")){reset();return;}
     const nx=e.target.closest("[data-next]");if(nx)phrase(+nx.dataset.next||0);
   });
   reset();
@@ -492,7 +500,7 @@ document.addEventListener("pointerdown",e=>{
   document.querySelectorAll(".ico.sel").forEach(x=>x!==ico&&x.classList.remove("sel"));
   const w=e.target.closest(".win");if(w)w.style.zIndex=++zTop;
   if(e.target.closest("[data-close]"))return;
-  if(ico&&ico.closest("#fixedIcons")){ico.classList.add("sel");return;}
+  if(ico&&ico.closest("#fixedIcons,#cornerBR")){ico.classList.add("sel");return;}
   if(ico){ico.classList.add("sel");drag={el:ico,kind:"ico",sx:e.clientX,sy:e.clientY,ox:parseFloat(ico.style.left),oy:parseFloat(ico.style.top),moved:false};ico.setPointerCapture(e.pointerId);}
   else if(wbar&&!phone()){const r=w.getBoundingClientRect();drag={el:w,kind:"win",sx:e.clientX,sy:e.clientY,ox:r.left,oy:r.top,moved:false};wbar.setPointerCapture(e.pointerId);}
 });
@@ -506,7 +514,7 @@ document.addEventListener("pointerup",e=>{if(!drag)return;const d=drag;drag=null
     // caería sobre un botón de la ventana recién abierta.
     else if(phone()||e.pointerType!=="mouse")tapOpen=d.el;}});
 // Los íconos de la esquina se abren con un clic (doble clic también sirve)
-document.addEventListener("click",e=>{const c=e.target.closest("#fixedIcons .ico");if(c)openItem(itemById(c.dataset.p));});
+document.addEventListener("click",e=>{const c=e.target.closest("#fixedIcons .ico,#cornerBR .ico");if(c)openItem(itemById(c.dataset.p));});
 document.addEventListener("dblclick",e=>{const ico=e.target.closest("#desk .ico");if(ico)openItem(itemById(ico.dataset.p));});
 document.addEventListener("click",e=>{
   if(tapOpen){const el=tapOpen;tapOpen=null;if(e.target.closest(".ico")===el){openItem(itemById(el.dataset.p));return;}}
