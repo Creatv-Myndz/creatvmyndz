@@ -134,3 +134,22 @@ Nada se sube al servidor. *Quitar mi fondo* vuelve a los fondos de la marca.
 - **Íconos que mandó el equipo y se usan tal cual:** `c-flotante.png`, `contacto.png`, `papelera.png`,
   `creatv-paleta.png` (se les quitó solo el fondo blanco). Ojo: la "C" y las dos personas son logos de
   Microsoft (Internet Explorer y MSN); se usan como guiño retro por decisión de CREATV MYNDZ.
+
+## Íconos propios y videos por CRTV (`"extras"`)
+
+En `data/escritorio.json → extras`, por `id` del CRTV:
+
+```json
+"jordan-blessd": { "videos": [ { "tipo": "youtube", "id": "y0u16r_mF4A", "inicio": 4, "x": 34, "y": 31.5, "w": 32 } ] },
+"perreo-santo":  { "icono": "assets/iconos/perreo-santo.png",
+                   "videos": [ { "tipo": "video", "src": "assets/video/perreo-1.mp4", "x": 18.7, "y": 60, "w": 16, "h": 27.1 } ] }
+```
+
+- `icono`: reemplaza la miniatura del CRTV en el escritorio (Cajita Feliz DtMF, Cajita Feliz de Ferxxo, Perreo Santo y Pokémor ya tienen el suyo).
+- `videos`: se ponen **encima** de la imagen del proyecto cuando se abre en Paint. `x`, `y`, `w`, `h` son % de la imagen.
+  YouTube mantiene 16:9 (no necesita `h`). Un `.mp4` va en `assets/video/` y se reproduce con controles.
+  Si `src` está vacío, no se muestra (así están los 3 celulares de Perreo Santo, esperando sus videos).
+- Jordan x Blessd: el video de YouTube tapa el botón "VER DROP" de la imagen.
+- El ícono "EXPLORA" (la C) abre un navegador retro con "Explora tu creatividad".
+- `pokemor.png` se reconstruyó casilla por casilla desde una plantilla de pixel art (magicoloriage.com), sin fondo.
+

@@ -44,6 +44,9 @@ const I18N={
       won:"¡Ganaste!",nextLevel:"Siguiente nivel ▸",cell:"casilla",
       contact:"Contáctanos",c_intro:"Escríbenos: proyectos, ideas, colaboraciones o un saludo.",c_name:"Nombre",c_mail:"Tu correo",c_msg:"Mensaje",
       c_send:"Enviar",c_sending:"Enviando…",c_ok:"¡Mensaje enviado! Te respondemos pronto.",c_err:"No se pudo enviar. Escríbenos directo a",
+      explore:"Explora tu creatividad",exploreSoon:"Muy pronto vas a encontrar aquí ejercicios, ideas y herramientas para despertar tu creatividad.",
+      menuBrowser:["<u>A</u>rchivo","<u>E</u>dición","<u>V</u>er","<u>I</u>r","<u>F</u>avoritos","Ay<u>u</u>da"],
+      b_back:"Atrás",b_fwd:"Adelante",b_stop:"Detener",b_refresh:"Actualizar",b_home:"Inicio",b_addr:"Dirección",b_zone:"Zona de Internet",done:"Listo",
       pw_bar:"Advertencia",pw_title:"¿ESTÁS EN EL BAÑO?",pw_text:"NUESTRA WEB ES MEJOR EN EL PC. ¡VE A VERLA!",pw_ok:"Ok, ya voy",pw_stay:"Seguir aquí"},
   en:{m_projects:"<u>P</u>rojects",m_wall:"<u>W</u>allpaper",about:"About CREATV MYNDZ",lang_aria:"Change language (Español)",desk:"Desktop",
       empty:"Projects will show up here, one by one.",start:"Start",programs:"Programs",
@@ -68,6 +71,9 @@ const I18N={
       won:"You won!",nextLevel:"Next level ▸",cell:"cell",
       contact:"Contact us",c_intro:"Write to us: projects, ideas, collaborations or just to say hi.",c_name:"Name",c_mail:"Your email",c_msg:"Message",
       c_send:"Send",c_sending:"Sending…",c_ok:"Message sent! We'll get back to you soon.",c_err:"Couldn't send it. Write to us directly at",
+      explore:"Explore your creativity",exploreSoon:"Very soon you'll find exercises, ideas and tools here to wake up your creativity.",
+      menuBrowser:["<u>F</u>ile","<u>E</u>dit","<u>V</u>iew","<u>G</u>o","F<u>a</u>vorites","<u>H</u>elp"],
+      b_back:"Back",b_fwd:"Forward",b_stop:"Stop",b_refresh:"Refresh",b_home:"Home",b_addr:"Address",b_zone:"Internet zone",done:"Done",
       pw_bar:"Warning",pw_title:"ARE YOU IN THE BATHROOM?",pw_text:"OUR WEBSITE IS BETTER ON A PC. GO CHECK IT OUT!",pw_ok:"Ok, on my way",pw_stay:"Stay here"}
 };
 const t=k=>I18N[lang][k]??I18N.es[k]??"";
@@ -101,7 +107,8 @@ function fromPlayground(){
   return PROJECTS.map(p=>({
     id:p.id, titulo:p.title, codigo:code(p.num),
     estado:p.status==="soon"?"proximo":(p.link?"listo":"sin-material"),
-    portada:p.image||"", imagen:(p.image||"").replace("/thumb/","/"), enlace:p.link||""
+    portada:p.image||"", imagen:(p.image||"").replace("/thumb/","/"), enlace:p.link||"",
+    ...(D.extras?.[p.id]||{})   // ícono propio y videos encima de la imagen (data/escritorio.json → extras)
   }));
 }
 function buildItems(){
@@ -176,6 +183,7 @@ function layout(){
 function thumbHTML(p){
   if(p.tipoItem==="acceso")return `<span class="th bare">${iconHTML(p.icono)}</span>`;
   if(p.estado==="proximo")return `<span class="th bare">${iconHTML(WARN)}</span>`;
+  if(p.icono)return `<span class="th bare custom">${iconHTML(p.icono)}</span>`;
   return `<span class="th">${p.portada?`<img src="${esc(p.portada)}" alt="" draggable="false" loading="lazy">`:iconHTML(FOLDER)}</span>`;
 }
 function renderDesk(){
@@ -201,7 +209,7 @@ function openWin(key,title,html,{icon=FOLDER,status,info="",cls="",menu,noMenu=f
   if(!w){
     w=document.createElement("section");w.dataset.k=key;w.setAttribute("role","dialog");$("#wins").appendChild(w);
     w.className="win "+cls;
-    const off=(openCount++%6)*26,ww=Math.min(cls.includes("dialog")?380:cls.includes("paint")?760:cls.includes("mines")?300:620,innerWidth-32);
+    const off=(openCount++%6)*26,ww=Math.min(cls.includes("dialog")?380:cls.includes("paint")||cls.includes("browser")?760:cls.includes("mines")?300:620,innerWidth-32);
     w.style.left=Math.max(16,(innerWidth-ww)/2+off-60)+"px";w.style.top=(cssPx("--mb")+innerHeight*.06+off)+"px";
   }
   w.setAttribute("aria-label",title);
@@ -230,10 +238,19 @@ function msgBox(title,text,{icon=WARN,key="msg",html=false}={}){
 const PAL=["#000","#808080","#800000","#808000","#008000","#008080","#000080","#800080","#808040","#004040","#0080ff","#004080","#8000ff","#804000",
            "#fff","#c0c0c0","#f00","#ff0","#0f0","#0ff","#00f","#f0f","#ffff80","#00ff80","#80ffff","#8080ff","#ff0080","#ff8040"];
 const TOOLS=["✧","⬚","⌫","◈","✎","⌕","✐","▲","∿","A","╲","∿","▭","▱","◯","▢"];
+// Videos encima de la imagen del proyecto (posición en % de la imagen)
+function overlays(p){
+  return (p.videos||[]).map(v=>{
+    const pos=`left:${+v.x||0}%;top:${+v.y||0}%;width:${+v.w||30}%;`;
+    if(v.tipo==="youtube"&&v.id)return `<div class="ov yt" style="${pos}"><iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(v.id)}?start=${+v.inicio||0}&rel=0&playsinline=1" title="${esc(L(p.titulo))} · video" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe></div>`;
+    if(v.tipo==="video"&&v.src)return `<div class="ov vid" style="${pos}height:${+v.h||20}%"><video src="${esc(v.src)}" controls playsinline loop preload="metadata"></video></div>`;
+    return "";
+  }).join("");
+}
 function paintWin(p){
   const w=openWin("p:"+p.id,`${p.id}.bmp - Paint`,`<div class="paint">
       <div class="tools" aria-hidden="true">${TOOLS.map((x,i)=>`<span class="${i===4?"on":""}">${x}</span>`).join("")}<div class="toolopt"></div></div>
-      <div class="canvas">${p.imagen?`<img src="${esc(p.imagen)}" alt="${esc(L(p.titulo))}" loading="lazy">`:`<div class="blank">${esc(L(p.titulo))}</div>`}</div>
+      <div class="canvas">${p.imagen?`<div class="art"><img src="${esc(p.imagen)}" alt="${esc(L(p.titulo))}" loading="lazy">${overlays(p)}</div>`:`<div class="blank">${esc(L(p.titulo))}</div>`}</div>
     </div>
     <div class="palette" aria-hidden="true"><span class="cur"><i></i><i></i></span><span class="cols">${PAL.map(c=>`<i style="background:${c}"></i>`).join("")}</span></div>`,
     {icon:PAINT,cls:"paint-win",menu:t("menuPaint"),status:`${p.codigo||""} · ${L(p.titulo)}`,info:p.enlace?`<a href="${esc(p.enlace)}">${t("openProject")}</a>`:""});
@@ -244,6 +261,7 @@ function openItem(p){
   if(p.tipoItem==="acceso"){
     if(p.enlace){window.open(p.enlace,"_blank","noopener");return;}
     if(p.abre==="proyectos"){listWin();return;}
+    if(p.abre==="explora"){exploraWin(p);return;}
     if(p.juego==="buscaminas"){minesWin();return;}
     reg(msgBox(L(p.titulo),L(p.texto)||t("soon"),{icon:p.icono,key:"a:"+p.id}),()=>openItem(p));return;
   }
@@ -276,6 +294,17 @@ function aboutWin(){
   const w=openWin("sobre",t("about"),`<div class="soon"><img class="about-logo" src="assets/img/logo-creatv-blur.webp" alt="CREATV MYNDZ"><b>GLOBAL CREATIVE DEALERS</b><span>${t("aboutTxt")}</span><a class="btn95" href="index.html">${t("goSite")}</a></div>`,
     {icon:"assets/iconos/cdrom.png",info:"CRTV "+new Date().getFullYear()});
   reg(w,aboutWin);
+}
+
+// ---------- Explora: una ventana de navegador retro con "Explora tu creatividad"
+function exploraWin(p){
+  const txt=L(p.texto)||t("explore");
+  const w=openWin("a:"+p.id,`${txt} - CREATV Explorer`,`<div class="browser">
+      <div class="b-tools" aria-hidden="true">${["back","fwd","stop","refresh","home"].map(k=>`<span><i>${{back:"⇦",fwd:"⇨",stop:"⊗",refresh:"⟳",home:"⌂"}[k]}</i>${t("b_"+k)}</span>`).join("")}</div>
+      <div class="b-addr"><span>${t("b_addr")}</span><span class="b-url">${iconHTML(p.icono)}creatvmyndz.com/explora</span></div>
+      <div class="b-page"><img src="${esc(p.icono)}" alt="" class="b-logo"><h2>${esc(txt.toUpperCase())}</h2><p>${t("exploreSoon")}</p></div>
+    </div>`,{icon:p.icono,cls:"browser-win",menu:t("menuBrowser"),status:t("done"),info:`${iconHTML(p.icono,"z-ico")} ${t("b_zone")}`});
+  reg(w,()=>exploraWin(p));
 }
 
 // ---------- Contáctanos: el mensaje llega al correo de SITE.leadEmail (assets/projects.js) vía FormSubmit
