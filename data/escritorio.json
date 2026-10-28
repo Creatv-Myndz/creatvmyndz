@@ -54,7 +54,7 @@
   "accesos": [
     {
       "id": "creative-playground",
-      "titulo": "Creative Playground",
+      "titulo": "Explorers",
       "icono": "assets/iconos/c-flotante.png",
       "abre": "proyectos",
       "fijo": true
@@ -62,12 +62,11 @@
     {
       "id": "buscaminas-acceso",
       "titulo": {
-        "es": "Jugar!!",
-        "en": "Play!!"
+        "es": "Buscaminas",
+        "en": "Minesweeper"
       },
       "icono": "assets/iconos/buscaminas.png",
-      "juego": "buscaminas",
-      "zona": "camilo"
+      "juego": "buscaminas"
     },
     {
       "id": "creative-dealers",
@@ -82,18 +81,15 @@
     },
     {
       "id": "proyectos-creativos",
-      "titulo": {
-        "es": "Proyectos creativos",
-        "en": "Creative projects"
-      },
-      "icono": "assets/iconos/cajita-dtmf.png",
+      "titulo": "Playground",
+      "icono": "assets/iconos/playground.png",
       "abre": "carpeta"
     },
     {
       "id": "proximamente",
       "titulo": {
-        "es": "Próximamente",
-        "en": "Coming soon"
+        "es": "Creando..",
+        "en": "Creating.."
       },
       "icono": "assets/iconos/carpeta-proximo.png",
       "abre": "carpeta"
@@ -139,30 +135,14 @@
       }
     },
     {
-      "id": "por-amor-al-arte",
-      "titulo": "Por Amor al Arte",
-      "icono": "assets/iconos/por-amor-al-arte.png",
-      "enlace": "https://camilovegga.com"
-    },
-    {
       "id": "galadsy",
       "titulo": "Galadsy",
       "icono": "assets/iconos/galadsy.png",
       "enlace": "https://galadsy.com"
-    },
-    {
-      "id": "spotify",
-      "titulo": "Spotify",
-      "icono": "assets/iconos/spotify.png",
-      "zona": "camilo",
-      "texto": {
-        "es": "Nuestra música en Spotify. Muy pronto.",
-        "en": "Our music on Spotify. Coming soon."
-      }
     }
   ],
   "buscaminas": {
-    "_comentario": "Nivel fácil: 6x6 con 3 minas. Al ganar, cada 'Siguiente' destapa la frase que sigue. Una línea por fila; \"\" deja una fila vacía.",
+    "_comentario": "Nivel fácil: 6x6 con 3 minas. Al ganar, 'Siguiente nivel' muestra una cuadrícula tapada: la frase se destapa cuando la persona toca una casilla. El botón de la última frase cierra el juego (\"cierra\": true).",
     "frases": [
       {
         "es": [
@@ -225,10 +205,7 @@
           "EL AMOR, ESO",
           "ES JUGAR AL",
           "SIGUIENTE",
-          "NIVEL!",
-          "",
-          "COMIENZA",
-          "A JUGAR"
+          "NIVEL!"
         ],
         "en": [
           "WHEN YOU DO",
@@ -237,11 +214,13 @@
           "THAT'S",
           "PLAYING AT",
           "THE NEXT",
-          "LEVEL!",
-          "",
-          "START",
-          "PLAYING"
-        ]
+          "LEVEL!"
+        ],
+        "boton": {
+          "es": "Comienza a jugar",
+          "en": "Start playing"
+        },
+        "cierra": true
       }
     ]
   },
@@ -383,6 +362,15 @@
       "icono": "assets/iconos/por-amor-al-arte.png",
       "enlace": "https://camilovegga.com"
     },
+    {
+      "id": "spotify",
+      "nombre": "Spotify",
+      "icono": "assets/iconos/spotify.png",
+      "texto": {
+        "es": "Nuestra música en Spotify. Muy pronto.",
+        "en": "Our music on Spotify. Coming soon."
+      }
+    },
     "|",
     {
       "id": "contacto",
@@ -408,10 +396,6 @@
   "fotos": {
     "_comentario": "Collage de la app Fotos. Agrega rutas de imágenes aquí; si está vacío, usa las imágenes de los CRTV.",
     "imagenes": []
-  },
-  "zonaCamilo": {
-    "titulo": "Camilo Vegga",
-    "_comentario": "Los accesos con \"zona\": \"camilo\" van juntos en la esquina de abajo a la derecha (en el celular, en la cuadrícula)."
   },
   "_carpetas": "Un acceso con \"abre\": \"carpeta\" es una carpeta. Lo que lleve \"carpeta\": \"<id>\" (accesos o extras de los CRTV) va adentro y no en el escritorio, salvo que tenga \"tambienEnEscritorio\": true."
 }

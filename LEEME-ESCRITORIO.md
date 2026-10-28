@@ -203,3 +203,15 @@ En `data/escritorio.json → extras`, por `id` del CRTV:
   - **Creatvfy**: Wake Up! (abre `wakeup.html`), Cualquiera puede crear (ebook) y CREATV Kids.
 - Para mover un CRTV a una carpeta: en `extras.<id>` pon `"carpeta": "proyectos-creativos"` (o la que sea).
 - El escritorio en PC es un grupo centrado: filas parejas, centradas y un poco corridas entre sí.
+
+## Cambios (celular con páginas, Buscaminas, Playground)
+
+- **Celular:** 3 columnas, íconos un 15 % más grandes y un poco desordenados, en páginas que se deslizan a la
+  derecha (como el iPhone), con puntitos abajo. Máximo 4 filas por página; los íconos se reparten parejo.
+  En el celular los íconos no se arrastran (para poder deslizar) y se abren con un toque.
+- **Aviso del baño:** sale una vez, solo en celular, después de 1 minuto usando la página.
+- **Buscaminas** (en el escritorio): al ganar se ven bombas (no banderas). "Siguiente nivel" muestra otra
+  cuadrícula tapada; la frase se destapa cuando tocan una casilla. El botón final **Comienza a jugar** cierra el juego.
+- Carpeta **Playground** (resbaladero, antes "Proyectos creativos") y carpeta **Creando..** (antes "Próximamente").
+- La C se llama **Explorers** y abre la lista de proyectos. La C también es el favicon.
+- Dock: Inicio · Instagram · Videos · Fotos · Por Amor al Arte · Spotify | Contáctanos | Papelera de ideas.
