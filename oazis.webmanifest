@@ -1,0 +1,16 @@
+{
+  "name": "OAZIS — Your Creative Oazis",
+  "short_name": "OAZIS",
+  "description": "Oazis FM, creative journeys and the NO MIND creative meditation program.",
+  "start_url": "/oazis",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#EEEEF2",
+  "theme_color": "#FFFFFF",
+  "icons": [
+    {"src": "assets/img/oazis/icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "assets/img/oazis/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"},
+    {"src": "assets/img/oazis/icon.svg", "sizes": "any", "type": "image/svg+xml"}
+  ]
+}
