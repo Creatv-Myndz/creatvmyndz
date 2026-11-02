@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>OAZIS — Your Creative Oazis</title>
-<meta name="description" content="Oazis is a sound-first platform for creative minds. Functional audio, soundscapes, creative journeys and the NO MIND creative meditation program. Close your eyes. Open your mind.">
+<meta name="description" content="Oazis is a sound-first platform for creative minds. Functional audio, soundscapes, creative journeys and the NO MYND creative meditation program. Tune your frequency.">
 <meta name="theme-color" content="#FFFFFF">
 <link rel="manifest" href="assets/oazis.webmanifest">
 <link rel="icon" href="assets/img/oazis/icon.svg" type="image/svg+xml">
@@ -627,6 +627,123 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bac
   .fm-list{grid-template-columns:1fr 1fr}
   .pin span{width:58px;height:70px}
 }
+
+/* ---------- v4: Oazis FM orb ---------- */
+:root{--orbbg:#EDEDEE;--orbsh:0 40px 90px rgba(40,40,60,.13),0 2px 6px rgba(0,0,0,.04);--foot:rgba(255,255,255,.86)}
+:root[data-theme="dark"]{--orbbg:#000;--orbsh:0 40px 100px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.06);--foot:rgba(24,24,26,.84)}
+.fmh{text-align:center;padding:24px 32px 30px}
+.fmh .t-head{text-align:left}
+.fmh .hero-line{margin:22px auto 0;font-size:clamp(40px,5.6vw,78px)}
+.fmh .hero-sub{margin:12px auto 0;font-size:19px}
+.orbwrap{display:flex;flex-direction:column;align-items:center;margin:30px 0 6px}
+.orb{position:relative;width:min(330px,66vw);aspect-ratio:1;border-radius:50%;overflow:hidden;isolation:isolate;background:var(--orbbg);box-shadow:var(--orbsh);animation:orbfloat 7s ease-in-out infinite;-webkit-tap-highlight-color:transparent}
+.orb canvas{position:absolute;inset:-4%;width:108%;height:108%}
+.orb .gl{position:absolute;inset:0;border-radius:50%;pointer-events:none;background:radial-gradient(55% 42% at 32% 22%,rgba(255,255,255,.7),rgba(255,255,255,0) 70%),radial-gradient(70% 60% at 72% 92%,rgba(255,255,255,.28),transparent 70%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.75),inset -18px -26px 50px rgba(0,0,0,.07),inset 14px 18px 36px rgba(255,255,255,.55)}
+:root[data-theme="dark"] .orb .gl{background:radial-gradient(55% 42% at 32% 22%,rgba(255,255,255,.16),rgba(255,255,255,0) 70%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12),inset 10px 14px 30px rgba(255,255,255,.05)}
+.orb .ic{position:absolute;left:50%;top:50%;width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:50%;display:grid;place-items:center;color:#111;background:rgba(255,255,255,.5);-webkit-backdrop-filter:blur(18px) saturate(160%);backdrop-filter:blur(18px) saturate(160%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.85),inset 0 2px 0 rgba(255,255,255,.9),0 12px 34px rgba(0,0,0,.14);transition:opacity .5s,transform .5s cubic-bezier(.2,.7,.2,1)}
+:root[data-theme="dark"] .orb .ic{color:#fff;background:rgba(255,255,255,.1);box-shadow:inset 0 0 0 1px rgba(255,255,255,.22),0 12px 34px rgba(0,0,0,.5)}
+.orb .ic svg{width:26px;height:26px;fill:currentColor;margin-left:2px}
+.orb.on .ic{opacity:0;transform:scale(.8)}
+.orb.on:hover .ic,.orb.on:focus-visible .ic{opacity:1;transform:none}
+.orb.on .ic svg{margin-left:0}
+@keyframes orbfloat{50%{transform:translateY(-7px)}}
+.orb-read{margin-top:22px;display:flex;flex-direction:column;align-items:center;gap:5px}
+.orb-read b{font-size:14px;letter-spacing:.2em;font-weight:600}
+.orb-read span:not(.mono){color:var(--mute);font-size:15px}
+.orb-read .mono{color:var(--dim);margin-top:4px}
+.orb-read .mono.live{color:#16A34A}
+.stations{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:24px}
+.stations button{padding:10px 16px;border-radius:30px;font-size:12px;font-weight:600;letter-spacing:.14em;background:var(--gl2);box-shadow:inset 0 0 0 1px var(--gl-line);color:var(--mute);transition:background .25s,color .25s,transform .2s;white-space:nowrap}
+.stations button:hover{color:var(--ink)}
+.stations button:active{transform:scale(.96)}
+.stations button small{font-weight:400;letter-spacing:0;margin-left:7px;opacity:.65;font-size:11px}
+.stations button.on{background:var(--ink);color:var(--bg);box-shadow:none}
+/* ON AIR (green) / OFF AIR (red) */
+.power{gap:10px;padding:5px 16px 5px 5px;border:0;border-radius:40px;font-size:11.5px;font-weight:700;letter-spacing:.1em;background:var(--gl2);box-shadow:inset 0 0 0 1px var(--gl-line),var(--gl-sh);color:#DC2626;transition:color .3s}
+.power i{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;color:#fff;background:#E5484D;box-shadow:0 0 0 4px rgba(229,72,77,.16),0 0 18px rgba(229,72,77,.45);transition:background .3s,box-shadow .3s}
+.power i svg{width:12px;height:12px;fill:currentColor}
+.power.on{color:#16A34A}
+.power.on i{background:#22C55E;box-shadow:0 0 0 4px rgba(34,197,94,.18),0 0 20px rgba(34,197,94,.55);animation:live 2.2s ease-in-out infinite}
+@keyframes live{50%{box-shadow:0 0 0 8px rgba(34,197,94,.06),0 0 26px rgba(34,197,94,.7)}}
+/* animated logo: ripples moving outward */
+.brand svg ellipse,.bs svg ellipse,.mbrand svg ellipse{transform-box:fill-box;transform-origin:center;animation:logo 3.6s ease-in-out infinite}
+.brand svg ellipse:nth-of-type(2),.bs svg ellipse:nth-of-type(2),.mbrand svg ellipse:nth-of-type(2){animation-delay:-.4s}
+.brand svg ellipse:nth-of-type(3),.bs svg ellipse:nth-of-type(3),.mbrand svg ellipse:nth-of-type(3){animation-delay:-.8s}
+.brand svg circle,.bs svg circle,.mbrand svg circle{transform-box:fill-box;transform-origin:center;animation:logo 3.6s ease-in-out infinite -1.2s}
+@keyframes logo{0%,100%{transform:scale(.9)}50%{transform:scale(1.07)}}
+.mbrand{display:none}
+/* library by moments */
+.lsec{display:flex;justify-content:space-between;align-items:baseline;padding:16px 12px 6px;font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.lsec span{font-weight:500;color:var(--dim);letter-spacing:.04em}
+.lrow.sug{opacity:.55}
+.lrow.sug:hover{opacity:1}
+.lrow.more{padding:12px;font-size:13px;color:var(--mute);font-weight:500}
+.lib h4 a:hover{color:var(--ink)}
+.libtop{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.lt{display:grid;grid-template-columns:64px 1fr;grid-template-rows:auto auto;column-gap:14px;align-items:center;text-align:left;padding:10px;border-radius:18px;background:var(--gl);box-shadow:inset 0 0 0 1px var(--gl-line),var(--gl-sh)}
+.lt .art{grid-row:1/3;border-radius:12px}
+.lt b{align-self:end;font-size:15px;font-weight:600}
+.lt span{align-self:start;font-size:12.5px;color:var(--mute)}
+.nowc{display:inline-block;vertical-align:middle;margin-left:8px;font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:20px;background:var(--ink);color:var(--bg)}
+.nowc.ghost{background:var(--gl2);color:var(--ink);box-shadow:inset 0 0 0 1px var(--gl-line)}
+/* plans */
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:4px 0 14px}
+.plan{position:relative;text-align:left;padding:16px 14px 14px;border-radius:18px;background:var(--gl2);box-shadow:inset 0 0 0 1.5px var(--gl-line);transition:box-shadow .2s}
+.plan.on{box-shadow:inset 0 0 0 1.5px var(--ink)}
+.plan b{display:block;font-family:var(--serif);font-size:26px;letter-spacing:-.04em}
+.plan b small{font-size:13px;letter-spacing:0;color:var(--mute);font-weight:500}
+.plan span{font-size:12px;color:var(--mute)}
+.plan i{position:absolute;top:-9px;right:12px;font-style:normal;font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:20px;background:var(--ink);color:var(--bg)}
+/* funnel: floating glass bar, calmer tiles */
+.ob-foot{left:50%;right:auto;bottom:18px;transform:translateX(-50%);width:min(860px,calc(100% - 24px));border-radius:999px;padding:8px 8px 8px 22px;background:var(--foot);-webkit-backdrop-filter:blur(30px) saturate(180%);backdrop-filter:blur(30px) saturate(180%);box-shadow:inset 0 0 0 1px var(--gl-line),0 14px 44px rgba(20,20,40,.12);isolation:isolate}
+.ob-foot .obtn{padding:13px 28px}
+.tiles.arty{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+.tiles.arty .tile .art{aspect-ratio:16/10}
+.tiles.arty .tile .tk{box-shadow:inset 0 0 0 1.5px rgba(0,0,0,.18)}
+.tiles.arty .tile.on .tk{box-shadow:none}
+.tiles:not(.arty):not(.listen) .tile{min-height:78px}
+.snd{display:flex;align-items:center;gap:14px;margin-top:26px;padding:8px 22px 8px 8px;border-radius:60px;background:var(--gl2);box-shadow:inset 0 0 0 1px var(--gl-line),var(--gl-sh);text-align:left}
+.snd i{width:48px;height:48px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;flex:none}
+.snd i svg{width:18px;height:18px;fill:currentColor;margin-left:2px}
+.snd b{display:block;font-size:15px;font-weight:600}
+.snd span{font-size:12.5px;color:var(--mute)}
+.snd.playing i{animation:live 1.2s ease-in-out infinite;background:#22C55E;color:#fff}
+.field.mail{max-width:440px;margin:6px 0 0;font-size:22px}
+/* how you see sound */
+.art-v-colors{background:#F3F1EF}
+.art-v-colors i:first-child{inset:-12%;background:radial-gradient(circle at 30% 34%,#FF8A65 0 16%,transparent 44%),radial-gradient(circle at 72% 38%,#6F8CFF 0 18%,transparent 46%),radial-gradient(circle at 48% 76%,#4FD1A8 0 16%,transparent 44%),radial-gradient(circle at 80% 80%,#FFC85A 0 10%,transparent 34%);filter:blur(6cqw)}
+.art-v-colors i:last-child{inset:24%;border-radius:50%;background:radial-gradient(circle,#F2A2F0,transparent 66%);filter:blur(5cqw);opacity:.7}
+.art-v-aura{background:#EEF0F5}
+.art-v-aura i:first-child{inset:-10%;background:radial-gradient(circle at 36% 40%,rgba(150,176,230,.95),transparent 46%),radial-gradient(circle at 66% 58%,rgba(214,192,238,.95),transparent 48%);filter:blur(7cqw)}
+.art-v-aura i:last-child{left:38%;top:34%;width:26%;aspect-ratio:1;border-radius:50%;background:#fff;filter:blur(5cqw);opacity:.8}
+.art-v-blur{background:#EDEDEC}
+.art-v-blur i:first-child{inset:-10%;background:repeating-linear-gradient(172deg,transparent 0 5cqw,rgba(24,24,24,.55) 6.6cqw,transparent 8.4cqw);filter:blur(2.2cqw);-webkit-mask:radial-gradient(70% 60% at 50% 50%,#000 30%,transparent 75%);mask:radial-gradient(70% 60% at 50% 50%,#000 30%,transparent 75%)}
+.art-v-lines{background:#F5F5F3}
+.art-v-lines i:first-child{inset:8% 0;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 80' preserveAspectRatio='none'><g fill='none' stroke='%23222' stroke-width='.6'><path d='M0 40 C20 8 40 72 60 40 S100 8 120 40'/><path d='M0 44 C20 16 40 66 60 44 S100 16 120 44' opacity='.65'/><path d='M0 36 C20 2 40 76 60 36 S100 2 120 36' opacity='.45'/><path d='M0 48 C20 26 40 60 60 48 S100 26 120 48' opacity='.3'/><path d='M0 32 C20 0 40 78 60 32 S100 0 120 32' opacity='.2'/></g></svg>") 0 0/100% 100% no-repeat}
+.art-v-ripple{background:#E8E8E8}
+.art-v-ripple i:first-child{inset:-10%;background:repeating-radial-gradient(circle at 50% 50%,#F7F7F7 0 3cqw,#D2D2D2 4.6cqw,#F7F7F7 6.2cqw);filter:blur(.7cqw);-webkit-mask:radial-gradient(circle,#000 22%,transparent 62%);mask:radial-gradient(circle,#000 22%,transparent 62%)}
+.art-v-ripple i:last-child{left:44%;top:42%;width:12%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(0,0,0,.12),transparent 70%);filter:blur(1cqw)}
+.art-v-feel{background:#060606}
+.art-v-feel i:first-child{left:30%;top:24%;width:40%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.75),transparent 66%);filter:blur(6cqw);opacity:.55}
+@media (max-width:860px){
+  .topline{flex-direction:row;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px}
+  .mbrand{display:flex;align-items:center;gap:9px;font-weight:600;letter-spacing:.26em;font-size:14px}
+  .mbrand svg{height:20px;width:auto}
+  .greet{order:3;width:100%}
+  .fmh{padding:16px 14px 22px}
+  .fmh .hero-line{margin-top:16px}
+  .fmh .hero-sub{font-size:16px}
+  .orbwrap{margin-top:24px}
+  .orb{width:min(290px,74vw)}
+  .stations{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;margin:20px -14px 0;padding:2px 14px;scrollbar-width:none}
+  .stations::-webkit-scrollbar{display:none}
+  .stations button{flex:none}
+  .libtop{grid-template-columns:1fr}
+  .ob-foot{bottom:calc(10px + env(safe-area-inset-bottom));padding:6px 6px 6px 18px}
+  .tiles.arty{grid-template-columns:1fr 1fr}
+  .field.mail{font-size:19px}
+  .snd{width:100%}
+}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -640,13 +757,13 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bac
         <a href="#/home" data-r="home"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="13" r="7.5"/><path d="M12 13 15.5 7.5M5 5l3 2.5"/></svg><span data-t="Tune in|Sintonízate">Tune in</span></a>
         <a href="#/explore" data-r="explore"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg><span data-t="Explore worlds|Explorar mundos">Explore worlds</span></a>
         <a href="#/journeys" data-r="journeys"><svg class="i" viewBox="0 0 24 24"><path d="M3 17c3-6 5-6 7-2s4 4 7-3l4 0"/><circle cx="20.5" cy="12" r="0.5"/></svg><span data-t="Creative journeys|Viajes creativos">Creative journeys</span></a>
-        <a href="#/program" data-r="program"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg><span data-t="NO MIND program|Programa NO MIND">NO MIND program</span></a>
+        <a href="#/program" data-r="program"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg><span data-t="NO MYND program|Programa PuraMente">NO MYND program</span></a>
         <a href="#/journal" data-r="journal"><svg class="i" viewBox="0 0 24 24"><path d="M6 3.5h11a1.5 1.5 0 0 1 1.5 1.5v15l-3-2-3 2-3-2-3 2V5A1.5 1.5 0 0 1 6 3.5zM9 8.5h6M9 12h4"/></svg><span data-t="Idea journal|Diario de ideas">Idea journal</span></a>
         <a href="#" data-pay="1"><svg class="i" viewBox="0 0 24 24"><path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1L5 10.5l5.1-1.9z"/><path d="M18.5 15.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></svg><span>Oazis Plus</span></a>
       </nav>
     </div>
     <div class="panel lib">
-      <h4><span data-t="Your library|Tu biblioteca">Your library</span><span class="mono" id="libCount"></span></h4>
+      <h4><a href="#/library" data-t="Your library|Tu biblioteca">Your library</a><span class="mono" id="libCount"></span></h4>
       <div class="lib-list" id="lib"></div>
     </div>
     <div class="panel side-foot">
@@ -669,7 +786,7 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bac
     </div>
     <div class="right">
       <button class="timer-sel" id="bTimer" title="Session length">∞ TIMER</button>
-      <label title="Depth: how present the rhythmic layer is"><span class="mono">Depth</span><input type="range" id="rDepth" min="0" max="100" value="50" aria-label="Depth"></label>
+      <button class="timer-sel" id="bState" title="How deep do you want to go?">AUTO</button>
       <label title="Volume"><svg class="i" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg><input type="range" id="rVol" min="0" max="100" value="80" aria-label="Volume"></label>
       <button id="bExpand" aria-label="Open player"><svg class="i" viewBox="0 0 24 24"><path d="M14 4h6v6M10 20H4v-6M20 4l-6.5 6.5M4 20l6.5-6.5"/></svg></button>
     </div>
@@ -680,8 +797,8 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bac
   <a href="#/home" data-r="home"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="13" r="7.5"/><path d="M12 13 15.5 7.5M5 5l3 2.5"/></svg><span data-t="Tune in|Sintonízate">Tune in</span></a>
   <a href="#/explore" data-r="explore"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg><span data-t="Worlds|Mundos">Worlds</span></a>
   <a href="#/journeys" data-r="journeys"><svg class="i" viewBox="0 0 24 24"><path d="M3 17c3-6 5-6 7-2s4 4 7-3l4 0"/></svg><span data-t="Journeys|Viajes">Journeys</span></a>
-  <a href="#/program" data-r="program"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg>NO MIND</a>
-  <a href="#/journal" data-r="journal"><svg class="i" viewBox="0 0 24 24"><path d="M6 3.5h11a1.5 1.5 0 0 1 1.5 1.5v15l-3-2-3 2-3-2-3 2V5A1.5 1.5 0 0 1 6 3.5zM9 8.5h6M9 12h4"/></svg><span data-t="Journal|Diario">Journal</span></a>
+  <a href="#/program" data-r="program"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg><span data-t="NO MYND|PuraMente">NO MYND</span></a>
+  <a href="#/library" data-r="library"><svg class="i" viewBox="0 0 24 24"><path d="M5 4v16M9.5 4v16M14 5l4.5 15"/></svg><span data-t="Library|Biblioteca">Library</span></a>
 </nav>
 
 <section class="np" id="np" aria-label="Now playing"></section>
@@ -753,7 +870,7 @@ const WORLDS={
     desc:'Audio to accompany bedtime: night ambience, rain, guided relaxation and long soundscapes that fade with you.',
     sound:{root:98,chord:[0,7,12,14,19],cutoff:520,noise:.15,noiseType:'brown',noiseCut:700,beat:2,carrier:160,bin:.03,pad:.75,sparkle:0,wet:.6}},
   awaken:{name:'AWAKEN',line:'Reconnect with yourself',hz:12,band:'α Alpha',tone:'light',
-    desc:'Inspired by NO MIND: inner-child exercises, gratitude, self-exploration and creative rituals to begin again.',
+    desc:'Inspired by NO MYND: inner-child exercises, gratitude, self-exploration and creative rituals to begin again.',
     sound:{root:174.61,chord:[0,4,7,9,12,16],cutoff:1900,noise:.025,noiseType:'pink',noiseCut:4000,beat:12,carrier:220,bin:.03,pad:.9,sparkle:1.8,sparkleLvl:.045,wet:.55}},
 };
 const ORDER=['create','flow','dream','calm','sleep','awaken'];
@@ -823,7 +940,7 @@ const JOURNEYS=[
            ['Create',4,'Describe one object from that room as if you had to build it.'],
            ['Capture',2,'Write down the detail you want to keep.']]},
   {id:'inner-child-atlas',title:'Inner Child Atlas',world:'awaken',seed:6,for:['all','art','music'],
-   desc:'A NO MIND journey back to the curiosity you had before anyone graded it.',
+   desc:'A NO MYND journey back to the curiosity you had before anyone graded it.',
    phases:[['Arrive',3,'Breathe. Let the adult part of the day wait outside for a moment.'],
            ['Open',3,'Remember a place where you played for hours without noticing time.'],
            ['Explore',8,'What were you making there? What rules did you invent?'],
@@ -871,7 +988,7 @@ const CHAPTERS=[
     ['Remix your past','dream',18,'Pick an old piece of your work and imagine its future version.','What would version two look like?'],
     ['Show, don’t hide','awaken',15,'Imagine sharing something unfinished with someone you trust.','What would you share, and with whom?'],
     ['Your creative ritual','awaken',15,'Design a 5‑minute ritual to begin every creative session.','Describe your ritual in three steps.'],
-    ['NO MIND','awaken',20,'Look back at 20 days of ideas. You were always creative.','What will you create next?']]},
+    ['NO MYND','awaken',20,'Look back at 20 days of ideas. You were always creative.','What will you create next?']]},
 ];
 const DAYS=[];
 CHAPTERS.forEach((c,ci)=>c.days.forEach((d,di)=>{
@@ -890,8 +1007,15 @@ const PERSONAS=[['all','Curious mind'],['art','Artist'],['design','Designer'],['
 const state={
   current:null,playing:false,elapsed:0,timer:store.get('timer',0),depth:store.get('depth',50),volume:store.get('volume',80),
   favs:new Set(store.get('favs',[])),journal:store.get('journal',[]),done:new Set(store.get('done',[])),recent:store.get('recent',[]),
-  persona:store.get('persona','all'),voice:store.get('voice',false),phase:-1,npOpen:false
+  persona:store.get('persona','all'),voice:store.get('voice',false),phase:-1,npOpen:false,mode:store.get('mode','auto')
 };
+/* listening state: the user reads the state they want; depth adjusts itself */
+const STATES={light:{d:22,en:'Light',es:'Ligero',sub:['Clear and awake','Claro y despierto']},balanced:{d:52,en:'Balanced',es:'Equilibrado',sub:['Present and steady','Presente y estable']},deep:{d:84,en:'Deep',es:'Profundo',sub:['Fully immersed','Inmersión total']}};
+const WORLD_STATE={sleep:'deep',dream:'deep',calm:'balanced',create:'balanced',flow:'light',awaken:'light'};
+const stateOf=w=>state.mode!=='auto'&&STATES[state.mode]?state.mode:(WORLD_STATE[w]||'balanced');
+function applyState(w){let d=STATES[stateOf(w)].d;if(profile)d+=persona(profile).depthBoost;state.depth=Math.max(5,Math.min(100,d));Engine.setDepth(state.depth);}
+function stateLabel(){const w=state.current?state.current.world:tuner.station,s=STATES[stateOf(w)];return (state.mode==='auto'?'Auto · ':'')+L(s.en,s.es);}
+function setMode(m){state.mode=m;store.set('mode',m);applyState(state.current?state.current.world:tuner.station);updatePlayer();if(state.npOpen)renderNP();toast(stateLabel());}
 const TIMERS=[0,15,30,60,90];
 
 /* =========================================================
@@ -904,6 +1028,7 @@ const Engine={
   init(){
     if(this.ctx) return;
     const C=window.AudioContext||window.webkitAudioContext; const c=this.ctx=new C();
+    c.onstatechange=()=>paintPower();
     this.master=c.createGain(); this.master.gain.value=state.volume/100;
     const comp=c.createDynamicsCompressor(); comp.threshold.value=-14; comp.ratio.value=3;
     this.analyser=c.createAnalyser(); this.analyser.fftSize=1024;
@@ -1078,13 +1203,12 @@ function recipe(t){
     if(g.includes('cinematic')) r.chord=[...r.chord,24];
     if(g.includes('world')&&!r.sparkle){r.sparkle=2;r.sparkleLvl=.035;}
     if(g.includes('minimal')){r.pad*=.6;r.bin=.06;r.sparkle=0;}
-    const u=P('unheard')[0];
-    if(u==='blue') r.chord=[0,4,6,11,14];
-    if(u==='seven'){r.sparkle=r.sparkle||1.5;r.sparkleLvl=Math.max(r.sparkleLvl||0,.045);}
-    if(u==='before') r.chord=[0,5,7,12,14];
-    if(u==='silence'){r.sparkle=0;r.noise*=.6;}
-    if(u==='future') r.chord=[0,4,7,12,16];
-    if(u==='light'){r.wet=.95;r.sparkle=r.sparkle?r.sparkle*1.4:2.4;r.sparkleLvl=r.sparkleLvl||.035;}
+    const v=P('vision')[0];
+    if(v==='colors'){r.sparkle=r.sparkle||1.6;r.sparkleLvl=Math.max(r.sparkleLvl||0,.045);}
+    if(v==='aura'||v==='blur') r.wet=Math.min(.95,r.wet+.15);
+    if(v==='lines') r.bin=Math.max(r.bin,.05);
+    if(v==='ripple') r.ocean=true;
+    if(v==='feel'){r.sparkle=0;r.pad*=.8;}
   }
   return r;
 }
@@ -1103,27 +1227,33 @@ const PLUS_DAYS=3, FREE=new Set(['four-breaths','morning-ritual','ten-bad-ideas'
 const plusOnly=t=>!!t&&!(t.type==='Live Station'||t.mine||FREE.has(t.id));
 function plusState(){const x=store.get('plus',null);if(!x)return null;if(x.status==='active')return x;const left=x.trialStart+PLUS_DAYS*864e5-Date.now();return left>0?{...x,left}:{...x,expired:true};}
 const isPlus=()=>{const x=plusState();return !!x&&!x.expired;};
+const PLANS={month:{p:'$19',en:'/ month',es:'/ mes'},year:{p:'$99',en:'/ year',es:'/ año'}};
+const planTxt=k=>{const x=PLANS[k]||PLANS.year;return x.p+' '+L(x.en,x.es);};
 const locked=t=>plusOnly(t)&&!isPlus();
 const badge=t=>locked(t)?'<i class="plus-b">PLUS</i>':'';
 function plusChip(){const x=plusState(),on=isPlus();
   return `<button class="me plusc" data-pay="1"><i>✦</i><span>${on?'Plus'+(x.left?' · '+Math.ceil(x.left/864e5)+L(' days left',' días'):''):L('Try Plus','Prueba Plus')}</span></button>`;}
 function openPay(t){
   const on=isPlus(), x=plusState();
-  const feats=[L('NO MIND — the 21-day creative meditation program','NO MIND — el programa de meditación creativa de 21 días'),L('Every Creative Journey','Todos los Viajes Creativos'),L('Hypnosis sessions in English & Spanish','Sesiones de hipnosis en inglés y español'),L('The full library, unlimited listening','Toda la biblioteca, escucha ilimitada')];
+  const feats=[L('NO MYND — the 21-day creative meditation program','PuraMente — el programa de meditación creativa de 21 días'),L('Every Creative Journey','Todos los Viajes Creativos'),L('Hypnosis sessions in English & Spanish','Sesiones de hipnosis en inglés y español'),L('The full library, unlimited listening','Toda la biblioteca, escucha ilimitada')];
   $('#payIn').innerHTML=`<div class="pills"><i></i><i></i><i></i><i></i></div><span class="ob-k">Oazis Plus</span>
-    ${on?`<h3>${L('You’re in','Estás en')} <em>Oazis Plus.</em></h3><p class="pay-ctx">${x.left?L(`Free trial · ${Math.ceil(x.left/864e5)} days left, then $25 / month.`,`Prueba gratis · quedan ${Math.ceil(x.left/864e5)} días, después $25 / mes.`):L('Active','Activo')}</p>
+    ${on?`<h3>${L('You’re in','Estás en')} <em>Oazis Plus.</em></h3><p class="pay-ctx">${x.left?L(`Free trial · ${Math.ceil(x.left/864e5)} days left, then ${planTxt(x.plan)}.`,`Prueba gratis · quedan ${Math.ceil(x.left/864e5)} días, después ${planTxt(x.plan)}.`):L('Active','Activo')}</p>
       <ul class="feat">${feats.map(f=>`<li>${ICON.check}${f}</li>`).join('')}</ul>
       <button class="obtn" id="payNo">${L('Keep listening','Seguir escuchando')}</button><button class="olink" id="payEnd">${L('End trial (demo)','Terminar prueba (demo)')}</button>`
     :`<h3>${L('Go deeper.','Ve más profundo.')} <em>${L('Unlock everything.','Desbloquea todo.')}</em></h3>
       ${t?`<p class="pay-ctx">${L('You just heard 30 seconds of','Acabas de escuchar 30 segundos de')} <b>${esc(t.title)}</b>.</p>`:''}
       <ul class="feat">${feats.map(f=>`<li>${ICON.check}${f}</li>`).join('')}<li class="free">${ICON.check}${L('Always free: Oazis FM, your station and selected rituals','Siempre gratis: Oazis FM, tu estación y algunos rituales')}</li></ul>
-      <div class="price"><b>${L('3 days free','3 días gratis')}</b><span>${L('then $25 / month · cancel anytime','después $25 / mes · cancela cuando quieras')}</span></div>
+      <div class="plans"><button class="plan on" data-plan="year"><i>${L('Best value','Mejor precio')}</i><b>$99 <small>${L('/ year','/ año')}</small></b><span>${L('$8.25 / month · save 57%','$8,25 / mes · ahorra 57%')}</span></button>
+        <button class="plan" data-plan="month"><b>$19 <small>${L('/ month','/ mes')}</small></b><span>${L('Billed monthly','Cobro mensual')}</span></button></div>
+      <div class="price"><b>${L('3 days free','3 días gratis')}</b><span id="planLine">${L('then $99 / year · cancel anytime','después $99 / año · cancela cuando quieras')}</span></div>
       <button class="obtn" id="payGo">${L('Start 3‑day free trial','Empezar prueba gratis de 3 días')}</button><button class="olink" id="payNo">${L('Not now','Ahora no')}</button>
       <p class="note">${L('Demo: no payment is taken yet. Billing connects through the App Store and Stripe at launch.','Demo: todavía no se cobra nada. El cobro se conecta con App Store y Stripe en el lanzamiento.')}</p>`}`;
   $('#pay').classList.add('open');
   const close=()=>$('#pay').classList.remove('open');
   $('#payNo').onclick=close;
-  if($('#payGo')) $('#payGo').onclick=()=>{store.set('plus',{status:'trial',trialStart:Date.now()});close();render();renderLib();toast(L('Your 3-day Oazis Plus trial started','Empezó tu prueba de 3 días de Oazis Plus'));if(t)playTrack(t);};
+  let plan='year';
+  document.querySelectorAll('#payIn .plan').forEach(b=>b.onclick=()=>{plan=b.dataset.plan;document.querySelectorAll('#payIn .plan').forEach(x=>x.classList.toggle('on',x===b));$('#planLine').textContent=L(`then ${planTxt(plan)} · cancel anytime`,`después ${planTxt(plan)} · cancela cuando quieras`);});
+  if($('#payGo')) $('#payGo').onclick=()=>{store.set('plus',{status:'trial',trialStart:Date.now(),plan});close();render();renderLib();toast(L('Your 3-day Oazis Plus trial started','Empezó tu prueba de 3 días de Oazis Plus'));if(t)playTrack(t);};
   if($('#payEnd')) $('#payEnd').onclick=()=>{store.set('plus',null);close();render();renderLib();toast(L('Trial ended','Prueba terminada'));};
 }
 function previewEnd(){const t=state.current;Engine.stop();state.playing=false;updatePlayer();if(state.npOpen)closeNP();openPay(t);}
@@ -1165,32 +1295,19 @@ const views={
     const nextDay=DAYS.find(d=>!state.done.has(d.id))||DAYS[DAYS.length-1];
     const byHz=[...ORDER].sort((a,b)=>WORLDS[a].hz-WORLDS[b].hz);
     return `<div class="view">
-      <div class="topline"><span class="greet">${greet}${pr?', '+esc(pr.name):''}. ${L('How do you want to tune in?','¿Cómo quieres sintonizarte?')}</span><div class="tl-r">${plusChip()}${meBtn()}</div></div>
+      <div class="topline"><span class="mbrand">${MARK}<b>OAZIS</b></span><span class="greet">${greet}${pr?', '+esc(pr.name):''}. ${L('How do you want to tune in?','¿Cómo quieres sintonizarte?')}</span><div class="tl-r">${plusChip()}${meBtn()}</div></div>
 
-      <section class="tuner" id="tuner"><canvas class="aura" id="heroWave" aria-hidden="true"></canvas>
-        <div class="t-head"><span class="mono">Oazis FM · ${L('Tune into yourself','Sintonízate')}</span><button class="power" id="power"><i></i><span>OFF AIR</span></button></div>
-        <h1 class="hero-line">${L('Stop hearing.','Deja de oír.')}<br><em>${L('Start listening.','Empieza a escuchar.')}</em><i class="pane p1"></i><i class="pane p2"></i></h1>
+      <section class="tuner fmh" id="tuner">
+        <div class="t-head"><span class="mono">Oazis FM · ${L('Live radio','Radio en vivo')}</span><button class="power" id="power"><i></i><span>OFF AIR</span></button></div>
+        <h1 class="hero-line">${L('Tune your','Sintoniza tu')} <em>${L('frequency.','frecuencia.')}</em></h1>
         <p class="hero-sub">${L('Don’t hear the outside. Listen to the inside.','No oigas afuera. Escucha adentro.')}</p>
-        <div class="readout">
-          <div class="hz" id="tHz">07.0<small>Hz</small></div>
-          <div class="st"><b id="tSt">CREATE</b><span id="tLine"></span></div>
-          <div class="status mono" id="tStatus"></div>
-        </div>
-        <div class="dial" id="dial" role="slider" tabindex="0" aria-label="${L('Tuning dial','Dial de sintonía')}" aria-valuemin="1" aria-valuemax="24">
-          <div class="ticks" id="ticks"></div><div id="slabels"></div>
-          <div class="bands"><span style="left:12%">δ DELTA</span><span style="left:46%">θ THETA</span><span style="left:76%">α ALPHA</span><span style="left:93%">β BETA</span></div>
-          <div class="needle" id="needle"></div>
-        </div>
-        <div class="t-foot"><span>${L('Turn the dial and tune into a frequency. Between stations you’ll only hear a soft hum — keep turning until you find yours.','Gira el dial y sintoniza una frecuencia. Entre estaciones solo escucharás un zumbido suave — sigue girando hasta encontrar la tuya.')}</span>
-          <button id="scan">${ICON.wave}<span class="mono">${L('Scan','Buscar')}</span></button></div>
+        <div class="orbwrap"><button class="orb" id="orb" aria-label="Play Oazis FM"><canvas id="heroWave" aria-hidden="true"></canvas><span class="gl"></span><span class="ic"></span></button>
+          <div class="orb-read"><b id="tSt">CREATE FM</b><span id="tLine"></span><span class="mono" id="tStatus"></span></div></div>
+        <div class="stations" id="stations">${byHz.map(k=>`<button data-tune="${k}">${WORLDS[k].name}<small>${WORLDS[k].hz} Hz</small></button>`).join('')}</div>
       </section>
 
-      <section class="fm"><div><span class="ob-k">${L('What is Oazis FM?','¿Qué es Oazis FM?')}</span>
-        <h3>${L('A radio with only one station:','Una radio con una sola estación:')} <em>${L('you.','tú.')}</em></h3>
-        <p>${L('We brought back the radio — but instead of tuning into the world, you tune into yourself. A live, endless signal with no ads, no playlists and no noise: six frequencies, each one a state of mind you can always come back to.','Trajimos de vuelta la radio — pero en vez de sintonizar el mundo, te sintonizas a ti. Una señal en vivo y sin fin, sin anuncios, sin playlists y sin ruido: seis frecuencias, cada una un estado mental al que siempre puedes volver.')}</p></div>
-        <ol class="fm-list">${byHz.map(k=>`<li data-station="${k}" role="button" tabindex="0"><b>${WORLDS[k].name}<span>${WORLDS[k].hz} Hz</span></b><em>${tx(WORLDS[k],'line')}</em></li>`).join('')}</ol></section>
-
       ${mineSection()}
+      ${pr?(()=>{const ps=persona(pr);return ps.recs.length?`<section class="sec"><div class="sec-h"><h2>${L('Picked for your practice','Elegido para tu práctica')} <em>· ${ps.name}</em></h2></div><div class="shelf">${ps.recs.map(id=>card(TRACKS[id])).join('')}</div></section>`:''})():''}
 
       <section class="sec"><div class="sec-h"><h2>${L('How do you want to','¿Cómo te quieres')} <em>${L('feel?','sentir?')}</em></h2><a href="#/explore">${L('All worlds','Todos los mundos')}</a></div>
         <div class="worlds">${ws.map(k=>wcard(k,3)).join('')}</div></section>
@@ -1206,7 +1323,7 @@ const views={
 
       <section class="sec"><div class="banner">
         <div class="copy"><div><span class="mono" style="color:#A9A7A1">${L('The program · 21 days · 3 chapters','El programa · 21 días · 3 capítulos')}</span>
-          <h3 style="margin-top:14px">NO MIND<br><em>${L('Creative meditation.','Meditación creativa.')}</em></h3></div>
+          <h3 style="margin-top:14px">${L('NO MYND','PuraMente')}<br><em>${L('Creative meditation.','Meditación creativa.')}</em></h3></div>
           <p>${L('A creative meditation program with real results: 21 days, 21 ideas captured in your journal. Quiet the mind, play again and create from curiosity — not fear.','Un programa de meditación creativa con resultados reales: 21 días, 21 ideas guardadas en tu diario. Calla la mente, vuelve a jugar y crea desde la curiosidad — no desde el miedo.')}</p>
           <div class="actions" style="margin:0"><button class="btn" data-play="${nextDay.id}">${PLAYI()} ${state.done.size?L('Continue','Continuar'):L('Start','Comenzar')} · ${L('Day','Día')} ${nextDay.n}</button><a class="btn ghost" href="#/program">${L('See the program','Ver el programa')}</a></div></div>
         ${art('wake',2)}</div></section>
@@ -1215,7 +1332,7 @@ const views={
     </div>`;
   },
   explore(){
-    return `<div class="view"><div class="sec-h" style="margin-bottom:22px"><h2 style="font-size:40px;letter-spacing:-.04em">${L('Six worlds.','Seis mundos.')} <em>${L('One mind.','Una mente.')}</em></h2></div>
+    return `<div class="view"><div class="sec-h" style="margin-bottom:22px"><h2 style="font-size:40px;letter-spacing:-.04em">${L('Find your','Encuentra tu')} <em>${L('world.','mundo.')}</em></h2></div>
       <div class="worlds">${ORDER.map(k=>wcard(k,5,'min-height:280px')).join('')}</div>
       <section class="sec"><div class="sec-h"><h2>${L('Everything','Todo')}</h2></div><div class="tlist">${head()}${list(t=>!t.id.startsWith('station')&&!t.mine&&t.type!=='Program').map(row).join('')}</div></section>
       ${manifesto()}</div>`;
@@ -1242,7 +1359,7 @@ const views={
     const done=state.done.size, next=DAYS.find(d=>!state.done.has(d.id));
     return `<div class="view">
       <div class="prog-hero">${art('wake',4)}<div><span class="mono" style="color:var(--mute)">Oazis × CREATV MYNDZ · ${L('Program','Programa')}</span>
-        <h1>NO MIND</h1><p class="serif" style="font-size:24px">${L('A creative meditation program with real results.','Un programa de meditación creativa con resultados reales.')}</p>
+        <h1>${L('NO MYND','PuraMente')}</h1><p class="serif" style="font-size:24px">${L('A creative meditation program with real results.','Un programa de meditación creativa con resultados reales.')}</p>
         <p class="wdesc" style="margin-top:10px">${L('21 days to quiet the mind, play again and create from curiosity — not fear. Each day: arrive, practice, capture. By day 21 you’ll have 21 ideas in your journal: results you can see.','21 días para callar la mente, volver a jugar y crear desde la curiosidad — no desde el miedo. Cada día: llegar, practicar, capturar. Al día 21 tendrás 21 ideas en tu diario: resultados que puedes ver.')}</p>
         <div class="meter"><i style="width:${done/21*100}%"></i></div><small class="mono" style="color:var(--mute);display:block;margin-top:8px">${done}/21 ${L('days complete','días completados')}</small>
         <div class="actions"><button class="btn" data-play="${(next||DAYS[0]).id}">${PLAYI()} ${next?(done?L('Continue','Continuar'):L('Begin','Comenzar'))+' · '+L('Day','Día')+' '+next.n:L('Repeat Day 1','Repetir Día 1')}</button></div></div></div>
@@ -1250,6 +1367,18 @@ const views={
         ${DAYS.slice(ci*7,ci*7+7).map(d=>`<div class="day ${state.done.has(d.id)?'done':''} ${next&&next.id===d.id?'next':''}" data-play="${d.id}" role="button" tabindex="0">
           <span class="dn">${L('DAY','DÍA')} ${String(d.n).padStart(2,'0')}</span><div><b>${esc(d.short)} ${badge(d)}</b><small>${esc(d.desc)}</small></div>
           <span class="w">${WORLDS[d.world].name} · ${d.dur} MIN</span><button class="ck" data-done="${d.id}" aria-label="${L('Mark day done','Marcar día hecho')}">${state.done.has(d.id)?ICON.check:''}</button></div>`).join('')}</div>`).join('')}
+    </div>`;
+  },
+  library(){
+    const parts=dayOrder(), mine=P('moment').map(m=>MOMENT_PART[m]);
+    return `<div class="view"><div class="sec-h" style="margin-bottom:8px"><h2 style="font-size:40px;letter-spacing:-.04em">${L('Your','Tu')} <em>${L('library','biblioteca')}</em></h2><span class="mono" style="color:var(--mute)">${state.favs.size} ${L('saved','guardados')}</span></div>
+      <p class="wdesc" style="margin-bottom:22px">${L('Your favorites, organized by the moments of your day. Tap the heart on any session to keep it here.','Tus favoritos, organizados por los momentos de tu día. Toca el corazón en cualquier sesión para guardarla aquí.')}</p>
+      <div class="libtop">${profile&&TRACKS['my-oazis']?`<button class="lt" data-play="my-oazis">${art((PLACES[P('place')[0]]||PLACES.ocean).art,3)}<b>${esc(TRACKS['my-oazis'].title)}</b><span>${L('Your station','Tu estación')}</span></button>`:`<button class="lt" data-ob-open="1">${art('wake',2)}<b>${L('Create your Oazis','Crea tu Oazis')}</b><span>${L('A minute to make it yours','Un minuto para hacerlo tuyo')}</span></button>`}
+        <button class="lt" data-go="#/journal">${art('awaken',5)}<b>${L('Idea journal','Diario de ideas')}</b><span>${state.journal.length} ${L('ideas','ideas')}</span></button>
+        <button class="lt" data-go="#/program">${art('wake',4)}<b>${L('NO MYND','PuraMente')}</b><span>${state.done.size}/21 ${L('days','días')}</span></button></div>
+      ${parts.map((p,i)=>{const it=partItems(p);return `<section class="sec"><div class="sec-h"><h2>${L(p.en,p.es)} <em>· ${p.h}</em>${i===0?` <span class="nowc">${L('Now','Ahora')}</span>`:''}${mine.includes(p.id)?` <span class="nowc ghost">${L('Your moment','Tu momento')}</span>`:''}</h2></div>
+        ${it.saved.length?`<div class="shelf">${it.saved.map(card).join('')}</div>`:`<p class="lib-empty">${L('Nothing saved for this moment yet.','Aún no hay nada guardado para este momento.')}</p>`}
+        ${it.sugg.length?`<span class="ob-k" style="display:block;margin:18px 0 10px">${L('Suggested for you','Sugerido para ti')}</span><div class="shelf">${it.sugg.map(card).join('')}</div>`:''}</section>`;}).join('')}
     </div>`;
   },
   journal(){
@@ -1276,73 +1405,39 @@ function manifesto(){
    ========================================================= */
 const HZ_MIN=1,HZ_MAX=24;
 const posOf=hz=>Math.log(hz/HZ_MIN)/Math.log(HZ_MAX/HZ_MIN);
-const hzOf=p=>HZ_MIN*Math.pow(HZ_MAX/HZ_MIN,p);
-const LOCK=.02, FADE=.075;
-const tuner={p:posOf(7),power:false,dragging:false,stat:0,station:'create'};
-function nearest(p){let best=null,dist=9;ORDER.forEach(k=>{const d=Math.abs(posOf(WORLDS[k].hz)-p);if(d<dist){dist=d;best=k;}});return {k:best,dist};}
+const tuner={p:posOf(7),stat:0,station:'create'};
+const blocked=()=>!!(state.playing&&Engine.ctx&&Engine.ctx.state!=='running');
 function mountTuner(){
-  const ticks=$('#ticks'); if(!ticks) return;
-  let h=''; for(let i=0;i<=120;i++) h+=`<i class="${i%10?'':'l'}" style="left:${i/120*100}%"></i>`; ticks.innerHTML=h;
-  $('#slabels').innerHTML=ORDER.map(k=>{const p=posOf(WORLDS[k].hz);return `<button class="slabel ${k==='awaken'||k==='dream'?'alt':''}" data-station="${k}" style="left:${p*100}%">${WORLDS[k].name}</button>`}).join('');
-  const dial=$('#dial');
-  const from=e=>{const r=dial.getBoundingClientRect();return (e.clientX-r.left)/r.width;};
-  dial.addEventListener('pointerdown',e=>{if(e.target.closest('.slabel'))return;dial.setPointerCapture(e.pointerId);tuner.dragging=true;stopScan();setP(from(e),true);});
-  dial.addEventListener('pointermove',e=>{if(tuner.dragging)setP(from(e),true);});
-  const up=()=>{if(!tuner.dragging)return;tuner.dragging=false;const n=nearest(tuner.p);if(n.dist<LOCK*2.2)glide(posOf(WORLDS[n.k].hz));};
-  dial.addEventListener('pointerup',up);dial.addEventListener('pointercancel',up);
-  dial.addEventListener('keydown',e=>{
-    const step={ArrowLeft:-.006,ArrowRight:.006,ArrowDown:-.006,ArrowUp:.006}[e.key];
-    if(step){e.preventDefault();stopScan();setP(tuner.p+step,true);}
-    if(e.key==='PageUp'||e.key==='PageDown'){e.preventDefault();jumpStation(e.key==='PageUp'?1:-1);}
-  });
-  $('#power').addEventListener('click',()=>{tuner.power?powerOff():(stopScan(),powerOn(),setP(tuner.p,true));});
-  $('#scan').addEventListener('click',()=>scan());
-  setP(tuner.p,false);
+  if(!$('#orb')) return;
+  $('#orb').onclick=powerToggle; $('#power').onclick=powerToggle;
+  document.querySelectorAll('[data-tune]').forEach(b=>b.onclick=()=>tuneTo(b.dataset.tune));
+  paintPower();
 }
-function powerOn(){Engine.init();tuner.power=true;paintPower();}
-function powerOff(){tuner.power=false;stopScan();if(state.current&&state.current.type==='Live Station'){Engine.stop();state.playing=false;state.current=null;updatePlayer();}Engine.setStatic(0);tuner.stat=0;paintPower();setP(tuner.p,false);}
-function paintPower(){const b=$('#power');if(!b)return;b.classList.toggle('on',tuner.power);b.lastElementChild.textContent=tuner.power?'ON AIR':'OFF AIR';}
-function setP(p,user){
-  tuner.p=Math.min(1,Math.max(0,p));
-  const n=nearest(tuner.p), w=WORLDS[n.k], tuned=n.dist<LOCK;
-  tuner.station=n.k;
-  const nd=$('#needle'); if(nd){
-    nd.style.left=tuner.p*100+'%'; $('#tuner').style.setProperty('--glow',tuner.p*100+'%');
-    $('#tHz').innerHTML=hzOf(tuner.p).toFixed(1).padStart(4,'0')+'<small>Hz</small>';
-    $('#tSt').textContent=w.name; $('#tLine').textContent=tx(w,'line');
-    $('#dial').setAttribute('aria-valuenow',hzOf(tuner.p).toFixed(1)); $('#dial').setAttribute('aria-valuetext',`${hzOf(tuner.p).toFixed(1)} Hz, ${tuned?'tuned to':'near'} ${w.name}`);
-    const st=$('#tStatus'); st.classList.toggle('tuned',tuned&&(tuner.power||state.playing));
-    st.textContent=!tuner.power&&!state.playing?(user?L('Tuning…','Sintonizando…'):L('Turn the dial','Gira el dial')):tuned?L('● Tuned · live','● Sintonizado · en vivo'):L('Between stations ···','Entre estaciones ···');
-    document.querySelectorAll('.slabel').forEach(b=>b.classList.toggle('on',b.dataset.station===n.k&&tuned));
-  }
-  if(!user) return;
-  if(!tuner.power) powerOn();
-  if(tuned){
-    if(!state.current||state.current.id!=='station-'+n.k||!state.playing) playTrack(TRACKS['station-'+n.k],{fromTuner:true});
-    tuner.stat=0; Engine.setStatic(0); Engine.setLevel(1);
-  }else{
-    const f=Math.min(1,(n.dist-LOCK)/FADE);
-    tuner.stat=f; Engine.setStatic(.07+f*.1); Engine.setLevel(Math.max(0,1-f*1.2));
-  }
+function powerToggle(){
+  if(tuner.unlocked) return;                       // that tap only woke the audio up
+  if(blocked()){Engine.resume();return;}
+  if(state.playing){togglePlay();return;}
+  const c=state.current;
+  if(c&&(c.type==='Live Station'||c.mine)&&c.world===tuner.station){togglePlay();return;}
+  playTrack(TRACKS['station-'+tuner.station],{fromTuner:true});
 }
-function glide(to,ms=650,done){
-  const from=tuner.p,t0=performance.now();
-  const step=now=>{const k=Math.min(1,(now-t0)/ms),e=1-Math.pow(1-k,3);setP(from+(to-from)*e,true);if(k<1)tuner.raf=requestAnimationFrame(step);else done&&done();};
-  cancelAnimationFrame(tuner.raf);tuner.raf=requestAnimationFrame(step);
+function tuneTo(k){
+  const was=state.playing&&!blocked();
+  tuner.station=k; tuner.p=posOf(WORLDS[k].hz); paintPower();
+  if(was){Engine.setStatic(.11);Engine.setLevel(.12);tuner.stat=1;}   // a soft hum between stations
+  clearTimeout(tuner.to);
+  tuner.to=setTimeout(()=>{playTrack(TRACKS['station-'+k],{fromTuner:true});Engine.setStatic(0);tuner.stat=0;},was?520:0);
 }
-function jumpStation(dir){
-  const sorted=[...ORDER].sort((a,b)=>WORLDS[a].hz-WORLDS[b].hz);
-  const cur=nearest(tuner.p).k;let i=sorted.indexOf(cur)+dir;i=(i+sorted.length)%sorted.length;
-  glide(posOf(WORLDS[sorted[i]].hz));
+function paintPower(){
+  const b=$('#power'); if(!b) return;
+  const on=state.playing; b.classList.toggle('on',on); b.firstElementChild.innerHTML=on?ICON.pause:ICON.play; b.lastElementChild.textContent=on?'ON AIR':'OFF AIR';
+  const k=tuner.station,w=WORLDS[k],c=state.current,live=on&&c&&(c.type==='Live Station'||c.mine)&&c.world===k,bl=blocked();
+  $('#tSt').textContent=`${w.name} FM · ${w.hz} Hz`; $('#tLine').textContent=tx(w,'line');
+  $('#tStatus').textContent=bl?L('Tap anywhere to hear it','Toca en cualquier parte para escucharlo'):live?(c.mine?L('● Live · your Oazis','● En vivo · tu Oazis'):L('● Live now','● En vivo')):on?L('Playing · ','Sonando · ')+c.title:L('Press play to tune in','Dale play para sintonizarte');
+  $('#tStatus').classList.toggle('live',!!live&&!bl);
+  $('#orb').classList.toggle('on',on&&!bl); $('#orb .ic').innerHTML=on&&!bl?ICON.pause:ICON.play;
+  document.querySelectorAll('[data-tune]').forEach(x=>x.classList.toggle('on',x.dataset.tune===k));
 }
-function scan(){
-  if(tuner.scanning){stopScan();return;}
-  tuner.scanning=true;$('#scan .mono').textContent='Stop';
-  const next=()=>{if(!tuner.scanning)return;const sorted=[...ORDER].sort((a,b)=>WORLDS[a].hz-WORLDS[b].hz);const cur=nearest(tuner.p).k;let i=(sorted.indexOf(cur)+1)%sorted.length;
-    glide(posOf(WORLDS[sorted[i]].hz),1600,()=>{tuner.scanTO=setTimeout(next,6000);});};
-  next();
-}
-function stopScan(){tuner.scanning=false;clearTimeout(tuner.scanTO);const s=$('#scan .mono');if(s)s.textContent='Scan';}
 
 /* =========================================================
    PLAYBACK
@@ -1350,15 +1445,17 @@ function stopScan(){tuner.scanning=false;clearTimeout(tuner.scanTO);const s=$('#
 function playTrack(t,opts={}){
   if(!t) return;
   state.current=t; state.elapsed=0; state.playing=true; state.phase=-1;
-  Engine.play(recipe(t));
+  applyState(t.world); Engine.play(recipe(t));
   if(locked(t)) toast(L('Preview · 30 seconds of Oazis Plus','Preview · 30 segundos de Oazis Plus'));
-  if(!opts.fromTuner){Engine.setStatic(0);tuner.stat=0;stopScan();if($('#needle'))setP(posOf(WORLDS[t.world].hz),false);else tuner.p=posOf(WORLDS[t.world].hz);}
+  if(!opts.fromTuner){Engine.setStatic(0);tuner.stat=0;}
+  tuner.station=t.world; tuner.p=posOf(WORLDS[t.world].hz);
   if(t.type!=='Live Station'){state.recent=[t.id,...state.recent.filter(x=>x!==t.id)].slice(0,10);save();}
   checkPhase(); updatePlayer(); markRows();
   if(t.phases&&!opts.fromTuner) openNP();
   else if(state.npOpen) renderNP();
 }
 function togglePlay(){
+  if(tuner.unlocked) return;
   if(!state.current){playTrack(TRACKS['station-'+tuner.station]);return;}
   if(state.playing){state.playing=false;Engine.pause();}
   else{state.playing=true;if(!Engine.voice)Engine.play(recipe(state.current));else Engine.resume();}
@@ -1369,7 +1466,7 @@ function finish(){
   if(t.type==='Program'){state.done.add(t.id);save();}
   updatePlayer(); if(state.npOpen) renderNP();
   toast('Session complete');
-  if(t.phases||['create','dream','awaken'].includes(t.world)) setTimeout(()=>openCapture(),700);
+  if(t.phases||['create','dream','awaken'].includes(t.world)||(profile&&persona(profile).journal)) setTimeout(()=>openCapture(),700);
   if(route().name==='program') render();
 }
 function checkPhase(){
@@ -1383,7 +1480,7 @@ function checkPhase(){
   }
 }
 setInterval(()=>{
-  if(!state.playing||!state.current) return;
+  if(!state.playing||!state.current||blocked()) return;
   state.elapsed++; checkPhase();
   const L=limit(state.current); if(L&&state.elapsed>=L){locked(state.current)?previewEnd():finish();return;}
   paintTime();
@@ -1405,9 +1502,9 @@ function updatePlayer(){
   $('#bPlay').innerHTML=state.playing?ICON.pause:ICON.play; $('#bPlay').setAttribute('aria-label',state.playing?'Pause':'Play');
   const fav=t&&state.favs.has(t.id); $('#bFav').classList.toggle('heart',true); $('#bFav').classList.toggle('on',!!fav);
   $('#bTimer').textContent=(t&&t.phases)?'GUIDED':(state.timer?state.timer+' MIN':'∞ TIMER');
+  $('#bState').textContent=stateLabel().toUpperCase();
   document.title=t&&state.playing?`${t.title} · OAZIS`:'OAZIS — Your Creative Oazis';
   paintTime(); paintPower();
-  if($('#needle')) setP(tuner.p,false);
 }
 function markRows(){document.querySelectorAll('.trow').forEach(r=>r.classList.toggle('now',!!state.current&&r.dataset.play===state.current.id));}
 
@@ -1433,11 +1530,12 @@ function renderNP(){
         <div class="np-opts">
           ${ph?`<div class="opt"><span class="mono">${L('Spoken guide','Guía hablada')}</span><div class="seg" id="voiceSeg"><button data-v="0" class="${state.voice?'':'on'}">${L('Text','Texto')}</button><button data-v="1" class="${state.voice?'on':''}">${L('Voice','Voz')}</button></div></div>`
             :`<div class="opt"><span class="mono">${L('Session length','Duración')}</span><div class="seg" id="timerSeg">${TIMERS.map(m=>`<button data-m="${m}" class="${state.timer===m?'on':''}">${m?m+'m':'∞'}</button>`).join('')}</div></div>`}
-          <div class="opt"><span class="mono">${L('Depth · rhythmic layer','Profundidad · capa rítmica')}</span><input type="range" id="npDepth" min="0" max="100" value="${state.depth}" style="--v:${state.depth}%"></div>
+          <div class="opt"><span class="mono">${L('How deep do you want to go?','¿Qué tan profundo quieres ir?')}</span><div class="seg" id="stateSeg">${['auto','light','balanced','deep'].map(m=>`<button data-st="${m}" class="${state.mode===m?'on':''}">${m==='auto'?'Auto':L(STATES[m].en,STATES[m].es)}</button>`).join('')}</div>
+            <small style="color:var(--mute);font-size:12.5px">${(()=>{const s=STATES[stateOf(t.world)];return state.mode==='auto'?L(`Set for ${w.name}: ${s.en.toLowerCase()} — ${s.sub[0].toLowerCase()}`,`Ajustado para ${w.name}: ${s.es.toLowerCase()} — ${s.sub[1].toLowerCase()}`):L(s.sub[0],s.sub[1]);})()}</small></div>
           <div class="opt"><span class="mono">${L('Listening tip','Consejo')}</span><span style="color:var(--mute);font-size:13px;max-width:260px">${L('Headphones bring out the binaural layer. Keep the volume low and comfortable.','Los audífonos resaltan la capa binaural. Mantén el volumen bajo y cómodo.')}</span></div>
         </div>
       </div></div>
-    <span class="mono" style="color:var(--dim);text-align:center">${L('Stop hearing. Start listening.','Deja de oír. Empieza a escuchar.')}</span>
+    <span class="mono" style="color:var(--dim);text-align:center">${L('Tune your frequency.','Sintoniza tu frecuencia.')}</span>
   </div>`;
   paintTime();
 }
@@ -1456,16 +1554,30 @@ function addIdea(text){
 }
 
 /* ---------- library ---------- */
+const DAYPARTS=[
+  {id:'morning',en:'Morning',es:'Mañana',h:'5–11',from:5,to:11,f:t=>t.world==='awaken'||t.type==='Ritual'},
+  {id:'day',en:'Daytime focus',es:'Enfoque de día',h:'11–17',from:11,to:17,f:t=>t.world==='flow'||t.world==='create'},
+  {id:'evening',en:'Evening',es:'Atardecer',h:'17–21',from:17,to:21,f:t=>t.world==='calm'||t.world==='dream'},
+  {id:'night',en:'Night',es:'Noche',h:'21–5',from:21,to:29,f:t=>t.world==='sleep'}];
+const MOMENT_PART={morning:'morning',work:'day',block:'day',anytime:'day',evening:'evening',night:'night'};
+function dayOrder(){const h=new Date().getHours(),hh=h<5?h+24:h,i=Math.max(0,DAYPARTS.findIndex(p=>hh>=p.from&&hh<p.to));return [...DAYPARTS.slice(i),...DAYPARTS.slice(0,i)];}
+const partOf=t=>(DAYPARTS.find(p=>p.f(t))||DAYPARTS[1]).id;
+function partItems(p){
+  const saved=[...state.favs].map(id=>TRACKS[id]).filter(t=>t&&!t.mine&&partOf(t)===p.id);
+  const rec=profile?persona(profile).recs.map(id=>TRACKS[id]):[];
+  const pool=[...rec,...list(t=>!t.id.startsWith('station')&&!t.mine&&t.type!=='Program')].filter(t=>t&&partOf(t)===p.id&&!state.favs.has(t.id));
+  return {saved,sugg:[...new Set(pool)].slice(0,saved.length?4:6)};
+}
 function renderLib(){
-  const favs=[...state.favs].map(id=>TRACKS[id]).filter(t=>t&&!t.mine);
-  const pl=profile&&(PLACES[P('place')[0]]||PLACES.ocean);
-  $('#libCount').textContent=favs.length?favs.length+' '+L('saved','guardados'):'';
+  const pl=profile&&(PLACES[P('place')[0]]||PLACES.ocean), lr=t=>`<div class="lrow" data-play="${t.id}">${art(t.world,t.seed)}<div style="min-width:0"><b>${esc(t.title)}</b><span>${WORLDS[t.world].name} · ${t.type}</span></div></div>`;
+  $('#libCount').textContent=state.favs.size?state.favs.size+' '+L('saved','guardados'):'';
   $('#lib').innerHTML=(profile&&TRACKS['my-oazis']?`<div class="lrow" data-play="my-oazis">${art(pl.art,pl.seed)}<div style="min-width:0"><b>${esc(TRACKS['my-oazis'].title)}</b><span>${L('Your station','Tu estación')}</span></div></div>`
       :`<div class="lrow" data-ob-open="1"><div class="art art-wake"><i></i><i></i></div><div><b>${L('Create your Oazis','Crea tu Oazis')}</b><span>${L('A minute to make it yours','Un minuto para hacerlo tuyo')}</span></div></div>`)+
     `<div class="lrow" data-go="#/journal"><div class="art art-awaken" style="--x:50%;--y:50%"><i></i><i></i></div><div><b>${L('Idea journal','Diario de ideas')}</b><span>${state.journal.length} ${L('ideas','ideas')}</span></div></div>
-    <div class="lrow" data-go="#/program"><div class="art art-wake"><i></i><i></i></div><div><b>NO MIND</b><span>${state.done.size}/21 ${L('days','días')}</span></div></div>`+
-    (favs.length?favs.map(t=>`<div class="lrow" data-play="${t.id}">${art(t.world,t.seed)}<div style="min-width:0"><b>${esc(t.title)}</b><span>${WORLDS[t.world].name} · ${t.type}</span></div></div>`).join('')
-    :`<p class="lib-empty" style="margin-top:8px">${L('Tap the heart on any session to keep it here.','Toca el corazón en cualquier sesión para guardarla aquí.')}</p>`);
+    <div class="lrow" data-go="#/program"><div class="art art-wake"><i></i><i></i></div><div><b>${L('NO MYND','PuraMente')}</b><span>${state.done.size}/21 ${L('days','días')}</span></div></div>`+
+    dayOrder().map((p,i)=>{const it=partItems(p);return `<h5 class="lsec">${L(p.en,p.es)}<span>${i===0?L('now','ahora'):p.h}</span></h5>`+
+      (it.saved.length?it.saved.map(lr).join(''):it.sugg.slice(0,1).map(t=>lr(t).replace('class="lrow"','class="lrow sug"')).join(''));}).join('')+
+    `<div class="lrow more" data-go="#/library"><span>${L('Open your library','Abrir tu biblioteca')} →</span></div>`;
 }
 
 /* =========================================================
@@ -1483,19 +1595,20 @@ function render(){
 window.addEventListener('hashchange',()=>{render();$('#main').scrollTop=0;});
 
 document.addEventListener('click',e=>{
-  const el=e.target.closest('[data-fav],[data-done],[data-del],[data-persona],[data-station],[data-go],[data-play],[data-th],[data-ob-open],[data-lang],[data-pay],#timerSeg button,#voiceSeg button,#npClose,#npPlay,#npCap,#npCap2');
+  const el=e.target.closest('[data-fav],[data-done],[data-del],[data-persona],[data-station],[data-go],[data-play],[data-th],[data-ob-open],[data-lang],[data-pay],#timerSeg button,#stateSeg button,#voiceSeg button,#npClose,#npPlay,#npCap,#npCap2');
   if(!el) return;
   if(el.dataset.fav){e.stopPropagation();const id=el.dataset.fav;state.favs.has(id)?state.favs.delete(id):state.favs.add(id);save();el.classList.toggle('on',state.favs.has(id));renderLib();toast(state.favs.has(id)?'Saved to your library':'Removed from your library');updatePlayer();return;}
   if(el.dataset.done){e.stopPropagation();const id=el.dataset.done;state.done.has(id)?state.done.delete(id):state.done.add(id);save();renderLib();if(route().name==='program')render();if(state.npOpen)renderNP();return;}
   if(el.dataset.del){state.journal=state.journal.filter(n=>String(n.at)!==el.dataset.del);save();render();renderLib();return;}
   if(el.dataset.persona){state.persona=el.dataset.persona;store.set('persona',state.persona);render();return;}
-  if(el.dataset.station){if(el.closest('.fm'))$('#main').scrollTo({top:0,behavior:'smooth'});stopScan();if(!tuner.power)powerOn();glide(posOf(WORLDS[el.dataset.station].hz));return;}
+  if(el.dataset.station){tuneTo(el.dataset.station);return;}
   if(el.dataset.th){setTheme(el.dataset.th);return;}
   if(el.dataset.pay){e.preventDefault();openPay();return;}
   if(el.dataset.lang){setLang(el.dataset.lang);return;}
   if(el.dataset.obOpen){e.preventDefault();openOB(profile?1:0);return;}
   if(el.dataset.go){location.hash=el.dataset.go;return;}
   if(el.dataset.play){e.preventDefault();const t=TRACKS[el.dataset.play];if(state.current&&state.current.id===t.id){state.playing?openNP():togglePlay();}else playTrack(t);return;}
+  if(el.matches('#stateSeg button')){setMode(el.dataset.st);return;}
   if(el.matches('#timerSeg button')){state.timer=+el.dataset.m;store.set('timer',state.timer);renderNP();updatePlayer();return;}
   if(el.matches('#voiceSeg button')){state.voice=el.dataset.v==='1';store.set('voice',state.voice);if(!state.voice&&'speechSynthesis' in window)speechSynthesis.cancel();renderNP();return;}
   if(el.id==='npClose'){closeNP();return;}
@@ -1508,10 +1621,9 @@ document.addEventListener('keydown',e=>{
   if(e.code==='Space'&&!$('#ob').classList.contains('open')&&!e.target.closest('input,textarea,button,[role=slider],[role=button]')){e.preventDefault();togglePlay();}
 });
 document.addEventListener('input',e=>{
-  if(e.target.id==='npDepth'||e.target.id==='rDepth'){state.depth=+e.target.value;store.set('depth',state.depth);Engine.setDepth(state.depth);syncSliders();}
   if(e.target.id==='rVol'){state.volume=+e.target.value;store.set('volume',state.volume);Engine.setVolume(state.volume);syncSliders();}
 });
-function syncSliders(){['rDepth','npDepth'].forEach(id=>{const s=$('#'+id);if(s){s.value=state.depth;s.style.setProperty('--v',state.depth+'%');}});const v=$('#rVol');v.value=state.volume;v.style.setProperty('--v',state.volume+'%');}
+function syncSliders(){const v=$('#rVol');v.value=state.volume;v.style.setProperty('--v',state.volume+'%');}
 
 $('#bPlay').onclick=togglePlay;
 $('#bExpand').onclick=openNP;
@@ -1519,6 +1631,7 @@ $('#npMini').onclick=()=>state.current?openNP():togglePlay();
 $('#npMini').onkeydown=e=>{if(e.key==='Enter')$('#npMini').click();};
 $('#bCap').onclick=openCapture;
 $('#bFav').onclick=()=>{const t=state.current;if(!t){toast('Play something first');return;}state.favs.has(t.id)?state.favs.delete(t.id):state.favs.add(t.id);save();renderLib();updatePlayer();toast(state.favs.has(t.id)?'Saved to your library':'Removed from your library');};
+$('#bState').onclick=()=>{const m=['auto','light','balanced','deep'];setMode(m[(m.indexOf(state.mode)+1)%m.length]);};
 $('#bTimer').onclick=()=>{if(state.current&&state.current.phases){openNP();return;}const i=(TIMERS.indexOf(state.timer)+1)%TIMERS.length;state.timer=TIMERS[i];store.set('timer',state.timer);updatePlayer();toast(state.timer?`Session ends after ${state.timer} min`:'Endless session');};
 $('#capCancel').onclick=closeCapture;
 $('#capSave').onclick=()=>{if(addIdea($('#capText').value)){closeCapture();if(route().name==='journal')render();}};
@@ -1574,11 +1687,57 @@ function drawAura(cv,t,lvl){
     g.fillStyle=gr; g.fillRect(0,0,W,H);
   }
 }
+/* the radio's look follows how each person sees sound (funnel Q9) */
+let vizT=0, vizLast=0;
+const vizStyle=()=>P('vision')[0]||'ripple';
+function drawViz(cv,t,lvl){
+  if(!cv.clientWidth) return;
+  const style=vizStyle(), dark=document.documentElement.dataset.theme==='dark', sc=style==='lines'?1.5:3;
+  const W=Math.max(2,Math.round(cv.clientWidth/sc)),H=Math.max(2,Math.round(cv.clientHeight/sc));
+  if(cv.width!==W||cv.height!==H){cv.width=W;cv.height=H;}
+  const key=style+dark; if(cv._k!==key){cv._k=key;const b={ripple:dark?3.2:1.1,aura:12,colors:11,blur:5,lines:0,feel:9}[style];cv.style.filter=b?`blur(${b}px)`:'none';}
+  const g=cv.getContext('2d'); g.globalCompositeOperation='source-over';
+  const k=state.current?state.current.world:tuner.station, hz=WORLDS[k].hz, on=state.playing&&!blocked();
+  const e=(on?.68+Math.min(.32,lvl*6):.42)*(1-tuner.stat*.35), T=vizT, cx=W/2, cy=H/2, R=Math.max(W,H)/2;
+  const bg=dark?'#030304':'#EDEDEE';
+  if(style==='ripple'&&!dark){
+    g.fillStyle=bg; g.fillRect(0,0,W,H);
+    const N=6, sp=.045+hz*.004;
+    for(let i=0;i<N;i++){const ph=(T*sp+i/N)%1, r=ph*R*1.2, a=Math.sin(ph*Math.PI)*e, lw=R*.08;
+      g.lineWidth=lw; g.beginPath(); g.arc(cx+lw*.22,cy+lw*.3,r,0,7); g.strokeStyle=`rgba(0,0,0,${.11*a})`; g.stroke();
+      g.beginPath(); g.arc(cx-lw*.18,cy-lw*.24,Math.max(0,r-lw*.3),0,7); g.strokeStyle=`rgba(255,255,255,${a})`; g.stroke();}
+    const gr=g.createRadialGradient(cx,cy,0,cx,cy,R*.2); gr.addColorStop(0,`rgba(0,0,0,${.07*e})`); gr.addColorStop(1,'rgba(0,0,0,0)'); g.fillStyle=gr; g.fillRect(0,0,W,H);
+  }else if(style==='ripple'){            // dark mode: a slow blurred spiral
+    g.fillStyle='#000'; g.fillRect(0,0,W,H); g.lineCap='round';
+    const n=8, sp=.22+hz*.018;
+    for(let j=0;j<n;j++){const r=R*(.14+j*.1), a0=T*sp*(1-j*.05)+j*.9, len=Math.PI*(1.05+.35*Math.sin(T*.35+j));
+      g.lineWidth=R*.055; g.beginPath(); g.arc(cx,cy,r,a0,a0+len);
+      g.strokeStyle=`rgba(232,232,232,${(.3+.45*(.5+.5*Math.sin(T*.55+j*1.3)))*e*(1-j/(n+3))})`; g.stroke();}
+    g.beginPath(); g.arc(cx,cy,R*.05,0,7); g.fillStyle='#000'; g.fill();
+  }else if(style==='aura'||style==='colors'){
+    g.fillStyle=bg; g.fillRect(0,0,W,H); g.globalCompositeOperation=dark?'lighter':'source-over';
+    const cols=style==='colors'?[[255,128,96],[104,138,255],[76,212,170],[244,146,236],[255,206,92]]:(AURA[k]||AURA.create);
+    for(let i=0;i<5;i++){const sp=.07+.025*i+hz*.004, x=W*(.5+.38*Math.sin(T*sp+i*1.7)), y=H*(.5+.34*Math.cos(T*sp*.8+i*1.1)), r=R*(.55+.18*Math.sin(T*.45+i)+e*.35);
+      const [cr,cg,cb]=cols[i%cols.length], a=(style==='colors'?(dark?.5:.78):(dark?.36:.66))*e;
+      const gr=g.createRadialGradient(x,y,0,x,y,r); gr.addColorStop(0,`rgba(${cr},${cg},${cb},${a})`); gr.addColorStop(1,`rgba(${cr},${cg},${cb},0)`); g.fillStyle=gr; g.fillRect(0,0,W,H);}
+  }else if(style==='blur'||style==='lines'){
+    g.fillStyle=bg; g.fillRect(0,0,W,H);
+    const ink=dark?'236,236,232':'29,29,31', amp=(on?.42+Math.min(.5,lvl*5):.2), sp=.4+hz*.03, nL=style==='blur'?5:7;
+    for(let l=0;l<nL;l++){g.beginPath();
+      for(let x=0;x<=W;x+=2){const u=x/W, env=Math.sin(u*Math.PI); let y=Math.sin(u*Math.PI*2*(1.4+hz*.05)+T*sp+l*.5)*(.6+.4*Math.sin(u*7+T*.3+l));
+        y=cy+y*env*amp*H*.38+(l-nL/2)*H*.014; x?g.lineTo(x,y):g.moveTo(x,y);}
+      g.strokeStyle=`rgba(${ink},${(style==='blur'?.22:.16)+l*.08})`; g.lineWidth=style==='blur'?R*.07:1.1; g.stroke();}
+  }else{                                  // "I just feel it": darkness and one breathing light
+    g.fillStyle='#050505'; g.fillRect(0,0,W,H);
+    const r=R*(.3+.08*Math.sin(T*.5)+e*.18), gr=g.createRadialGradient(cx,cy,0,cx,cy,r); gr.addColorStop(0,`rgba(255,255,255,${.55*e})`); gr.addColorStop(1,'rgba(255,255,255,0)'); g.fillStyle=gr; g.fillRect(0,0,W,H);
+  }
+}
 function frame(now){
   if(!waveRGB) waveRGB=getComputedStyle(document.documentElement).getPropertyValue('--wave').trim();
   smooth+=(Engine.level()-smooth)*.12; const t=now/1000;
-  const a=$('#heroWave'); if(a) drawAura(a,t,smooth);
-  const b=$('#npWave'); if(b&&state.npOpen) drawAura(b,t,smooth);
+  const dt=Math.min(.1,(now-(vizLast||now))/1000); vizLast=now; vizT+=dt*(state.playing&&!blocked()?1:.3);
+  const a=$('#heroWave'); if(a) drawViz(a,t,smooth);
+  const b=$('#npWave'); if(b&&state.npOpen) drawViz(b,t,smooth);
   requestAnimationFrame(frame);
 }
 
@@ -1601,6 +1760,14 @@ const UNHEARD={
   silence:{label:'Silence inside a crowd',label_es:'El silencio dentro de una multitud',art:'dream',seed:2,notes:[57],type:'hum'},
   future:{label:'Your future self, laughing',label_es:'Tu yo del futuro, riendo',art:'p-ocean',seed:6,notes:[60,64,67,72,76],type:'piano'},
   light:{label:'Light moving under water',label_es:'La luz moviéndose bajo el agua',art:'flow',seed:4,notes:[79,83,86,91,86],type:'shimmer'},
+};
+const VISION={
+  colors:{label:'Colors',label_es:'Colores',sub:'Vivid fields of color',sub_es:'Campos de color vivos',art:'v-colors',seed:1},
+  aura:{label:'Auras',label_es:'Auras',sub:'Soft light that glows',sub_es:'Luz suave que brilla',art:'v-aura',seed:2},
+  blur:{label:'Blurred lines',label_es:'Líneas borrosas',sub:'Waves that melt',sub_es:'Ondas que se derriten',art:'v-blur',seed:3},
+  lines:{label:'Clean lines',label_es:'Líneas nítidas',sub:'Precise, sharp waves',sub_es:'Ondas precisas y nítidas',art:'v-lines',seed:4},
+  ripple:{label:'Ripples',label_es:'Ondas en el agua',sub:'Circles opening outward',sub_es:'Círculos que se abren',art:'v-ripple',seed:5},
+  feel:{label:'Nothing — I feel it',label_es:'Nada — lo siento',sub:'Darkness and texture',sub_es:'Oscuridad y textura',art:'v-feel',seed:6},
 };
 const QUESTIONS=[
   {id:'lang',type:'single',title:'Which language do you prefer?',title_es:'¿Qué idioma prefieres?',sub:'Your Oazis — and your guided audios — will speak it.',sub_es:'Tu Oazis — y tus audios guiados — hablarán en él.',options:[
@@ -1627,19 +1794,38 @@ const QUESTIONS=[
     {v:'mindfulness',label:'Mindfulness'},{v:'creative',label:'Creative meditation',label_es:'Meditación creativa'},{v:'visualization',label:'Guided visualization',label_es:'Visualización guiada'},
     {v:'breath',label:'Breathwork',label_es:'Respiración consciente'},{v:'journaling',label:'Journaling',label_es:'Escritura / journaling'},{v:'sound',label:'Sound baths & frequencies',label_es:'Baños de sonido y frecuencias'},
     {v:'none',label:'None yet',label_es:'Ninguna todavía',sub:'Curious to start',sub_es:'Con ganas de empezar'}]},
-  {id:'genres',type:'multi',max:3,preview:'genre',title:'What music moves you?',title_es:'¿Qué música te mueve?',sub:'Choose up to three. Tap a style to hear 5 seconds of it.',sub_es:'Elige hasta tres. Toca un estilo para escuchar 5 segundos.',options:[
+  {id:'genres',type:'multi',preview:'genre',title:'What music moves you?',title_es:'¿Qué música te mueve?',sub:'Choose all you like. Tap a style to hear 5 seconds of it.',sub_es:'Elige todas las que te gusten. Toca un estilo para escuchar 5 segundos.',options:[
     {v:'lofi',label:'Lo‑fi',sub:'Dusty beats, warm chords',sub_es:'Beats polvorientos, acordes cálidos'},{v:'electronic',label:'Electronic',label_es:'Electrónica',sub:'Pulse, synths, forward motion',sub_es:'Pulso, sintes, movimiento'},
     {v:'jazz',label:'Jazz',sub:'Swing, walking bass, freedom',sub_es:'Swing, bajo caminante, libertad'},{v:'ambient',label:'Ambient',sub:'Weightless pads and space',sub_es:'Atmósferas que flotan'},
     {v:'piano',label:'Piano & neo‑classical',label_es:'Piano y neoclásico',sub:'Intimate keys, slow and human',sub_es:'Teclas íntimas, lentas y humanas'},{v:'cinematic',label:'Cinematic',label_es:'Cinemática',sub:'Big swells, deep drums',sub_es:'Crescendos, tambores profundos'},
     {v:'world',label:'World & organic',label_es:'World y orgánica',sub:'Kalimba, shakers, earth',sub_es:'Kalimba, shakers, tierra'},{v:'minimal',label:'Pure tones & minimal',label_es:'Tonos puros y minimal',sub:'Almost silence',sub_es:'Casi silencio'}]},
   {id:'place',type:'single',preview:'place',title:'Where do you feel your Oazis is?',title_es:'¿Dónde sientes que está tu Oazis?',sub:'Where do you find the most calm? It becomes the soundscape of your station.',sub_es:'¿Dónde encuentras más calma? Será el paisaje sonoro de tu estación.',
     options:Object.entries(PLACES).map(([v,x])=>({v,...x}))},
-  {id:'unheard',type:'single',preview:'unheard',title:'If you could hear something no one has ever heard — what would it be?',title_es:'Si pudieras escuchar algo que nadie ha escuchado jamás, ¿qué sería?',
-    sub:'No right answer. Trust the first one that pulls you — it becomes your signature sound.',sub_es:'No hay respuesta correcta. Confía en la primera que te llame — será tu sonido firma.',
-    options:Object.entries(UNHEARD).map(([v,x])=>({v,...x}))},
+  {id:'vision',type:'single',stay:true,title:'How do you see sound in your mind?',title_es:'¿Cómo ves el sonido dentro de tu mente?',
+    sub:'Play the sound with your eyes closed, then choose what you saw. Your radio will draw its waves that way.',sub_es:'Escucha el sonido con los ojos cerrados y elige lo que viste. Tu radio dibujará sus ondas así.',
+    options:Object.entries(VISION).map(([v,x])=>({v,...x}))},
 ];
 const QG=id=>QUESTIONS.find(q=>q.id===id);
 const optOf=(qid,v)=>QG(qid).options.find(o=>o.v===v);
+/* who is listening: the answers say how far each person has already explored */
+function persona(pr){
+  pr=pr||{}; const p=(pr.practices||[]).filter(x=>x!=='none'), exp=(pr.exp||[])[0];
+  const score=p.length+({never:0,few:1,sometimes:2,daily:3}[exp]||0), lvl=score>=6?'deep':score>=3?'growing':'new';
+  const recs=[];
+  if(lvl==='new') recs.push('four-breaths','morning-ritual');
+  if(p.includes('sound')) recs.push('theta-sketchbook','alpha-shore','delta-drift');
+  if(p.includes('visualization')) recs.push('impossible-rooms','hyp-lucid-door');
+  if(p.includes('creative')) recs.push('hyp-inner-studio','the-blank-page');
+  if(p.includes('breath')) recs.push('four-breaths');
+  if(p.includes('mindfulness')) recs.push('quiet-the-noise','letting-the-day-go');
+  if(p.includes('journaling')) recs.push('ten-bad-ideas','inner-child-atlas');
+  if(lvl==='deep') recs.push('hyp-creative-confidence','slow-nebula','long-hallway');
+  return {lvl,recs:[...new Set(recs)].filter(id=>TRACKS[id]),depthBoost:lvl==='deep'?12:lvl==='new'?-12:0,journal:p.includes('journaling'),
+    name:{deep:L('Seasoned explorer','Explorador experimentado'),growing:L('Curious practitioner','Practicante curioso'),new:L('Fresh start','Nuevo comienzo')}[lvl],
+    why:{deep:L(`You’ve tried ${p.length} practices${exp==='daily'?' and meditate regularly':''}. We skip the basics: deeper states, hypnosis and guided journeys first.`,`Has probado ${p.length} prácticas${exp==='daily'?' y meditas con regularidad':''}. Nos saltamos lo básico: estados más profundos, hipnosis y viajes guiados primero.`),
+      growing:L('You know the way in. We mix guided journeys with open listening, at a balanced depth.','Ya conoces el camino. Mezclamos viajes guiados con escucha libre, a una profundidad equilibrada.'),
+      new:L('We start gentle: short sessions, a lighter state and NO MYND day 1.','Empezamos suave: sesiones cortas, un estado más ligero y el día 1 de PuraMente.')}[lvl]};
+}
 const SEEK_WORLD={create:'create',flow:'flow',calm:'calm',sleep:'sleep',meditate:'calm',awaken:'awaken'};
 const MOMENTS={
   morning:[['For your mornings','Para tus mañanas'],t=>t.world==='awaken'||t.type==='Ritual'],
@@ -1658,11 +1844,11 @@ function topWorlds(pr){
   return [...w,...ORDER.filter(x=>!w.includes(x))];
 }
 function firstStep(pr){
-  const exp=(pr.exp||[])[0], pr2=pr.practices||[];
+  const ps=persona(pr), pr2=pr.practices||[];
   const next=DAYS.find(d=>!state.done.has(d.id))||DAYS[0];
-  if(pr2.includes('creative')||exp==='daily') return {t:TRACKS['impossible-rooms'],why:L('You already know the way inward. Go further with a guided creative journey.','Ya conoces el camino hacia adentro. Ve más lejos con un viaje creativo guiado.')};
-  if(exp==='sometimes') return {t:TRACKS['the-blank-page'],why:L('A guided journey from silence to your first idea — 20 minutes.','Un viaje guiado del silencio a tu primera idea — 20 minutos.')};
-  return {t:next,why:L('Begin NO MIND, the creative meditation program. 10 minutes a day, no experience needed.','Empieza NO MIND, el programa de meditación creativa. 10 minutos al día, sin experiencia previa.')};
+  if(ps.lvl==='deep') return {t:TRACKS[pr2.includes('visualization')?'impossible-rooms':'hyp-inner-studio'],why:L('You’ve explored a lot already. Skip the basics and go straight into a deep guided session.','Ya has explorado mucho. Sáltate lo básico y entra directo a una sesión guiada profunda.')};
+  if(ps.lvl==='growing') return {t:TRACKS['the-blank-page'],why:L('A guided journey from silence to your first idea — 20 minutes.','Un viaje guiado del silencio a tu primera idea — 20 minutos.')};
+  return {t:next,why:L('Begin NO MYND, the creative meditation program. 10 minutes a day, no experience needed.','Empieza PuraMente, el programa de meditación creativa. 10 minutos al día, sin experiencia previa.')};
 }
 function myStation(){
   if(!profile) return null;
@@ -1797,7 +1983,8 @@ function openOB(step=0){ob.step=step;ob.ans=profile?JSON.parse(JSON.stringify(pr
 function closeOB(){Preview.stop();$('#ob').classList.remove('open');clearTimeout(ob.t);}
 function obOK(id){
   if(id==='name') return !!(ob.ans.name||'').trim();
-  if(id==='key'){const u=ob.ans.user||'';if(!/^[a-z0-9._]{3,20}$/.test(u))return false;return !!ob.code||(ob.codeLen===0&&!!profile&&!!profile.codeHash&&profile.user===u);}
+  if(id==='vision') return (ob.ans.vision||[]).length>0||!!(ob.ans.soundWord||'').trim();
+  if(id==='key'){const u=ob.ans.user||'';if(!/^[a-z0-9._]{3,20}$/.test(u)||!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(ob.ans.email||''))return false;return !!ob.code||(ob.codeLen===0&&!!profile&&!!profile.codeHash&&profile.user===u);}
   const q=QG(id); return !q||(ob.ans[id]||[]).length>0;
 }
 function renderOB(){
@@ -1814,32 +2001,38 @@ function renderOB(){
       <input class="field" id="obName" autocomplete="given-name" placeholder="${L('Your name','Tu nombre')}" maxlength="40" value="${esc(ob.ans.name||'')}">`;
   }else if(q){
     const sel=ob.ans[q.id]||[], arty=q.options.some(o=>o.art);
+    if(q.id==='vision'&&!ob.snd) ob.snd=Object.keys(UNHEARD)[Math.floor(Math.random()*6)];
     body=`<span class="ob-k">${qi+1} ${L('of','de')} ${QUESTIONS.length}</span><h2>${tx(q,'title')}</h2><p class="lead">${tx(q,'sub')}</p>
-      <div class="tiles ${arty?'arty':''} ${q.preview?'listen':''}">${q.options.map(o=>`<button class="tile ${sel.includes(o.v)?'on':''}" data-opt="${o.v}" aria-pressed="${sel.includes(o.v)}">${o.art?art(o.art,o.seed):''}<i class="tk">${ICON.check}</i>${q.preview?'<i class="eq"><u></u><u></u><u></u><u></u></i>':''}<b>${tx(o,'label')}</b>${tx(o,'sub')?`<span>${tx(o,'sub')}</span>`:''}</button>`).join('')}</div>`;
+      ${q.id==='vision'?`<button class="snd" data-ob="snd"><i>${ICON.play}</i><div><b>${L('Play the sound','Reproduce el sonido')}</b><span>${L('Close your eyes · 4 seconds','Cierra los ojos · 4 segundos')}</span></div></button>`:''}
+      <div class="tiles ${arty?'arty':''} ${q.preview?'listen':''}">${q.options.map(o=>`<button class="tile ${sel.includes(o.v)?'on':''}" data-opt="${o.v}" aria-pressed="${sel.includes(o.v)}">${o.art?art(o.art,o.seed):''}<i class="tk">${ICON.check}</i>${q.preview?'<i class="eq"><u></u><u></u><u></u><u></u></i>':''}<b>${tx(o,'label')}</b>${tx(o,'sub')?`<span>${tx(o,'sub')}</span>`:''}</button>`).join('')}</div>
+      ${q.id==='vision'?`<label class="ob-k" for="obWord" style="display:block;margin-top:32px">${L('How would you describe this sound?','¿Cómo describirías este sonido?')}</label><input class="field sm" id="obWord" maxlength="60" autocomplete="off" placeholder="${L('A word, a texture, a memory…','Una palabra, una textura, un recuerdo…')}" value="${esc(ob.ans.soundWord||'')}">`:''}`;
   }else if(id==='key'){
     if(!ob.ans.user) ob.ans.user=suggestUser(ob.ans.name);
     const keep=profile&&profile.codeHash;
-    body=`<span class="ob-k">${L('Your key','Tu llave')}</span><h2>${L('What’s the code to enter','¿Cuál es el código para entrar a')} <em>${L('your Oazis?','tu Oazis?')}</em></h2>
-      <p class="lead">${L('Choose a name for your Oazis and a 4‑digit code. No email, no password — just your way in.','Elige un nombre para tu Oazis y un código de 4 números. Sin correo, sin contraseña — solo tu forma de entrar.')}</p>
-      <div class="keybox"><span class="ob-k">${L('Oazis name','Nombre de tu Oazis')}</span>
+    body=`<span class="ob-k">${L('Your key','Tu llave')}</span><h2>${L('Your key to enter','Tu llave para entrar a')} <em>${L('your Oazis.','tu Oazis.')}</em></h2>
+      <p class="lead">${L('A username, your email and a 4‑digit code. That’s all you need to come back in.','Un nombre de usuario, tu correo y un código de 4 números. Es todo lo que necesitas para volver a entrar.')}</p>
+      <div class="keybox"><span class="ob-k">${L('Username','Nombre de usuario')}</span>
         <div class="handle"><b>@</b><input class="field" id="obUser" autocomplete="username" autocapitalize="off" spellcheck="false" maxlength="20" value="${esc(ob.ans.user)}"></div>
-        <span class="ob-k">${L('4‑digit code','Código de 4 números')}${keep?L(' · leave empty to keep yours',' · déjalo vacío para mantener el tuyo'):''}</span>${pinHTML('obCode')}
-        <p class="note">${L('Your Oazis lives on this device for now. Remember your code — it’s how you’ll come back in.','Por ahora tu Oazis vive en este dispositivo. Recuerda tu código — es como volverás a entrar.')}</p></div>`;
+        <span class="ob-k">${L('Email','Correo')}</span>
+        <input class="field sm mail" id="obEmail" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" maxlength="80" placeholder="${L('you@email.com','tu@correo.com')}" value="${esc(ob.ans.email||'')}">
+        <span class="ob-k" style="display:block;margin-top:30px">${L('4‑digit code','Código de 4 números')}${keep?L(' · leave empty to keep yours',' · déjalo vacío para mantener el tuyo'):''}</span>${pinHTML('obCode')}
+        <p class="note">${L('Your Oazis lives on this device for now — at launch your email will keep it safe across devices. Remember your code.','Por ahora tu Oazis vive en este dispositivo — en el lanzamiento tu correo lo guardará en todos tus dispositivos. Recuerda tu código.')}</p></div>`;
   }else if(id==='build'){
     body=`<div class="ob-hero">${RIPPLE}<h2>${L('Tuning your','Sintonizando tu')} <em>Oazis…</em></h2>
       <ul class="build-list">${[L('Mapping your creative worlds','Mapeando tus mundos creativos'),L('Mixing your soundscape','Mezclando tu paisaje sonoro'),L('Shaping the sound to your taste','Dándole forma al sonido según tu gusto'),L('Choosing your first step','Eligiendo tu primer paso')].map(x=>`<li><i>${ICON.check}</i>${x}</li>`).join('')}</ul></div>`;
   }else if(id==='ready'){
-    const pr=ob.ans, pl=PLACES[(pr.place||[])[0]]||PLACES.ocean, ws=topWorlds(pr), fs=firstStep(pr), g=pr.genres||[], un=UNHEARD[(pr.unheard||[])[0]];
+    const pr=ob.ans, pl=PLACES[(pr.place||[])[0]]||PLACES.ocean, ws=topWorlds(pr), fs=firstStep(pr), g=pr.genres||[], vi=VISION[(pr.vision||[])[0]], ps=persona(pr);
     body=`<span class="ob-k">${L('Your Oazis is ready','Tu Oazis está listo')} · @${esc(pr.user)}</span><h2>${esc(pr.name)}, ${L('this space is','este espacio es')} <em>${L('yours.','tuyo.')}</em></h2>
       <div class="ready">${art(pl.art,pl.seed)}<div><dl class="sum">
         <dt>${L('Your station','Tu estación')}</dt><dd><b>${L(`${esc(pr.name)}’s Oazis`,`El Oazis de ${esc(pr.name)}`)}</b> — ${WORLDS[ws[0]].name} ${L('tuned to','sintonizado en')} ${tx(pl,'label').toLowerCase()}${g.length?L(', shaped by ',', con ')+g.map(x=>tx(optOf('genres',x),'label').toLowerCase()).join(', '):''}.</dd>
         <dt>${L('Your worlds','Tus mundos')}</dt><dd class="sumrow">${ws.slice(0,3).map(w=>`<span class="pill">${WORLDS[w].name}</span>`).join('')}</dd>
-        ${un?`<dt>${L('Your signature sound','Tu sonido firma')}</dt><dd><em class="serif" style="font-size:21px">${tx(un,'label')}</em></dd>`:''}
+        <dt>${L('Your profile','Tu perfil')}</dt><dd><b>${ps.name}</b> — ${ps.why}</dd>
+        ${vi?`<dt>${L('Your radio will look like','Tu radio se verá como')}</dt><dd><em class="serif" style="font-size:21px">${tx(vi,'label')}</em>${pr.soundWord?` · “${esc(pr.soundWord)}”`:''}</dd>`:''}
         <dt>${L('Your first step','Tu primer paso')}</dt><dd><b>${esc(fs.t.title)}</b> — ${esc(fs.why)}</dd>
       </dl></div></div>`;
   }
   if(!['welcome','build'].includes(id)){
-    const hint=id==='ready'?'':id==='name'?L('Press Enter to continue','Presiona Enter para continuar'):id==='key'?L('Name: 3–20 letters or numbers','Nombre: 3–20 letras o números'):q.preview?L('Tap to listen','Toca para escuchar'):q.type==='single'?L('Choose one','Elige una'):q.max?L(`Choose up to ${q.max}`,`Elige hasta ${q.max}`):L('Choose all that apply','Elige todas las que apliquen');
+    const hint=id==='ready'?'':id==='name'?L('Press Enter to continue','Presiona Enter para continuar'):id==='key'?L('Username, email and a 4‑digit code','Usuario, correo y código de 4 números'):q.preview?L('Tap to listen','Toca para escuchar'):q.type==='single'?L('Choose one','Elige una'):q.max?L(`Choose up to ${q.max}`,`Elige hasta ${q.max}`):L('Choose all that apply','Elige todas las que apliquen');
     foot=`<div class="ob-foot"><button class="olink" data-ob="back">${L('Back','Atrás')}</button><span class="hint">${hint}</span>
       <button class="obtn" id="obNext" data-ob="${id==='ready'?'finish':'next'}" ${obOK(id)?'':'disabled'}>${id==='ready'?L('Enter my Oazis','Entrar a mi Oazis'):L('Continue','Continuar')}</button></div>`;
   }
@@ -1849,10 +2042,12 @@ function renderOB(){
   $('#ob').scrollTop=0;
   if(id==='name'){const n=$('#obName');setTimeout(()=>n.focus(),80);n.oninput=()=>{ob.ans.name=n.value;$('#obNext').disabled=!obOK('name');};n.onkeydown=e=>{if(e.key==='Enter'&&obOK('name'))obGo(1);};}
   if(id==='key'){
-    const u=$('#obUser'), upd=()=>{$('#obNext').disabled=!obOK('key');};
+    const u=$('#obUser'), m=$('#obEmail'), upd=()=>{$('#obNext').disabled=!obOK('key');};
+    m.oninput=()=>{ob.ans.email=m.value.trim().toLowerCase();upd();};
     u.oninput=()=>{u.value=u.value.toLowerCase().replace(/[^a-z0-9._]/g,'').slice(0,20);ob.ans.user=u.value;upd();};
     bindPin('obCode',v=>{ob.codeLen=v.length;ob.code=v.length===4?v:null;upd();if(v.length===4)$('#obNext').focus();});
   }
+  if(id==='vision'){const w=$('#obWord');w.oninput=()=>{ob.ans.soundWord=w.value;$('#obNext').disabled=!obOK('vision');};}
   if(id==='build'){
     const lis=[...document.querySelectorAll('.build-list li')];
     lis.forEach((li,i)=>setTimeout(()=>li.classList.add('ok'),500+i*650));
@@ -1871,9 +2066,8 @@ async function finishOB(){
   const codeHash=ob.code?await hashCode(u,ob.code):profile.codeHash;
   ob.code=null;
   profile={...ob.ans,name:ob.ans.name.trim(),user:u,codeHash,created:(profile&&profile.created)||Date.now(),updated:Date.now()};
-  delete profile.email;
   store.set('profile',profile); setIn(); myStation();
-  tuner.p=posOf(WORLDS[topWorlds(profile)[0]].hz);
+  tuner.station=topWorlds(profile)[0]; tuner.p=posOf(WORLDS[tuner.station].hz);
   closeOB(); if(location.hash!=='#/home') location.hash='#/home'; render(); renderLib();
   playTrack(TRACKS['my-oazis']);
   toast(isNew?L(`Welcome to your Oazis, ${profile.name}`,`Bienvenido a tu Oazis, ${profile.name}`):L('Your Oazis was updated','Tu Oazis se actualizó'));
@@ -1888,13 +2082,13 @@ $('#ob').addEventListener('click',e=>{
     else{sel=v==='none'?[]:sel.filter(x=>x!=='none');sel.push(v);if(q.max&&sel.length>q.max)sel.shift();}
     ob.ans[q.id]=sel;
     document.querySelectorAll('#ob .tile').forEach(t=>{const on=sel.includes(t.dataset.opt);t.classList.toggle('on',on);t.setAttribute('aria-pressed',on);});
-    $('#obNext').disabled=!sel.length;
+    $('#obNext').disabled=!obOK(q.id);
     if(q.preview){if(was&&q.type!=='single')Preview.stop();else{Preview.play(q.preview,v);o.classList.add('playing');}}
     if(q.id==='lang'){LANG=v;store.set('lang',v);applyI18n();render();renderLib();updatePlayer();}
-    if(q.type==='single'&&!q.preview){clearTimeout(ob.t);ob.t=setTimeout(()=>obGo(1),380);}
+    if(q.type==='single'&&!q.preview&&!q.stay){clearTimeout(ob.t);ob.t=setTimeout(()=>obGo(1),380);}
     return;
   }
-  if(b){const a=b.dataset.ob;if(a==='next')obGo(1);if(a==='back')obGo(-1);if(a==='close')closeOB();if(a==='finish')finishOB();}
+  if(b){const a=b.dataset.ob;if(a==='snd'){Preview.play('unheard',ob.snd);b.classList.add('playing');clearTimeout(b._t);b._t=setTimeout(()=>b.classList.remove('playing'),4200);return;}if(a==='next')obGo(1);if(a==='back')obGo(-1);if(a==='close')closeOB();if(a==='finish')finishOB();}
 });
 
 /* ---------- lock: enter your Oazis ---------- */
@@ -1907,7 +2101,7 @@ function openLock(){
       <div class="ob-act"><button class="olink" id="obReset">${L('Not you? Create a new Oazis','¿No eres tú? Crea un nuevo Oazis')}</button></div></div></div>`;
   const pin=bindPin('lockPin',async v=>{
     if(v.length<4) return;
-    if(await hashCode(profile.user,v)===profile.codeHash){setIn();closeOB();toast(L(`Welcome back, ${profile.name}`,`Bienvenido de vuelta, ${profile.name}`));}
+    if(await hashCode(profile.user,v)===profile.codeHash){setIn();closeOB();autoStart();toast(L(`Welcome back, ${profile.name}`,`Bienvenido de vuelta, ${profile.name}`));}
     else{const p=$('#lockPin').parentNode;p.classList.remove('shake');void p.offsetWidth;p.classList.add('shake');$('#pinMsg').textContent=L('That code doesn’t match. Try again.','Ese código no coincide. Intenta de nuevo.');setTimeout(()=>pin.clear(),380);}
   });
   setTimeout(()=>pin.inp.focus(),120);
@@ -1919,10 +2113,15 @@ function openLock(){
 
 /* ---------- boot ---------- */
 setTheme(store.get('theme','light'));
-if(profile){myStation();tuner.p=posOf(WORLDS[topWorlds(profile)[0]].hz);}
+if(profile){myStation();tuner.station=topWorlds(profile)[0];tuner.p=posOf(WORLDS[tuner.station].hz);}
 applyI18n(); syncSliders(); renderLib(); render(); updatePlayer(); requestAnimationFrame(frame);
+/* Oazis FM is ON when you arrive. Browsers keep audio silent until the first touch, so that touch wakes it. */
+function autoStart(){if(!state.playing) playTrack(TRACKS['my-oazis']||TRACKS['station-'+tuner.station],{fromTuner:true});}
+const wake=()=>{if(blocked()){tuner.unlocked=true;Engine.resume();setTimeout(()=>tuner.unlocked=false,500);}};
+['pointerdown','keydown','touchstart'].forEach(ev=>document.addEventListener(ev,wake,{capture:true,passive:true}));
 if(!profile) setTimeout(()=>openOB(0),700);
 else if(profile.codeHash&&!isIn()) openLock();
+else autoStart();
 </script>
 </body>
 </html>
