@@ -76,7 +76,9 @@ Si el número de frames cambia, actualiza `SKY_TOTAL` en `assets/app.js`.
 
 **El sitio está en vivo en <https://creatvmyndz.com>** (y `www` redirige al dominio principal).
 
-Se publica en **GitHub Pages**, gratis porque el repositorio es público. El workflow
+Se publica en **GitHub Pages**, gratis porque el repositorio es público. El repositorio vive en la
+organización **Creatv-Myndz** (<https://github.com/Creatv-Myndz/creatvmyndz>) desde el 3 de noviembre
+de 2026; si se vuelve privado, Pages se apaga (el plan gratuito no publica repos privados). El workflow
 `.github/workflows/deploy.yml` corre en cada push a `main`: no hay que subir nada a mano.
 
 Para publicar un cambio:
@@ -97,7 +99,7 @@ El dominio sigue registrado en **Wix**, pero su DNS apunta a GitHub:
 | A | creatvmyndz.com | 185.199.109.153 |
 | A | creatvmyndz.com | 185.199.110.153 |
 | A | creatvmyndz.com | 185.199.111.153 |
-| CNAME | www | creatvmyndz.github.io |
+| CNAME | www | creatv-myndz.github.io |
 
 El archivo `CNAME` de este repositorio guarda el dominio y viaja con cada publicación, para
 que GitHub Pages no lo pierda. **No lo borres.** El certificado HTTPS es automático y está
