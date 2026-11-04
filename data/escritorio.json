@@ -139,6 +139,16 @@
       "titulo": "Galadsy",
       "icono": "assets/iconos/galadsy.png",
       "enlace": "https://galadsy.com"
+    },
+    {
+      "id": "haad",
+      "titulo": "HAAD",
+      "icono": "assets/iconos/haad.png",
+      "abre": "carpeta",
+      "texto": {
+        "es": "HAAD: proyectos artísticos. Muy pronto.",
+        "en": "HAAD: art projects. Coming soon."
+      }
     }
   ],
   "buscaminas": {
@@ -445,6 +455,10 @@
       "underdogs": [
         1349,
         595
+      ],
+      "haad": [
+        1460,
+        525
       ]
     },
     "esquina": {
