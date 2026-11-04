@@ -359,10 +359,7 @@
       "id": "spotify",
       "nombre": "Spotify",
       "icono": "assets/iconos/spotify.png",
-      "texto": {
-        "es": "Nuestra música en Spotify. Muy pronto.",
-        "en": "Our music on Spotify. Coming soon."
-      }
+      "enlace": "https://open.spotify.com/artist/2BMqj0r4blTtHiX4Qt1Mpy"
     },
     "|",
     {
