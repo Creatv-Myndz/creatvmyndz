@@ -239,8 +239,13 @@ svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stro
 .pmcell i{flex:none;align-self:center;width:6px;height:6px;border-radius:50%;opacity:.45}
 .pmsoon{margin-top:22px;font-size:11.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--mute)}
 .day.soon:hover{background:none}
-.banner .pmimg{background:#02060a url(assets/img/oazis/puramente-cerebro.jpg) center/cover no-repeat}
-.prog-hero .pmbrain{aspect-ratio:1;border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.35);background:#000 url(assets/img/oazis/puramente-cerebro-mini.jpg) center/cover no-repeat;cursor:pointer}
+.banner .pmimg{position:relative;padding:22px;background:#0B0B0B}
+.banner .pmimg svg{position:absolute;inset:22px;width:calc(100% - 44px);height:calc(100% - 44px)}
+.prog-hero .pmbrain{aspect-ratio:1;padding:5%;border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.35);background:#0B0B0B;cursor:pointer}
+.pmbrain svg{display:block;width:100%;height:100%}
+.pmnext{animation:pmpulse 2.6s ease-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes pmpulse{from{transform:scale(1);opacity:.9}to{transform:scale(3.2);opacity:0}}
+@media (prefers-reduced-motion:reduce){.pmnext{animation:none;opacity:0}}
 .pm{position:fixed;inset:0;z-index:190;background:#05090d;display:none;flex-direction:column}
 .pm.open{display:flex}
 .pm-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:calc(10px + env(safe-area-inset-top)) 16px 10px;color:#E5F0EF;background:#0B1218;box-shadow:0 1px 0 rgba(255,255,255,.08);font-size:13px}
@@ -1336,6 +1341,51 @@ const pmName=x=>x.t||'Audio '+String(x.n).padStart(2,'0');
 const pmDone=id=>{try{return localStorage.getItem(id)==='completed';}catch(e){return false;}};
 const pmCount=()=>PM_ALL.filter(x=>pmDone(x.id)).length;
 const pmNext=()=>PM_LIVE.find(x=>!pmDone(x.id));
+/* The brain as artwork: seen from above and drawn in halftone dots, like the Oazis mark, with one neuron
+   per audio, a slice of the brain per module. A finished audio lights its neuron and the dots around it in the
+   module's colour; the next audio pulses. The shape is built once; pmArt() paints it with today's progress. */
+const PM_SHAPE=(()=>{
+  const S=400,cx=200,cy=206,A=150,B=170,G=6.4;
+  let s=11; const rnd=()=>(s=(s*16807)%2147483647)/2147483647;      /* seeded: the same brain every time */
+  const half=v=>{const a=Math.abs(v);return a>=1?0:A*(.84+.16*v)*Math.pow(1-Math.pow(a,2.3),1/2.3);};
+  const gap=v=>2.2+10*Math.pow(Math.abs(v),5);                     /* the fissure between the hemispheres */
+  const inside=(x,y)=>{const v=(y-cy)/B,d=Math.abs(x-cx);return d<half(v)&&d>gap(v);};
+  const dots=[];
+  for(let y=G/2;y<S;y+=G)for(let x=G/2;x<S;x+=G){
+    if(!inside(x,y)) continue;
+    const v=(y-cy)/B,h=half(v),mx=Math.abs(x-cx),u=mx/h,sd=x<cx?0:1.9;
+    const wx=mx+20*Math.sin(y*.034+mx*.021+sd)+7*Math.sin(y*.12+sd*2), wy=y+16*Math.sin(mx*.058+1.3+sd)+6*Math.sin(mx*.16+y*.05);
+    const fold=Math.pow(.5+.5*Math.sin(.112*wx+.058*wy),1.4);          /* the folds */
+    const rim=Math.min(1,(h-mx)/18,(mx-gap(v))/6+.35), light=.55+.45*(1-Math.min(1,(u*u+v*v)*.8));
+    dots.push([+x.toFixed(1),+y.toFixed(1),Math.max(.4,G*.5*(.12+.88*fold)*light*Math.max(.25,rim))]);
+  }
+  const pts=[];
+  PM.forEach((m,mi)=>{
+    const c=-Math.PI/2+mi*2*Math.PI/5; let i=0,t=0;
+    while(i<10&&t<20000){t++;
+      const a=c-Math.PI/5+2*Math.PI/5*(.06+.88*rnd()), r=.2+.72*Math.sqrt(rnd()), x=cx+Math.cos(a)*r*A, y=cy+Math.sin(a)*r*B;
+      if(!inside(x,y)||Math.abs(x-cx)<15||Math.abs(x-cx)>half((y-cy)/B)-14||pts.some(p=>Math.hypot(p.x-x,p.y-y)<25)) continue;
+      pts.push({x:+x.toFixed(1),y:+y.toFixed(1),k:m.k,c:m.c,mi,a:m.xs[i]}); i++;}
+  });
+  const d=(p,q)=>Math.hypot(p.x-q.x,p.y-q.y), links=[];
+  pts.forEach(p=>pts.filter(q=>q.k===p.k&&q!==p).sort((a,b)=>d(a,p)-d(b,p)).slice(0,2).forEach(q=>{if(!links.some(([a,b])=>a===q&&b===p))links.push([p,q]);}));
+  return {S,dots,pts,links};
+})();
+function pmArt(){
+  const {S,dots,pts,links}=PM_SHAPE, nx=pmNext(), lit=p=>!!p.a&&pmDone(p.a.id), hot=pts.filter(lit);
+  let o='';
+  for(const [x,y,r] of dots){
+    let f='#EDEBE6',a=.58,rr=r;
+    for(const p of hot){const k=1-Math.hypot(p.x-x,p.y-y)/44; if(k>0){f=p.c;a=.55+.45*k;rr=Math.max(r,1.1+1.6*k);break;}}
+    o+=`<circle cx="${x}" cy="${y}" r="${rr.toFixed(2)}" fill="${f}" fill-opacity="${a.toFixed(2)}"/>`;
+  }
+  o+=`<g stroke="#EDEBE6" stroke-opacity=".16" stroke-width=".8">${links.map(([p,q])=>`<line x1="${p.x}" y1="${p.y}" x2="${q.x}" y2="${q.y}"${lit(p)&&lit(q)?` stroke="${p.c}" stroke-opacity=".8" stroke-width="1.4"`:''}/>`).join('')}</g>`;
+  o+=pts.map(p=>lit(p)?`<circle cx="${p.x}" cy="${p.y}" r="16" fill="url(#pmg${p.mi})"/><circle cx="${p.x}" cy="${p.y}" r="3.6" fill="#fff"/>`
+    :nx&&p.a===nx?`<circle class="pmnext" cx="${p.x}" cy="${p.y}" r="4" fill="none" stroke="${p.c}" stroke-width="1.4"/><circle cx="${p.x}" cy="${p.y}" r="3.4" fill="#0B0B0B" stroke="${p.c}" stroke-width="1.6"/>`
+    :`<circle cx="${p.x}" cy="${p.y}" r="2.6" fill="#0B0B0B" stroke="#EDEBE6" stroke-opacity=".75" stroke-width="1.1"/>`).join('');
+  const g=PM.map((m,i)=>`<radialGradient id="pmg${i}"><stop offset="0" stop-color="${m.c}" stop-opacity=".95"/><stop offset="1" stop-color="${m.c}" stop-opacity="0"/></radialGradient>`).join('');
+  return `<svg viewBox="0 0 ${S} ${S}" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><defs>${g}</defs>${o}</svg>`;
+}
 /* The brain (the map of the 50 audios) and the first audio are open to everyone; the rest belongs to Plus,
    the rule the program already had. */
 const pmLocked=x=>!x.free&&!isPlus();
@@ -1347,7 +1397,7 @@ function openPM(id){
   if(!x.u){toast(L('This audio is still being made','Este audio está en producción'));return;}
   if(!pmReady(x)){toast(pmWaitMsg());return;}
   if(pmLocked(x)){location.hash='#/plus';return;}
-  closePM(true);
+  closePM(true); pmQuiet();
   const f=document.createElement('iframe'); f.id='pmFrame'; f.title='PuraMente'; f.allow='autoplay'; f.src=PM_BASE+x.u;
   f.addEventListener('load',()=>pmGuard(f));
   $('#pm').append(f); $('#pm').classList.add('open');
@@ -1362,6 +1412,13 @@ function pmGuard(f){
   if(x&&pmLocked(x)){closePM();location.hash='#/plus';return;}
   f.style.visibility='';
   w.addEventListener('pagehide',()=>{f.style.visibility='hidden';});
+}
+/* PuraMente brings its own sound: whatever Oazis was playing pauses (the station, a sample from the
+   funnel, the spoken guide) and stays paused when you come back, ready for play. */
+function pmQuiet(){
+  if(state.playing){state.playing=false;Engine.pause();updatePlayer();if(state.npOpen)renderNP();}
+  Preview.stop();
+  if('speechSynthesis' in window) speechSynthesis.cancel();
 }
 function closePM(quiet){
   const f=$('#pmFrame'); if(f) f.remove();   /* removing the frame stops its audio and 3D */
@@ -1680,7 +1737,7 @@ function pmBanner(){
           <h3 style="margin-top:14px">${L('NO MYND','PuraMente')}<br><em>${L('Wake up the mind.','Despierta la mente.')}</em></h3></div>
           <p>${L('Fifty audios, one for each neuron: calm, focus, ideas, intuition and action. Frequencies and sound to listen to with headphones — every audio you finish lights up a neuron in your brain.','Cincuenta audios, uno por cada neurona: calma, foco, ideas, intuición y acción. Frecuencias y sonidos para escuchar con audífonos: cada audio que terminas enciende una neurona en tu cerebro.')}</p>
           <div class="actions" style="margin:0"><button class="btn" data-pm="map">${PLAYI()} ${n?L('Continue','Continuar'):L('Start','Comenzar')}</button><a class="btn ghost" href="#/program">${L('See the audios','Ver los audios')}</a></div></div>
-        <div class="pmimg" role="img" aria-label="${L('The PuraMente neural brain, lit up by module','El cerebro neuronal de PuraMente, iluminado por módulos')}"></div></div></section>`;
+        <div class="pmimg" role="img" aria-label="${L('The PuraMente neural brain, lit up by module','El cerebro neuronal de PuraMente, iluminado por módulos')}">${pmArt()}</div></div></section>`;
 }
 const views={
   home(){
@@ -1763,7 +1820,7 @@ const views={
           <span class="w"><i style="background:${m.c}"></i>${x.min?x.min+' MIN':x.m}</span><span class="ck" ${pmDone(x.id)?`aria-label="${L('Completed','Completado')}"`:''}>${pmDone(x.id)?ICON.check:''}</span></div>`;};
     const cell=x=>`<div class="pmcell"><span>${String(x.n).padStart(2,'0')}</span><b>${x.t||L('Coming soon','Próximamente')}</b><i style="background:${PM_META[x.m].c}"></i></div>`;
     return `<div class="view">
-      <div class="prog-hero"><div class="pmbrain" data-pm="map" role="button" tabindex="0" aria-label="${L('Open the brain','Abrir el cerebro')}"></div><div><span class="mono" style="color:var(--mute)">Oazis × CREATV MYNDZ · Wake Up</span>
+      <div class="prog-hero"><div class="pmbrain" data-pm="map" role="button" tabindex="0" aria-label="${L('Open the brain','Abrir el cerebro')}">${pmArt()}</div><div><span class="mono" style="color:var(--mute)">Oazis × CREATV MYNDZ · Wake Up</span>
         <h1>${L('NO MYND','PuraMente')}</h1><p class="serif" style="font-size:24px">${L('50 audios to wake up the mind.','50 audios para despertar la mente.')}</p>
         <p class="wdesc" style="margin-top:10px">${L('Ten audios per module — CALMA, FOCO, IDEAS, INTUICIÓN and ACCIÓN — one for each neuron of the brain. Frequencies and sound, made to be heard with headphones. Every audio you finish lights up its neuron. We are building them one by one, in Spanish for now.','Diez audios por módulo —CALMA, FOCO, IDEAS, INTUICIÓN y ACCIÓN—, uno por cada neurona del cerebro. Frecuencias y sonidos, hechos para escuchar con audífonos. Cada audio que terminas enciende su neurona. Los estamos construyendo uno por uno.')}</p>
         <div class="meter"><i style="width:${n/tot*100}%"></i></div><small class="mono" style="color:var(--mute);display:block;margin-top:8px">${n}/${tot} ${L('neurons lit','neuronas encendidas')} · ${live} ${live===1?L('audio available','audio disponible'):L('audios available','audios disponibles')}</small>
