@@ -199,7 +199,8 @@ En `data/escritorio.json → extras`, por `id` del CRTV:
 - Un acceso con `"abre": "carpeta"` es una carpeta (se abre como ventana con sus íconos ordenados).
 - Lo que lleve `"carpeta": "<id>"` va adentro y no en el escritorio; con `"tambienEnEscritorio": true` va en los dos lados.
   - **Proyectos creativos** (ícono Cajita DtMF): Cajitas Felices, Las Palabras Nos Hacen, Perro Negro Undergold, DtMF x FC Barcelona. Las dos Cajitas también siguen en el escritorio.
-  - **Próximamente**: los CRTV pendientes (Forja Game, Carriel de Ryan, Joya, Tiempo vs Amor, Happy House).
+  - **Próximamente**: los CRTV pendientes (Carriel de Ryan, Joya, Tiempo vs Amor, Happy House).
+    Forja Game salió de aquí: ahora es **Forja Player** (hecho, en producción en forjaplayer.com.co) y va suelto en el escritorio.
   - **Creatvfy**: Wake Up! (abre `wakeup.html`), Cualquiera puede crear (ebook) y CREATV Kids.
 - Para mover un CRTV a una carpeta: en `extras.<id>` pon `"carpeta": "proyectos-creativos"` (o la que sea).
 - El escritorio en PC es un grupo centrado: filas parejas, centradas y un poco corridas entre sí.
