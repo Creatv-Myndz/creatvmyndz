@@ -45,7 +45,8 @@ const I18N = {
     footer_nav: "NAVEGA",
     footer_more: "MÁS",
     back_work: "← PLAYGROUND",
-    prev: "← ANTERIOR", next: "SIGUIENTE →"
+    prev: "← ANTERIOR", next: "SIGUIENTE →",
+    live: "VER EN VIVO ↗"
   },
   en: {
     nav_work: "WORK", nav_about: "ABOUT", nav_wakeup: "WAKE UP",
@@ -81,7 +82,8 @@ const I18N = {
     footer_nav: "NAVIGATE",
     footer_more: "MORE",
     back_work: "← PLAYGROUND",
-    prev: "← PREVIOUS", next: "NEXT →"
+    prev: "← PREVIOUS", next: "NEXT →",
+    live: "SEE IT LIVE ↗"
   }
 };
 

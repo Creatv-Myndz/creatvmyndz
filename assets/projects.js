@@ -162,22 +162,27 @@ const PROJECTS = [
     link: "crtv-jordan-blessd.html",
     image: "assets/img/crtvs/thumb/jordan-blessd.webp"
   },
+  {
+    // Antes "FORJA GAME IN REAL LIFE" (próximo). Ya está en producción:
+    // https://forjaplayer.com.co — la página del CRTV enlaza al sitio.
+    id: "forja-player",
+    num: null,
+    title: "FORJA PLAYER",
+    status: "done",
+    area: "app", year: "2026",
+    desc: {
+      es: "Un RPG de hábitos y finanzas que se juega con tu vida real: cada hábito cumplido le pega a uno de los 6 Demonios que te frenan.",
+      en: "A habits-and-money RPG played with your real life: every habit you keep hits one of the 6 Demons holding you back."
+    },
+    link: "crtv-forja-player.html",
+    image: "assets/img/crtvs/thumb/forja-player.webp"
+  },
 
   /* ---------- PRÓXIMOS (salen borrosos) ---------- */
   {
     id: "snoopy-flops",
     num: null,
     title: "SNOOPY FLOPS",
-    status: "soon",
-    area: "", year: "",
-    desc: PENDIENTE,
-    link: "",
-    image: ""
-  },
-  {
-    id: "forja-game",
-    num: null,
-    title: "FORJA GAME IN REAL LIFE",
     status: "soon",
     area: "", year: "",
     desc: PENDIENTE,

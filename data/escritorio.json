@@ -307,9 +307,9 @@
       "titulo": "Snoopy Flops",
       "icono": "assets/iconos/snoopy.png"
     },
-    "forja-game": {
-      "titulo": "Forja Game in Real Life",
-      "carpeta": "proximamente"
+    "forja-player": {
+      "titulo": "Forja Player",
+      "icono": "assets/iconos/forja-player.png"
     },
     "carriel-de-ryan": {
       "titulo": "Carriel de Ryan",
@@ -432,6 +432,10 @@
       "jordan-blessd": [
         1110,
         604
+      ],
+      "forja-player": [
+        990,
+        700
       ],
       "las-palabras-nos-hacen": [
         1216,
