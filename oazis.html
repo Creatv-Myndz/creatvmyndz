@@ -227,6 +227,27 @@ svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stro
 .day.done .ck{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .day.done b{text-decoration:line-through;text-decoration-thickness:1px;opacity:.6}
 .day.next{background:var(--bg2)}
+.day span.ck{cursor:inherit}
+.day .w i{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:7px}
+.day.soon{cursor:default;opacity:.55}
+.day.wait b,.day.wait small{opacity:.55}
+.chapter h3 .cnt{margin-left:auto;font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.08em;color:var(--mute)}
+.pmgrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:12px}
+.pmcell{display:flex;gap:8px;align-items:baseline;min-width:0;padding:10px 12px;border-radius:10px;border:1px solid var(--line);color:var(--mute);font-size:12.5px}
+.pmcell span{font-family:var(--mono);font-size:11px;color:var(--dim);flex:none}
+.pmcell b{font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pmcell i{flex:none;align-self:center;width:6px;height:6px;border-radius:50%;opacity:.45}
+.pmsoon{margin-top:22px;font-size:11.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--mute)}
+.day.soon:hover{background:none}
+.banner .pmimg{background:#02060a url(assets/img/oazis/puramente-cerebro.jpg) center/cover no-repeat}
+.prog-hero .pmbrain{aspect-ratio:1;border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.35);background:#000 url(assets/img/oazis/puramente-cerebro-mini.jpg) center/cover no-repeat;cursor:pointer}
+.pm{position:fixed;inset:0;z-index:190;background:#05090d;display:none;flex-direction:column}
+.pm.open{display:flex}
+.pm-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:calc(10px + env(safe-area-inset-top)) 16px 10px;color:#E5F0EF;background:#0B1218;box-shadow:0 1px 0 rgba(255,255,255,.08);font-size:13px}
+.pm-bar button{padding:8px 6px;color:#E5F0EF;font-size:13px;font-weight:600;letter-spacing:.22em;opacity:.85}
+.pm-bar button:hover{opacity:1}
+.pm iframe{flex:1;width:100%;min-height:0;border:0;background:#05090d}
+@media (max-width:860px){.banner .pmimg{min-height:220px;order:-1}.prog-hero .pmbrain{max-width:240px}.pmgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
 /* ---------- journal ---------- */
 .jwrite{background:var(--bg2);border-radius:18px;padding:22px}
@@ -365,7 +386,8 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bac
 
 /* ---------- create your oazis (onboarding) ---------- */
 .ob{position:fixed;inset:0;z-index:180;background:var(--bg);display:none;overflow:auto}
-.ob.open{display:block;animation:obfade .5s ease}
+.ob.open{display:flex;flex-direction:column;animation:obfade .5s ease}
+.ob>*{flex:none}
 @keyframes obfade{from{opacity:0}to{opacity:1}}
 .ob-bar{position:sticky;top:0;display:grid;grid-template-columns:1fr minmax(120px,420px) 1fr;align-items:center;gap:20px;padding:16px 28px;background:var(--glass);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);z-index:3}
 .ob-bar .bs{display:flex;align-items:center;gap:9px;font-weight:600;letter-spacing:.26em;font-size:13px}
@@ -374,7 +396,7 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bac
 .ob-prog i{display:block;height:100%;background:var(--ink);border-radius:3px;transition:width .6s cubic-bezier(.2,.7,.2,1)}
 .ob-x{justify-self:end;color:var(--mute);font-size:14px;font-weight:500}
 .ob-x:hover{color:var(--ink)}
-.ob-in{max-width:900px;margin:0 auto;padding:40px 28px 150px;min-height:calc(100dvh - 60px);display:flex;flex-direction:column;justify-content:center}
+.ob-in{flex:1 0 auto;width:100%;max-width:900px;margin:0 auto;padding:40px 28px 150px;display:flex;flex-direction:column;justify-content:center}
 .ob-step{animation:stepin .6s cubic-bezier(.2,.7,.2,1)}
 @keyframes stepin{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 .ob h1{font-size:clamp(52px,9vw,112px);letter-spacing:-.055em;line-height:.92;font-weight:600;margin:16px 0 20px}
@@ -403,7 +425,11 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bac
 .tiles.arty .tile b,.tiles.arty .tile span{padding-left:8px}
 .tiles.arty .tile .tk{top:16px;right:16px;background:rgba(255,255,255,.75);box-shadow:none}
 .tiles.arty .tile.on .tk{background:var(--ink)}
-.ob-foot{position:fixed;left:0;right:0;bottom:0;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;padding:16px 28px calc(16px + env(safe-area-inset-bottom));background:var(--glass);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);box-shadow:0 -1px 0 var(--line);z-index:3}
+/* The bar is pinned with a zero-height sticky wrapper, not position:fixed: .ob has a backdrop-filter, which makes
+   it the containing block of fixed children, so a fixed bar scrolled away with the questions. .ob is a flex column
+   and .ob-in fills it, so the wrapper sits at the bottom edge even when a step is shorter than the screen. */
+.ob-footw{position:sticky;bottom:0;height:0;z-index:3}
+.ob-foot{position:absolute;left:0;right:0;bottom:0;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;padding:16px 28px calc(16px + env(safe-area-inset-bottom));background:var(--glass);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);box-shadow:0 -1px 0 var(--line);z-index:3}
 .ob-foot .hint{font-size:13px;color:var(--mute);text-align:center}
 .ob-foot .obtn{justify-self:end}
 .ob-foot .olink{justify-self:start}
@@ -1138,8 +1164,10 @@ button.tag:hover{background:var(--ink);color:var(--bg)}
   </div>
 </div>
 <section class="ob" id="ob" aria-label="Create your Oazis"></section>
+<div class="pm" id="pm" role="dialog" aria-modal="true" aria-label="PuraMente"><div class="pm-bar"><button id="pmClose" type="button" aria-label="Volver a Oazis · Back to Oazis">← OAZIS</button></div></div>
 <div class="toast" id="toast"></div>
 
+<script src="assets/puramente/models/puramente-audios.js"></script>
 <script>
 /* =========================================================
    OAZIS — the sound of creativity
@@ -1288,40 +1316,59 @@ const JOURNEYS=[
 ];
 JOURNEYS.forEach(j=>{TRACKS[j.id]={...j,type:'Journey',dur:j.phases.reduce((a,p)=>a+p[1],0)};});
 
-/* ---------- NO MIND program ---------- */
-const CHAPTERS=[
-  {n:'01',title:'Quiet',line:'Make space before you make anything.',days:[
-    ['Notice the noise','calm',10,'Listen to everything around you. Name each sound, then let it go.','What sounds were louder than you expected?'],
-    ['Breath as a brush','calm',10,'Imagine each breath painting one slow stroke across a white wall.','What colour was your breath today?'],
-    ['The empty room','dream',12,'Picture an empty white room. Do not fill it. Just stay.','What wanted to enter the room?'],
-    ['Listening to silence','calm',12,'Follow the quietest sound in the mix until it disappears.','Where did your attention go when it got quiet?'],
-    ['The body knows','calm',12,'Scan from your feet to your head. Notice where you hold the day.','Where do you keep your tension?'],
-    ['Let it be bad','create',12,'Today you have permission to make something bad. Enjoy it.','What did you make badly — and did it feel lighter?'],
-    ['Rest is creative','sleep',15,'Lie down. Do nothing on purpose. Ideas grow while you rest.','What surfaced while you did nothing?']]},
-  {n:'02',title:'Play',line:'Reconnect with the child who never asked for permission.',days:[
-    ['Meet your inner child','awaken',14,'See yourself at eight years old. Sit next to them. Listen.','What did they want to show you?'],
-    ['What you loved at eight','awaken',14,'Remember the games, the drawings, the objects you loved.','Which of those still lives in your work?'],
-    ['Draw without looking','create',12,'Draw something in the room without looking at the paper.','What did the drawing get right?'],
-    ['Ten impossible things','create',12,'List ten impossible things before the session ends.','Which impossible thing is almost possible?'],
-    ['The colour of a sound','dream',15,'Give a colour and a texture to every sound you hear.','Describe the most surprising colour.'],
-    ['Make a mess','create',15,'Use any material. Make a mess with intention.','What pattern showed up inside the mess?'],
-    ['The game you invent','awaken',15,'Invent a game with one rule. Play it for five minutes.','What was the rule, and what did it unlock?']]},
-  {n:'03',title:'Create',line:'Turn inspiration into action — from curiosity, not fear.',days:[
-    ['The blank page','create',20,'Open a blank page and stay with it. Write the first true sentence.','What was the first true sentence?'],
-    ['One idea, many doors','create',18,'Take one idea and imagine five different ways to make it.','Which door do you want to open first?'],
-    ['Flow for twenty minutes','flow',25,'One task. No switching. Let the sound hold the edges.','What did you finish?'],
-    ['Remix your past','dream',18,'Pick an old piece of your work and imagine its future version.','What would version two look like?'],
-    ['Show, don’t hide','awaken',15,'Imagine sharing something unfinished with someone you trust.','What would you share, and with whom?'],
-    ['Your creative ritual','awaken',15,'Design a 5‑minute ritual to begin every creative session.','Describe your ritual in three steps.'],
-    ['NO MYND','awaken',20,'Look back at 20 days of ideas. You were always creative.','What will you create next?']]},
-];
-const DAYS=[];
-CHAPTERS.forEach((c,ci)=>c.days.forEach((d,di)=>{
-  const n=ci*7+di+1, [title,world,min,prompt,q]=d;
-  const t={id:'day-'+n,n,title:`Day ${n} · ${title}`,short:title,world,type:'Program',seed:n,chapter:c.title,desc:prompt,
-    phases:[['Arrive',2,'Arrive. Breathe out longer than you breathe in.'],['Practice',min-4,prompt],['Capture',2,q]]};
-  t.dur=min; TRACKS[t.id]=t; DAYS.push(t);
-}));
+/* ---------- PuraMente · 50 audios to wake up the mind ----------
+   Ten per module, one for each neuron of the brain. The list itself is assets/puramente/models/puramente-audios.js
+   (a copy of public/models/ in the puramente repo), shared with the brain page: publishing an audio means adding
+   its `url` there. Oazis lists the audios, opens them in a full-screen frame and reads their progress: when an
+   audio ends, its page stores '<id>' = 'completed' in localStorage. Audios with no url are still being made. */
+const PM_BASE='assets/puramente/', PM_MAP='models/puramente-neural-brain-preview.html';
+const PM_META={
+  'CALMA':{c:'#4de2d8',q:['How can I make space here?','¿Cómo puedo hacer espacio aquí?']},
+  'FOCO':{c:'#4e9cff',q:['Where do I want to put my attention?','¿Dónde quiero poner mi atención?']},
+  'IDEAS':{c:'#ba79ff',q:['What other possibilities are there?','¿Qué otras posibilidades hay?']},
+  'INTUICIÓN':{c:'#ffc66e',q:['What is my impression, and how do I test it?','¿Qué impresión tengo y cómo la contrasto?']},
+  'ACCIÓN':{c:'#ff806d',q:['What can I try and review?','¿Qué puedo intentar y revisar?']},
+};
+const PM_ALL=(window.PURAMENTE_AUDIOS||[]).map(a=>({id:a.id,n:a.n,m:a.module,t:a.title,u:a.url,min:a.min,free:a.free,d:a.desc?[a.desc_en||a.desc,a.desc]:null}));
+const PM=Object.keys(PM_META).map(k=>({k,...PM_META[k],xs:PM_ALL.filter(x=>x.m===k)}));
+const PM_LIVE=PM_ALL.filter(x=>x.u);
+const pmName=x=>x.t||'Audio '+String(x.n).padStart(2,'0');
+const pmDone=id=>{try{return localStorage.getItem(id)==='completed';}catch(e){return false;}};
+const pmCount=()=>PM_ALL.filter(x=>pmDone(x.id)).length;
+const pmNext=()=>PM_LIVE.find(x=>!pmDone(x.id));
+/* The brain (the map of the 50 audios) and the first audio are open to everyone; the rest belongs to Plus,
+   the rule the program already had. */
+const pmLocked=x=>!x.free&&!isPlus();
+/* Nothing else opens until the first neuron (Llegar) has been lit. */
+const pmReady=x=>!x.id||x===PM_ALL[0]||pmDone(PM_ALL[0].id);
+const pmWaitMsg=()=>L('First light up your first neuron: ','Primero enciende tu primera neurona: ')+pmName(PM_ALL[0]);
+function openPM(id){
+  const x=id==='map'?{u:PM_MAP,free:1}:PM_ALL.find(y=>y.id===id); if(!x) return;
+  if(!x.u){toast(L('This audio is still being made','Este audio está en producción'));return;}
+  if(!pmReady(x)){toast(pmWaitMsg());return;}
+  if(pmLocked(x)){location.hash='#/plus';return;}
+  closePM(true);
+  const f=document.createElement('iframe'); f.id='pmFrame'; f.title='PuraMente'; f.allow='autoplay'; f.src=PM_BASE+x.u;
+  f.addEventListener('load',()=>pmGuard(f));
+  $('#pm').append(f); $('#pm').classList.add('open');
+}
+/* Runs every time a page loads inside the frame, so a Plus audio opened from the brain itself is
+   stopped too. The frame stays hidden while it changes page so locked content never flashes.
+   Client-side only, like the rest of Plus: it does not stop someone who types the course URL by hand. */
+function pmGuard(f){
+  let w; try{w=f.contentWindow; w.location.pathname;}catch(e){return;}
+  const x=PM_LIVE.find(y=>{const [p,q]=y.u.split('?');return w.location.pathname.endsWith(p)&&(!q||w.location.search.slice(1).split('&').includes(q));});
+  if(x&&!pmReady(x)){toast(pmWaitMsg());w.location.replace(new URL(PM_BASE+PM_MAP,location.href).href);return;}
+  if(x&&pmLocked(x)){closePM();location.hash='#/plus';return;}
+  f.style.visibility='';
+  w.addEventListener('pagehide',()=>{f.style.visibility='hidden';});
+}
+function closePM(quiet){
+  const f=$('#pmFrame'); if(f) f.remove();   /* removing the frame stops its audio and 3D */
+  if(!$('#pm').classList.contains('open')) return;
+  $('#pm').classList.remove('open');
+  if(quiet!==true){render();renderLib();}
+}
 
 /* stations (the radio) */
 ORDER.forEach(w=>{TRACKS['station-'+w]={id:'station-'+w,title:WORLDS[w].name+' FM',world:w,type:'Live Station',dur:0,seed:0,desc:'A live, endless stream tuned to '+WORLDS[w].line.toLowerCase()+'.'};});
@@ -1331,7 +1378,7 @@ const PERSONAS=[['all','Curious mind'],['art','Artist'],['design','Designer'],['
 /* ---------- state ---------- */
 const state={
   current:null,playing:false,elapsed:0,timer:store.get('timer',0),depth:store.get('depth',50),volume:store.get('volume',80),
-  favs:new Set(store.get('favs',[])),journal:store.get('journal',[]),done:new Set(store.get('done',[])),recent:store.get('recent',[]),
+  favs:new Set(store.get('favs',[])),journal:store.get('journal',[]),recent:store.get('recent',[]),
   persona:store.get('persona','all'),voice:store.get('voice',false),phase:-1,npOpen:false,mode:store.get('mode','auto')
 };
 /* listening state: the user reads the state they want; depth adjusts itself */
@@ -1514,7 +1561,7 @@ function recipe(t){
   if(t.type==='Soundscape'){r.noise=Math.max(s.noise*3.2,.12);r.pad*=.45;r.sparkle=s.sparkle?s.sparkle*2:0;}
   if(t.type==='Frequency'){r.bin=.075;r.pad*=.65;}
   if(t.type==='Extended'){r.sparkle=s.sparkle?s.sparkle*1.8:0;r.cutoff*=.85;}
-  if(t.type==='Ritual'||t.type==='Program'||t.type==='Journey'||t.type==='Hypnosis'){r.wet=Math.min(.9,s.wet+.15);}
+  if(t.type==='Ritual'||t.type==='Journey'||t.type==='Hypnosis'){r.wet=Math.min(.9,s.wet+.15);}
   r.world=t.world;
   if(t.world==='sleep'){r.rain=t.id==='night-rain'||t.id==='hyp-deep-sleep'?1.5:t.id==='dark-room'?.55:1.1;r.noise*=.35;}
   if(t.mine&&profile){
@@ -1600,7 +1647,7 @@ function openPay(t){
 function previewEnd(){const t=state.current;Engine.stop();state.playing=false;updatePlayer();if(state.npOpen)closeNP();openPay(t);}
 const limit=t=>locked(t)?30:t.phases?t.dur*60:(state.timer?state.timer*60:0);
 function toast(msg){const el=$('#toast');el.textContent=msg;el.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove('show'),2600);}
-function save(){store.set('favs',[...state.favs]);store.set('journal',state.journal);store.set('done',[...state.done]);store.set('recent',state.recent);}
+function save(){store.set('favs',[...state.favs]);store.set('journal',state.journal);store.set('recent',state.recent);}
 
 function card(t){
   const w=WORLDS[t.world];
@@ -1626,14 +1673,22 @@ const list=(f)=>Object.values(TRACKS).filter(f);
    VIEWS
    ========================================================= */
 const PLAYI=()=>ICON.play.replace('<svg','<svg style="fill:currentColor"');
+function pmBanner(){
+  const n=pmCount();
+  return `<section class="sec"><div class="banner">
+        <div class="copy"><div><span class="mono" style="color:#A9A7A1">${L('NO MYND · 50 audios · 5 modules','PuraMente · 50 audios · 5 módulos')}</span>
+          <h3 style="margin-top:14px">${L('NO MYND','PuraMente')}<br><em>${L('Wake up the mind.','Despierta la mente.')}</em></h3></div>
+          <p>${L('Fifty audios, one for each neuron: calm, focus, ideas, intuition and action. Frequencies and sound to listen to with headphones — every audio you finish lights up a neuron in your brain.','Cincuenta audios, uno por cada neurona: calma, foco, ideas, intuición y acción. Frecuencias y sonidos para escuchar con audífonos: cada audio que terminas enciende una neurona en tu cerebro.')}</p>
+          <div class="actions" style="margin:0"><button class="btn" data-pm="map">${PLAYI()} ${n?L('Continue','Continuar'):L('Start','Comenzar')}</button><a class="btn ghost" href="#/program">${L('See the audios','Ver los audios')}</a></div></div>
+        <div class="pmimg" role="img" aria-label="${L('The PuraMente neural brain, lit up by module','El cerebro neuronal de PuraMente, iluminado por módulos')}"></div></div></section>`;
+}
 const views={
   home(){
     const h=new Date().getHours(), greet=h<5?L('Late night','Buenas noches'):h<12?L('Good morning','Buenos días'):h<19?L('Good afternoon','Buenas tardes'):L('Good evening','Buenas noches');
     const pr=profile, who=P('who'), ws=topWorlds(pr);
-    const made=list(t=>!t.id.startsWith('station')&&!t.mine&&t.type!=='Program'&&t.type!=='Journey'&&(!who.length||who.includes('all')||t.for.some(f=>f==='all'||who.includes(f)))).sort((a,b)=>ws.indexOf(a.world)-ws.indexOf(b.world)||a.seed-b.seed).slice(0,12);
+    const made=list(t=>!t.id.startsWith('station')&&!t.mine&&t.type!=='Journey'&&(!who.length||who.includes('all')||t.for.some(f=>f==='all'||who.includes(f)))).sort((a,b)=>ws.indexOf(a.world)-ws.indexOf(b.world)||a.seed-b.seed).slice(0,12);
     const recent=state.recent.map(id=>TRACKS[id]).filter(t=>t&&!t.mine).slice(0,6);
     const moments=P('moment').filter(m=>MOMENTS[m]).slice(0,2);
-    const nextDay=DAYS.find(d=>!state.done.has(d.id))||DAYS[DAYS.length-1];
     const byHz=[...ORDER].sort((a,b)=>WORLDS[a].hz-WORLDS[b].hz);
     return `<div class="view">
       <div class="topline"><span class="mbrand">${MARK}${WORD}</span><span class="greet">${greet}${pr?', '+esc(pr.name):''}. ${L('How do you want to tune in?','¿Cómo quieres sintonizarte?')}</span><div class="tl-r">${plusChip()}${meBtn()}</div></div>
@@ -1656,6 +1711,8 @@ const views={
         </div>
       </section>
 
+      ${pmBanner()}
+
       ${focusSection()}
       ${mineSection()}
       ${pr?(()=>{const ps=persona(pr);return ps.recs.length?`<section class="sec"><div class="sec-h"><h2>${L('Picked for your practice','Elegido para tu práctica')} <em>· ${ps.name}</em></h2></div><div class="shelf">${ps.recs.map(id=>card(TRACKS[id])).join('')}</div></section>`:''})():''}
@@ -1666,18 +1723,11 @@ const views={
       ${recent.length?`<section class="sec"><div class="sec-h"><h2>${L('Jump back in','Continúa donde ibas')}</h2></div><div class="shelf">${recent.map(card).join('')}</div></section>`:''}
 
       <section class="sec"><div class="sec-h"><h2>${L('Made for','Hecho para')} <em>${pr?esc(pr.name):L('you','ti')}</em></h2>${pr?'':`<a href="#" data-ob-open="1">${L('Personalize','Personalizar')}</a>`}</div><div class="shelf">${made.map(card).join('')}</div></section>
-      ${moments.map(m=>{const [lab,f]=MOMENTS[m];return `<section class="sec"><div class="sec-h"><h2>${L(lab[0],lab[1])}</h2></div><div class="shelf">${list(t=>!t.id.startsWith('station')&&!t.mine&&t.type!=='Program'&&f(t)).map(card).join('')}</div></section>`}).join('')}
+      ${moments.map(m=>{const [lab,f]=MOMENTS[m];return `<section class="sec"><div class="sec-h"><h2>${L(lab[0],lab[1])}</h2></div><div class="shelf">${list(t=>!t.id.startsWith('station')&&!t.mine&&f(t)).map(card).join('')}</div></section>`}).join('')}
 
       <section class="sec"><div class="sec-h"><h2>${L('Creative journeys','Viajes creativos')}</h2><a href="#/journeys">${L('See all','Ver todo')}</a></div><div class="journeys">${JOURNEYS.slice(0,3).map(jcard).join('')}</div></section>
 
       <section class="sec"><div class="sec-h"><h2>${L('Hypnosis','Hipnosis')} <em>${L('· 30‑second previews','· previews de 30 segundos')}</em></h2>${isPlus()?'':'<a href="#" data-pay="1">Oazis Plus</a>'}</div><div class="shelf">${list(t=>t.type==='Hypnosis').map(card).join('')}</div></section>
-
-      <section class="sec"><div class="banner">
-        <div class="copy"><div><span class="mono" style="color:#A9A7A1">${L('The program · 21 days · 3 chapters','El programa · 21 días · 3 capítulos')}</span>
-          <h3 style="margin-top:14px">${L('NO MYND','PuraMente')}<br><em>${L('Creative meditation.','Meditación creativa.')}</em></h3></div>
-          <p>${L('A creative meditation program with real results: 21 days, 21 ideas captured in your journal. Quiet the mind, play again and create from curiosity — not fear.','Un programa de meditación creativa con resultados reales: 21 días, 21 ideas guardadas en tu diario. Calla la mente, vuelve a jugar y crea desde la curiosidad — no desde el miedo.')}</p>
-          <div class="actions" style="margin:0"><button class="btn" data-play="${nextDay.id}">${PLAYI()} ${state.done.size?L('Continue','Continuar'):L('Start','Comenzar')} · ${L('Day','Día')} ${nextDay.n}</button><a class="btn ghost" href="#/program">${L('See the program','Ver el programa')}</a></div></div>
-        ${art('wake',2)}</div></section>
 
       <section class="sec"><div class="sec-h"><h2>${L('Creative rituals','Rituales creativos')} <em>${L('· free','· gratis')}</em></h2></div><div class="shelf">${list(t=>t.type==='Ritual').sort((a,b)=>locked(a)-locked(b)).map(card).join('')}</div></section>
     </div>`;
@@ -1685,12 +1735,12 @@ const views={
   explore(){
     return `<div class="view"><div class="sec-h" style="margin-bottom:22px"><h2 style="font-size:40px;letter-spacing:-.04em">${L('Find your','Encuentra tu')} <em>${L('world.','mundo.')}</em></h2></div>
       <div class="worlds">${ORDER.map(k=>wcard(k,5,'min-height:280px')).join('')}</div>
-      <section class="sec"><div class="sec-h"><h2>${L('Everything','Todo')}</h2></div><div class="tlist">${head()}${list(t=>!t.id.startsWith('station')&&!t.mine&&t.type!=='Program').map(row).join('')}</div></section>
+      <section class="sec"><div class="sec-h"><h2>${L('Everything','Todo')}</h2></div><div class="tlist">${head()}${list(t=>!t.id.startsWith('station')&&!t.mine).map(row).join('')}</div></section>
       ${manifesto()}</div>`;
   },
   world(id){
     const w=WORLDS[id]; if(!w) return views.home();
-    const items=list(t=>t.world===id&&!t.id.startsWith('station')&&!t.mine&&t.type!=='Program');
+    const items=list(t=>t.world===id&&!t.id.startsWith('station')&&!t.mine);
     return `<div class="view">
       <div class="whero ${w.tone}">${art(id,11)}<div><span class="mono">${w.band} · ${L('tuning reference','referencia de sintonía')} ${w.hz} Hz</span><h1>${w.name}</h1><p>${tx(w,'line')}</p></div></div>
       <div class="actions"><button class="bigplay" data-play="station-${id}" aria-label="Play ${w.name} FM">${ICON.play}</button><span><b>${w.name} FM</b><br><small style="color:var(--mute)">${L('Live and endless — or pick a session below.','En vivo y sin fin — o elige una sesión abajo.')}</small></span></div>
@@ -1707,17 +1757,21 @@ const views={
       ${manifesto()}</div>`;
   },
   program(){
-    const done=state.done.size, next=DAYS.find(d=>!state.done.has(d.id));
+    const n=pmCount(), tot=PM_ALL.length, live=PM_LIVE.length, nx=pmNext(), plus='<i class="plus-b">PLUS</i>';
+    const row=x=>{const m=PM_META[x.m];return `<div class="day ${pmDone(x.id)?'done':''} ${nx&&nx.id===x.id?'next':''} ${pmReady(x)?'':'wait'}" data-pm="${x.id}" role="button" tabindex="0">
+          <span class="dn">${String(x.n).padStart(2,'0')}</span><div><b>${pmName(x)}${!pmReady(x)?` <i class="plus-b">${L('AFTER','DESPUÉS DE')} ${pmName(PM_ALL[0]).toUpperCase()}</i>`:pmLocked(x)?' '+plus:''}</b><small>${x.d?L(x.d[0],x.d[1]):''}</small></div>
+          <span class="w"><i style="background:${m.c}"></i>${x.min?x.min+' MIN':x.m}</span><span class="ck" ${pmDone(x.id)?`aria-label="${L('Completed','Completado')}"`:''}>${pmDone(x.id)?ICON.check:''}</span></div>`;};
+    const cell=x=>`<div class="pmcell"><span>${String(x.n).padStart(2,'0')}</span><b>${x.t||L('Coming soon','Próximamente')}</b><i style="background:${PM_META[x.m].c}"></i></div>`;
     return `<div class="view">
-      <div class="prog-hero">${art('wake',4)}<div><span class="mono" style="color:var(--mute)">Oazis × CREATV MYNDZ · ${L('Program','Programa')}</span>
-        <h1>${L('NO MYND','PuraMente')}</h1><p class="serif" style="font-size:24px">${L('A creative meditation program with real results.','Un programa de meditación creativa con resultados reales.')}</p>
-        <p class="wdesc" style="margin-top:10px">${L('21 days to quiet the mind, play again and create from curiosity — not fear. Each day: arrive, practice, capture. By day 21 you’ll have 21 ideas in your journal: results you can see.','21 días para callar la mente, volver a jugar y crear desde la curiosidad — no desde el miedo. Cada día: llegar, practicar, capturar. Al día 21 tendrás 21 ideas en tu diario: resultados que puedes ver.')}</p>
-        <div class="meter"><i style="width:${done/21*100}%"></i></div><small class="mono" style="color:var(--mute);display:block;margin-top:8px">${done}/21 ${L('days complete','días completados')}</small>
-        <div class="actions"><button class="btn" data-play="${(next||DAYS[0]).id}">${PLAYI()} ${next?(done?L('Continue','Continuar'):L('Begin','Comenzar'))+' · '+L('Day','Día')+' '+next.n:L('Repeat Day 1','Repetir Día 1')}</button></div></div></div>
-      ${CHAPTERS.map((c,ci)=>`<div class="chapter"><h3><span class="mono">${L('Chapter','Capítulo')} ${c.n}</span>${c.title}</h3><p>${c.line}</p>
-        ${DAYS.slice(ci*7,ci*7+7).map(d=>`<div class="day ${state.done.has(d.id)?'done':''} ${next&&next.id===d.id?'next':''}" data-play="${d.id}" role="button" tabindex="0">
-          <span class="dn">${L('DAY','DÍA')} ${String(d.n).padStart(2,'0')}</span><div><b>${esc(d.short)} ${badge(d)}</b><small>${esc(d.desc)}</small></div>
-          <span class="w">${WORLDS[d.world].name} · ${d.dur} MIN</span><button class="ck" data-done="${d.id}" aria-label="${L('Mark day done','Marcar día hecho')}">${state.done.has(d.id)?ICON.check:''}</button></div>`).join('')}</div>`).join('')}
+      <div class="prog-hero"><div class="pmbrain" data-pm="map" role="button" tabindex="0" aria-label="${L('Open the brain','Abrir el cerebro')}"></div><div><span class="mono" style="color:var(--mute)">Oazis × CREATV MYNDZ · Wake Up</span>
+        <h1>${L('NO MYND','PuraMente')}</h1><p class="serif" style="font-size:24px">${L('50 audios to wake up the mind.','50 audios para despertar la mente.')}</p>
+        <p class="wdesc" style="margin-top:10px">${L('Ten audios per module — CALMA, FOCO, IDEAS, INTUICIÓN and ACCIÓN — one for each neuron of the brain. Frequencies and sound, made to be heard with headphones. Every audio you finish lights up its neuron. We are building them one by one, in Spanish for now.','Diez audios por módulo —CALMA, FOCO, IDEAS, INTUICIÓN y ACCIÓN—, uno por cada neurona del cerebro. Frecuencias y sonidos, hechos para escuchar con audífonos. Cada audio que terminas enciende su neurona. Los estamos construyendo uno por uno.')}</p>
+        <div class="meter"><i style="width:${n/tot*100}%"></i></div><small class="mono" style="color:var(--mute);display:block;margin-top:8px">${n}/${tot} ${L('neurons lit','neuronas encendidas')} · ${live} ${live===1?L('audio available','audio disponible'):L('audios available','audios disponibles')}</small>
+        <div class="actions"><button class="btn" data-pm="map">${PLAYI()} ${n?L('Continue','Continuar'):L('Begin','Comenzar')}</button></div></div></div>
+      ${PM.map((m,mi)=>{const on=m.xs.filter(x=>x.u), soon=m.xs.filter(x=>!x.u);
+        return `<div class="chapter"><h3><span class="mono">${L('Module','Módulo')} 0${mi+1}</span>${m.k}<span class="cnt">${m.xs.filter(x=>pmDone(x.id)).length}/${m.xs.length}</span></h3><p>${L(m.q[0],m.q[1])}</p>
+        ${on.map(row).join('')}
+        ${soon.length?`<div class="pmsoon">${on.length?L('In production','En producción'):L('In production','En producción')} · ${soon.length}</div><div class="pmgrid">${soon.map(cell).join('')}</div>`:''}</div>`;}).join('')}
     </div>`;
   },
   library(){
@@ -1726,7 +1780,7 @@ const views={
       <p class="wdesc" style="margin-bottom:22px">${L('Your favorites, organized by the moments of your day. Tap the heart on any session to keep it here.','Tus favoritos, organizados por los momentos de tu día. Toca el corazón en cualquier sesión para guardarla aquí.')}</p>
       <div class="libtop">${profile&&TRACKS['my-oazis']?`<button class="lt" data-play="my-oazis">${art((PLACES[P('place')[0]]||PLACES.ocean).art,3)}<b>${esc(TRACKS['my-oazis'].title)}</b><span>${L('Your station','Tu estación')}</span></button>`:`<button class="lt" data-ob-open="1">${art('wake',2)}<b>${L('Create your Oazis','Crea tu Oazis')}</b><span>${L('A minute to make it yours','Un minuto para hacerlo tuyo')}</span></button>`}
         <button class="lt" data-go="#/journal">${art('awaken',5)}<b>${L('Idea journal','Diario de ideas')}</b><span>${state.journal.length} ${L('ideas','ideas')}</span></button>
-        <button class="lt" data-go="#/program">${art('wake',4)}<b>${L('NO MYND','PuraMente')}</b><span>${state.done.size}/21 ${L('days','días')}</span></button></div>
+        <button class="lt" data-go="#/program">${art('wake',4)}<b>${L('NO MYND','PuraMente')}</b><span>${pmCount()}/${PM_ALL.length} ${L('audios','audios')}</span></button></div>
       ${parts.map((p,i)=>{const it=partItems(p);return `<section class="sec"><div class="sec-h"><h2>${L(p.en,p.es)} <em>· ${p.h}</em>${i===0?` <span class="nowc">${L('Now','Ahora')}</span>`:''}${mine.includes(p.id)?` <span class="nowc ghost">${L('Your moment','Tu momento')}</span>`:''}</h2></div>
         ${it.saved.length?`<div class="shelf">${it.saved.map(card).join('')}</div>`:`<p class="lib-empty">${L('Nothing saved for this moment yet.','Aún no hay nada guardado para este momento.')}</p>`}
         ${it.sugg.length?`<span class="ob-k" style="display:block;margin:18px 0 10px">${L('Suggested for you','Sugerido para ti')}</span><div class="shelf">${it.sugg.map(card).join('')}</div>`:''}</section>`;}).join('')}
@@ -1869,7 +1923,6 @@ function togglePlay(){
 }
 function finish(){
   const t=state.current; Engine.stop(); state.playing=false;
-  if(t.type==='Program'){state.done.add(t.id);save();}
   updatePlayer(); if(state.npOpen) renderNP();
   toast('Session complete');
   if(t.phases||['create','dream','awaken'].includes(t.world)||(profile&&persona(profile).journal)) setTimeout(()=>openCapture(),700);
@@ -1933,7 +1986,7 @@ function renderNP(){
         <div class="np-ctl"><button class="pp" id="npPlay" aria-label="${state.playing?'Pause':'Play'}">${state.playing?ICON.pause:ICON.play}</button>
           <button class="heart ${state.favs.has(t.id)?'on':''}" data-fav="${t.id}" aria-label="Save">${ICON.heart}</button>
           ${ph&&cur===ph.length-1?`<button class="btn" id="npCap2">${ICON.plus} ${L('Capture now','Capturar ahora')}</button>`:''}
-          ${t.type==='Program'?`<button class="btn ghost" data-done="${t.id}">${state.done.has(t.id)?L('Day complete ✓','Día completado ✓'):L('Mark day complete','Marcar día completado')}</button>`:''}</div>
+          </div>
         <div class="np-opts">
           ${ph?`<div class="opt"><span class="mono">${L('Spoken guide','Guía hablada')}</span><div class="seg" id="voiceSeg"><button data-v="0" class="${state.voice?'':'on'}">${L('Text','Texto')}</button><button data-v="1" class="${state.voice?'on':''}">${L('Voice','Voz')}</button></div></div>`
             :`<div class="opt"><span class="mono">${L('Session length','Duración')}</span><div class="seg" id="timerSeg">${TIMERS.map(m=>`<button data-m="${m}" class="${state.timer===m?'on':''}">${m?m+'m':'∞'}</button>`).join('')}</div></div>`}
@@ -1972,7 +2025,7 @@ const partOf=t=>(DAYPARTS.find(p=>p.f(t))||DAYPARTS[1]).id;
 function partItems(p){
   const saved=[...state.favs].map(id=>TRACKS[id]).filter(t=>t&&!t.mine&&partOf(t)===p.id);
   const rec=profile?persona(profile).recs.map(id=>TRACKS[id]):[];
-  const pool=[...rec,...list(t=>!t.id.startsWith('station')&&!t.mine&&t.type!=='Program')].filter(t=>t&&partOf(t)===p.id&&!state.favs.has(t.id));
+  const pool=[...rec,...list(t=>!t.id.startsWith('station')&&!t.mine)].filter(t=>t&&partOf(t)===p.id&&!state.favs.has(t.id));
   return {saved,sugg:[...new Set(pool)].slice(0,saved.length?4:6)};
 }
 function renderLib(){
@@ -1981,7 +2034,7 @@ function renderLib(){
   $('#lib').innerHTML=(profile&&TRACKS['my-oazis']?`<div class="lrow" data-play="my-oazis">${art(pl.art,pl.seed)}<div style="min-width:0"><b>${esc(TRACKS['my-oazis'].title)}</b><span>${L('Your station','Tu estación')}</span></div></div>`
       :`<div class="lrow" data-ob-open="1"><div class="art art-wake"><i></i><i></i></div><div><b>${L('Create your Oazis','Crea tu Oazis')}</b><span>${L('A minute to make it yours','Un minuto para hacerlo tuyo')}</span></div></div>`)+
     `<div class="lrow" data-go="#/journal"><div class="art art-awaken" style="--x:50%;--y:50%"><i></i><i></i></div><div><b>${L('Idea journal','Diario de ideas')}</b><span>${state.journal.length} ${L('ideas','ideas')}</span></div></div>
-    <div class="lrow" data-go="#/program"><div class="art art-wake"><i></i><i></i></div><div><b>${L('NO MYND','PuraMente')}</b><span>${state.done.size}/21 ${L('days','días')}</span></div></div>`+
+    <div class="lrow" data-go="#/program"><div class="art art-wake"><i></i><i></i></div><div><b>${L('NO MYND','PuraMente')}</b><span>${pmCount()}/${PM_ALL.length} ${L('audios','audios')}</span></div></div>`+
     dayOrder().map((p,i)=>{const it=partItems(p);return `<h5 class="lsec">${L(p.en,p.es)}<span>${i===0?L('now','ahora'):p.h}</span></h5>`+
       (it.saved.length?it.saved.map(lr).join(''):it.sugg.slice(0,1).map(t=>lr(t).replace('class="lrow"','class="lrow sug"')).join(''));}).join('')+
     `<div class="lrow more" data-go="#/library"><span>${L('Open your library','Abrir tu biblioteca')} →</span></div>`;
@@ -2160,7 +2213,7 @@ function fillDet(){
   if(so.ocean)inst.push(L('Ocean swell','Oleaje')); if(k==='sleep')inst.push(L('Layered rain','Lluvia en capas')); if(so.sparkle)inst.push(L('Glass bells','Campanas de cristal')); inst.push(L('Long reverb','Reverb larga'));
   const cx=Math.min(1,so.chord.length/6*.6+so.sparkle/3.2*.4), br=Math.min(1,so.cutoff/1900);
   const lvl=v=>v>.66?L('High','Alta'):v>.36?L('Medium','Media'):L('Low','Baja');
-  const sims=list(t=>t.world===k&&!t.id.startsWith('station')&&!t.mine&&t.type!=='Program').slice(0,4);
+  const sims=list(t=>t.world===k&&!t.id.startsWith('station')&&!t.mine).slice(0,4);
   $('#stD').innerHTML=`<div class="std-in"><button class="std-x" id="stDx" aria-label="${L('Close','Cerrar')}">${ICON.plus.replace('<path','<path transform="rotate(45 12 12)"')}</button>
     <div><div class="std-h"><div class="st-th">${art(k,c&&!live?c.seed:2)}</div><div style="min-width:0"><h3>${esc(title)}</h3><p style="color:var(--mute);font-size:14.5px">${w.band} · ${w.hz} Hz · ${stateLabel()}</p><span class="mono" style="color:var(--mute)">${GENRE[k]} · ${L('generated live','generado en vivo')}</span></div></div>
       <div class="std-a"><button id="stDis2">${SI.thumb}${L('Less like this','Menos así')}</button><button id="stFav2" class="${c&&state.favs.has(c.id)?'on':''}">${ICON.heart}${L('Favorite','Favorito')}</button><button id="stShare2">${SI.share}${L('Share','Compartir')}</button></div>
@@ -2209,7 +2262,7 @@ const sale={open:false,plan:'loyalty'};
 const TESTI=[
   {n:'L. M.',r:['Illustrator · Bogotá','Ilustradora · Bogotá'],w:'create',q:['I open CREATE FM before drawing and ten minutes later I’ve forgotten my phone. It’s like walking into a quiet room.','Abro CREATE FM antes de dibujar y a los diez minutos ya me olvidé del celular. Es como entrar a un cuarto en silencio.']},
   {n:'D. R.',r:['Video editor · Medellín','Editor de video · Medellín'],w:'flow',q:['I edit with FLOW and the hours just go. The Pomodoro timer keeps me honest.','Edito con FLOW y las horas se pasan solas. El Pomodoro me mantiene en orden.']},
-  {n:'S. V.',r:['Writer · Madrid','Escritora · Madrid'],w:'awaken',q:['I finished the 21 days of PuraMente with 21 ideas in my journal. Three of them are projects now.','Terminé los 21 días de PuraMente con 21 ideas en mi diario. Tres ya son proyectos.']},
+  {n:'S. V.',r:['Writer · Madrid','Escritora · Madrid'],w:'awaken',q:['PuraMente taught me to come back when I drift. Now I start every writing session with Llegar.','PuraMente me enseñó a volver cuando me distraigo. Ahora empiezo cada sesión de escritura con Llegar.']},
   {n:'J. P.',r:['Music producer · Miami','Productor musical · Miami'],w:'dream',q:['Turning the dial until I find my frequency is my favorite part. It feels like a radio from another planet.','Girar el dial hasta encontrar mi frecuencia es mi parte favorita. Se siente como una radio de otro planeta.']},
   {n:'A. G.',r:['Architect · CDMX','Arquitecta · CDMX'],w:'sleep',q:['The layered rain in SLEEP is the only thing that turns my head off at night.','La lluvia en capas de SLEEP es lo único que me apaga la cabeza en la noche.']},
   {n:'M. T.',r:['Designer · Cali','Diseñador · Cali'],w:'calm',q:['The price that drops every month made me stay. Now it’s part of my routine.','El precio que baja cada mes hizo que me quedara. Ahora es parte de mi rutina.']},
@@ -2245,7 +2298,7 @@ function saleHTML(){
   <section class="s-sec"><div class="sx"><div class="ben">
     <div>${ico('spark')}<div><span>${L('CREATE BETTER','CREA MEJOR')}</span><b>${L('Sound that makes room for the strange idea','Sonido que le abre espacio a la idea rara')}</b></div></div>
     <div>${ico('target')}<div><span>${L('FOCUS DEEPER','ENFÓCATE MÁS')}</span><b>${L('Six frequencies for every moment of your day','Seis frecuencias para cada momento de tu día')}</b></div></div>
-    <div>${ico('heart')}<div><span>${L('COME BACK TO YOU','VUELVE A TI')}</span><b>${L('A 21-day path to create from curiosity, not fear','Un camino de 21 días para crear desde la curiosidad, no desde el miedo')}</b></div></div>
+    <div>${ico('heart')}<div><span>${L('COME BACK TO YOU','VUELVE A TI')}</span><b>${L('50 audios to wake up the mind, one neuron at a time','50 audios para despertar la mente, una neurona a la vez')}</b></div></div>
   </div></div></section>
 
   <section class="s-sec" id="planes" style="padding-top:20px"><div class="sx" style="text-align:center">
@@ -2277,13 +2330,13 @@ function saleHTML(){
       ${[['create',L('Oazis FM · live radio','Oazis FM · radio en vivo'),L('Six frequencies, one dial. Turn it and find yours.','Seis frecuencias, un dial. Gíralo y encuentra la tuya.'),L('FREE','GRATIS')],
         ['flow',L('Focus by activity','Enfoques por actividad'),L('Write, design, study, sleep: the sound changes with what you’re doing.','Escribir, diseñar, estudiar, dormir: el sonido cambia según lo que haces.'),'PLUS'],
         ['dream',L('Your own Oazis','Tu propio Oazis'),L('A station built from your answers: your place, your genres, your sound.','Una estación creada con tus respuestas: tu lugar, tus géneros, tu sonido.'),L('FREE','GRATIS')],
-        ['awaken',L('NO MYND · 21 days','PuraMente · 21 días'),L('Quiet the mind and create from curiosity. Results you can see: 21 ideas.','Calla la mente y crea desde la curiosidad. Resultados que ves: 21 ideas.'),'PLUS'],
+        ['awaken',L('NO MYND · 50 audios','PuraMente · 50 audios'),L('Fifty audios to wake up the mind: calm, focus, ideas, intuition and action. A brain that lights up as you listen.','Cincuenta audios para despertar la mente: calma, foco, ideas, intuición y acción. Un cerebro que se enciende a medida que escuchas.'),'PLUS'],
         ['calm',L('Journeys & hypnosis','Viajes e hipnosis'),L('Guided sessions in English and Spanish to activate creation.','Sesiones guiadas en inglés y español para activar la creación.'),'PLUS'],
         ['sleep',L('Idea journal & timers','Diario de ideas y temporizador'),L('Capture what comes up when you finish. Pomodoro included.','Captura lo que surge al terminar. Pomodoro incluido.'),L('FREE + PLUS','GRATIS + PLUS')]]
         .map(([w,b,p,tg],i)=>`<div class="getc">${art(w,i*7+3)}<b>${b}</b><p>${p}</p><span class="tg">${tg}</span></div>`).join('')}
     </div>
     <div class="cmp"><div><span></span><span>OAZIS</span><span>${L('Background music','Música de fondo')}</span></div>
-      ${[[L('Live radio tuned by frequency','Radio en vivo por frecuencias'),1,0],[L('Sound that adapts to your activity','Sonido que cambia según tu actividad'),1,0],[L('A personal station from your answers','Estación personal creada con tus respuestas'),1,0],[L('21-day program to create','Programa de 21 días para crear'),1,0],[L('Creative journeys & hypnosis EN/ES','Viajes creativos e hipnosis EN/ES'),1,0],[L('Idea journal after every session','Diario de ideas al terminar cada sesión'),1,0],[L('No lyrics, no ads','Sin letras ni anuncios'),1,2],[L('A price that drops the longer you stay','Un precio que baja mientras más te quedas'),1,0]]
+      ${[[L('Live radio tuned by frequency','Radio en vivo por frecuencias'),1,0],[L('Sound that adapts to your activity','Sonido que cambia según tu actividad'),1,0],[L('A personal station from your answers','Estación personal creada con tus respuestas'),1,0],[L('50 audios to wake up the mind','50 audios para despertar la mente'),1,0],[L('Creative journeys & hypnosis EN/ES','Viajes creativos e hipnosis EN/ES'),1,0],[L('Idea journal after every session','Diario de ideas al terminar cada sesión'),1,0],[L('No lyrics, no ads','Sin letras ni anuncios'),1,2],[L('A price that drops the longer you stay','Un precio que baja mientras más te quedas'),1,0]]
         .map(([f,a,b])=>`<div><span>${f}</span><span class="y">●</span><span class="${b?'':'n'}">${b===2?L('Sometimes','A veces'):b?'●':'—'}</span></div>`).join('')}
     </div></div></section>
 
@@ -2399,10 +2452,11 @@ function render(){
 window.addEventListener('hashchange',()=>{render();$('#main').scrollTop=0;});
 
 document.addEventListener('click',e=>{
-  const el=e.target.closest('[data-ftab],[data-act],[data-fav],[data-done],[data-del],[data-persona],[data-station],[data-go],[data-play],[data-th],[data-ob-open],[data-lang],[data-pay],#timerSeg button,#stateSeg button,#voiceSeg button,#npClose,#npPlay,#npCap,#npCap2');
+  const el=e.target.closest('[data-ftab],[data-act],[data-fav],[data-pm],#pmClose,[data-del],[data-persona],[data-station],[data-go],[data-play],[data-th],[data-ob-open],[data-lang],[data-pay],#timerSeg button,#stateSeg button,#voiceSeg button,#npClose,#npPlay,#npCap,#npCap2');
   if(!el) return;
   if(el.dataset.fav){e.stopPropagation();const id=el.dataset.fav;state.favs.has(id)?state.favs.delete(id):state.favs.add(id);save();el.classList.toggle('on',state.favs.has(id));renderLib();toast(state.favs.has(id)?'Saved to your library':'Removed from your library');updatePlayer();return;}
-  if(el.dataset.done){e.stopPropagation();const id=el.dataset.done;state.done.has(id)?state.done.delete(id):state.done.add(id);save();renderLib();if(route().name==='program')render();if(state.npOpen)renderNP();return;}
+  if(el.dataset.pm){e.preventDefault();openPM(el.dataset.pm);return;}
+  if(el.id==='pmClose'){closePM();return;}
   if(el.dataset.del){state.journal=state.journal.filter(n=>String(n.at)!==el.dataset.del);save();render();renderLib();return;}
   if(el.dataset.persona){state.persona=el.dataset.persona;store.set('persona',state.persona);render();return;}
   if(el.dataset.station){tuneTo(el.dataset.station);return;}
@@ -2422,7 +2476,8 @@ document.addEventListener('click',e=>{
   if(el.id==='npCap'||el.id==='npCap2'){openCapture();return;}
 });
 document.addEventListener('keydown',e=>{
-  if(e.key==='Enter'&&e.target.matches('[role=button][data-play],[role=button][data-go],[role=button][data-station]')){e.target.click();}
+  if(e.key==='Enter'&&e.target.matches('[role=button][data-play],[role=button][data-go],[role=button][data-station],[role=button][data-pm]')){e.target.click();}
+  if(e.key==='Escape'&&$('#pm').classList.contains('open')){closePM();return;}
   if(e.key==='Escape'&&sale.open){location.hash='#/home';return;}
   if(e.key==='Escape'&&st.open&&!$('#capture').classList.contains('open')){if(stMenu())return;closeStation();return;}
   if(e.key==='Escape'){if($('#ob').classList.contains('open')){if(ob.mode!=='lock')closeOB();}else if($('#capture').classList.contains('open'))closeCapture();else if(state.npOpen)closeNP();}
@@ -2635,7 +2690,7 @@ function persona(pr){
     name:{deep:L('Seasoned explorer','Explorador experimentado'),growing:L('Curious practitioner','Practicante curioso'),new:L('Fresh start','Nuevo comienzo')}[lvl],
     why:{deep:L(`You’ve tried ${p.length} practices${exp==='daily'?' and meditate regularly':''}. We skip the basics: deeper states, hypnosis and guided journeys first.`,`Has probado ${p.length} prácticas${exp==='daily'?' y meditas con regularidad':''}. Nos saltamos lo básico: estados más profundos, hipnosis y viajes guiados primero.`),
       growing:L('You know the way in. We mix guided journeys with open listening, at a balanced depth.','Ya conoces el camino. Mezclamos viajes guiados con escucha libre, a una profundidad equilibrada.'),
-      new:L('We start gentle: short sessions, a lighter state and NO MYND day 1.','Empezamos suave: sesiones cortas, un estado más ligero y el día 1 de PuraMente.')}[lvl]};
+      new:L('We start gentle: short sessions, a lighter state and the first NO MYND audio.','Empezamos suave: sesiones cortas, un estado más ligero y el primer audio de PuraMente.')}[lvl]};
 }
 const SEEK_WORLD={create:'create',flow:'flow',calm:'calm',sleep:'sleep',meditate:'calm',awaken:'awaken'};
 const MOMENTS={
@@ -2656,10 +2711,9 @@ function topWorlds(pr){
 }
 function firstStep(pr){
   const ps=persona(pr), pr2=pr.practices||[];
-  const next=DAYS.find(d=>!state.done.has(d.id))||DAYS[0];
   if(ps.lvl==='deep') return {t:TRACKS[pr2.includes('visualization')?'impossible-rooms':'hyp-inner-studio'],why:L('You’ve explored a lot already. Skip the basics and go straight into a deep guided session.','Ya has explorado mucho. Sáltate lo básico y entra directo a una sesión guiada profunda.')};
   if(ps.lvl==='growing') return {t:TRACKS['the-blank-page'],why:L('A guided journey from silence to your first idea — 20 minutes.','Un viaje guiado del silencio a tu primera idea — 20 minutos.')};
-  return {t:next,why:L('Begin NO MYND, the creative meditation program. 10 minutes a day, no experience needed.','Empieza PuraMente, el programa de meditación creativa. 10 minutos al día, sin experiencia previa.')};
+  return {t:{id:'',title:L('NO MYND · Llegar','PuraMente · Llegar')},pm:PM_ALL[0].id,why:L('Begin NO MYND with Llegar: a two-minute audio journey. No experience needed.','Empieza PuraMente con Llegar: un viaje de audio de dos minutos. Sin experiencia previa.')};
 }
 function myStation(){
   if(!profile) return null;
@@ -2680,7 +2734,7 @@ function mineSection(){
     <div class="mine-st" data-play="my-oazis" role="button" tabindex="0">${art(pl.art,pl.seed)}<div><span class="ob-k" style="color:rgba(255,255,255,.8)">${L('Your station · live','Tu estación · en vivo')}</span><h3>${esc(t.title)}</h3><p>${esc(t.desc)}</p></div><span class="bigplay">${ICON.play}</span></div>
     <div class="mine-side"><div><span class="ob-k">${L('Your first step','Tu primer paso')}</span><h4>${esc(fs.t.title)}</h4><p style="color:var(--mute);margin-top:6px;font-size:14px">${esc(fs.why)}</p></div>
       <div class="sumrow">${topWorlds(profile).slice(0,3).map(w=>`<a class="pill" href="#/world/${w}">${WORLDS[w].name}</a>`).join('')}</div>
-      <button class="btn" data-play="${fs.t.id}">${PLAYI()} ${L('Start','Comenzar')}</button></div></div></section>`;
+      <button class="btn" ${fs.pm?`data-pm="${fs.pm}"`:`data-play="${fs.t.id}"`}>${PLAYI()} ${L('Start','Comenzar')}</button></div></div></section>`;
 }
 
 /* ---------- 5-second previews (generated live, no files) ---------- */
@@ -2844,8 +2898,8 @@ function renderOB(){
   }
   if(!['welcome','build'].includes(id)){
     const hint=id==='ready'?'':id==='name'?L('Press Enter to continue','Presiona Enter para continuar'):id==='key'?L('Username, email and a 4‑digit code','Usuario, correo y código de 4 números'):q.preview?L('Tap to listen','Toca para escuchar'):q.type==='single'?L('Choose one','Elige una'):q.max?L(`Choose up to ${q.max}`,`Elige hasta ${q.max}`):L('Choose all that apply','Elige todas las que apliquen');
-    foot=`<div class="ob-foot"><button class="olink" data-ob="back">${L('Back','Atrás')}</button><span class="hint">${hint}</span>
-      <button class="obtn" id="obNext" data-ob="${id==='ready'?'finish':'next'}" ${obOK(id)?'':'disabled'}>${id==='ready'?L('Enter my Oazis','Entrar a mi Oazis'):L('Continue','Continuar')}</button></div>`;
+    foot=`<div class="ob-footw"><div class="ob-foot"><button class="olink" data-ob="back">${L('Back','Atrás')}</button><span class="hint">${hint}</span>
+      <button class="obtn" id="obNext" data-ob="${id==='ready'?'finish':'next'}" ${obOK(id)?'':'disabled'}>${id==='ready'?L('Enter my Oazis','Entrar a mi Oazis'):L('Continue','Continuar')}</button></div></div>`;
   }
   $('#ob').innerHTML=`<div class="ob-bar"><span class="bs">${MARK}${WORD}</span><div class="ob-prog"><i style="width:${Math.min(1,ob.step/(steps.length-1))*100}%"></i></div>
     <button class="ob-x" data-ob="close">${profile?L('Close','Cerrar'):L('Not now','Ahora no')}</button></div>
