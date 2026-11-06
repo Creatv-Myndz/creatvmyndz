@@ -286,3 +286,6 @@ En `data/escritorio.json → extras`, por `id` del CRTV:
 - Se quitó el botón del pincel: los visitantes ya no pueden cambiar el fondo.
 - Cada usuario usa su fondo de `usuarios.lista[].fondo` (Playground = colina, Dealers = pajaros).
 - Todos los fondos siguen guardados en `data/escritorio.json` → `fondos` y en `assets/fondos/`, y el código del menú de fondos sigue en `escritorio.js`. Para volver a activarlo: devolver el botón `#wallBtn` en `index.html` y que `currentFondo()` vuelva a leer `store.get("fondo-"+USER)`.
+
+## Transición al entrar a un usuario
+- Se quitó la pantalla "bienvenido". Al escoger un usuario se muestra la misma pantalla de arranque (logo en fondo negro, barra de carga y "Creando...") por ~1.5 s y luego aparece el escritorio.

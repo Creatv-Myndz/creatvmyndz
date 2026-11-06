@@ -438,10 +438,10 @@ function showLogin(){closeMenus();document.querySelectorAll(".win").forEach(clos
 function enterAs(id){
   USER=id;try{sessionStorage.setItem("cm-user",id)}catch(e){}
   const btn=document.querySelector(`.lg-user[data-user="${CSS.escape(id)}"]`);btn&&btn.classList.add("picked");
-  // transición de carga tipo Windows ("bienvenido") antes de mostrar el escritorio
-  setTimeout(()=>{const w=$("#welcome");w.hidden=false;w.classList.remove("out");
+  // transición de carga tipo Windows: logo en fondo negro con "Creando..." antes de mostrar el escritorio
+  setTimeout(()=>{const b=$("#boot");b.classList.remove("out");b.hidden=false;
     $("#login").hidden=true;buildItems();applyWall();renderDesk();
-    setTimeout(()=>{w.classList.add("out");setTimeout(()=>{w.hidden=true;},450);},matchMedia("(prefers-reduced-motion: reduce)").matches?300:1600);},350);
+    setTimeout(()=>{b.classList.add("out");setTimeout(()=>{b.hidden=true;},500);},matchMedia("(prefers-reduced-motion: reduce)").matches?300:1500);},250);
 }
 $("#lgUsers").addEventListener("click",e=>{const b=e.target.closest("[data-user]");if(b)enterAs(b.dataset.user);});
 function boot(){

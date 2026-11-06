@@ -388,10 +388,6 @@ u{text-decoration:underline;text-underline-offset:2px}
              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   animation:grain .4s steps(2) infinite}
 @keyframes grain{50%{background-position:0 1px,0 0,40px 30px}}
-#welcome{position:fixed;inset:0;z-index:185;background:#06102e url("img/escritorio/usuarios-fondo.webp") center/cover;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;transition:opacity .45s}
-#welcome[hidden]{display:none}
-#welcome.out{opacity:0}
-.wl-text{margin:0;font:italic 700 clamp(42px,7vw,80px)/1 "Trebuchet MS",var(--sys);color:#fff;text-shadow:3px 3px 0 rgba(0,0,40,.35)}
 
 /* ===== ESCOGER USUARIO (pantalla de bienvenida estilo Windows XP, sobre el fondo del escritorio) ===== */
 #login{position:fixed;inset:0;z-index:190;isolation:isolate;display:flex;flex-direction:column;color:#fff;font-family:var(--sys)}
