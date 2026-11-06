@@ -150,5 +150,43 @@ class Enlaces(unittest.TestCase):
         self.assertEqual(self.errores(archivos), [])
 
 
+class RutasYGuardia(unittest.TestCase):
+    def test_relativa_en_html_y_css(self):
+        e = cargar().revisar_rutas_absolutas(sitio_de_prueba({
+            "onuha/index.html": '<img src="assets/img/x.png"><a href="#a"></a><a href="mailto:a@b.co"></a>',
+            "assets/css/a.css": 'a{background:url("fonts/x.woff2")}'}))
+        self.assertTrue(any("onuha/index.html: assets/img/x.png es relativa" in x for x in e))
+        self.assertTrue(any("assets/css/a.css: fonts/x.woff2 es relativa" in x for x in e))
+        self.assertEqual(len(e), 2)
+
+    def test_relativa_en_script_inline(self):
+        e = cargar().revisar_rutas_absolutas(sitio_de_prueba({
+            "onuha/index.html": '<script>window.ONUHA_STATIC={"base": "assets/img/onuha/mynd/"}</script>'}))
+        self.assertTrue(any("assets/img/onuha/mynd/ es relativa" in x for x in e))
+
+    def test_zona_oazis_queda_afuera(self):
+        self.assertEqual(cargar().revisar_rutas_absolutas(sitio_de_prueba({
+            "oazis.html": '<img src="assets/img/oazis/mark.png"><script>a="assets/audio/oazis/"</script>',
+            "assets/puramente/models/puramente-audios.js": 'const l="assets/puramente/lecciones/";'})), [])
+
+    def test_guardia_html_fuera_de_sitio(self):
+        r = sitio_de_prueba({"sitio/index.html": "", "docs/a.html": "", ".worktrees/x/a.html": "",
+                             "dist/a.html": "", "onuha.html": ""})
+        self.assertEqual(cargar().revisar_guardia(r),
+                         ["onuha.html: está fuera de sitio/ y no se publicaría; muévela a sitio/"])
+
+    def test_armar_completo(self):
+        r = sitio_de_prueba({"sitio/index.html": '<a href="/portada/"></a>', "sitio/portada/index.html": "",
+                             "redirecciones.txt": "/portada.html /portada/\n", "dist/viejo.html": ""})
+        self.assertEqual(cargar().armar(r), [])
+        for f in ["index.html", "portada/index.html", "portada.html", ".nojekyll"]:
+            self.assertTrue((r / "dist" / f).exists(), f)
+        self.assertFalse((r / "dist" / "viejo.html").exists())
+
+    def test_armar_sin_lista(self):
+        r = sitio_de_prueba({"sitio/index.html": ""})
+        self.assertIn("falta redirecciones.txt", cargar().armar(r))
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -11,7 +11,10 @@ from __future__ import annotations
 
 import html
 import json
+import os
 import re
+import shutil
+import sys
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urljoin, urlparse
@@ -272,3 +275,96 @@ def revisar_enlaces(dist: Path) -> list[str]:
                 if mensaje not in errores:
                     errores.append(mensaje)
     return errores
+
+
+# ---------------------------------------------------------------- rutas que empiezan con /
+
+# Oazis se mudó tal cual (sale del sitio en el corte, ver README): conserva sus rutas relativas.
+ZONA_OAZIS = ("oazis.html", "assets/oazis.webmanifest", "assets/puramente/", "assets/img/oazis/", "assets/audio/oazis/")
+PERMITIDAS = ("/", "https:", "http:", "mailto:", "tel:", "#", "data:", "javascript:")
+
+
+def _en_zona_oazis(relativo: str) -> bool:
+    return any(relativo == z or (z.endswith("/") and relativo.startswith(z)) for z in ZONA_OAZIS)
+
+
+def revisar_rutas_absolutas(dist: Path) -> list[str]:
+    """Un error por cada ruta del sitio escrita como relativa (assets/…, ../, foto.png) fuera de la zona Oazis."""
+    errores: list[str] = []
+    for archivo in _archivos_de_texto(dist):
+        relativo = archivo.relative_to(dist).as_posix()
+        if _en_zona_oazis(relativo):
+            continue
+        for tipo, valor in _referencias(archivo):
+            v = valor.strip()
+            if not v or "${" in v:
+                continue
+            relativa = (tipo == "url" and not v.startswith(PERMITIDAS)) or (
+                tipo == "texto" and v.startswith(("assets/", "data/")))
+            if relativa:
+                mensaje = f"{relativo}: {v} es relativa; las rutas del sitio empiezan con /"
+                if mensaje not in errores:
+                    errores.append(mensaje)
+    return errores
+
+
+# ---------------------------------------------------------------- guardia
+
+# Carpetas del primer nivel del repo donde un .html no es una página perdida.
+FUERA_DE_LA_GUARDIA = {".git", "dist", "docs", ".worktrees", "material", ".claude", ".superpowers", "sitio"}
+
+
+def revisar_guardia(repo: Path) -> list[str]:
+    """Un error por cada .html que quedó fuera de sitio/ (no se publicaría)."""
+    errores = []
+    for carpeta, subcarpetas, archivos in os.walk(repo):
+        if Path(carpeta) == repo:
+            subcarpetas[:] = [d for d in subcarpetas if d not in FUERA_DE_LA_GUARDIA]
+        for nombre in archivos:
+            if nombre.lower().endswith((".html", ".htm")):
+                ruta = (Path(carpeta) / nombre).relative_to(repo).as_posix()
+                errores.append(f"{ruta}: está fuera de sitio/ y no se publicaría; muévela a sitio/")
+    return sorted(errores)
+
+
+# ---------------------------------------------------------------- armado
+
+def armar(repo: Path) -> list[str]:
+    """Copia sitio/ a dist/, crea los reenvíos y revisa todo. Devuelve los errores (vacío = listo)."""
+    errores = revisar_guardia(repo)
+    sitio, dist = repo / "sitio", repo / "dist"
+    if not sitio.is_dir():
+        return errores + ["falta la carpeta sitio/"]
+    if dist.exists():
+        shutil.rmtree(dist)
+    shutil.copytree(sitio, dist, ignore=shutil.ignore_patterns(".DS_Store"))
+    lista = repo / "redirecciones.txt"
+    redirecciones: list[tuple[str, str]] = []
+    if not lista.is_file():
+        errores.append("falta redirecciones.txt")
+    else:
+        try:
+            redirecciones = leer_redirecciones(lista.read_text(encoding="utf-8"))
+        except ErrorDeSitio as e:
+            errores.append(str(e))
+    errores += escribir_reenvios(dist, redirecciones)
+    (dist / ".nojekyll").touch()
+    errores += revisar_enlaces(dist)
+    errores += revisar_rutas_absolutas(dist)
+    return errores
+
+
+def main(argv: list[str] | None = None) -> int:
+    repo = Path.cwd()
+    errores = armar(repo)
+    if errores:
+        print(*errores, sep="\n")
+        print(f"\n{len(errores)} errores: el sitio no se publica así. Ver README, sección «Publicar».")
+        return 1
+    n = len(leer_redirecciones((repo / "redirecciones.txt").read_text(encoding="utf-8")))
+    print(f"Listo: dist/ armado con {n} redirecciones y sin errores.")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
