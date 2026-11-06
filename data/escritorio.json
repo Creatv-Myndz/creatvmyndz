@@ -309,7 +309,8 @@
     },
     "forja-player": {
       "titulo": "Forja Player",
-      "icono": "assets/iconos/forja-player.png"
+      "icono": "assets/iconos/forja-player.png",
+      "sitio": "https://forjaplayer.com.co"
     },
     "carriel-de-ryan": {
       "titulo": "Carriel de Ryan",
