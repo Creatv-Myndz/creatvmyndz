@@ -540,14 +540,22 @@
         "nombre": "Creative Playground",
         "icono": "assets/iconos/bloque-c-azul.png",
         "color": "#3a7bff",
-        "fondo": "resbaladero"
+        "fondo": "colina",
+        "sub": {
+          "es": "Proyectos creativos",
+          "en": "Creative projects"
+        }
       },
       {
         "id": "dealers",
         "nombre": "Creative Dealers",
         "icono": "assets/iconos/bloque-c.png",
         "color": "#ffb21f",
-        "fondo": "colina"
+        "fondo": "pajaros",
+        "sub": {
+          "es": "Empresas creativas",
+          "en": "Creative companies"
+        }
       }
     ]
   }

@@ -374,18 +374,18 @@ u{text-decoration:underline;text-underline-offset:2px}
 #boot{position:fixed;inset:0;z-index:200;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5vh;transition:opacity .5s;overflow:hidden}
 #boot[hidden]{display:none}
 #boot.out{opacity:0}
-.boot-brand img{width:min(520px,78vw);height:auto;filter:contrast(1.05) saturate(.85) blur(.4px);animation:bootin 1.2s ease-out both,flick 3.5s steps(1) infinite}
+.boot-brand img{width:min(560px,80vw);height:auto;animation:bootin .6s ease-out both}
 @keyframes bootin{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
 @keyframes flick{0%,100%{opacity:1}43%{opacity:.86}45%{opacity:1}71%{opacity:.92}72%{opacity:1}}
 .boot-bar{position:relative;width:min(280px,60vw);height:22px;border:2px solid #b8b8b8;border-radius:7px;overflow:hidden;background:#000}
-.boot-bar i{position:absolute;top:3px;width:12px;height:12px;border-radius:1px;background:linear-gradient(180deg,#8fa8ff,#2d3fd6 55%,#1a26a8);animation:bootrun 1.8s linear infinite}
+.boot-bar i{position:absolute;top:3px;width:12px;height:12px;border-radius:1px;background:linear-gradient(180deg,#8fa8ff,#2d3fd6 55%,#1a26a8);animation:bootrun 1.2s linear infinite}
 .boot-bar i:nth-child(2){animation-delay:.12s}.boot-bar i:nth-child(3){animation-delay:.24s}
 @keyframes bootrun{0%{left:-40px}100%{left:calc(100% + 10px)}}
 .boot-txt{margin:-2vh 0 0;font:22px/1 var(--pixel);letter-spacing:.12em;color:#e8e8e8}
 .boot-crt{position:absolute;inset:0;pointer-events:none;
-  background:repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 3px),
-             radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.65) 100%),
-             url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.015) 0 1px,transparent 1px 3px),
+             radial-gradient(ellipse at center,transparent 65%,rgba(0,0,0,.4) 100%),
+             url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   animation:grain .4s steps(2) infinite}
 @keyframes grain{50%{background-position:0 1px,0 0,40px 30px}}
 #welcome{position:fixed;inset:0;z-index:185;background:#06102e url("img/escritorio/usuarios-fondo.webp") center/cover;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;transition:opacity .45s}
@@ -415,6 +415,8 @@ u{text-decoration:underline;text-underline-offset:2px}
 .lg-user:nth-child(2) .lg-card img,.lg-user:nth-child(2) .lg-card::before{animation-delay:-1.3s}
 @keyframes floaty{50%{transform:translateY(-8px)}}
 @keyframes aura{50%{opacity:1;transform:scale(1.12)}}
+.lg-txt{display:flex;flex-direction:column;gap:4px}
+.lg-sub{font:12px/1.2 var(--sys);color:rgba(255,255,255,.75);letter-spacing:.02em}
 .lg-name{font:400 clamp(20px,2.2vw,26px)/1.1 var(--sys);text-shadow:0 1px 3px rgba(0,0,40,.6)}
 .lg-user.picked{background:linear-gradient(90deg,rgba(0,30,120,.85),rgba(0,30,120,0))}
 @media (max-width:640px){

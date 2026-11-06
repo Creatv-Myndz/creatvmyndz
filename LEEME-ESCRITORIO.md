@@ -273,3 +273,11 @@ En `data/escritorio.json → extras`, por `id` del CRTV:
   el fondo del escritorio, título "Usuario:" en letra pixelada y los dos cubos flotando con aura
   (`bloque-c-azul.png` para Playground, `bloque-c.png` para Dealers).
 - Ojo: el logo del arranque lleva la bandera de Windows (marca de Microsoft); se usa por decisión de CREATV MYNDZ.
+
+## Cambios (arranque rápido y usuarios con descripción)
+- Logo de arranque nuevo y limpio (`assets/img/logo-creatv-xp.png`, sacado de la imagen 77), sin desenfoque ni parpadeo.
+- El arranque dura ~1.5 s.
+- Se quitó el título "Usuario:" de la selección de usuario.
+- Cada usuario tiene un texto pequeño debajo (`sub` en `usuarios.lista` de `data/escritorio.json`): Playground "Proyectos creativos", Dealers "Empresas creativas" (con inglés).
+- Fondos por defecto: Playground = colina, Dealers = pajaros.
+- En PC el ícono central (Creative Playground / Creative Dealers) queda siempre en la mitad de la pantalla.

@@ -231,9 +231,9 @@ function layout(){
     const ex=document.querySelector("#fixedIcons .ico"),exR=ex?ex.getBoundingClientRect().right+10:0;
     const half=Math.max(1000-minX,maxX-1000);
     // íconos grandes: hasta 1.35× en pantallas grandes; si la pantalla es angosta, mejor cuadrícula (abajo)
-    const sc=Math.min(1.35,(W-exR-24)/2/half,(H-top-10)/(maxY-minY));
+    const sc=Math.min(1.15,(W/2-exR-12)/half,(H-top-10)/(maxY-minY));   // siempre centrado
     if(sc<.95){document.documentElement.style.setProperty("--ico-s","1.1");return clusterLayout(order,W,H,{},busy,hit,1.1);}
-    const cx=Math.max(W/2,exR+(1000-minX)*sc),cy=Math.max(H/2,top-(minY-520)*sc);   // si Explorers estorba, el grupo se corre un poco a la derecha
+    const cx=W/2,cy=Math.max(H/2,top-(minY-520)*sc);   // si Explorers estorba, el grupo se corre un poco a la derecha
     document.documentElement.style.setProperty("--ico-s",sc.toFixed(3));
     for(const p of refIds){
       let x,y;
@@ -428,7 +428,7 @@ $("#standby").addEventListener("click",()=>{$("#standby").hidden=true;});
 // ---------- Arranque y selección de usuario
 function renderLogin(){
   const list=(D.usuarios&&D.usuarios.lista)||[];
-  $("#lgUsers").innerHTML=list.map(u=>`<button class="lg-user" data-user="${esc(u.id)}" style="--c:${esc(u.color||"#3a8bff")}"><span class="lg-card"><img src="${esc(u.icono)}" alt=""></span><span class="lg-name">${esc(L(u.nombre))}</span></button>`).join("");
+  $("#lgUsers").innerHTML=list.map(u=>`<button class="lg-user" data-user="${esc(u.id)}" style="--c:${esc(u.color||"#3a8bff")}"><span class="lg-card"><img src="${esc(u.icono)}" alt=""></span><span class="lg-txt"><span class="lg-name">${esc(L(u.nombre))}</span>${u.sub?`<small class="lg-sub">${esc(L(u.sub))}</small>`:""}</span></button>`).join("");
   // el fondo de la pantalla de usuarios es el mismo fondo del escritorio
   // fondo estrellado (transparente) encima del fondo del escritorio
   const f=currentFondo();$("#login .lg-bg").style.backgroundImage=f?`url("${f.imagen}")`:"none";
@@ -447,7 +447,7 @@ function boot(){
   showLogin();   // siempre se entra por la pantalla de usuarios, después del arranque
   const b=$("#boot");b.hidden=false;
   const end=()=>{b.classList.add("out");setTimeout(()=>{b.hidden=true;},500);};
-  const tm=setTimeout(end,matchMedia("(prefers-reduced-motion: reduce)").matches?600:3800);
+  const tm=setTimeout(end,matchMedia("(prefers-reduced-motion: reduce)").matches?600:1500);
   b.addEventListener("click",()=>{clearTimeout(tm);end();},{once:true});
 }
 
