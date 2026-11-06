@@ -1,5 +1,5 @@
 /* ============================================================
-   LAB — PÁGINA DE PRUEBA (lab.html)
+   LAB — PÁGINA DE PRUEBA (/lab/)
    ------------------------------------------------------------
    Estructura tomada de una landing de referencia (hero con imagen que
    sangra, frase gigante sobre foto, galería pineada, sección de "lo
@@ -466,7 +466,7 @@
 .lab-close-legal { margin-top: 3rem; font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
 
 /* ---------- respaldo: sin sticky (o navegador interno de Instagram/FB) ----------
-   assets/lab.js pone html.lab-static cuando no puede confiar en
+   /assets/js/lab.js pone html.lab-static cuando no puede confiar en
    position: sticky. La galería pasa a ser una grilla normal, todo
    visible. */
 html.lab-static .lab-gallery { height: auto; padding: 4rem 1.2rem; }

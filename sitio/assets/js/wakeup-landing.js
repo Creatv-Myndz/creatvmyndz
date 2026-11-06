@@ -1,11 +1,11 @@
 /* ============================================================
-   WAKE UP — PÁGINA DE VENTA (wakeup.html)
+   WAKE UP — PÁGINA DE VENTA (/wakeup/)
    ------------------------------------------------------------
    Página con scroll normal (no usa el motor del cielo). Arma la lista
-   de los 10 módulos desde assets/wakeup-modules.js — así, cuando
+   de los 10 módulos desde /assets/js/wakeup-modules.js — así, cuando
    cambias un título allá, acá se actualiza solo — y conecta el
    formulario de la lista de espera (FormSubmit, mismo correo que el
-   resto del sitio: SITE.leadEmail en assets/projects.js).
+   resto del sitio: SITE.leadEmail en /assets/contenido/projects.js).
    ============================================================ */
 (function () {
   const year = document.getElementById("year");
@@ -48,8 +48,8 @@
       // Después de dejar el correo, la persona cae en el programa con su
       // correo ya puesto (ahí solo le falta la contraseña si el portón
       // está encendido).
-      next.value = location.origin + location.pathname.replace(/[^/]*$/, "")
-        + "wakeup-program.html?correo=" + encodeURIComponent(emailInput.value.trim());
+      next.value = location.origin + "/wakeup/programa/?correo="
+        + encodeURIComponent(emailInput.value.trim());
     });
   }
 })();

@@ -7,7 +7,7 @@
         "es": "Colina",
         "en": "Hill"
       },
-      "imagen": "assets/fondos/colina.webp",
+      "imagen": "/assets/img/escritorio/fondos/colina.webp",
       "blur": 3
     },
     {
@@ -16,7 +16,7 @@
         "es": "Explorar",
         "en": "Explore"
       },
-      "imagen": "assets/fondos/lupa.webp",
+      "imagen": "/assets/img/escritorio/fondos/lupa.webp",
       "blur": 3
     },
     {
@@ -25,7 +25,7 @@
         "es": "Pradera",
         "en": "Meadow"
       },
-      "imagen": "assets/fondos/pradera.webp",
+      "imagen": "/assets/img/escritorio/fondos/pradera.webp",
       "blur": 3
     },
     {
@@ -34,7 +34,7 @@
         "es": "Resbaladero",
         "en": "Slide"
       },
-      "imagen": "assets/fondos/resbaladero.webp",
+      "imagen": "/assets/img/escritorio/fondos/resbaladero.webp",
       "blur": 3
     },
     {
@@ -43,7 +43,7 @@
         "es": "Pájaros",
         "en": "Birds"
       },
-      "imagen": "assets/fondos/pajaros.webp",
+      "imagen": "/assets/img/escritorio/fondos/pajaros.webp",
       "blur": 3
     },
     {
@@ -52,7 +52,7 @@
         "es": "Baño",
         "en": "Bathroom"
       },
-      "imagen": "assets/fondos/bano.webp",
+      "imagen": "/assets/img/escritorio/fondos/bano.webp",
       "blur": 3
     }
   ],
@@ -61,7 +61,7 @@
     {
       "id": "creative-playground",
       "titulo": "Explorers",
-      "icono": "assets/iconos/c-flotante.png",
+      "icono": "/assets/img/escritorio/iconos/c-flotante.png",
       "abre": "proyectos",
       "fijo": true
     },
@@ -71,19 +71,19 @@
         "es": "Buscaminas",
         "en": "Minesweeper"
       },
-      "icono": "assets/iconos/buscaminas.png",
+      "icono": "/assets/img/escritorio/iconos/buscaminas.png",
       "juego": "buscaminas"
     },
     {
       "id": "creative-dealers",
       "titulo": "Creative Dealers",
-      "icono": "assets/iconos/bloque-c.png",
+      "icono": "/assets/img/escritorio/iconos/bloque-c.png",
       "abre": "dealers",
       "texto": {
         "es": "Creatividad universal aplicada a marcas globales. Tomamos la cultura, la convertimos en ideas y las materializamos para marcas que le hablan al mundo.",
         "en": "Universal creativity applied to global brands. We take culture, turn it into ideas and materialize them for brands that speak to the world."
       },
-      "enlace_interno": "portada.html#dealing"
+      "enlace_interno": "/portada/#dealing"
     },
     {
       "id": "proximamente",
@@ -91,13 +91,13 @@
         "es": "Creando..",
         "en": "Creating.."
       },
-      "icono": "assets/iconos/reloj-arena.png",
+      "icono": "/assets/img/escritorio/iconos/reloj-arena.png",
       "abre": "carpeta"
     },
     {
       "id": "creatvfy",
       "titulo": "Creatvfy",
-      "icono": "assets/iconos/computador.png",
+      "icono": "/assets/img/escritorio/iconos/computador.png",
       "abre": "carpeta",
       "texto": {
         "es": "Programas de despertar creativo. Próximamente.",
@@ -107,9 +107,9 @@
     {
       "id": "wake-up",
       "titulo": "Wake Up!",
-      "icono": "assets/iconos/archivo-wakeup.png",
+      "icono": "/assets/img/escritorio/iconos/archivo-wakeup.png",
       "carpeta": "creatvfy",
-      "enlace_interno": "wakeup.html"
+      "enlace_interno": "/wakeup/"
     },
     {
       "id": "cualquiera-puede-crear",
@@ -117,7 +117,7 @@
         "es": "Cualquiera puede crear",
         "en": "Anyone can create"
       },
-      "icono": "assets/iconos/libros.png",
+      "icono": "/assets/img/escritorio/iconos/libros.png",
       "carpeta": "creatvfy",
       "texto": {
         "es": "Cualquiera puede crear: el libro (ebook). Próximamente.",
@@ -127,7 +127,7 @@
     {
       "id": "creatv-kids",
       "titulo": "CREATV Kids",
-      "icono": "assets/iconos/creatv-kids.png",
+      "icono": "/assets/img/escritorio/iconos/creatv-kids.png",
       "carpeta": "creatvfy",
       "texto": {
         "es": "CREATV Kids: despertar creativo para niños. Próximamente.",
@@ -137,7 +137,7 @@
     {
       "id": "galadsy",
       "titulo": "Galadsy",
-      "icono": "assets/iconos/galadsy.png",
+      "icono": "/assets/img/escritorio/iconos/galadsy.png",
       "enlace": "https://galadsy.com"
     }
   ],
@@ -226,17 +226,17 @@
   },
   "proyectos": [],
   "extras": {
-    "_comentario": "Por CRTV (id de assets/projects.js): 'titulo' es el nombre como se ve en el escritorio; 'icono' reemplaza la miniatura; 'videos' van ENCIMA de la imagen del proyecto en Paint (x, y, w, h en % de la imagen; YouTube mantiene 16:9). tipo 'youtube' (id, inicio en segundos) o 'video' (src de un .mp4; vacío = no se muestra).",
+    "_comentario": "Por CRTV (id de /assets/contenido/projects.js): 'titulo' es el nombre como se ve en el escritorio; 'icono' reemplaza la miniatura; 'videos' van ENCIMA de la imagen del proyecto en Paint (x, y, w, h en % de la imagen; YouTube mantiene 16:9). tipo 'youtube' (id, inicio en segundos) o 'video' (src de un .mp4; vacío = no se muestra).",
     "cajita-feliz-dtmf": {
-      "icono": "assets/iconos/cajita-dtmf.png",
+      "icono": "/assets/img/escritorio/iconos/cajita-dtmf.png",
       "titulo": "Cajita Feliz DtMF"
     },
     "cajita-feliz-ferxxo": {
-      "icono": "assets/iconos/cajita-ferxxo.png",
+      "icono": "/assets/img/escritorio/iconos/cajita-ferxxo.png",
       "titulo": "Cajita Feliz de Ferxxo"
     },
     "perreo-santo": {
-      "icono": "assets/iconos/perreo-santo.png",
+      "icono": "/assets/img/escritorio/iconos/perreo-santo.png",
       "videos": [
         {
           "tipo": "video",
@@ -269,7 +269,7 @@
       "titulo": "Perreo Santo"
     },
     "pokemor": {
-      "icono": "assets/iconos/pokemor.png",
+      "icono": "/assets/img/escritorio/iconos/pokemor.png",
       "titulo": "Pokémor — Pokémon del Reggaetón"
     },
     "jordan-blessd": {
@@ -284,16 +284,16 @@
           "_nota": "tapa el VER DROP"
         }
       ],
-      "icono": "assets/iconos/jordan-blessd.png",
+      "icono": "/assets/img/escritorio/iconos/jordan-blessd.png",
       "titulo": "Jordan x Blessd"
     },
     "las-palabras-nos-hacen": {
-      "icono": "assets/iconos/las-palabras.png",
+      "icono": "/assets/img/escritorio/iconos/las-palabras.png",
       "titulo": "Las Palabras Nos Hacen"
     },
     "dtmf-fc-barcelona": {
       "titulo": "DtMF x FC Barcelona",
-      "icono": "assets/iconos/silla.png"
+      "icono": "/assets/img/escritorio/iconos/silla.png"
     },
     "happy-house": {
       "titulo": "Happy House",
@@ -301,15 +301,15 @@
     },
     "underdogs": {
       "titulo": "Underdogs / Perro Negro x Undergold",
-      "icono": "assets/iconos/perro-negro.png"
+      "icono": "/assets/img/escritorio/iconos/perro-negro.png"
     },
     "snoopy-flops": {
       "titulo": "Snoopy Flops",
-      "icono": "assets/iconos/snoopy.png"
+      "icono": "/assets/img/escritorio/iconos/snoopy.png"
     },
     "forja-player": {
       "titulo": "Forja Player",
-      "icono": "assets/iconos/forja-player.png",
+      "icono": "/assets/img/escritorio/iconos/forja-player.png",
       "sitio": "https://forjaplayer.com.co"
     },
     "carriel-de-ryan": {
@@ -329,7 +329,7 @@
     {
       "id": "instagram",
       "nombre": "Instagram",
-      "icono": "assets/iconos/instagram.png",
+      "icono": "/assets/img/escritorio/iconos/instagram.png",
       "enlace": "https://instagram.com/creatvmyndz"
     },
     {
@@ -338,7 +338,7 @@
         "es": "Videos",
         "en": "Videos"
       },
-      "icono": "assets/iconos/youtube.png",
+      "icono": "/assets/img/escritorio/iconos/youtube.png",
       "enlace": "https://www.youtube.com/@camilovegga"
     },
     {
@@ -347,19 +347,19 @@
         "es": "Fotos",
         "en": "Photos"
       },
-      "icono": "assets/iconos/fotos.png",
+      "icono": "/assets/img/escritorio/iconos/fotos.png",
       "collage": true
     },
     {
       "id": "por-amor-al-arte",
       "nombre": "Por Amor al Arte",
-      "icono": "assets/iconos/por-amor-al-arte.png",
+      "icono": "/assets/img/escritorio/iconos/por-amor-al-arte.png",
       "enlace": "https://camilovegga.com"
     },
     {
       "id": "spotify",
       "nombre": "Spotify",
-      "icono": "assets/iconos/spotify.png",
+      "icono": "/assets/img/escritorio/iconos/spotify.png",
       "texto": {
         "es": "Nuestra música en Spotify. Muy pronto.",
         "en": "Our music on Spotify. Coming soon."
@@ -372,7 +372,7 @@
         "es": "Contáctanos",
         "en": "Contact us"
       },
-      "icono": "assets/iconos/contacto.png",
+      "icono": "/assets/img/escritorio/iconos/contacto.png",
       "contacto": true
     },
     "|",
@@ -382,11 +382,11 @@
         "es": "Papelera de ideas",
         "en": "Idea bin"
       },
-      "icono": "assets/iconos/papelera.png",
+      "icono": "/assets/img/escritorio/iconos/papelera.png",
       "ideas": []
     }
   ],
-  "proximoIcono": "assets/iconos/carpeta-proximo.png",
+  "proximoIcono": "/assets/img/escritorio/iconos/carpeta-proximo.png",
   "fotos": {
     "_comentario": "Collage de la app Fotos. Agrega rutas de imágenes aquí; si está vacío, usa las imágenes de los CRTV.",
     "imagenes": []

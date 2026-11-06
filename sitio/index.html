@@ -8,29 +8,29 @@
 <meta name="theme-color" content="#c0c0c0">
 <meta property="og:title" content="CREATV MYNDZ — Global Creative Dealers">
 <meta property="og:description" content="El escritorio de CREATV MYNDZ: proyectos creativos, ideas y procesos.">
-<meta property="og:image" content="https://creatvmyndz.com/assets/img/og.jpg">
+<meta property="og:image" content="https://creatvmyndz.com/assets/img/marca/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta property="og:url" content="https://creatvmyndz.com/">
 <link rel="canonical" href="https://creatvmyndz.com/">
-<link rel="icon" href="assets/img/favicon-c.png" sizes="any">
-<link rel="apple-touch-icon" href="assets/img/apple-touch-icon-c.png">
-<link rel="preload" as="image" href="assets/fondos/colina.webp">
+<link rel="icon" href="/assets/img/marca/favicon-c.png" sizes="any">
+<link rel="apple-touch-icon" href="/assets/img/marca/apple-touch-icon-c.png">
+<link rel="preload" as="image" href="/assets/img/escritorio/fondos/colina.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/escritorio.css">
+<link rel="stylesheet" href="/assets/css/escritorio.css">
 </head>
 <body>
-<!-- Fondo de pantalla. Todo el contenido sale de data/escritorio.json -->
+<!-- Fondo de pantalla. Todo el contenido sale de /assets/contenido/escritorio.json -->
 <div id="wall" aria-hidden="true"></div>
 
 <!-- ===== ARRIBA (sin barra): logo CREATV MYNDZ al centro, levitando; Duo a la derecha ===== -->
-<button id="topLogo" data-win="sobre" data-i18n-aria="about" aria-label="Sobre CREATV MYNDZ"><img src="assets/img/logo-creatv-blanco.webp" alt="CREATV MYNDZ" width="700" height="297"></button>
+<button id="topLogo" data-win="sobre" data-i18n-aria="about" aria-label="Sobre CREATV MYNDZ"><img src="/assets/img/marca/logo-creatv-blanco.webp" alt="CREATV MYNDZ" width="700" height="297"></button>
 <!-- Íconos fijos (Creative Playground): a la izquierda, un poco abajo -->
 <div id="fixedIcons"></div>
 
 <div id="cornerR">
-  <button id="wallBtn" class="wall-btn" data-i18n-aria="wall_aria" aria-label="Cambiar fondo"><img src="assets/iconos/pincel.png" alt="" width="64" height="64"></button>
+  <button id="wallBtn" class="wall-btn" data-i18n-aria="wall_aria" aria-label="Cambiar fondo"><img src="/assets/img/escritorio/iconos/pincel.png" alt="" width="64" height="64"></button>
   <button id="langBtn" class="lang-btn" data-i18n-aria="lang_aria" aria-label="Cambiar idioma"><b id="langCode">ES</b><span>/</span><i id="langOther">EN</i></button>
 </div>
 <div id="fondoMenu" class="menu" role="menu" hidden></div>
@@ -38,13 +38,13 @@
 <div id="pageDots" hidden aria-hidden="true"></div>
 <main id="desk" data-i18n-aria="desk" aria-label="Escritorio"></main>
 <div id="empty" hidden>
-  <img src="assets/iconos/carpeta.png" alt="" width="32" height="32">
+  <img src="/assets/img/escritorio/iconos/carpeta.png" alt="" width="32" height="32">
   <span data-i18n="empty">Los proyectos van a aparecer aquí, uno por uno.</span>
 </div>
 
 <!-- ===== DOCK FLOTANTE (moderno, con íconos retro) ===== -->
 <footer id="taskbar">
-  <button id="startBtn" aria-haspopup="true" aria-expanded="false" data-i18n-aria="start" aria-label="Inicio"><img src="assets/iconos/nube.png" alt="" width="164" height="98"><span class="tip" role="tooltip" data-i18n="start">Inicio</span></button>
+  <button id="startBtn" aria-haspopup="true" aria-expanded="false" data-i18n-aria="start" aria-label="Inicio"><img src="/assets/img/escritorio/iconos/nube.png" alt="" width="164" height="98"><span class="tip" role="tooltip" data-i18n="start">Inicio</span></button>
   <span class="sep" aria-hidden="true"></span>
   <nav id="dock" data-i18n-aria="programs" aria-label="Programas"></nav>
 </footer>
@@ -53,13 +53,13 @@
 <div id="startMenu" class="menu start" role="menu" hidden>
   <div class="start-side" aria-hidden="true"><span>CREATV <b>MYNDZ</b></span></div>
   <div class="start-items">
-    <button role="menuitem" data-win="proyectos"><img src="assets/iconos/c-flotante.png" alt="" class="smooth"><span><u>C</u>reative Playground</span></button>
-    <button role="menuitem" data-open-p="mynd"><img src="assets/iconos/aviso.png" alt=""><span><u>M</u>ynd</span></button>
-    <button role="menuitem" data-open-p="buscaminas-acceso"><img src="assets/iconos/buscaminas.png" alt="" class="smooth"><span data-i18n-html="s_mines"><u>B</u>uscaminas</span></button>
-    <button role="menuitem" data-app-open="contacto"><img src="assets/iconos/contacto.png" alt="" class="smooth"><span data-i18n-html="s_contact"><u>C</u>ontáctanos</span></button>
-    <button role="menuitem" data-app-open="papelera"><img src="assets/iconos/papelera.png" alt="" class="smooth"><span data-i18n-html="s_bin"><u>P</u>apelera de ideas</span></button>
+    <button role="menuitem" data-win="proyectos"><img src="/assets/img/escritorio/iconos/c-flotante.png" alt="" class="smooth"><span><u>C</u>reative Playground</span></button>
+    <button role="menuitem" data-open-p="mynd"><img src="/assets/img/escritorio/iconos/aviso.png" alt=""><span><u>M</u>ynd</span></button>
+    <button role="menuitem" data-open-p="buscaminas-acceso"><img src="/assets/img/escritorio/iconos/buscaminas.png" alt="" class="smooth"><span data-i18n-html="s_mines"><u>B</u>uscaminas</span></button>
+    <button role="menuitem" data-app-open="contacto"><img src="/assets/img/escritorio/iconos/contacto.png" alt="" class="smooth"><span data-i18n-html="s_contact"><u>C</u>ontáctanos</span></button>
+    <button role="menuitem" data-app-open="papelera"><img src="/assets/img/escritorio/iconos/papelera.png" alt="" class="smooth"><span data-i18n-html="s_bin"><u>P</u>apelera de ideas</span></button>
     <hr>
-    <button role="menuitem" data-win="sobre"><img src="assets/iconos/cdrom.png" alt=""><span data-i18n-html="s_about"><u>P</u>róximamente CREATV MYNDZ</span></button>
+    <button role="menuitem" data-win="sobre"><img src="/assets/img/escritorio/iconos/cdrom.png" alt=""><span data-i18n-html="s_about"><u>P</u>róximamente CREATV MYNDZ</span></button>
   </div>
 </div>
 
@@ -67,7 +67,7 @@
 <div id="phoneWarn" hidden role="dialog" aria-modal="true" aria-labelledby="pwTitle">
   <div class="pw-photo" aria-hidden="true"></div>
   <div class="pw-box">
-    <div class="pw-bar"><img src="assets/iconos/aviso.png" alt=""><b data-i18n="pw_bar">Advertencia</b><button class="pw-x" data-pw-close data-i18n-aria="close" aria-label="Cerrar">×</button></div>
+    <div class="pw-bar"><img src="/assets/img/escritorio/iconos/aviso.png" alt=""><b data-i18n="pw_bar">Advertencia</b><button class="pw-x" data-pw-close data-i18n-aria="close" aria-label="Cerrar">×</button></div>
     <div class="pw-body">
       <p id="pwTitle" class="pw-title" data-i18n="pw_title">¿ESTÁS EN EL BAÑO?</p>
       <p class="pw-text" data-i18n="pw_text">NUESTRA WEB ES MEJOR EN EL PC. ¡VE A VERLA!</p>
@@ -79,7 +79,7 @@
 <!-- Registro: aparece al entrar (una vez por visita) para capturar correos -->
 <div id="signup" hidden role="dialog" aria-modal="true" aria-labelledby="suTitle">
   <div class="su-box">
-    <div class="pw-bar"><img src="assets/iconos/c-flotante.png" alt=""><b data-i18n="su_bar">Únete a CREATV MYNDZ</b><button class="pw-x" data-su-close data-i18n-aria="close" aria-label="Cerrar">×</button></div>
+    <div class="pw-bar"><img src="/assets/img/escritorio/iconos/c-flotante.png" alt=""><b data-i18n="su_bar">Únete a CREATV MYNDZ</b><button class="pw-x" data-su-close data-i18n-aria="close" aria-label="Cerrar">×</button></div>
     <form class="su-body" id="suForm" novalidate>
       <p id="suTitle" class="su-title" data-i18n="su_title">¿QUIERES VER MÁS CREATIVIDAD?</p>
       <p class="su-text" data-i18n="su_text">Regístrate con tu correo y te mandamos los nuevos proyectos, ideas y lanzamientos.</p>
@@ -94,7 +94,7 @@
 <input type="file" id="wallFile" accept="image/*" hidden>
 <div id="wins"></div>
 
-<script src="assets/projects.js"></script>
-<script src="assets/escritorio.js"></script>
+<script src="/assets/contenido/projects.js"></script>
+<script src="/assets/js/escritorio.js"></script>
 </body>
 </html>

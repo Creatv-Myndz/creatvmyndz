@@ -1,6 +1,6 @@
-// CREATV MYNDZ · el escritorio retro (index.html, la página principal). Todo sale de data/escritorio.json:
+// CREATV MYNDZ · el escritorio retro (index.html, la página principal). Todo sale de /assets/contenido/escritorio.json:
 //   fondo / fondos      → fondos de pantalla (el visitante los cambia desde el menú "Fondo")
-//   creativePlayground  → true = cada CRTV de assets/projects.js es un ícono del escritorio
+//   creativePlayground  → true = cada CRTV de /assets/contenido/projects.js es un ícono del escritorio
 //   accesos             → íconos sueltos del escritorio (abren una ventana, la lista de proyectos, un juego o un enlace)
 //   buscaminas          → la frase que se destapa al pasar de nivel
 //   proyectos           → proyectos extra, además de los CRTV
@@ -106,12 +106,12 @@ function setLang(l){
 // ---------- íconos. Los dibujados en 32×32 son pixel art: se escalan nítidos.
 const PIXEL=/\/(paint|notas|carpeta|correo|cdrom|aviso|buho|cursor|cerebro)\.png$/i;
 const iconHTML=(src,cls="")=>src?`<img class="${cls}${PIXEL.test(src)?" px":""}" src="${esc(src)}" alt="" draggable="false">`:"";
-const FOLDER="assets/iconos/carpeta.png", WARN="assets/iconos/aviso.png", PAINT="assets/iconos/paint.png";
+const FOLDER="/assets/img/escritorio/iconos/carpeta.png", WARN="/assets/img/escritorio/iconos/aviso.png", PAINT="/assets/img/escritorio/iconos/paint.png";
 
 let D={fondo:"",fondos:[],accesos:[],proyectos:[],dock:[],buscaminas:{}};
 let ITEMS=[],PAGES=1;
 
-// ---------- los CRTV del Creative Playground (assets/projects.js) como proyectos del escritorio
+// ---------- los CRTV del Creative Playground (/assets/contenido/projects.js) como proyectos del escritorio
 const code=n=>n==null?"CRTV":"CRTV "+String(n).padStart(2,"0");
 function fromPlayground(){
   if(!D.creativePlayground||typeof PROJECTS==="undefined")return [];
@@ -119,7 +119,7 @@ function fromPlayground(){
     id:p.id, titulo:p.title, codigo:code(p.num),
     estado:p.status==="soon"?"proximo":(p.link?"listo":"sin-material"),
     portada:p.image||"", imagen:(p.image||"").replace("/thumb/","/"), enlace:p.link||"",
-    ...(D.extras?.[p.id]||{})   // ícono propio y videos encima de la imagen (data/escritorio.json → extras)
+    ...(D.extras?.[p.id]||{})   // ícono propio y videos encima de la imagen (/assets/contenido/escritorio.json → extras)
   }));
 }
 function buildItems(){
@@ -135,17 +135,17 @@ const onDesk=p=>!p.carpeta||p.tambienEnEscritorio;
 
 // ---------- fondo de pantalla
 function blurFor(f){const lvl=store.get("blur")||"suave",base=f?.blur??10;return lvl==="sin"?0:lvl==="fuerte"?Math.min(32,Math.max(14,base*2)):base;}
-// El fondo lo elige CREATV MYNDZ en data/escritorio.json ("fondo"); los visitantes ya no lo cambian.
+// El fondo lo elige CREATV MYNDZ en /assets/contenido/escritorio.json ("fondo"); los visitantes ya no lo cambian.
 // El visitante cambia el fondo con el pincel (arriba a la derecha); se guarda en su navegador.
 function currentFondo(){const id=store.get("fondo");return D.fondos.find(x=>x.id===id)||D.fondos.find(x=>x.id===D.fondo)||D.fondos[0];}
 // Ventana "Personalizar": muestra todos los fondos y el visitante escoge uno
-const mini=src=>src.replace("assets/fondos/","assets/fondos/mini/");
+const mini=src=>src.replace("/assets/img/escritorio/fondos/","/assets/img/escritorio/fondos/mini/");
 function setWall(id){const f=D.fondos.find(x=>x.id===id);if(!f)return;
   const im=new Image();im.onload=()=>{store.set("fondo",f.id);applyWall();document.querySelectorAll("[data-wall]").forEach(b=>b.classList.toggle("on",b.dataset.wall===f.id));};im.src=f.imagen;}
 function wallWin(){
   const cur=currentFondo()?.id;
   const w=openWin("personalizar",t("wall_title"),`<p class="wp-intro">${t("wall_intro")}</p><div class="wallpicks">${D.fondos.map(f=>`<button class="wpick${f.id===cur?" on":""}" data-wall="${esc(f.id)}"><img src="${esc(mini(f.imagen))}" alt="" loading="lazy" onerror="this.src='${esc(f.imagen)}'"><span>${esc(L(f.nombre))}</span></button>`).join("")}</div>`,
-    {icon:"assets/iconos/pincel.png",cls:"wall-win",info:D.fondos.length+" "+t("walls")});
+    {icon:"/assets/img/escritorio/iconos/pincel.png",cls:"wall-win",info:D.fondos.length+" "+t("walls")});
   reg(w,wallWin);
 }
 function nextWall(){const i=D.fondos.indexOf(currentFondo()),f=D.fondos[(i+1)%D.fondos.length];if(!f)return;
@@ -216,7 +216,7 @@ function layout(){
   }
   PAGES=1;
   {const fx=$("#fixedIcons");if(fx){fx.style.left="";fx.style.top="";}}
-  // PC: la distribución fija de data/escritorio.json (distribucionPC), relativa al centro de la pantalla.
+  // PC: la distribución fija de /assets/contenido/escritorio.json (distribucionPC), relativa al centro de la pantalla.
   const DP=D.distribucionPC||{},REF=DP.posiciones||{},CORNER=DP.esquina||{},placedFixed=[];
   const refIds=order.filter(p=>REF[p.id]||CORNER[p.id]);
   if(refIds.length){
@@ -392,12 +392,12 @@ function listWin(){
   const list=ITEMS.filter(p=>p.tipoItem!=="acceso"),n=list.length;
   const w=openWin("proyectos","Creative Playground",n?`<ul class="list">${list.map(p=>`<li><button data-open-p="${esc(p.id)}">${p.estado==="proximo"?iconHTML(D.proximoIcono||WARN,"li-ico"):p.portada?`<img src="${esc(p.portada)}" alt="">`:iconHTML(FOLDER,"li-ico")}<span><b>${esc(L(p.titulo))}</b><br><small>${esc(p.codigo||"")}${p.estado==="proximo"?" · "+t("inBuild"):""}</small></span></button></li>`).join("")}</ul>`
     :`<div class="soon">${iconHTML(FOLDER)}<b>${t("noProjects")}</b><span>${t("noProjectsTxt")}</span></div>`,
-    {icon:"assets/iconos/c-flotante.png",info:n+" "+t(n===1?"obj":"objs")});
+    {icon:"/assets/img/escritorio/iconos/c-flotante.png",info:n+" "+t(n===1?"obj":"objs")});
   reg(w,listWin);
 }
 function aboutWin(){
-  const w=openWin("sobre",t("about"),`<div class="soon"><img class="about-logo" src="assets/img/logo-creatv-blur.webp" alt="CREATV MYNDZ"><b>GLOBAL CREATIVE DEALERS</b><span>${t("aboutTxt")}</span><a class="btn95" href="portada.html">${t("goSite")}</a></div>`,
-    {icon:"assets/iconos/cdrom.png",info:"CRTV "+new Date().getFullYear()});
+  const w=openWin("sobre",t("about"),`<div class="soon"><img class="about-logo" src="/assets/img/marca/logo-creatv-blur.webp" alt="CREATV MYNDZ"><b>GLOBAL CREATIVE DEALERS</b><span>${t("aboutTxt")}</span><a class="btn95" href="/portada/">${t("goSite")}</a></div>`,
+    {icon:"/assets/img/escritorio/iconos/cdrom.png",info:"CRTV "+new Date().getFullYear()});
   reg(w,aboutWin);
 }
 
@@ -422,7 +422,7 @@ function folderWin(f){
 }
 
 // ---------- Mynd: el acceso a creatvmyndz.com/mynd, con su misma clave (solo el login, en estilo retro)
-const MYND_HASH="6e0bd085bc9a3228dac0675a7e9cbfd7dbb2275014c5cb82a959fc5938d9b6ef";   // igual que mynd.html
+const MYND_HASH="6e0bd085bc9a3228dac0675a7e9cbfd7dbb2275014c5cb82a959fc5938d9b6ef";   // igual que /mynd/
 const MYND_BOARD="https://claude.ai/artifact/UQvUn3x1UgKQTqd1hu7T2i";
 async function sha(s){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");}
 function myndWin(p){
@@ -448,7 +448,7 @@ function dealersWin(p){
   reg(w,()=>dealersWin(p));
 }
 
-// ---------- Fotos: un collage de los proyectos (data/escritorio.json → fotos.imagenes; si está vacío, las de los CRTV)
+// ---------- Fotos: un collage de los proyectos (/assets/contenido/escritorio.json → fotos.imagenes; si está vacío, las de los CRTV)
 function fotosWin(a){
   const own=(D.fotos?.imagenes||[]).filter(Boolean);
   const imgs=own.length?own:ITEMS.filter(p=>p.imagen).map(p=>p.imagen);
@@ -457,7 +457,7 @@ function fotosWin(a){
   reg(w,()=>fotosWin(a));
 }
 
-// ---------- Contáctanos: el mensaje llega al correo de SITE.leadEmail (assets/projects.js) vía FormSubmit
+// ---------- Contáctanos: el mensaje llega al correo de SITE.leadEmail (/assets/contenido/projects.js) vía FormSubmit
 function contactWin(a){
   const site=typeof SITE!=="undefined"?SITE:{},to=site.contactEmail||site.leadEmail||"";
   const w=openWin("app:"+a.id,t("contact"),`<form class="contact" novalidate>
@@ -483,10 +483,10 @@ function contactWin(a){
 }
 
 // ---------- Buscaminas: nivel fácil (6×6, 3 minas; el primer clic nunca es mina y abre una zona grande).
-// Al ganar, "Siguiente nivel" ya no es un juego: se destapa la frase de data/escritorio.json.
+// Al ganar, "Siguiente nivel" ya no es un juego: se destapa la frase de /assets/contenido/escritorio.json.
 function minesWin(){
   const N=6,M=3;let cells,over,started,flagMode=false,t0=0,timer=null;
-  const icon="assets/iconos/buscaminas.png";
+  const icon="/assets/img/escritorio/iconos/buscaminas.png";
   const w=openWin("app:buscaminas",t("mines"),`<div class="mines"><div class="mn-top"><span class="led" data-left></span><button class="face" data-face aria-label="${t("newGame")}">🙂</button><span class="led" data-time>000</span></div><div class="mn-grid"></div><div class="mn-foot"></div></div>`,
     {icon,cls:"mines-win",noStatus:true,menu:t("menuGame")});
   const grid=w.querySelector(".mn-grid"),face=w.querySelector("[data-face]"),left=w.querySelector("[data-left]"),time=w.querySelector("[data-time]"),foot=w.querySelector(".mn-foot");
@@ -524,7 +524,7 @@ function minesWin(){
       foot.innerHTML=`<p class="mn-won">${t("lost")}</p><button class="btn95" data-retry>${t("retry")}</button>`;return;}
     open(i);if(cells.every(x=>x.m||x.o))win();
   }
-  // Después de ganar ya no es juego: cada "Siguiente" destapa la frase que sigue (data/escritorio.json → buscaminas.frases)
+  // Después de ganar ya no es juego: cada "Siguiente" destapa la frase que sigue (/assets/contenido/escritorio.json → buscaminas.frases)
   const FRASES=D.buscaminas?.frases||[{es:["ME","ALEGRA","CONOCERTE"],en:["I'M","HAPPY","I","KNOW","YOU"]}];
   function phrase(n){
     const f=FRASES[n];if(!f)return;
@@ -562,9 +562,9 @@ function minesWin(){
 
 // ---------- aviso del baño: solo para quien entra desde el celular (una vez por visita)
 // ---------- registro con correo (base de datos de leads): sale al entrar, una vez por visita,
-// y nunca más si ya se registró. Llega a SITE.leadEmail (assets/projects.js) vía FormSubmit.
+// y nunca más si ya se registró. Llega a SITE.leadEmail (/assets/contenido/projects.js) vía FormSubmit.
 function signup(){
-  if(!D.registro)return;   // apagado en data/escritorio.json ("registro": false)
+  if(!D.registro)return;   // apagado en /assets/contenido/escritorio.json ("registro": false)
   let done=false,seen=false;try{done=localStorage.getItem("cm-signup")==="1";seen=sessionStorage.getItem("cm-signup-seen")==="1"}catch(e){}
   if(done||seen)return;
   setTimeout(()=>{if(!$("#phoneWarn").hidden)return;$("#signup").hidden=false;try{sessionStorage.setItem("cm-signup-seen","1")}catch(e){};setTimeout(()=>$("#suForm").email.focus(),50);},2500);
@@ -637,7 +637,7 @@ document.addEventListener("click",e=>{
   if(e.target.closest("#langBtn")){closeMenus();setLang(lang==="es"?"en":"es");return;}
   const a=e.target.closest("[data-app]");if(a){closeMenus();const app=D.dock.find(x=>x&&x.id===a.dataset.app);app&&appWin(app);return;}
   const ao=e.target.closest("[data-app-open]");if(ao){closeMenus();const app=D.dock.find(x=>x&&x.id===ao.dataset.appOpen);app&&appWin(app);return;}
-  const op=e.target.closest("[data-open-p]");if(op){closeMenus();if(op.dataset.openP==="mynd"){myndWin({id:"mynd",icono:"assets/iconos/aviso.png"});return;}openItem(itemById(op.dataset.openP));return;}
+  const op=e.target.closest("[data-open-p]");if(op){closeMenus();if(op.dataset.openP==="mynd"){myndWin({id:"mynd",icono:"/assets/img/escritorio/iconos/aviso.png"});return;}openItem(itemById(op.dataset.openP));return;}
   const fm=e.target.closest("[data-fondo]");if(fm){store.del("mio");store.set("fondo",fm.dataset.fondo);applyWall();closeMenus();return;}
   if(e.target.closest("[data-subir]")){closeMenus();$("#wallFile").click();return;}
   if(e.target.closest("[data-quitar]")){store.del("mio");applyWall();closeMenus();return;}
@@ -663,7 +663,7 @@ let rt;addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(()=>{render
 
 // ---------- arranque
 applyStatic();
-fetch("data/escritorio.json",{cache:"no-cache"}).then(r=>r.json()).then(d=>{D=Object.assign(D,d);
+fetch("/assets/contenido/escritorio.json",{cache:"no-cache"}).then(r=>r.json()).then(d=>{D=Object.assign(D,d);
   buildItems();applyWall();renderDock();renderDesk();phoneWarning();signup();
 }).catch(()=>{$("#empty").hidden=false;$("#empty span").textContent="No se pudo cargar el escritorio.";});
 })();

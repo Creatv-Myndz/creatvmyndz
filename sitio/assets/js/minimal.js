@@ -1,8 +1,8 @@
 /* ============================================================
    CREATV MYNDZ — LÓGICA DEL SITIO
    ------------------------------------------------------------
-   index.html, proyectos.html y crtv-*.html. Los proyectos salen de
-   assets/projects.js (cárgalo antes que este archivo donde haga falta).
+   /portada/, /proyectos/ y cada /crtv/<id>/. Los proyectos salen de
+   /assets/contenido/projects.js (cárgalo antes que este archivo donde haga falta).
    ============================================================ */
 
 document.documentElement.classList.add("js");
@@ -336,7 +336,9 @@ if (preview && listEl && matchMedia("(hover: hover) and (pointer: fine)").matche
 const crtvNav = document.getElementById("crtv-nav");
 if (crtvNav && HAS_PROJECTS) {
   const pages = PROJECTS.filter(hasPage);
-  const here = location.pathname.split("/").pop();
+  // La ruta de esta página como la escribe projects.js: /crtv/<id>/ (sin index.html, con / al final).
+  let here = location.pathname.replace(/index\.html$/, "");
+  if (!here.endsWith("/")) here += "/";
   const i = pages.findIndex(p => p.link === here);
   if (i !== -1) {
     crtvNav.querySelector("[data-prev]").href = pages[(i - 1 + pages.length) % pages.length].link;

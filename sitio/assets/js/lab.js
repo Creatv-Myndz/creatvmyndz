@@ -1,5 +1,5 @@
 /* ============================================================
-   LAB — PÁGINA DE PRUEBA (lab.html)
+   LAB — PÁGINA DE PRUEBA (/lab/)
    ------------------------------------------------------------
    Página aparte y autónoma (no usa el motor del cielo de app.js).
    Dos cosas viven acá: la galería pineada (las tarjetas aparecen

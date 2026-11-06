@@ -23,7 +23,7 @@ const SITE = {
   contactEmail: "dacoloradog@gmail.com",
 
   // Video del banner CREATIVE PLAYGROUND en la portada. Sube el .mp4 a
-  // assets/video/ y pon aquí la ruta, p. ej. "assets/video/creative-playground.mp4".
+  // sitio/assets/video/ y pon aquí la ruta, p. ej. "/assets/video/creative-playground.mp4".
   // Mientras esté vacío, el banner muestra una cinta con las portadas de los CRTV.
   playgroundVideo: "",
 
@@ -47,7 +47,8 @@ const SITE = {
    y la web lo muestra como CRTV 01, CRTV 02, CRTV 33.
    Si pones `num: null`, muestra solo "CRTV" (así están los próximos).
    El "CRTV" es fijo; si algún día quieres otra palabra, se cambia
-   en assets/app.js buscando la línea que dice PREFIX = "CRTV".
+   en sitio/assets/js/minimal.js (la línea PREFIX = "CRTV") y en
+   sitio/assets/js/escritorio.js (la función code).
 
    Campos:
    - id:      identificador único, minúsculas y sin espacios (se usa en la URL)
@@ -59,14 +60,14 @@ const SITE = {
    - year:    año (puede ir vacío "")
    - desc:    { es: "...", en: "..." }  ← ¡ESTO ES LO QUE FALTA POR LLENAR!
    - link:    URL del proyecto (Instagram, YouTube, tienda...) o "" si no hay
-   - image:   sube la foto a assets/img/ y pon "assets/img/tu-foto.jpg", o ""
+   - image:   sube la foto a sitio/assets/img/crtvs/ y pon "/assets/img/crtvs/tu-foto.webp", o ""
    ------------------------------------------------------------ */
 
 /* Texto que aparece mientras no escribas la descripción real.
    Reemplaza cada `desc` por la historia del proyecto. */
 const PENDIENTE = {
-  es: "Escribe aquí la historia de este proyecto, en assets/projects.js",
-  en: "Write the story of this project here, in assets/projects.js"
+  es: "Escribe aquí la historia de este proyecto, en /assets/contenido/projects.js",
+  en: "Write the story of this project here, in /assets/contenido/projects.js"
 };
 
 const PROJECTS = [
@@ -79,8 +80,8 @@ const PROJECTS = [
     status: "done",
     area: "", year: "",
     desc: PENDIENTE,
-    link: "crtv-cajita-feliz-ferxxo.html",
-    image: "assets/img/crtvs/thumb/cajita-feliz-ferxxo.webp"
+    link: "/crtv/cajita-feliz-ferxxo/",
+    image: "/assets/img/crtvs/thumb/cajita-feliz-ferxxo.webp"
   },
   {
     id: "perreo-santo",
@@ -89,8 +90,8 @@ const PROJECTS = [
     status: "done",
     area: "", year: "",
     desc: PENDIENTE,
-    link: "crtv-perreo-santo.html",
-    image: "assets/img/crtvs/thumb/perreo-santo.webp"
+    link: "/crtv/perreo-santo/",
+    image: "/assets/img/crtvs/thumb/perreo-santo.webp"
   },
   {
     id: "dtmf-fc-barcelona",
@@ -99,8 +100,8 @@ const PROJECTS = [
     status: "done",
     area: "", year: "",
     desc: PENDIENTE,
-    link: "crtv-dtmf-fc-barcelona.html",
-    image: "assets/img/crtvs/thumb/dtmf-fc-barcelona.webp"
+    link: "/crtv/dtmf-fc-barcelona/",
+    image: "/assets/img/crtvs/thumb/dtmf-fc-barcelona.webp"
   },
   {
     id: "las-palabras-nos-hacen",
@@ -109,8 +110,8 @@ const PROJECTS = [
     status: "done",
     area: "", year: "",
     desc: PENDIENTE,
-    link: "crtv-las-palabras-nos-hacen.html",
-    image: "assets/img/crtvs/thumb/las-palabras-nos-hacen.webp"
+    link: "/crtv/las-palabras-nos-hacen/",
+    image: "/assets/img/crtvs/thumb/las-palabras-nos-hacen.webp"
   },
   {
     id: "cajita-feliz-dtmf",
@@ -119,8 +120,8 @@ const PROJECTS = [
     status: "done",
     area: "", year: "",
     desc: PENDIENTE,
-    link: "crtv-cajita-feliz-dtmf.html",
-    image: "assets/img/crtvs/thumb/cajita-feliz-dtmf.webp"
+    link: "/crtv/cajita-feliz-dtmf/",
+    image: "/assets/img/crtvs/thumb/cajita-feliz-dtmf.webp"
   },
   {
     id: "pokemor",
@@ -129,8 +130,8 @@ const PROJECTS = [
     status: "done",
     area: "", year: "",
     desc: PENDIENTE,
-    link: "crtv-pokemor.html",
-    image: "assets/img/crtvs/thumb/pokemor.webp"
+    link: "/crtv/pokemor/",
+    image: "/assets/img/crtvs/thumb/pokemor.webp"
   },
   {
     id: "happy-house",
@@ -149,8 +150,8 @@ const PROJECTS = [
     status: "done",
     area: "", year: "",
     desc: PENDIENTE,
-    link: "crtv-underdogs.html",
-    image: "assets/img/crtvs/thumb/underdogs.webp"
+    link: "/crtv/underdogs/",
+    image: "/assets/img/crtvs/thumb/underdogs.webp"
   },
   {
     id: "jordan-blessd",
@@ -159,8 +160,8 @@ const PROJECTS = [
     status: "done",
     area: "", year: "",
     desc: PENDIENTE,
-    link: "crtv-jordan-blessd.html",
-    image: "assets/img/crtvs/thumb/jordan-blessd.webp"
+    link: "/crtv/jordan-blessd/",
+    image: "/assets/img/crtvs/thumb/jordan-blessd.webp"
   },
   {
     // Antes "FORJA GAME IN REAL LIFE" (próximo). Ya está en producción:
@@ -174,8 +175,8 @@ const PROJECTS = [
       es: "Un RPG de hábitos y finanzas que se juega con tu vida real: cada hábito cumplido le pega a uno de los 6 Demonios que te frenan.",
       en: "A habits-and-money RPG played with your real life: every habit you keep hits one of the 6 Demons holding you back."
     },
-    link: "crtv-forja-player.html",
-    image: "assets/img/crtvs/thumb/forja-player.webp"
+    link: "/crtv/forja-player/",
+    image: "/assets/img/crtvs/thumb/forja-player.webp"
   },
 
   /* ---------- PRÓXIMOS (salen borrosos) ---------- */
@@ -226,8 +227,8 @@ const PROJECTS = [
    3) MARCAS (cinta de logos de CREATIVE DEALING)
    ------------------------------------------------------------
    Sube cada logo (PNG o SVG blanco, con fondo transparente) a
-   assets/img/brands/ y agrégalo aquí:
-     { name: "NOMBRE DE LA MARCA", logo: "assets/img/brands/marca.png" }
+   sitio/assets/img/brands/ y agrégalo aquí:
+     { name: "NOMBRE DE LA MARCA", logo: "/assets/img/brands/marca.png" }
    Si `logo` va vacío, se muestra el nombre en texto.
    ------------------------------------------------------------ */
 const BRANDS = [

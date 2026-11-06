@@ -3,7 +3,7 @@
    ------------------------------------------------------------
    Igual que projects.js: este es el archivo que tocas para poner el
    contenido real de cada clase. Guarda, haz push a main y el programa
-   (wakeup-program.html) y la página de venta (wakeup.html) se
+   (/wakeup/programa/) y la página de venta (/wakeup/) se
    actualizan solos.
 
    Campos de cada módulo:
@@ -38,7 +38,7 @@ const MODULES = [
     lesson: "La creatividad no es un talento de unos pocos: es un músculo que se durmió.\n\nTu cerebro filtra casi todo lo que ves para no saturarte. Por eso dejaste de \"ver\" tu calle, tu rutina, tu ciudad. No es que no haya nada interesante: es que el piloto automático te lo esconde.\n\nDespertar la mirada no es tener una idea genial hoy. Es volver a mirar. Tres cosas que vas a notar cuando lo hagas:\n- Texturas, sombras y colores que llevaban años frente a ti.\n- Cómo la gente usa las cosas de formas para las que no fueron hechas.\n- Que las ideas no llegan de la nada: llegan de lo que miras.",
     task: "Durante un día completo, cada vez que agarres el celular, antes de desbloquearlo, mira 5 segundos algo que tengas cerca — una textura, una sombra, un objeto — como si lo vieras por primera vez. Anota 5 cosas que \"viste\" hoy y que normalmente ignoras.",
     deliverable: "Tu lista de 5 cosas. No tiene que ser bonita ni profunda — solo real.",
-    media: ""   // p. ej. "https://youtu.be/XXXXXXXXXXX" o "assets/audio/modulo-01.mp3"
+    media: ""   // p. ej. "https://youtu.be/XXXXXXXXXXX" o "/assets/audio/wakeup/modulo-01.mp3"
   },
   {
     num: 2,

@@ -1,8 +1,8 @@
 /* ============================================================
    CREATV MYNDZ — GLOBAL CREATIVE DEALERS
    ------------------------------------------------------------
-   Lo usan index.html, proyectos.html y las páginas crtv-*.html.
-   (wakeup.html, lab.html y el resto siguen con styles.css.)
+   Lo usan /portada/, /proyectos/ y cada /crtv/<id>/.
+   (/wakeup/, /lab/ y el resto siguen con styles.css.)
 
    Tipografía: Inter Tight (licencia libre OFL, assets/fonts) — una
    grotesca apretada para titulares gigantes en mayúscula.
@@ -11,7 +11,7 @@
      .bg    la foto del cielo, nítida
      .fog   la misma foto ya desenfocada (vidrio empañado). Al mover el
             mouse o el dedo se "limpia" un círculo del vidrio y se ve
-            la foto nítida detrás (assets/minimal.js).
+            la foto nítida detrás (/assets/js/minimal.js).
      .tint  oscurece todo y le pone grano, para que la letra se lea.
    ============================================================ */
 
@@ -20,7 +20,7 @@
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
-  src: url("fonts/inter-tight-latin.woff2") format("woff2");
+  src: url("/assets/fonts/inter-tight-latin.woff2") format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
     U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
     U+2212, U+2215, U+FEFF, U+FFFD;
@@ -30,7 +30,7 @@
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
-  src: url("fonts/inter-tight-latin-ext.woff2") format("woff2");
+  src: url("/assets/fonts/inter-tight-latin-ext.woff2") format("woff2");
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
     U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
     U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
@@ -40,7 +40,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("fonts/space-mono-latin.woff2") format("woff2");
+  src: url("/assets/fonts/space-mono-latin.woff2") format("woff2");
 }
 
 :root {
@@ -96,11 +96,11 @@ button { font: inherit; color: inherit; }
 }
 .bg {
   z-index: -3;
-  background: var(--night) url("img/bg/cielo.webp") center / cover no-repeat;
+  background: var(--night) url("/assets/img/bg/cielo.webp") center / cover no-repeat;
 }
 .fog {
   z-index: -2;
-  background: url("img/bg/cielo-blur.webp") center / cover no-repeat;
+  background: url("/assets/img/bg/cielo-blur.webp") center / cover no-repeat;
   /* El agujero arranca cerrado (--r: 0px); minimal.js lo abre donde
      pasa el mouse o el dedo y lo deja cerrarse solo, como el vaho. */
   --x: 50%; --y: 50%; --r: 0px;
