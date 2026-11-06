@@ -165,6 +165,13 @@
       "icono": "assets/iconos/contacto.png",
       "abre": "contacto",
       "usuario": "dealers"
+    },
+    {
+      "id": "crtv-playground",
+      "titulo": "Creative Playground",
+      "icono": "assets/iconos/bloque-c.png",
+      "abre": "proyectos",
+      "usuario": "playground"
     }
   ],
   "buscaminas": {
@@ -433,7 +440,7 @@
         728,
         554
       ],
-      "creatvfy": [
+      "forja-player": [
         856,
         478
       ],
@@ -445,11 +452,11 @@
         857,
         630
       ],
-      "creative-dealers": [
+      "crtv-playground": [
         996,
         528
       ],
-      "snoopy-flops": [
+      "las-palabras-nos-hacen": [
         1100,
         405
       ],
@@ -457,29 +464,13 @@
         1110,
         604
       ],
-      "forja-player": [
-        990,
-        700
-      ],
-      "las-palabras-nos-hacen": [
+      "underdogs": [
         1216,
         508
       ],
       "proximamente": [
         1225,
         672
-      ],
-      "galadsy": [
-        1331,
-        454
-      ],
-      "underdogs": [
-        1349,
-        595
-      ],
-      "haad": [
-        1460,
-        525
       ]
     },
     "esquina": {
@@ -491,48 +482,48 @@
     "porUsuario": {
       "dealers": {
         "wake-up": [
-          790,
-          370
+          735,
+          402
         ],
         "oazis": [
-          930,
-          370
+          595,
+          484
         ],
         "cualquiera-puede-crear": [
-          1070,
-          370
+          728,
+          554
         ],
         "haad": [
-          1210,
-          370
+          856,
+          478
         ],
         "creatv-kids": [
-          720,
-          505
-        ],
-        "galadsy": [
-          860,
-          505
-        ],
-        "creative-dealers": [
-          1000,
-          505
-        ],
-        "contacto-acceso": [
-          1140,
-          505
+          620,
+          647
         ],
         "happy-house": [
-          1280,
-          505
+          857,
+          630
+        ],
+        "creative-dealers": [
+          996,
+          528
         ],
         "snoopy-flops": [
-          930,
-          640
+          1100,
+          405
+        ],
+        "contacto-acceso": [
+          1110,
+          604
+        ],
+        "galadsy": [
+          1331,
+          454
         ],
         "proximamente": [
-          1070,
-          640
+          1225,
+          672
         ]
       }
     }

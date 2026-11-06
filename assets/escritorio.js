@@ -196,7 +196,7 @@ function useOwnWall(file){
 function rng(seed){let h=1779033703^seed.length;for(let i=0;i<seed.length;i++){h=Math.imul(h^seed.charCodeAt(i),3432918353);h=h<<13|h>>>19;}return()=>{h=Math.imul(h^h>>>16,2246822507);h=Math.imul(h^h>>>13,3266489909);return((h^=h>>>16)>>>0)/4294967296;};}
 function deskSize(){return [innerWidth,innerHeight-cssPx("--mb")-cssPx("--tb")];}
 function layout(){
-  const [W,H]=deskSize(),moved=store.get("pos")||{},ph=phone();
+  const [W,H]=deskSize(),moved={},ph=phone();store.del("pos");
   const order=ITEMS.filter(p=>onDesk(p)&&(!p.fijo||phone())).sort((a,b)=>rng(a.id)()-rng(b.id)());
   // Zonas ocupadas: logo de arriba, íconos fijos (Explorers) y Duo
   const busy=[];
@@ -230,24 +230,25 @@ function layout(){
     const lg=$("#topLogo").getBoundingClientRect(),top=lg.bottom-cssPx("--mb")+10;
     const ex=document.querySelector("#fixedIcons .ico"),exR=ex?ex.getBoundingClientRect().right+10:0;
     const half=Math.max(1000-minX,maxX-1000);
-    const sc=Math.min(1,(W/2-exR)/half,(H-top-10)/(maxY-minY));
-    const cx=W/2,cy=Math.max(H/2,top-(minY-520)*sc);
+    // íconos grandes: hasta 1.35× en pantallas grandes; si la pantalla es angosta, mejor cuadrícula (abajo)
+    const sc=Math.min(1.35,(W-exR-24)/2/half,(H-top-10)/(maxY-minY));
+    if(sc<.95){document.documentElement.style.setProperty("--ico-s","1.1");return clusterLayout(order,W,H,{},busy,hit,1.1);}
+    const cx=Math.max(W/2,exR+(1000-minX)*sc),cy=Math.max(H/2,top-(minY-520)*sc);   // si Explorers estorba, el grupo se corre un poco a la derecha
     document.documentElement.style.setProperty("--ico-s",sc.toFixed(3));
     for(const p of refIds){
       let x,y;
       if(REF[p.id]){x=cx+(REF[p.id][0]-1000)*sc;y=cy+(REF[p.id][1]-520)*sc;}
       else{x=W-CORNER[p.id][0];y=H-CORNER[p.id][1];}
-      if(moved[p.id]){x=moved[p.id][0]*W;y=moved[p.id][1]*H;}
-      placedFixed.push({p,x,y});busy.push({l:x-62,t:y-60,r:x+62,b:y+64});
+      placedFixed.push({p,x,y});busy.push({l:x-62*sc,t:y-60*sc,r:x+62*sc,b:y+64*sc});
     }
   }else document.documentElement.style.setProperty("--ico-s","1");
   const rest=order.filter(p=>!REF[p.id]&&!CORNER[p.id]);
   if(!rest.length)return placedFixed;
   return placedFixed.concat(clusterLayout(rest,W,H,moved,busy,hit));
 }
-function clusterLayout(order,W,H,moved,busy,hit){
+function clusterLayout(order,W,H,moved,busy,hit,s=1){
   // Los íconos nuevos (sin posición fija): grupo centrado y ordenado; nada se monta encima de otra cosa.
-  const cw=136,chh=132,n=order.length,boxes=[...busy];
+  const cw=136*s,chh=132*s,n=order.length,boxes=[...busy];
   const maxCols=Math.max(3,Math.floor((W-110)/cw));
   let cols=Math.min(maxCols,Math.max(3,Math.ceil(Math.sqrt(n*1.8))));
   // filas parejas (ej. 12 → 4·4·4) y cada fila centrada; las filas impares van un poco corridas
@@ -396,7 +397,7 @@ function listWin(){
   const list=ITEMS.filter(p=>p.tipoItem!=="acceso"),n=list.length;
   const w=openWin("proyectos","Creative Playground",n?`<ul class="list">${list.map(p=>`<li><button data-open-p="${esc(p.id)}">${p.estado==="proximo"?iconHTML(D.proximoIcono||WARN,"li-ico"):p.portada?`<img src="${esc(p.portada)}" alt="">`:iconHTML(FOLDER,"li-ico")}<span><b>${esc(L(p.titulo))}</b><br><small>${esc(p.codigo||"")}${p.estado==="proximo"?" · "+t("inBuild"):""}</small></span></button></li>`).join("")}</ul>`
     :`<div class="soon">${iconHTML(FOLDER)}<b>${t("noProjects")}</b><span>${t("noProjectsTxt")}</span></div>`,
-    {icon:"assets/iconos/c-flotante.png",info:n+" "+t(n===1?"obj":"objs")});
+    {icon:"assets/iconos/bloque-c.png",info:n+" "+t(n===1?"obj":"objs")});
   reg(w,listWin);
 }
 function aboutWin(){
@@ -661,7 +662,7 @@ document.addEventListener("pointermove",e=>{if(!drag)return;const dx=e.clientX-d
   else{const floor=$("#taskbar").getBoundingClientRect().top-30;drag.el.style.left=Math.max(-200,drag.ox+dx)+"px";drag.el.style.top=Math.min(floor,Math.max(cssPx("--mb"),drag.oy+dy))+"px";}});
 document.addEventListener("pointerup",e=>{if(!drag)return;const d=drag;drag=null;
   if(d.kind==="ico"){d.el.classList.remove("drag");
-    if(d.moved){const pos=store.get("pos")||{},[W,H]=deskSize();pos[d.el.dataset.p]=[parseFloat(d.el.style.left)/W,parseFloat(d.el.style.top)/H];store.set("pos",pos);}
+    if(d.moved){/* el arrastre no se guarda: el escritorio siempre vuelve a su distribución */}
     // En toque se abre en el "click" (no aquí): si la ventana se abriera ya, el mismo toque
     // caería sobre un botón de la ventana recién abierta.
     else if(phone()||e.pointerType!=="mouse")tapOpen=d.el;}});

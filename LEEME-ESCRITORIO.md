@@ -256,3 +256,8 @@ En `data/escritorio.json → extras`, por `id` del CRTV:
   cambia solo para el usuario en el que estás. El logo de CREATV MYNDZ (arriba) vuelve a la pantalla de usuarios.
 - Creative Dealers (en el centro de su escritorio) abre la lista de todo lo de ese escritorio. Explorers queda
   vacío por ahora (será una exploración creativa).
+- Los dos escritorios usan la misma forma de la referencia (`distribucionPC`), con el bloque de la C al centro:
+  en Playground abre todos los CRTV, en Dealers todo lo de Dealers. Los íconos crecen hasta 1,35× en pantallas
+  grandes; en pantallas angostas (tablet, ventanas chicas) pasan a una cuadrícula ordenada sin achicarse.
+- Arrastrar un ícono ya no se guarda: al recargar, el escritorio vuelve a su distribución.
+- La pantalla de usuarios ya no tiene las bandas azules de arriba y abajo.
