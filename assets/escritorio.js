@@ -52,7 +52,7 @@ const I18N={
       photos:"fotos",
       wall_aria:"Cambiar fondo",wall_title:"Personalizar · Fondo de pantalla",wall_intro:"Escoge tu fondo de pantalla.",walls:"fondos",su_bar:"Únete a CREATV MYNDZ",su_title:"¿QUIERES VER MÁS CREATIVIDAD?",su_text:"Regístrate con tu correo y te mandamos los nuevos proyectos, ideas y lanzamientos.",
       su_ph:"tu@correo.com",su_btn:"Registrarme",su_later:"Ahora no",su_sending:"Enviando…",su_ok:"¡Listo! Ya eres parte de CREATV MYNDZ.",su_err:"No se pudo enviar. Intenta de nuevo.",su_bad:"Escribe un correo válido.",
-      lg_title:"Para empezar, haz clic en tu usuario",lg_hint:"Después de entrar puedes cambiar de usuario desde el menú Inicio.",sb_tap:"Toca para volver",s_user:"<u>C</u>ambiar de usuario",
+      lg_title:"Para empezar, haz clic en tu usuario",lg_hint:"Después de entrar puedes cambiar de usuario desde el menú Inicio.",sb_tap:"Toca para volver",s_user:"<u>C</u>ambiar de usuario",s_user_aria:"CREATV MYNDZ · Cambiar de usuario",
       pw_bar:"Advertencia",pw_title:"¿ESTÁS EN EL BAÑO?",pw_text:"NUESTRA WEB ES MEJOR EN EL PC. ¡VE A VERLA!",pw_ok:"Ok, ya voy",pw_stay:"Seguir aquí"},
   en:{m_projects:"<u>P</u>rojects",m_wall:"<u>W</u>allpaper",about:"Coming soon: CREATV MYNDZ",lang_aria:"Change language (Español)",desk:"Desktop",
       empty:"Projects will show up here, one by one.",start:"Start",programs:"Programs",
@@ -85,7 +85,7 @@ const I18N={
       photos:"photos",
       wall_aria:"Change wallpaper",wall_title:"Personalize · Wallpaper",wall_intro:"Choose your wallpaper.",walls:"wallpapers",su_bar:"Join CREATV MYNDZ",su_title:"WANT TO SEE MORE CREATIVITY?",su_text:"Sign up with your email and we'll send you new projects, ideas and launches.",
       su_ph:"you@email.com",su_btn:"Sign me up",su_later:"Not now",su_sending:"Sending…",su_ok:"Done! You're part of CREATV MYNDZ now.",su_err:"Couldn't send it. Please try again.",su_bad:"Type a valid email.",
-      lg_title:"To begin, click your user name",lg_hint:"Once inside, you can switch users from the Start menu.",sb_tap:"Tap to go back",s_user:"<u>S</u>witch user",
+      lg_title:"To begin, click your user name",lg_hint:"Once inside, you can switch users from the Start menu.",sb_tap:"Tap to go back",s_user:"<u>S</u>witch user",s_user_aria:"CREATV MYNDZ · Switch user",
       pw_bar:"Warning",pw_title:"ARE YOU IN THE BATHROOM?",pw_text:"OUR WEBSITE IS BETTER ON A PC. GO CHECK IT OUT!",pw_ok:"Ok, on my way",pw_stay:"Stay here"}
 };
 const t=k=>I18N[lang][k]??I18N.es[k]??"";
@@ -142,11 +142,11 @@ const onDesk=p=>!p.carpeta||p.tambienEnEscritorio;
 function blurFor(f){const lvl=store.get("blur")||"suave",base=f?.blur??10;return lvl==="sin"?0:lvl==="fuerte"?Math.min(32,Math.max(14,base*2)):base;}
 // El fondo lo elige CREATV MYNDZ en data/escritorio.json ("fondo"); los visitantes ya no lo cambian.
 // El visitante cambia el fondo con el pincel (arriba a la derecha); se guarda en su navegador.
-function currentFondo(){const id=store.get("fondo");return D.fondos.find(x=>x.id===id)||D.fondos.find(x=>x.id===D.fondo)||D.fondos[0];}
+function currentFondo(){const id=store.get("fondo-"+USER)||((D.usuarios?.lista||[]).find(u=>u.id===USER)||{}).fondo;return D.fondos.find(x=>x.id===id)||D.fondos.find(x=>x.id===D.fondo)||D.fondos[0];}
 // Ventana "Personalizar": muestra todos los fondos y el visitante escoge uno
 const mini=src=>src.replace("assets/fondos/","assets/fondos/mini/");
 function setWall(id){const f=D.fondos.find(x=>x.id===id);if(!f)return;
-  const im=new Image();im.onload=()=>{store.set("fondo",f.id);applyWall();document.querySelectorAll("[data-wall]").forEach(b=>b.classList.toggle("on",b.dataset.wall===f.id));};im.src=f.imagen;}
+  const im=new Image();im.onload=()=>{store.set("fondo-"+USER,f.id);applyWall();document.querySelectorAll("[data-wall]").forEach(b=>b.classList.toggle("on",b.dataset.wall===f.id));};im.src=f.imagen;}
 function wallWin(){
   const cur=currentFondo()?.id;
   const w=openWin("personalizar",t("wall_title"),`<p class="wp-intro">${t("wall_intro")}</p><div class="wallpicks">${D.fondos.map(f=>`<button class="wpick${f.id===cur?" on":""}" data-wall="${esc(f.id)}"><img src="${esc(mini(f.imagen))}" alt="" loading="lazy" onerror="this.src='${esc(f.imagen)}'"><span>${esc(L(f.nombre))}</span></button>`).join("")}</div>`,
@@ -154,7 +154,7 @@ function wallWin(){
   reg(w,wallWin);
 }
 function nextWall(){const i=D.fondos.indexOf(currentFondo()),f=D.fondos[(i+1)%D.fondos.length];if(!f)return;
-  const im=new Image();im.onload=()=>{store.set("fondo",f.id);applyWall();};im.src=f.imagen;}
+  const im=new Image();im.onload=()=>{store.set("fondo-"+USER,f.id);applyWall();};im.src=f.imagen;}
 function applyWall(){
   const f=currentFondo(),img=f?.imagen;
   $("#wall").style.backgroundImage=img?`url("${img}")`:"none";
@@ -434,7 +434,7 @@ function showLogin(){closeMenus();document.querySelectorAll(".win").forEach(clos
 function enterAs(id){
   USER=id;try{sessionStorage.setItem("cm-user",id)}catch(e){}
   const btn=document.querySelector(`.lg-user[data-user="${CSS.escape(id)}"]`);btn&&btn.classList.add("picked");
-  setTimeout(()=>{$("#login").hidden=true;buildItems();renderDesk();},450);
+  setTimeout(()=>{$("#login").hidden=true;buildItems();applyWall();renderDesk();},450);
 }
 $("#lgUsers").addEventListener("click",e=>{const b=e.target.closest("[data-user]");if(b)enterAs(b.dataset.user);});
 function boot(){
@@ -480,7 +480,11 @@ function myndWin(p){
 }
 // ---------- Creative Dealers
 function dealersWin(p){
-  const w=openWin("a:"+p.id,"Creative Dealers",`<div class="soon">${iconHTML(p.icono)}<b>Creative Dealers</b><span>${esc(L(p.texto))}</span>${p.enlace_interno?`<a class="btn95" href="${esc(p.enlace_interno)}">${t("dealersGo")}</a>`:""}</div>`,{icon:p.icono});
+  // Muestra todo lo del escritorio de Creative Dealers en una lista, como hacía Explorers
+  const list=ITEMS.filter(x=>x.id!==p.id&&x.usuario==="dealers"),n=list.length;
+  const ico=x=>x.icono?iconHTML(x.icono,"li-ico"):x.portada?`<img src="${esc(x.portada)}" alt="">`:iconHTML(FOLDER,"li-ico");
+  const w=openWin("a:"+p.id,"Creative Dealers",`<p class="wp-intro">${esc(L(p.texto))}</p><ul class="list">${list.map(x=>`<li><button data-open-p="${esc(x.id)}">${ico(x)}<span><b>${esc(L(x.titulo))}</b></span></button></li>`).join("")}</ul>`,
+    {icon:p.icono,info:n+" "+t(n===1?"obj":"objs")});
   reg(w,()=>dealersWin(p));
 }
 
@@ -675,7 +679,7 @@ document.addEventListener("click",e=>{
   const a=e.target.closest("[data-app]");if(a){closeMenus();const app=D.dock.find(x=>x&&x.id===a.dataset.app);app&&appWin(app);return;}
   const ao=e.target.closest("[data-app-open]");if(ao){closeMenus();const app=D.dock.find(x=>x&&x.id===ao.dataset.appOpen);app&&appWin(app);return;}
   const op=e.target.closest("[data-open-p]");if(op){closeMenus();if(op.dataset.openP==="mynd"){myndWin({id:"mynd",icono:"assets/iconos/aviso.png"});return;}openItem(itemById(op.dataset.openP));return;}
-  const fm=e.target.closest("[data-fondo]");if(fm){store.del("mio");store.set("fondo",fm.dataset.fondo);applyWall();closeMenus();return;}
+  const fm=e.target.closest("[data-fondo]");if(fm){store.del("mio");store.set("fondo-"+USER,fm.dataset.fondo);applyWall();closeMenus();return;}
   if(e.target.closest("[data-subir]")){closeMenus();$("#wallFile").click();return;}
   if(e.target.closest("[data-quitar]")){store.del("mio");applyWall();closeMenus();return;}
   const bl=e.target.closest("[data-blur]");if(bl){store.set("blur",bl.dataset.blur);applyWall();return;}

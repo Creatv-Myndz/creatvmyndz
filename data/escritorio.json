@@ -62,9 +62,13 @@
       "id": "creative-playground",
       "titulo": "Explorers",
       "icono": "assets/iconos/c-flotante.png",
-      "abre": "proyectos",
+      "abre": "carpeta",
       "fijo": true,
-      "usuario": "playground"
+      "usuario": "playground",
+      "texto": {
+        "es": "Exploración creativa. Muy pronto.",
+        "en": "Creative exploration. Coming soon."
+      }
     },
     {
       "id": "buscaminas-acceso",
@@ -85,7 +89,6 @@
         "es": "Creatividad universal aplicada a marcas globales. Tomamos la cultura, la convertimos en ideas y las materializamos para marcas que le hablan al mundo.",
         "en": "Universal creativity applied to global brands. We take culture, turn it into ideas and materialize them for brands that speak to the world."
       },
-      "enlace_interno": "portada.html#dealing",
       "usuario": "dealers"
     },
     {
@@ -144,7 +147,7 @@
         "es": "HAAD: proyectos artísticos. Muy pronto.",
         "en": "HAAD: art projects. Coming soon."
       },
-      "usuario": "playground"
+      "usuario": "dealers"
     },
     {
       "id": "oazis",
@@ -328,7 +331,8 @@
     },
     "snoopy-flops": {
       "titulo": "Snoopy Flops",
-      "icono": "assets/iconos/snoopy.png"
+      "icono": "assets/iconos/snoopy.png",
+      "usuario": "dealers"
     },
     "forja-player": {
       "titulo": "Forja Player",
@@ -486,59 +490,69 @@
     },
     "porUsuario": {
       "dealers": {
-        "creative-dealers": [
-          760,
-          430
-        ],
         "wake-up": [
-          900,
-          400
+          790,
+          370
         ],
         "oazis": [
-          1040,
-          430
+          930,
+          370
         ],
         "cualquiera-puede-crear": [
-          1180,
-          410
+          1070,
+          370
         ],
-        "proximamente": [
-          690,
-          580
+        "haad": [
+          1210,
+          370
         ],
         "creatv-kids": [
-          830,
-          565
+          720,
+          505
         ],
         "galadsy": [
-          975,
-          560
+          860,
+          505
+        ],
+        "creative-dealers": [
+          1000,
+          505
         ],
         "contacto-acceso": [
-          1115,
-          580
+          1140,
+          505
         ],
         "happy-house": [
-          1250,
-          545
+          1280,
+          505
+        ],
+        "snoopy-flops": [
+          930,
+          640
+        ],
+        "proximamente": [
+          1070,
+          640
         ]
       }
     }
   },
   "usuarios": {
-    "_comentario": "Al entrar se escoge un usuario. Cada ícono (accesos y extras de los CRTV) dice en \"usuario\" en qué escritorio va: \"playground\", \"dealers\" o \"ambos\". Los CRTV sin \"usuario\" van en playground; los accesos sin \"usuario\" van en ambos.",
+    "_comentario": "Al entrar se escoge un usuario. Cada ícono (accesos y extras de los CRTV) dice en \"usuario\" en qué escritorio va: \"playground\", \"dealers\" o \"ambos\". Los CRTV sin \"usuario\" van en playground; los accesos sin \"usuario\" van en ambos. Cada usuario tiene su propio fondo inicial (\"fondo\"); el pincel lo cambia solo para ese usuario.",
     "lista": [
       {
         "id": "playground",
         "nombre": "Creative Playground",
         "icono": "assets/iconos/playground.png",
-        "color": "#ff4fb2"
+        "color": "#ff4fb2",
+        "fondo": "resbaladero"
       },
       {
         "id": "dealers",
         "nombre": "Creative Dealers",
         "icono": "assets/iconos/bloque-c.png",
-        "color": "#ffd21f"
+        "color": "#ffd21f",
+        "fondo": "colina"
       }
     ]
   }

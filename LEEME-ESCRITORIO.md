@@ -252,3 +252,7 @@ En `data/escritorio.json → extras`, por `id` del CRTV:
 - Distribución en PC: `distribucionPC.posiciones` (Playground) y `distribucionPC.porUsuario.dealers` (Dealers).
 - Lo que todavía no está listo (CRTV próximos, Cualquiera puede crear, CREATV Kids…) abre la pantalla azul
   **PLEASE STAND BY** con el nombre y un mensaje; se cierra tocando.
+- Cada usuario tiene su fondo: `usuarios.lista[].fondo` (Playground = Resbaladero, Dealers = Colina). El pincel lo
+  cambia solo para el usuario en el que estás. El logo de CREATV MYNDZ (arriba) vuelve a la pantalla de usuarios.
+- Creative Dealers (en el centro de su escritorio) abre la lista de todo lo de ese escritorio. Explorers queda
+  vacío por ahora (será una exploración creativa).
