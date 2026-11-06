@@ -52,7 +52,7 @@ const I18N={
       photos:"fotos",
       wall_aria:"Cambiar fondo",wall_title:"Personalizar · Fondo de pantalla",wall_intro:"Escoge tu fondo de pantalla.",walls:"fondos",su_bar:"Únete a CREATV MYNDZ",su_title:"¿QUIERES VER MÁS CREATIVIDAD?",su_text:"Regístrate con tu correo y te mandamos los nuevos proyectos, ideas y lanzamientos.",
       su_ph:"tu@correo.com",su_btn:"Registrarme",su_later:"Ahora no",su_sending:"Enviando…",su_ok:"¡Listo! Ya eres parte de CREATV MYNDZ.",su_err:"No se pudo enviar. Intenta de nuevo.",su_bad:"Escribe un correo válido.",
-      lg_title:"ESCOGE TU USUARIO",lg_hint:"TOCA UN USUARIO PARA ENTRAR",sb_tap:"Toca para volver",s_user:"<u>C</u>ambiar de usuario",
+      lg_title:"Para empezar, haz clic en tu usuario",lg_hint:"Después de entrar puedes cambiar de usuario desde el menú Inicio.",sb_tap:"Toca para volver",s_user:"<u>C</u>ambiar de usuario",
       pw_bar:"Advertencia",pw_title:"¿ESTÁS EN EL BAÑO?",pw_text:"NUESTRA WEB ES MEJOR EN EL PC. ¡VE A VERLA!",pw_ok:"Ok, ya voy",pw_stay:"Seguir aquí"},
   en:{m_projects:"<u>P</u>rojects",m_wall:"<u>W</u>allpaper",about:"Coming soon: CREATV MYNDZ",lang_aria:"Change language (Español)",desk:"Desktop",
       empty:"Projects will show up here, one by one.",start:"Start",programs:"Programs",
@@ -85,7 +85,7 @@ const I18N={
       photos:"photos",
       wall_aria:"Change wallpaper",wall_title:"Personalize · Wallpaper",wall_intro:"Choose your wallpaper.",walls:"wallpapers",su_bar:"Join CREATV MYNDZ",su_title:"WANT TO SEE MORE CREATIVITY?",su_text:"Sign up with your email and we'll send you new projects, ideas and launches.",
       su_ph:"you@email.com",su_btn:"Sign me up",su_later:"Not now",su_sending:"Sending…",su_ok:"Done! You're part of CREATV MYNDZ now.",su_err:"Couldn't send it. Please try again.",su_bad:"Type a valid email.",
-      lg_title:"CHOOSE YOUR USER",lg_hint:"TAP A USER TO LOG IN",sb_tap:"Tap to go back",s_user:"<u>S</u>witch user",
+      lg_title:"To begin, click your user name",lg_hint:"Once inside, you can switch users from the Start menu.",sb_tap:"Tap to go back",s_user:"<u>S</u>witch user",
       pw_bar:"Warning",pw_title:"ARE YOU IN THE BATHROOM?",pw_text:"OUR WEBSITE IS BETTER ON A PC. GO CHECK IT OUT!",pw_ok:"Ok, on my way",pw_stay:"Stay here"}
 };
 const t=k=>I18N[lang][k]??I18N.es[k]??"";
@@ -426,7 +426,9 @@ $("#standby").addEventListener("click",()=>{$("#standby").hidden=true;});
 // ---------- Arranque y selección de usuario
 function renderLogin(){
   const list=(D.usuarios&&D.usuarios.lista)||[];
-  $("#lgUsers").innerHTML=list.map((u,i)=>`<button class="lg-user" data-user="${esc(u.id)}" style="--c:${esc(u.color||"#3a8bff")};--d:${i*.12}s"><span class="lg-card"><img src="${esc(u.icono)}" alt=""></span><span class="lg-name">${esc(L(u.nombre))}</span></button>`).join("");
+  $("#lgUsers").innerHTML=list.map(u=>`<button class="lg-user" data-user="${esc(u.id)}" style="--c:${esc(u.color||"#3a8bff")}"><span class="lg-card"><img src="${esc(u.icono)}" alt=""></span><span class="lg-name">${esc(L(u.nombre))}</span></button>`).join("");
+  // el fondo de la pantalla de usuarios es el mismo fondo del escritorio
+  const f=currentFondo();$("#login .lg-bg").style.backgroundImage=f?`url("${f.imagen}")`:"none";
 }
 function showLogin(){closeMenus();document.querySelectorAll(".win").forEach(closeWin);renderLogin();$("#login").hidden=false;}
 function enterAs(id){

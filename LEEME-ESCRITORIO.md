@@ -245,7 +245,7 @@ En `data/escritorio.json → extras`, por `id` del CRTV:
 ## Arranque, usuarios y "Please stand by"
 
 - Al abrir la página: pantalla de arranque negra con el logo y "OS" (una vez por visita; se salta con un clic),
-  y después **Escoge tu usuario**: Creative Playground o Creative Dealers (`usuarios.lista` en el JSON).
+  y después la pantalla de bienvenida estilo Windows XP (sobre el mismo fondo del escritorio) para escoger usuario: Creative Playground o Creative Dealers (`usuarios.lista` en el JSON).
 - Cada ícono dice en `"usuario"` en qué escritorio va: `"playground"`, `"dealers"` o `"ambos"`. Los CRTV sin
   `usuario` van en Playground; los accesos sin `usuario`, en los dos. Buscaminas y Creando.. están en los dos.
   La barra de abajo es la misma siempre. "Cambiar de usuario" está en el menú Inicio.

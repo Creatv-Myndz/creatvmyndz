@@ -73,9 +73,17 @@
 
 <!-- ===== ESCOGER USUARIO (selección de personaje) ===== -->
 <div id="login" hidden role="dialog" aria-modal="true" aria-labelledby="lgTitle">
-  <h1 id="lgTitle" class="lg-title" data-i18n="lg_title">ESCOGE TU USUARIO</h1>
-  <div class="lg-users" id="lgUsers"></div>
-  <p class="lg-hint" data-i18n="lg_hint">TOCA UN USUARIO PARA ENTRAR</p>
+  <div class="lg-bg" aria-hidden="true"></div>
+  <div class="lg-top" aria-hidden="true"></div>
+  <div class="lg-mid">
+    <div class="lg-left">
+      <img src="assets/img/logo-creatv-blanco.webp" alt="CREATV MYNDZ" width="700" height="297">
+      <p id="lgTitle" class="lg-title" data-i18n="lg_title">Para empezar, haz clic en tu usuario</p>
+    </div>
+    <div class="lg-sep" aria-hidden="true"></div>
+    <div class="lg-users" id="lgUsers"></div>
+  </div>
+  <div class="lg-bottom"><span data-i18n="lg_hint">Después de entrar puedes cambiar de usuario desde el menú Inicio.</span></div>
 </div>
 
 <!-- ===== PLEASE STAND BY (para lo que viene pronto) ===== -->
