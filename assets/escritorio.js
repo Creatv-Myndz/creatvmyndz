@@ -141,8 +141,9 @@ const onDesk=p=>!p.carpeta||p.tambienEnEscritorio;
 // ---------- fondo de pantalla
 function blurFor(f){const lvl=store.get("blur")||"suave",base=f?.blur??10;return lvl==="sin"?0:lvl==="fuerte"?Math.min(32,Math.max(14,base*2)):base;}
 // El fondo lo elige CREATV MYNDZ en data/escritorio.json ("fondo"); los visitantes ya no lo cambian.
-// El visitante cambia el fondo con el pincel (arriba a la derecha); se guarda en su navegador.
-function currentFondo(){const id=store.get("fondo-"+USER)||((D.usuarios?.lista||[]).find(u=>u.id===USER)||{}).fondo;return D.fondos.find(x=>x.id===id)||D.fondos.find(x=>x.id===D.fondo)||D.fondos[0];}
+// Por ahora cada usuario tiene su fondo fijo (usuarios.lista[].fondo). El cambio de fondo está guardado para después.
+["fondo-playground","fondo-dealers","fondo-","mio"].forEach(k=>store.del(k));   // limpia fondos que se habían escogido antes
+function currentFondo(){const id=((D.usuarios?.lista||[]).find(u=>u.id===USER)||{}).fondo;return D.fondos.find(x=>x.id===id)||D.fondos.find(x=>x.id===D.fondo)||D.fondos[0];}
 // Ventana "Personalizar": muestra todos los fondos y el visitante escoge uno
 const mini=src=>src.replace("assets/fondos/","assets/fondos/mini/");
 function setWall(id){const f=D.fondos.find(x=>x.id===id);if(!f)return;

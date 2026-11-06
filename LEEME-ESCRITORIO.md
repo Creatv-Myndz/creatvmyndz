@@ -281,3 +281,8 @@ En `data/escritorio.json → extras`, por `id` del CRTV:
 - Cada usuario tiene un texto pequeño debajo (`sub` en `usuarios.lista` de `data/escritorio.json`): Playground "Proyectos creativos", Dealers "Empresas creativas" (con inglés).
 - Fondos por defecto: Playground = colina, Dealers = pajaros.
 - En PC el ícono central (Creative Playground / Creative Dealers) queda siempre en la mitad de la pantalla.
+
+## Fondos fijos por usuario (cambio de fondo guardado para después)
+- Se quitó el botón del pincel: los visitantes ya no pueden cambiar el fondo.
+- Cada usuario usa su fondo de `usuarios.lista[].fondo` (Playground = colina, Dealers = pajaros).
+- Todos los fondos siguen guardados en `data/escritorio.json` → `fondos` y en `assets/fondos/`, y el código del menú de fondos sigue en `escritorio.js`. Para volver a activarlo: devolver el botón `#wallBtn` en `index.html` y que `currentFondo()` vuelva a leer `store.get("fondo-"+USER)`.
