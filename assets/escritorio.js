@@ -264,10 +264,13 @@ function clusterLayout(order,W,H,moved,busy,hit,s=1){
   };
   const free=c=>c.every(([x,y])=>y<H-60&&x>58&&x<W-58&&!boxes.some(o=>hit(o,{l:x-60,t:y-58,r:x+60,b:y+62})));
   // prueba columnas y, si algo cae sobre el logo o una esquina, baja todo el grupo un poco
+  let ok=false;
   search:for(let cc=cols;cc<=maxCols+1;cc++){
-    for(let dy=0;dy<=200;dy+=20){cells=build(Math.min(cc,maxCols),dy);if(free(cells))break search;}
-    for(let dy=-20;dy>=-120;dy-=20){cells=build(Math.min(cc,maxCols),dy);if(free(cells))break search;}
+    for(let dy=0;dy<=200;dy+=20){cells=build(Math.min(cc,maxCols),dy);if(free(cells)){ok=true;break search;}}
+    for(let dy=-20;dy>=-120;dy-=20){cells=build(Math.min(cc,maxCols),dy);if(free(cells)){ok=true;break search;}}
   }
+  // si no cabe sin montarse sobre el logo, achica un poco los íconos y vuelve a intentar
+  if(!ok&&s>.8&&!phone()){document.documentElement.style.setProperty("--ico-s",(s-.1).toFixed(2));return clusterLayout(order,W,H,moved,busy,hit,s-.1);}
   // orden de lectura (arriba-abajo, izquierda-derecha) con el orden "barajado" fijo de los íconos
   cells.sort((a,b)=>a[1]-b[1]||a[0]-b[0]);
   return order.map((p,k)=>{
@@ -304,9 +307,7 @@ function renderDock(){
   markDock();
 }
 const bar=$("#taskbar");
-bar.addEventListener("pointermove",e=>{if(e.pointerType!=="mouse"||phone())return;
-  bar.querySelectorAll(".app,#startBtn").forEach(el=>{const r=el.getBoundingClientRect(),d=Math.abs(e.clientX-(r.left+r.width/2));el.style.transform=`scale(${(1+Math.max(0,1-d/140)*.5).toFixed(3)})`;});});
-bar.addEventListener("pointerleave",()=>bar.querySelectorAll(".app,#startBtn").forEach(el=>el.style.transform=""));
+// (sin efecto de agrandar los íconos de la barra al pasar el mouse)
 
 // ---------- ventanas
 let zTop=25,openCount=0;

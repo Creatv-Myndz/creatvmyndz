@@ -147,7 +147,7 @@
         "es": "HAAD: proyectos artísticos. Muy pronto.",
         "en": "HAAD: art projects. Coming soon."
       },
-      "usuario": "dealers"
+      "usuario": "playground"
     },
     {
       "id": "oazis",
@@ -379,15 +379,6 @@
       "enlace": "https://www.youtube.com/@camilovegga"
     },
     {
-      "id": "fotos",
-      "nombre": {
-        "es": "Fotos",
-        "en": "Photos"
-      },
-      "icono": "assets/iconos/fotos.png",
-      "collage": true
-    },
-    {
       "id": "por-amor-al-arte",
       "nombre": "Por Amor al Arte",
       "icono": "assets/iconos/por-amor-al-arte.png",
@@ -434,47 +425,51 @@
     "posiciones": {
       "cajita-feliz-ferxxo": [
         735,
-        402
+        367
       ],
       "perreo-santo": [
         595,
-        484
+        473
       ],
       "pokemor": [
         728,
-        554
+        564
       ],
       "forja-player": [
         856,
-        478
+        465
       ],
       "dtmf-fc-barcelona": [
         620,
-        647
+        685
       ],
       "cajita-feliz-dtmf": [
         857,
-        630
+        663
       ],
       "crtv-playground": [
         996,
-        528
+        530
       ],
       "las-palabras-nos-hacen": [
         1100,
-        405
+        370
       ],
       "jordan-blessd": [
         1110,
-        604
+        629
       ],
       "underdogs": [
         1216,
-        508
+        504
       ],
       "proximamente": [
         1225,
-        672
+        718
+      ],
+      "haad": [
+        1300,
+        572
       ]
     },
     "esquina": {
@@ -487,47 +482,43 @@
       "dealers": {
         "wake-up": [
           735,
-          402
+          367
         ],
         "oazis": [
           595,
-          484
+          473
         ],
         "cualquiera-puede-crear": [
           728,
-          554
-        ],
-        "haad": [
-          856,
-          478
+          564
         ],
         "creatv-kids": [
           620,
-          647
+          685
         ],
         "happy-house": [
           857,
-          630
+          663
         ],
         "creative-dealers": [
           996,
-          528
+          530
         ],
         "snoopy-flops": [
           1100,
-          405
+          370
         ],
         "contacto-acceso": [
           1110,
-          604
+          629
         ],
         "galadsy": [
-          1331,
-          454
+          856,
+          465
         ],
         "proximamente": [
           1225,
-          672
+          718
         ]
       }
     }

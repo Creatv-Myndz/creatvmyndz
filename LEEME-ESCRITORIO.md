@@ -289,3 +289,11 @@ En `data/escritorio.json → extras`, por `id` del CRTV:
 
 ## Transición al entrar a un usuario
 - Se quitó la pantalla "bienvenido". Al escoger un usuario se muestra la misma pantalla de arranque (logo en fondo negro, barra de carga y "Creando...") por ~1.5 s y luego aparece el escritorio.
+
+## HAAD a Playground, Oazis pixelado, barra y pantalla de usuarios
+- HAAD pasó al escritorio de Creative Playground (`"usuario": "playground"`).
+- Nuevo ícono pixelado de Oazis (palmera y arena): `assets/iconos/oazis.png`.
+- Íconos más separados en PC (más espacio entre filas).
+- Barra de abajo: se quitó Fotos (Por amor al arte queda en la mitad) y se quitó el efecto de agrandar al pasar el mouse.
+- Pantalla de usuarios: sin estrellas; fondo negro con transparencia y textura envejecida pixelada animada.
+- Si en pantallas medianas los íconos no caben sin tocar el logo, se achican un poco automáticamente.
