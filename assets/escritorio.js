@@ -52,7 +52,7 @@ const I18N={
       photos:"fotos",
       wall_aria:"Cambiar fondo",wall_title:"Personalizar · Fondo de pantalla",wall_intro:"Escoge tu fondo de pantalla.",walls:"fondos",su_bar:"Únete a CREATV MYNDZ",su_title:"¿QUIERES VER MÁS CREATIVIDAD?",su_text:"Regístrate con tu correo y te mandamos los nuevos proyectos, ideas y lanzamientos.",
       su_ph:"tu@correo.com",su_btn:"Registrarme",su_later:"Ahora no",su_sending:"Enviando…",su_ok:"¡Listo! Ya eres parte de CREATV MYNDZ.",su_err:"No se pudo enviar. Intenta de nuevo.",su_bad:"Escribe un correo válido.",
-      lg_title:"Para empezar, haz clic en tu usuario",lg_hint:"Después de entrar puedes cambiar de usuario desde el menú Inicio.",sb_tap:"Toca para volver",s_user:"<u>C</u>ambiar de usuario",s_user_aria:"CREATV MYNDZ · Cambiar de usuario",
+      lg_title:"Para empezar, haz clic en tu usuario",wl_text:"bienvenido",lg_hint:"Después de entrar puedes cambiar de usuario desde el menú Inicio.",sb_tap:"Toca para volver",s_user:"<u>C</u>ambiar de usuario",s_user_aria:"CREATV MYNDZ · Cambiar de usuario",
       pw_bar:"Advertencia",pw_title:"¿ESTÁS EN EL BAÑO?",pw_text:"NUESTRA WEB ES MEJOR EN EL PC. ¡VE A VERLA!",pw_ok:"Ok, ya voy",pw_stay:"Seguir aquí"},
   en:{m_projects:"<u>P</u>rojects",m_wall:"<u>W</u>allpaper",about:"Coming soon: CREATV MYNDZ",lang_aria:"Change language (Español)",desk:"Desktop",
       empty:"Projects will show up here, one by one.",start:"Start",programs:"Programs",
@@ -85,7 +85,7 @@ const I18N={
       photos:"photos",
       wall_aria:"Change wallpaper",wall_title:"Personalize · Wallpaper",wall_intro:"Choose your wallpaper.",walls:"wallpapers",su_bar:"Join CREATV MYNDZ",su_title:"WANT TO SEE MORE CREATIVITY?",su_text:"Sign up with your email and we'll send you new projects, ideas and launches.",
       su_ph:"you@email.com",su_btn:"Sign me up",su_later:"Not now",su_sending:"Sending…",su_ok:"Done! You're part of CREATV MYNDZ now.",su_err:"Couldn't send it. Please try again.",su_bad:"Type a valid email.",
-      lg_title:"To begin, click your user name",lg_hint:"Once inside, you can switch users from the Start menu.",sb_tap:"Tap to go back",s_user:"<u>S</u>witch user",s_user_aria:"CREATV MYNDZ · Switch user",
+      lg_title:"To begin, click your user name",wl_text:"welcome",lg_hint:"Once inside, you can switch users from the Start menu.",sb_tap:"Tap to go back",s_user:"<u>S</u>witch user",s_user_aria:"CREATV MYNDZ · Switch user",
       pw_bar:"Warning",pw_title:"ARE YOU IN THE BATHROOM?",pw_text:"OUR WEBSITE IS BETTER ON A PC. GO CHECK IT OUT!",pw_ok:"Ok, on my way",pw_stay:"Stay here"}
 };
 const t=k=>I18N[lang][k]??I18N.es[k]??"";
@@ -125,7 +125,7 @@ function fromPlayground(){
   }));
 }
 // Usuario (escritorio) escogido al entrar: "playground" o "dealers". Cada ícono dice en "usuario" dónde va.
-let USER=(()=>{try{return sessionStorage.getItem("cm-user")||""}catch(e){return ""}})();
+let USER="";   // siempre se entra por la pantalla de usuarios
 const forUser=p=>{const u=p.usuario||(p.tipoItem==="acceso"?"ambos":"playground");return u==="ambos"||u===USER||!USER;};
 function buildItems(){
   ITEMS=[
@@ -374,6 +374,7 @@ function openItem(p){
     if(p.juego==="buscaminas"){minesWin();return;}
     standBy(L(p.titulo),L(p.texto)||t("soon"));return;
   }
+  if(p.enlaceDirecto){window.open(p.enlaceDirecto,"_blank","noopener");return;}
   if(p.estado==="proximo"||p.estado==="sin-material"){
     standBy(L(p.titulo),t(p.estado==="proximo"?"soonMsg":"noMaterial"));return;
   }
@@ -401,7 +402,7 @@ function listWin(){
   reg(w,listWin);
 }
 function aboutWin(){
-  const w=openWin("sobre",t("about"),`<div class="soon"><img class="about-logo" src="assets/img/logo-creatv-blur.webp" alt="CREATV MYNDZ"><b>GLOBAL CREATIVE DEALERS</b><span>${t("aboutTxt")}</span><a class="btn95" href="portada.html">${t("goSite")}</a></div>`,
+  const w=openWin("sobre",t("about"),`<div class="soon"><img class="about-logo" src="assets/img/logo-creatv-nube.png" alt="CREATV MYNDZ"><b>GLOBAL CREATIVE DEALERS</b><span>${t("aboutTxt")}</span><a class="btn95" href="portada.html">${t("goSite")}</a></div>`,
     {icon:"assets/iconos/cdrom.png",info:"CRTV "+new Date().getFullYear()});
   reg(w,aboutWin);
 }
@@ -435,14 +436,14 @@ function showLogin(){closeMenus();document.querySelectorAll(".win").forEach(clos
 function enterAs(id){
   USER=id;try{sessionStorage.setItem("cm-user",id)}catch(e){}
   const btn=document.querySelector(`.lg-user[data-user="${CSS.escape(id)}"]`);btn&&btn.classList.add("picked");
-  setTimeout(()=>{$("#login").hidden=true;buildItems();applyWall();renderDesk();},450);
+  // transición de carga tipo Windows ("bienvenido") antes de mostrar el escritorio
+  setTimeout(()=>{const w=$("#welcome");w.hidden=false;w.classList.remove("out");
+    $("#login").hidden=true;buildItems();applyWall();renderDesk();
+    setTimeout(()=>{w.classList.add("out");setTimeout(()=>{w.hidden=true;},450);},matchMedia("(prefers-reduced-motion: reduce)").matches?300:1600);},350);
 }
 $("#lgUsers").addEventListener("click",e=>{const b=e.target.closest("[data-user]");if(b)enterAs(b.dataset.user);});
 function boot(){
-  let booted=false;try{booted=sessionStorage.getItem("cm-booted")==="1"}catch(e){}
-  if(!USER)showLogin();
-  if(booted)return;
-  try{sessionStorage.setItem("cm-booted","1")}catch(e){}
+  showLogin();   // siempre se entra por la pantalla de usuarios, después del arranque
   const b=$("#boot");b.hidden=false;
   const end=()=>{b.classList.add("out");setTimeout(()=>{b.hidden=true;},500);};
   const tm=setTimeout(end,matchMedia("(prefers-reduced-motion: reduce)").matches?600:3200);

@@ -11,7 +11,7 @@
   --navy:#000080; --sel:#0a246a; --tip:#ffffe1;
   --sys:Tahoma,"Segoe UI",Verdana,Geneva,sans-serif;
   --pixel:"VT323","Lucida Console",ui-monospace,monospace;
-  --blur:10px; --mb:0px; --tb:110px;
+  --brand:#004aac; --blur:10px; --mb:0px; --tb:110px;
   --raised:inset -1px -1px var(--dark),inset 1px 1px var(--hi),inset -2px -2px var(--shade),inset 2px 2px var(--lite);
   --sunken:inset 1px 1px var(--shade),inset -1px -1px var(--hi),inset 2px 2px var(--dark),inset -2px -2px var(--lite);
 }
@@ -34,7 +34,7 @@ u{text-decoration:underline;text-underline-offset:2px}
    Explorers fijo a la izquierda, a ~10% del borde y un poco abajo. */
 /* Logo centrado arriba, a la altura de Explorers pero un poco más arriba */
 #topLogo{position:fixed;z-index:20;top:calc(15vh + env(safe-area-inset-top, 0px));left:50%;transform:translateX(-50%);padding:4px;border-radius:8px}
-#topLogo img{display:block;width:120px;height:auto;filter:drop-shadow(0 2px 10px rgba(0,30,80,.45))}
+#topLogo img{display:block;width:150px;height:auto;filter:drop-shadow(0 2px 10px rgba(0,30,80,.45))}
 @keyframes levitate{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-5px) rotate(-.6deg)}}
 #fixedIcons{position:fixed;z-index:20;left:10%;top:26%;display:flex;flex-direction:column;gap:10px}
 #fixedIcons .ico{position:relative;transform:none;width:90px}
@@ -147,7 +147,7 @@ u{text-decoration:underline;text-underline-offset:2px}
 .win .body ul.list img{width:36px;height:36px;object-fit:cover;object-position:top;border:1px solid #000;flex:none}
 .win .body ul.list img.li-ico{border:0;object-fit:contain}
 .win .body .idea{padding:8px 0;border-bottom:1px dotted var(--shade)}
-.about-logo{width:min(320px,80%);margin:4px auto 10px;filter:invert(1) contrast(1.3)}
+.about-logo{width:min(320px,80%);margin:4px auto 10px;padding:14px;border-radius:6px;background:var(--brand)}
 
 /* Explora: navegador retro */
 .win.browser-win{width:min(980px,calc(100vw - 32px))}
@@ -331,7 +331,7 @@ u{text-decoration:underline;text-underline-offset:2px}
   #pageDots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.45);box-shadow:0 0 0 1px rgba(0,0,0,.15)}
   #pageDots i.on{background:#fff}
   #topLogo{top:calc(26px + env(safe-area-inset-top, 0px))}
-  #topLogo img{width:74px}
+  #topLogo img{width:96px}
   #fixedIcons{left:4%;top:15%}
   #fixedIcons .ico{width:72px}
   #cornerR{right:8px}
@@ -371,24 +371,28 @@ u{text-decoration:underline;text-underline-offset:2px}
 @media (prefers-reduced-motion:reduce){#topLogo img,.win,#wall,.ico[data-p="creative-playground"] .th img{animation:none;transition:none}}
 
 /* ===== ARRANQUE (estilo Windows XP, marca CREATV MYNDZ) ===== */
-#boot{position:fixed;inset:0;z-index:200;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9vh;transition:opacity .5s}
+#boot{position:fixed;inset:0;z-index:200;background:var(--brand);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9vh;transition:opacity .5s}
 #boot[hidden]{display:none}
 #boot.out{opacity:0}
 .boot-brand{position:relative;display:flex;align-items:flex-end;gap:6px}
-.boot-brand img{width:min(360px,62vw);height:auto}
+.boot-brand img{width:min(420px,70vw);height:auto}
 .boot-os{font:700 clamp(28px,5vw,52px)/1 var(--sys);color:#f26b1d;letter-spacing:-.02em;margin-bottom:.3em}
 .boot-os sup{font-size:.3em;color:#fff;margin-left:2px}
-.boot-bar{position:relative;width:min(280px,60vw);height:22px;border:2px solid #b8b8b8;border-radius:6px;overflow:hidden;background:#000}
+.boot-bar{position:relative;width:min(280px,60vw);height:22px;border:2px solid rgba(255,255,255,.75);border-radius:6px;overflow:hidden;background:rgba(0,20,70,.55)}
 .boot-bar i{position:absolute;top:3px;width:12px;height:12px;border-radius:2px;background:linear-gradient(180deg,#8fa8ff,#2d3fd6 55%,#1a26a8);animation:bootrun 1.8s linear infinite}
 .boot-bar i:nth-child(2){animation-delay:.12s}.boot-bar i:nth-child(3){animation-delay:.24s}
 @keyframes bootrun{0%{left:-40px}100%{left:calc(100% + 10px)}}
-.boot-foot{position:absolute;bottom:3vh;left:0;right:0;margin:0;text-align:center;font:13px var(--sys);color:#777}
+.boot-foot{position:absolute;bottom:3vh;left:0;right:0;margin:0;text-align:center;font:13px var(--sys);color:rgba(255,255,255,.6)}
+#welcome{position:fixed;inset:0;z-index:185;background:var(--brand);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;transition:opacity .45s}
+#welcome[hidden]{display:none}
+#welcome.out{opacity:0}
+.wl-text{margin:0;font:italic 700 clamp(42px,7vw,80px)/1 "Trebuchet MS",var(--sys);color:#fff;text-shadow:3px 3px 0 rgba(0,0,40,.35)}
 
 /* ===== ESCOGER USUARIO (pantalla de bienvenida estilo Windows XP, sobre el fondo del escritorio) ===== */
 #login{position:fixed;inset:0;z-index:190;isolation:isolate;display:flex;flex-direction:column;color:#fff;font-family:var(--sys)}
 #login[hidden]{display:none}
 .lg-bg{position:absolute;z-index:-2;inset:-30px;background:#2b55c8 center/cover no-repeat;filter:blur(6px)}
-#login::before{content:"";position:absolute;z-index:-1;inset:0;background:rgba(30,70,180,.45)}
+#login::before{content:"";position:absolute;z-index:-1;inset:0;background:rgba(0,74,172,.55)}
 .lg-top,.lg-bottom{position:relative;flex:none;background:linear-gradient(180deg,#00309c,#002a8a);}
 .lg-top{height:clamp(40px,9vh,80px);border-bottom:2px solid transparent;border-image:linear-gradient(90deg,transparent,#fff 30%,#ff9a3c 50%,#fff 70%,transparent) 1}
 .lg-bottom{min-height:clamp(48px,10vh,90px);display:flex;align-items:center;justify-content:center;padding:10px 20px;text-align:center;font-size:14px;border-top:2px solid transparent;border-image:linear-gradient(90deg,transparent,#fff 30%,#ff9a3c 50%,#fff 70%,transparent) 1}

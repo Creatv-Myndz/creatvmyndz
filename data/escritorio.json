@@ -153,7 +153,7 @@
       "id": "oazis",
       "titulo": "Oazis",
       "icono": "assets/iconos/oazis.png",
-      "enlace_interno": "oazis.html",
+      "enlace_interno": "oazis",
       "usuario": "dealers"
     },
     {
@@ -259,7 +259,7 @@
   },
   "proyectos": [],
   "extras": {
-    "_comentario": "Por CRTV (id de assets/projects.js): 'titulo' es el nombre como se ve en el escritorio; 'icono' reemplaza la miniatura; 'videos' van ENCIMA de la imagen del proyecto en Paint (x, y, w, h en % de la imagen; YouTube mantiene 16:9). tipo 'youtube' (id, inicio en segundos) o 'video' (src de un .mp4; vacío = no se muestra).",
+    "_comentario": "Por CRTV (id de assets/projects.js): 'titulo' es el nombre como se ve en el escritorio; 'icono' reemplaza la miniatura; 'videos' van ENCIMA de la imagen del proyecto en Paint (x, y, w, h en % de la imagen; YouTube mantiene 16:9). tipo 'youtube' (id, inicio en segundos) o 'video' (src de un .mp4; vacío = no se muestra). 'enlaceDirecto' abre ese link en vez de la ventana de Paint. 'estado': 'listo' + 'imagen' muestran un CRTV próximo como si estuviera listo.",
     "cajita-feliz-dtmf": {
       "icono": "assets/iconos/cajita-dtmf.png",
       "titulo": "Cajita Feliz DtMF"
@@ -339,11 +339,15 @@
     "snoopy-flops": {
       "titulo": "Snoopy Flops",
       "icono": "assets/iconos/snoopy.png",
-      "usuario": "dealers"
+      "usuario": "dealers",
+      "estado": "listo",
+      "imagen": "assets/img/crtvs/snoopy-flops.webp",
+      "portada": "assets/img/crtvs/thumb/snoopy-flops.webp"
     },
     "forja-player": {
       "titulo": "Forja Player",
-      "icono": "assets/iconos/forja-player.png"
+      "icono": "assets/iconos/forja-player.png",
+      "enlaceDirecto": "https://apps.apple.com/id/app/forja-habit-habits-budget/id6759103380"
     },
     "carriel-de-ryan": {
       "titulo": "Carriel de Ryan",

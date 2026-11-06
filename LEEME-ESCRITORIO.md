@@ -261,3 +261,9 @@ En `data/escritorio.json → extras`, por `id` del CRTV:
   grandes; en pantallas angostas (tablet, ventanas chicas) pasan a una cuadrícula ordenada sin achicarse.
 - Arrastrar un ícono ya no se guarda: al recargar, el escritorio vuelve a su distribución.
 - La pantalla de usuarios ya no tiene las bandas azules de arriba y abajo.
+- Logo principal: `assets/img/logo-creatv-nube.png` (letras de nube). Color de marca: `--brand: #004aac`
+  (arranque, "bienvenido", pantalla de usuarios).
+- Siempre se entra por la pantalla de usuarios (después del arranque). Al escoger, sale la transición
+  "bienvenido" con la barra de carga y luego el escritorio.
+- Oazis abre creatvmyndz.com/oazis. Forja Player abre su app en la App Store (`extras.forja-player.enlaceDirecto`).
+- Snoopy Flops muestra por ahora la imagen "Flops select" (`extras.snoopy-flops`).
