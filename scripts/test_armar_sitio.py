@@ -92,5 +92,63 @@ class Redirecciones(unittest.TestCase):
             self.assertFalse(m.existe_en_sitio(d, r), r)
 
 
+class Enlaces(unittest.TestCase):
+    def errores(self, archivos):
+        return cargar().revisar_enlaces(sitio_de_prueba(archivos))
+
+    def test_html_valido(self):
+        self.assertEqual(self.errores({
+            "index.html": '<link href="/assets/css/a.css"><img src="/assets/img/x.png">'
+                          '<a href="/portada/#dealing"></a><a href="https://otro.com/x"></a>'
+                          '<a href="mailto:a@b.co"></a><a href="#top"></a><img src="data:image/png;base64,AA">',
+            "assets/css/a.css": "", "assets/img/x.png": "", "portada/index.html": ""}), [])
+
+    def test_html_roto_y_dominio_propio(self):
+        e = self.errores({"index.html": '<img src="/assets/img/no.png">'
+                                        '<link rel="canonical" href="https://creatvmyndz.com/crtv/x/">'})
+        self.assertIn("index.html: /assets/img/no.png no existe", e)
+        self.assertTrue(any("/crtv/x/ no existe" in x for x in e))
+
+    def test_srcset_y_og(self):
+        e = self.errores({"index.html": '<img srcset="/a.png 1x, /b.png 2x">'
+                          '<meta property="og:image" content="https://creatvmyndz.com/assets/img/marca/og.jpg">',
+                          "a.png": ""})
+        self.assertTrue(any("/b.png no existe" in x for x in e))
+        self.assertTrue(any("/assets/img/marca/og.jpg no existe" in x for x in e))
+
+    def test_relativa_desde_su_carpeta(self):
+        self.assertEqual(self.errores({"portada/index.html": '<img src="foto.png">', "portada/foto.png": ""}), [])
+
+    def test_css(self):
+        e = self.errores({"assets/css/a.css": 'a{background:url("/assets/fonts/f.woff2")}'
+            "b{background:url(\"data:image/svg+xml,%3Csvg filter='url(%23n)'%3E\")}"})
+        self.assertEqual(e, ["assets/css/a.css: /assets/fonts/f.woff2 no existe"])
+
+    def test_style_y_script_inline(self):
+        e = self.errores({"index.html": '<style>b{background:url("/assets/img/no.webp")}</style>'
+                                        '<script>const s="/assets/js/no.js"</script>', "assets/x": ""})
+        self.assertTrue(any("/assets/img/no.webp" in x for x in e))
+        self.assertTrue(any("/assets/js/no.js" in x for x in e))
+
+    def test_js_comentarios_y_rutas_del_sitio(self):
+        self.assertEqual(self.errores({
+            "assets/a.js": '// "/assets/no.png"\n/* "/assets/no2.png" */\n'
+                           'const u="https://formsubmit.co/x"; const p="/assets/si.png";\n'
+                           'const t="/thumb/"; const q=`/assets/${x}.png`;',
+            "assets/si.png": ""}), [])
+        e = self.errores({"assets/a.js": 'const l="/crtv/x/";', "crtv/y/index.html": ""})
+        self.assertTrue(any("/crtv/x/ no existe" in x for x in e))
+
+    def test_json_y_manifiesto(self):
+        archivos = {"assets/contenido/e.json": '{"icono": "/assets/img/escritorio/iconos/no.png"}',
+                    "assets/m.webmanifest": '{"start_url": "/oazis", "icons": [{"src": "img/i.png"}]}',
+                    "oazis.html": ""}
+        e = self.errores(archivos)
+        self.assertTrue(any("/assets/img/escritorio/iconos/no.png" in x for x in e))
+        self.assertTrue(any("img/i.png" in x for x in e))
+        archivos.update({"assets/img/i.png": "", "assets/img/escritorio/iconos/no.png": ""})
+        self.assertEqual(self.errores(archivos), [])
+
+
 if __name__ == "__main__":
     unittest.main()
