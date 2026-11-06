@@ -169,20 +169,84 @@ def _urls_de_css(texto: str) -> list[str]:
     return [next(g for g in m.groups() if g is not None) for m in URL_CSS.finditer(texto)]
 
 
+# Un / empieza un regex (no una división) si lo que va antes es uno de estos signos o palabras.
+ANTES_DE_REGEX = set("(,=:[!&|?{};+-*%<>~^")
+PALABRAS_ANTES_DE_REGEX = {"return", "typeof", "case", "do", "else", "in", "of", "new", "delete", "void",
+                           "throw", "yield", "await"}
+
+
+def _trozo_de_template(texto: str, i: int) -> tuple[int, str, str]:
+    """Lee un template `…` desde i hasta el ` que lo cierra o hasta un ${. Devuelve (siguiente, texto, '`' o '${')."""
+    partes, n = [], len(texto)
+    while i < n:
+        if texto[i] == "\\" and i + 1 < n:
+            partes.append(texto[i:i + 2])
+            i += 2
+        elif texto[i] == "`":
+            return i + 1, "".join(partes), "`"
+        elif texto.startswith("${", i):
+            return i + 2, "".join(partes), "${"
+        else:
+            partes.append(texto[i])
+            i += 1
+    return n, "".join(partes), "`"
+
+
 def _textos_de_js(texto: str) -> list[str]:
-    """Los textos entre comillas de un JS, sin mirar dentro de los comentarios."""
-    textos, i, n = [], 0, len(texto)
+    """Los textos entre comillas de un JS, sin mirar dentro de comentarios ni de regex.
+
+    Sigue los templates `…${…}…` aunque lleven otros templates adentro. Un template con ${ se
+    devuelve con el ${ adentro, así que las revisiones lo ignoran (es una ruta armada).
+    """
+    textos: list[str] = []
+    n, i = len(texto), 0
+    previo, palabra = "", ""          # lo último del código: un signo, o "a" si fue un valor
+    llaves: list[int] = []            # por cada ${ abierto, cuántas { van abiertas adentro
+    templates: list[str] = []         # el texto de cada template que espera a que cierre su ${
+
+    def seguir_template(desde: int, acumulado: str) -> int:
+        nonlocal previo, palabra
+        j, trozo, fin = _trozo_de_template(texto, desde)
+        if fin == "`":
+            textos.append(acumulado + trozo)
+            previo, palabra = "a", ""
+        else:
+            templates.append(acumulado + trozo + "${")
+            llaves.append(0)
+            previo, palabra = "(", ""
+        return j
+
     while i < n:
         c = texto[i]
-        if texto.startswith("//", i):
+        if c.isspace():
+            i += 1
+        elif texto.startswith("//", i):
             fin = texto.find("\n", i)
             i = n if fin == -1 else fin
         elif texto.startswith("/*", i):
             fin = texto.find("*/", i + 2)
             i = n if fin == -1 else fin + 2
-        elif c in "\"'`":
+        elif c == "/" and (previo == "" or previo in ANTES_DE_REGEX or palabra in PALABRAS_ANTES_DE_REGEX):
+            j, en_clase = i + 1, False
+            while j < n and texto[j] != "\n":
+                d = texto[j]
+                if d == "\\":
+                    j += 2
+                    continue
+                if en_clase:
+                    en_clase = d != "]"
+                elif d == "[":
+                    en_clase = True
+                elif d == "/":
+                    break
+                j += 1
+            i = j + 1
+            while i < n and texto[i].isalpha():
+                i += 1
+            previo, palabra = "a", ""
+        elif c in "\"'":
             j, partes = i + 1, []
-            while j < n and texto[j] != c:
+            while j < n and texto[j] != c and texto[j] != "\n":
                 if texto[j] == "\\" and j + 1 < n:
                     partes.append(texto[j:j + 2])
                     j += 2
@@ -191,7 +255,24 @@ def _textos_de_js(texto: str) -> list[str]:
                     j += 1
             textos.append("".join(partes))
             i = j + 1
+            previo, palabra = "a", ""
+        elif c == "`":
+            i = seguir_template(i + 1, "")
+        elif c == "}" and llaves and llaves[-1] == 0:
+            llaves.pop()
+            i = seguir_template(i + 1, templates.pop() + "}")
+        elif c.isalnum() or c in "_$":
+            j = i
+            while j < n and (texto[j].isalnum() or texto[j] in "_$"):
+                j += 1
+            previo, palabra = "a", texto[i:j]
+            i = j
         else:
+            if llaves and c == "{":
+                llaves[-1] += 1
+            elif llaves and c == "}":
+                llaves[-1] -= 1
+            previo, palabra = c, ""
             i += 1
     return textos
 
@@ -225,7 +306,7 @@ def _referencias(archivo: Path) -> list[tuple[str, str]]:
             dato = json.loads(texto)
         except ValueError:
             return [("error", "no es JSON válido")]
-        refs = [("texto", t) for t in _textos_de_json(dato)]
+        refs = [("json", t) for t in _textos_de_json(dato)]
         if sufijo == ".webmanifest" and isinstance(dato, dict):
             refs += [("url", i.get("src", "")) for i in dato.get("icons", []) if isinstance(i, dict)]
         return refs
@@ -262,11 +343,13 @@ def revisar_enlaces(dist: Path) -> list[str]:
             ruta = valor.strip()
             if ruta.startswith(DOMINIO):
                 ruta = ruta[len(DOMINIO):] or "/"
-            if tipo == "texto":
+            if tipo in ("texto", "json"):
                 if not ruta.startswith("/") or any(c.isspace() for c in ruta):
                     continue
+                # En JS un texto con / puede ser cualquier cosa ("/thumb/"); solo cuenta si nombra algo
+                # del primer nivel del sitio. En un JSON de contenido, todo texto que empieza con / es una ruta.
                 primero = re.split(r"[/?#]", ruta[1:], maxsplit=1)[0]
-                if primero not in primer_nivel:
+                if tipo == "texto" and primero not in primer_nivel:
                     continue
             elif not ruta.startswith("/"):
                 ruta = urlparse(urljoin(base, ruta)).path
@@ -300,7 +383,7 @@ def revisar_rutas_absolutas(dist: Path) -> list[str]:
             if not v or "${" in v:
                 continue
             relativa = (tipo == "url" and not v.startswith(PERMITIDAS)) or (
-                tipo == "texto" and v.startswith(("assets/", "data/")))
+                tipo in ("texto", "json") and v.startswith(("assets/", "data/")))
             if relativa:
                 mensaje = f"{relativo}: {v} es relativa; las rutas del sitio empiezan con /"
                 if mensaje not in errores:
@@ -312,18 +395,46 @@ def revisar_rutas_absolutas(dist: Path) -> list[str]:
 
 # Carpetas del primer nivel del repo donde un .html no es una página perdida.
 FUERA_DE_LA_GUARDIA = {".git", "dist", "docs", ".worktrees", "material", ".claude", ".superpowers", "sitio"}
+# Archivos del sitio que antes vivían en la raíz del repo.
+SUELTOS_DEL_SITIO = {"CNAME", "robots.txt", "sitemap.xml", "favicon.ico"}
+# Los que cambiaron de carpeta con la mudanza.
+NUEVO_LUGAR = {"assets/projects.js": "sitio/assets/contenido/projects.js",
+               "data/escritorio.json": "sitio/assets/contenido/escritorio.json"}
+
+
+def _donde_va(ruta: str) -> str | None:
+    """A dónde va un archivo del sitio que quedó fuera de sitio/, o None si no es del sitio."""
+    if ruta in NUEVO_LUGAR:
+        return NUEVO_LUGAR[ruta]
+    if _en_zona_oazis(ruta) or ruta in SUELTOS_DEL_SITIO:
+        return "sitio/" + ruta
+    if ruta.lower().endswith((".html", ".htm")):
+        carpeta, _, nombre = ruta.rpartition("/")
+        base = nombre.rsplit(".", 1)[0]
+        if base == "index":
+            destino = f"sitio/{carpeta}/index.html" if carpeta else "sitio/index.html"
+        elif not carpeta and base.startswith("crtv-"):
+            destino = f"sitio/crtv/{base[len('crtv-'):]}/index.html"
+        else:
+            destino = "sitio/" + (carpeta + "/" if carpeta else "") + base + "/index.html"
+        return destino + " (las rutas empiezan con /)"
+    if ruta.startswith(("assets/", "data/")):
+        return "dentro de sitio/assets/ (ver README, «Dónde va cada cosa»)"
+    return None
 
 
 def revisar_guardia(repo: Path) -> list[str]:
-    """Un error por cada .html que quedó fuera de sitio/ (no se publicaría)."""
+    """Un error por cada archivo del sitio que quedó fuera de sitio/ (no se publicaría), con a dónde va."""
     errores = []
     for carpeta, subcarpetas, archivos in os.walk(repo):
         if Path(carpeta) == repo:
             subcarpetas[:] = [d for d in subcarpetas if d not in FUERA_DE_LA_GUARDIA]
         for nombre in archivos:
-            if nombre.lower().endswith((".html", ".htm")):
-                ruta = (Path(carpeta) / nombre).relative_to(repo).as_posix()
-                errores.append(f"{ruta}: está fuera de sitio/ y no se publicaría; muévela a sitio/")
+            ruta = (Path(carpeta) / nombre).relative_to(repo).as_posix()
+            destino = _donde_va(ruta)
+            if destino:
+                va = destino if destino.startswith("dentro") else "en " + destino
+                errores.append(f"{ruta}: está fuera de sitio/ y no se publicaría; va {va}")
     return sorted(errores)
 
 

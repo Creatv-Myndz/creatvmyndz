@@ -173,7 +173,60 @@ class RutasYGuardia(unittest.TestCase):
         r = sitio_de_prueba({"sitio/index.html": "", "docs/a.html": "", ".worktrees/x/a.html": "",
                              "dist/a.html": "", "onuha.html": ""})
         self.assertEqual(cargar().revisar_guardia(r),
-                         ["onuha.html: está fuera de sitio/ y no se publicaría; muévela a sitio/"])
+                         ["onuha.html: está fuera de sitio/ y no se publicaría; va en sitio/onuha/index.html"
+                          " (las rutas empiezan con /)"])
+
+    def test_guardia_dice_a_donde_va_cada_archivo(self):
+        r = sitio_de_prueba({"sitio/index.html": "", "oazis.html": "", "crtv-nuevo.html": "", "CNAME": "",
+                             "assets/puramente/models/puramente-audios.js": "", "assets/projects.js": "",
+                             "data/escritorio.json": "", "assets/img/foto.png": "", "README.md": "",
+                             "redirecciones.txt": "", "scripts/x.py": ""})
+        e = cargar().revisar_guardia(r)
+        esperado = {
+            "oazis.html": "va en sitio/oazis.html",
+            "crtv-nuevo.html": "va en sitio/crtv/nuevo/index.html (las rutas empiezan con /)",
+            "CNAME": "va en sitio/CNAME",
+            "assets/puramente/models/puramente-audios.js": "va en sitio/assets/puramente/models/puramente-audios.js",
+            "assets/projects.js": "va en sitio/assets/contenido/projects.js",
+            "data/escritorio.json": "va en sitio/assets/contenido/escritorio.json",
+            "assets/img/foto.png": "va dentro de sitio/assets/",
+        }
+        self.assertEqual(len(e), len(esperado), e)
+        for ruta, destino in esperado.items():
+            self.assertTrue(any(x.startswith(ruta + ": está fuera de sitio/") and destino in x for x in e), ruta)
+
+
+class LecturaDeJS(unittest.TestCase):
+    ESC = """const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;"}[c]));\n"""
+
+    def test_regex_con_comillas_no_desordena_la_lectura(self):
+        e = cargar().revisar_enlaces(sitio_de_prueba({
+            "assets/js/a.js": self.ESC + 'const FOLDER="/assets/img/no-existe.png";\n', "assets/x": ""}))
+        self.assertTrue(any("/assets/img/no-existe.png no existe" in x for x in e), e)
+
+    def test_regex_con_comillas_y_ruta_relativa(self):
+        e = cargar().revisar_rutas_absolutas(sitio_de_prueba({
+            "assets/js/a.js": self.ESC + 'const mini=s=>s.replace("assets/img/escritorio/fondos/","x");\n'}))
+        self.assertTrue(any("assets/img/escritorio/fondos/ es relativa" in x for x in e), e)
+
+    def test_template_anidado_no_desordena_la_lectura(self):
+        js = ('const w=`<div>${D.fondos.map(f=>`<button data-wall="${f.id}">`).join("")}</div>`;\n'
+              'const P="/assets/img/no-existe.png";\n')
+        e = cargar().revisar_enlaces(sitio_de_prueba({"assets/js/a.js": js, "assets/x": ""}))
+        self.assertTrue(any("/assets/img/no-existe.png no existe" in x for x in e), e)
+
+    def test_division_no_es_regex(self):
+        js = 'const r=a/b, s="/assets/img/no-existe.png", t=c/d;\n'
+        e = cargar().revisar_enlaces(sitio_de_prueba({"assets/js/a.js": js, "assets/x": ""}))
+        self.assertTrue(any("/assets/img/no-existe.png no existe" in x for x in e), e)
+
+
+class EnlacesEnJSON(unittest.TestCase):
+    def test_json_revisa_toda_ruta_que_empieza_con_barra(self):
+        e = cargar().revisar_enlaces(sitio_de_prueba({
+            "assets/contenido/e.json": '{"enlace_interno": "/portda/#dealing", "texto": "a / b"}',
+            "portada/index.html": ""}))
+        self.assertEqual(e, ["assets/contenido/e.json: /portda/#dealing no existe"])
 
     def test_armar_completo(self):
         r = sitio_de_prueba({"sitio/index.html": '<a href="/portada/"></a>', "sitio/portada/index.html": "",

@@ -4,4 +4,6 @@
 dist/
 
 # Fuentes de diseño que no son del sitio (PDF de los CRTV, etc.): solo en disco.
-material/
+/material/
+# Donde vivían antes de la mudanza; se sigue ignorando hasta moverlos a material/.
+/assets/CRTVS/

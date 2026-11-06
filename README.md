@@ -50,6 +50,10 @@ material/                   solo en tu disco, ignorada por git: PDF de los CRTV 
 **Toda ruta a un archivo del sitio empieza con `/`**: `/assets/css/minimal.css`, `/portada/#dealing`, nunca
 `assets/…` ni `../`. Así funciona igual desde cualquier carpeta. La revisión automática lo exige (salvo en Oazis).
 
+**Si se vuelve a exportar la MYND de ONUHA** (o cualquier página que se arma en otro lado), el archivo va en
+`sitio/onuha/index.html`, no en la raíz, y sus rutas empiezan con `/` (por ejemplo `"base": "/assets/img/onuha/mynd/"`).
+Si queda en otro lugar o con rutas relativas, la revisión lo frena y dice dónde va.
+
 ---
 
 ## 2. Editar proyectos (lo que harás casi siempre)
