@@ -726,6 +726,8 @@ section { position: relative; padding: 0 var(--gutter); }
 .work-page, .work { scroll-margin-top: 4rem; }
 .crtv-page .display { font-size: clamp(2.4rem, 8vw, 8rem); margin-bottom: clamp(1.5rem, 3vw, 2.5rem); }
 .crtv-figure { margin: 0 auto; max-width: 1000px; border-radius: 4px; overflow: hidden; border: 1px solid var(--line); }
+/* CRTV que ya está en producción: botón al sitio en vivo, encima de la imagen */
+.crtv-live { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1.2rem; max-width: 1000px; margin: 0 auto 1.2rem; }
 .crtv-nav {
   display: flex;
   justify-content: space-between;
