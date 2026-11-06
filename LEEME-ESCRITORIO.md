@@ -241,3 +241,14 @@ En `data/escritorio.json → extras`, por `id` del CRTV:
   (Buscaminas). Un proyecto nuevo sin posición se acomoda solo alrededor sin taparse.
 - El celular usa el mismo orden (de arriba a abajo, de izquierda a derecha).
 - Logo: centrado arriba (15 % de la altura en PC, 26 px en el celular).
+
+## Arranque, usuarios y "Please stand by"
+
+- Al abrir la página: pantalla de arranque negra con el logo y "OS" (una vez por visita; se salta con un clic),
+  y después **Escoge tu usuario**: Creative Playground o Creative Dealers (`usuarios.lista` en el JSON).
+- Cada ícono dice en `"usuario"` en qué escritorio va: `"playground"`, `"dealers"` o `"ambos"`. Los CRTV sin
+  `usuario` van en Playground; los accesos sin `usuario`, en los dos. Buscaminas y Creando.. están en los dos.
+  La barra de abajo es la misma siempre. "Cambiar de usuario" está en el menú Inicio.
+- Distribución en PC: `distribucionPC.posiciones` (Playground) y `distribucionPC.porUsuario.dealers` (Dealers).
+- Lo que todavía no está listo (CRTV próximos, Cualquiera puede crear, CREATV Kids…) abre la pantalla azul
+  **PLEASE STAND BY** con el nombre y un mensaje; se cierra tocando.

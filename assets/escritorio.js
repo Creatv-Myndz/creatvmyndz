@@ -52,6 +52,7 @@ const I18N={
       photos:"fotos",
       wall_aria:"Cambiar fondo",wall_title:"Personalizar · Fondo de pantalla",wall_intro:"Escoge tu fondo de pantalla.",walls:"fondos",su_bar:"Únete a CREATV MYNDZ",su_title:"¿QUIERES VER MÁS CREATIVIDAD?",su_text:"Regístrate con tu correo y te mandamos los nuevos proyectos, ideas y lanzamientos.",
       su_ph:"tu@correo.com",su_btn:"Registrarme",su_later:"Ahora no",su_sending:"Enviando…",su_ok:"¡Listo! Ya eres parte de CREATV MYNDZ.",su_err:"No se pudo enviar. Intenta de nuevo.",su_bad:"Escribe un correo válido.",
+      lg_title:"ESCOGE TU USUARIO",lg_hint:"TOCA UN USUARIO PARA ENTRAR",sb_tap:"Toca para volver",s_user:"<u>C</u>ambiar de usuario",
       pw_bar:"Advertencia",pw_title:"¿ESTÁS EN EL BAÑO?",pw_text:"NUESTRA WEB ES MEJOR EN EL PC. ¡VE A VERLA!",pw_ok:"Ok, ya voy",pw_stay:"Seguir aquí"},
   en:{m_projects:"<u>P</u>rojects",m_wall:"<u>W</u>allpaper",about:"Coming soon: CREATV MYNDZ",lang_aria:"Change language (Español)",desk:"Desktop",
       empty:"Projects will show up here, one by one.",start:"Start",programs:"Programs",
@@ -84,6 +85,7 @@ const I18N={
       photos:"photos",
       wall_aria:"Change wallpaper",wall_title:"Personalize · Wallpaper",wall_intro:"Choose your wallpaper.",walls:"wallpapers",su_bar:"Join CREATV MYNDZ",su_title:"WANT TO SEE MORE CREATIVITY?",su_text:"Sign up with your email and we'll send you new projects, ideas and launches.",
       su_ph:"you@email.com",su_btn:"Sign me up",su_later:"Not now",su_sending:"Sending…",su_ok:"Done! You're part of CREATV MYNDZ now.",su_err:"Couldn't send it. Please try again.",su_bad:"Type a valid email.",
+      lg_title:"CHOOSE YOUR USER",lg_hint:"TAP A USER TO LOG IN",sb_tap:"Tap to go back",s_user:"<u>S</u>witch user",
       pw_bar:"Warning",pw_title:"ARE YOU IN THE BATHROOM?",pw_text:"OUR WEBSITE IS BETTER ON A PC. GO CHECK IT OUT!",pw_ok:"Ok, on my way",pw_stay:"Stay here"}
 };
 const t=k=>I18N[lang][k]??I18N.es[k]??"";
@@ -122,12 +124,15 @@ function fromPlayground(){
     ...(D.extras?.[p.id]||{})   // ícono propio y videos encima de la imagen (data/escritorio.json → extras)
   }));
 }
+// Usuario (escritorio) escogido al entrar: "playground" o "dealers". Cada ícono dice en "usuario" dónde va.
+let USER=(()=>{try{return sessionStorage.getItem("cm-user")||""}catch(e){return ""}})();
+const forUser=p=>{const u=p.usuario||(p.tipoItem==="acceso"?"ambos":"playground");return u==="ambos"||u===USER||!USER;};
 function buildItems(){
   ITEMS=[
     ...(D.accesos||[]).map(a=>({...a,tipoItem:"acceso"})),
     ...fromPlayground().map(p=>({...p,tipoItem:"crtv"})),
     ...(D.proyectos||[]).map(p=>({...p,tipoItem:"proyecto",estado:"listo"}))
-  ];
+  ].filter(forUser);
 }
 
 // Lo que va dentro de una carpeta no se muestra suelto en el escritorio (salvo "tambienEnEscritorio")
@@ -202,7 +207,7 @@ function layout(){
     // deslizan hacia la derecha, y cada ícono un poco corrido para que no se vea en cuadrícula.
     // primero los proyectos (CRTV), después los accesos; todo junto y apilado desde arriba
     // mismo orden que la distribución del PC (de arriba a abajo, de izquierda a derecha)
-    const REFp=(D.distribucionPC||{}).posiciones||{},key=p=>REFp[p.id]?Math.round(REFp[p.id][1]/70)*10000+REFp[p.id][0]:1e9;
+    const DPp=D.distribucionPC||{},REFp=(DPp.porUsuario&&DPp.porUsuario[USER])||DPp.posiciones||{},key=p=>REFp[p.id]?Math.round(REFp[p.id][1]/70)*10000+REFp[p.id][0]:1e9;
     const fixedFirst=order.filter(p=>p.fijo).concat(order.filter(p=>!p.fijo).sort((a,b)=>key(a)-key(b)));
     const logo=$("#topLogo").getBoundingClientRect(),top=logo.bottom-cssPx("--mb")+4;
     const cols=3,cw=W/cols,ch=Math.max(104,Math.min(122,(H-top-24)/5)),rows=Math.max(2,Math.floor((H-top-24)/ch)),per=cols*rows;
@@ -217,7 +222,7 @@ function layout(){
   PAGES=1;
   {const fx=$("#fixedIcons");if(fx){fx.style.left="";fx.style.top="";}}
   // PC: la distribución fija de data/escritorio.json (distribucionPC), relativa al centro de la pantalla.
-  const DP=D.distribucionPC||{},REF=DP.posiciones||{},CORNER=DP.esquina||{},placedFixed=[];
+  const DP=D.distribucionPC||{},REF=(DP.porUsuario&&DP.porUsuario[USER])||DP.posiciones||{},CORNER=DP.esquina||{},placedFixed=[];
   const refIds=order.filter(p=>REF[p.id]||CORNER[p.id]);
   if(refIds.length){
     const pts=Object.values(REF),minX=Math.min(...pts.map(q=>q[0]))-70,maxX=Math.max(...pts.map(q=>q[0]))+70,minY=Math.min(...pts.map(q=>q[1]))-65,maxY=Math.max(...pts.map(q=>q[1]))+65;
@@ -364,11 +369,12 @@ function openItem(p){
     if(p.abre==="explora"){exploraWin(p);return;}
     if(p.abre==="mynd"){myndWin(p);return;}
     if(p.abre==="dealers"){dealersWin(p);return;}
+    if(p.abre==="contacto"){const a=D.dock.find(x=>x&&x.contacto);a&&contactWin(a);return;}
     if(p.juego==="buscaminas"){minesWin();return;}
-    reg(msgBox(L(p.titulo),L(p.texto)||t("soon"),{icon:p.icono,key:"a:"+p.id}),()=>openItem(p));return;
+    standBy(L(p.titulo),L(p.texto)||t("soon"));return;
   }
   if(p.estado==="proximo"||p.estado==="sin-material"){
-    reg(msgBox(t("sys"),`<b>${esc(L(p.titulo))}</b><br>${t(p.estado==="proximo"?"soonMsg":"noMaterial")}`,{key:"w:"+p.id,html:true}),()=>openItem(p));return;
+    standBy(L(p.titulo),t(p.estado==="proximo"?"soonMsg":"noMaterial"));return;
   }
   paintWin(p);
 }
@@ -408,6 +414,36 @@ function exploraWin(p){
       <div class="b-page"><img src="${esc(p.icono)}" alt="" class="b-logo"><h2>${esc(txt.toUpperCase())}</h2><p>${t("exploreSoon")}</p></div>
     </div>`,{icon:p.icono,cls:"browser-win",menu:t("menuBrowser"),status:t("done"),info:`${iconHTML(p.icono,"z-ico")} ${t("b_zone")}`});
   reg(w,()=>exploraWin(p));
+}
+
+// ---------- PLEASE STAND BY: pantalla azul de "ya viene" para lo que todavía no está listo
+function standBy(title,text){
+  $("#sbSub").innerHTML=`<b>${esc(title)}</b><br>${esc(text)}`;
+  $("#standby").hidden=false;
+}
+$("#standby").addEventListener("click",()=>{$("#standby").hidden=true;});
+
+// ---------- Arranque y selección de usuario
+function renderLogin(){
+  const list=(D.usuarios&&D.usuarios.lista)||[];
+  $("#lgUsers").innerHTML=list.map((u,i)=>`<button class="lg-user" data-user="${esc(u.id)}" style="--c:${esc(u.color||"#3a8bff")};--d:${i*.12}s"><span class="lg-card"><img src="${esc(u.icono)}" alt=""></span><span class="lg-name">${esc(L(u.nombre))}</span></button>`).join("");
+}
+function showLogin(){closeMenus();document.querySelectorAll(".win").forEach(closeWin);renderLogin();$("#login").hidden=false;}
+function enterAs(id){
+  USER=id;try{sessionStorage.setItem("cm-user",id)}catch(e){}
+  const btn=document.querySelector(`.lg-user[data-user="${CSS.escape(id)}"]`);btn&&btn.classList.add("picked");
+  setTimeout(()=>{$("#login").hidden=true;buildItems();renderDesk();},450);
+}
+$("#lgUsers").addEventListener("click",e=>{const b=e.target.closest("[data-user]");if(b)enterAs(b.dataset.user);});
+function boot(){
+  let booted=false;try{booted=sessionStorage.getItem("cm-booted")==="1"}catch(e){}
+  if(!USER)showLogin();
+  if(booted)return;
+  try{sessionStorage.setItem("cm-booted","1")}catch(e){}
+  const b=$("#boot");b.hidden=false;
+  const end=()=>{b.classList.add("out");setTimeout(()=>{b.hidden=true;},500);};
+  const tm=setTimeout(end,matchMedia("(prefers-reduced-motion: reduce)").matches?600:3200);
+  b.addEventListener("click",()=>{clearTimeout(tm);end();},{once:true});
 }
 
 // ---------- Carpetas: se abren como una ventana con sus íconos ordenados
@@ -585,7 +621,7 @@ function phoneWarning(){
   if(!isPhone||seen)return;
   // sale cuando ya llevan un minuto interactuando con la página
   let started=false;
-  const go=()=>{if(started)return;started=true;setTimeout(()=>{if(document.hidden||!$("#signup").hidden)return;$("#phoneWarn").hidden=false;try{sessionStorage.setItem("cm-desk-bano","1")}catch(e){}},60000);};
+  const go=()=>{if(started)return;started=true;setTimeout(()=>{if(document.hidden||!$("#signup").hidden||!$("#login").hidden)return;$("#phoneWarn").hidden=false;try{sessionStorage.setItem("cm-desk-bano","1")}catch(e){}},60000);};
   ["pointerdown","scroll","touchstart"].forEach(ev=>addEventListener(ev,go,{once:true,passive:true,capture:true}));
 }
 document.addEventListener("click",e=>{if(e.target.closest("[data-pw-close]"))$("#phoneWarn").hidden=true;},true);
@@ -630,6 +666,7 @@ document.addEventListener("click",e=>{
   if(tapOpen){const el=tapOpen;tapOpen=null;if(e.target.closest(".ico")===el){openItem(itemById(el.dataset.p));return;}}
   if(phone()){const ic=e.target.closest("#desk .ico");if(ic){openItem(itemById(ic.dataset.p));return;}}
   const c=e.target.closest("[data-close]");if(c){closeWin(c.closest(".win"));return;}
+  if(e.target.closest("[data-switch-user]")){showLogin();return;}
   if(e.target.closest("#wallBtn")){closeMenus();wallWin();return;}
   const wp=e.target.closest("[data-wall]");if(wp){setWall(wp.dataset.wall);return;}
   if(e.target.closest("#langBtn")){closeMenus();setLang(lang==="es"?"en":"es");return;}
@@ -649,7 +686,8 @@ $("#wallFile").addEventListener("change",e=>{useOwnWall(e.target.files[0]);e.tar
 document.addEventListener("keydown",e=>{
   if(e.key==="Enter"&&e.target.matches(".ico")){openItem(itemById(e.target.dataset.p));return;}
   if(e.key==="Enter"&&e.target.matches("[data-close]")){closeWin(e.target.closest(".win"));return;}
-  if(e.key==="Escape"){if(!$("#phoneWarn").hidden){$("#phoneWarn").hidden=true;return;}
+  if(e.key==="Escape"){if(!$("#standby").hidden){$("#standby").hidden=true;return;}
+    if(!$("#phoneWarn").hidden){$("#phoneWarn").hidden=true;return;}
     if(!$("#signup").hidden){$("#signup").hidden=true;return;}
     if(!$("#fondoMenu").hidden||!$("#startMenu").hidden){closeMenus();return;}
     const ws=[...document.querySelectorAll(".win")].sort((a,b)=>b.style.zIndex-a.style.zIndex);ws[0]&&closeWin(ws[0]);}
@@ -662,6 +700,6 @@ let rt;addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(()=>{render
 // ---------- arranque
 applyStatic();
 fetch("data/escritorio.json",{cache:"no-cache"}).then(r=>r.json()).then(d=>{D=Object.assign(D,d);
-  buildItems();applyWall();renderDock();renderDesk();phoneWarning();signup();
+  buildItems();applyWall();renderDock();renderDesk();renderLogin();boot();phoneWarning();signup();
 }).catch(()=>{$("#empty").hidden=false;$("#empty span").textContent="No se pudo cargar el escritorio.";});
 })();

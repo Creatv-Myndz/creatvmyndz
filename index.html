@@ -58,9 +58,31 @@
     <button role="menuitem" data-open-p="buscaminas-acceso"><img src="assets/iconos/buscaminas.png" alt="" class="smooth"><span data-i18n-html="s_mines"><u>B</u>uscaminas</span></button>
     <button role="menuitem" data-app-open="contacto"><img src="assets/iconos/contacto.png" alt="" class="smooth"><span data-i18n-html="s_contact"><u>C</u>ontáctanos</span></button>
     <button role="menuitem" data-app-open="papelera"><img src="assets/iconos/papelera.png" alt="" class="smooth"><span data-i18n-html="s_bin"><u>P</u>apelera de ideas</span></button>
+    <button role="menuitem" data-switch-user><img src="assets/iconos/computador.png" alt="" class="smooth"><span data-i18n-html="s_user"><u>C</u>ambiar de usuario</span></button>
     <hr>
     <button role="menuitem" data-win="sobre"><img src="assets/iconos/cdrom.png" alt=""><span data-i18n-html="s_about"><u>P</u>róximamente CREATV MYNDZ</span></button>
   </div>
+</div>
+
+<!-- ===== ARRANQUE (como Windows XP, con la marca CREATV MYNDZ) ===== -->
+<div id="boot" hidden aria-hidden="true">
+  <div class="boot-brand"><img src="assets/img/logo-creatv-blanco.webp" alt="" width="700" height="297"><span class="boot-os">OS<sup>™</sup></span></div>
+  <div class="boot-bar"><i></i><i></i><i></i></div>
+  <p class="boot-foot">Copyright © CREATV MYNDZ</p>
+</div>
+
+<!-- ===== ESCOGER USUARIO (selección de personaje) ===== -->
+<div id="login" hidden role="dialog" aria-modal="true" aria-labelledby="lgTitle">
+  <h1 id="lgTitle" class="lg-title" data-i18n="lg_title">ESCOGE TU USUARIO</h1>
+  <div class="lg-users" id="lgUsers"></div>
+  <p class="lg-hint" data-i18n="lg_hint">TOCA UN USUARIO PARA ENTRAR</p>
+</div>
+
+<!-- ===== PLEASE STAND BY (para lo que viene pronto) ===== -->
+<div id="standby" hidden role="dialog" aria-modal="true">
+  <p class="sb-main">PLEASE STAND BY</p>
+  <p class="sb-sub" id="sbSub"></p>
+  <p class="sb-tap" data-i18n="sb_tap">Toca para volver</p>
 </div>
 
 <!-- Aviso solo para quien entra desde el celular -->
