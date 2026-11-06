@@ -267,3 +267,9 @@ En `data/escritorio.json → extras`, por `id` del CRTV:
   "bienvenido" con la barra de carga y luego el escritorio.
 - Oazis abre creatvmyndz.com/oazis. Forja Player abre su app en la App Store (`extras.forja-player.enlaceDirecto`).
 - Snoopy Flops muestra por ahora la imagen "Flops select" (`extras.snoopy-flops`).
+- Arranque: fondo negro con `assets/img/logo-creatv-xp.png`, barra de carga y "Creando...", con grano, líneas
+  de TV y un leve parpadeo (look envejecido).
+- Pantalla de usuarios: el cielo estrellado (`assets/img/escritorio/usuarios-fondo.webp`) semitransparente sobre
+  el fondo del escritorio, título "Usuario:" en letra pixelada y los dos cubos flotando con aura
+  (`bloque-c-azul.png` para Playground, `bloque-c.png` para Dealers).
+- Ojo: el logo del arranque lleva la bandera de Windows (marca de Microsoft); se usa por decisión de CREATV MYNDZ.

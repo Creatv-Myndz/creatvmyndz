@@ -370,20 +370,25 @@ u{text-decoration:underline;text-underline-offset:2px}
 }
 @media (prefers-reduced-motion:reduce){#topLogo img,.win,#wall,.ico[data-p="creative-playground"] .th img{animation:none;transition:none}}
 
-/* ===== ARRANQUE (estilo Windows XP, marca CREATV MYNDZ) ===== */
-#boot{position:fixed;inset:0;z-index:200;background:var(--brand);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9vh;transition:opacity .5s}
+/* ===== ARRANQUE (estilo Windows XP, un poco envejecido: grano, líneas de TV y parpadeo) ===== */
+#boot{position:fixed;inset:0;z-index:200;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5vh;transition:opacity .5s;overflow:hidden}
 #boot[hidden]{display:none}
 #boot.out{opacity:0}
-.boot-brand{position:relative;display:flex;align-items:flex-end;gap:6px}
-.boot-brand img{width:min(420px,70vw);height:auto}
-.boot-os{font:700 clamp(28px,5vw,52px)/1 var(--sys);color:#f26b1d;letter-spacing:-.02em;margin-bottom:.3em}
-.boot-os sup{font-size:.3em;color:#fff;margin-left:2px}
-.boot-bar{position:relative;width:min(280px,60vw);height:22px;border:2px solid rgba(255,255,255,.75);border-radius:6px;overflow:hidden;background:rgba(0,20,70,.55)}
-.boot-bar i{position:absolute;top:3px;width:12px;height:12px;border-radius:2px;background:linear-gradient(180deg,#8fa8ff,#2d3fd6 55%,#1a26a8);animation:bootrun 1.8s linear infinite}
+.boot-brand img{width:min(520px,78vw);height:auto;filter:contrast(1.05) saturate(.85) blur(.4px);animation:bootin 1.2s ease-out both,flick 3.5s steps(1) infinite}
+@keyframes bootin{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
+@keyframes flick{0%,100%{opacity:1}43%{opacity:.86}45%{opacity:1}71%{opacity:.92}72%{opacity:1}}
+.boot-bar{position:relative;width:min(280px,60vw);height:22px;border:2px solid #b8b8b8;border-radius:7px;overflow:hidden;background:#000}
+.boot-bar i{position:absolute;top:3px;width:12px;height:12px;border-radius:1px;background:linear-gradient(180deg,#8fa8ff,#2d3fd6 55%,#1a26a8);animation:bootrun 1.8s linear infinite}
 .boot-bar i:nth-child(2){animation-delay:.12s}.boot-bar i:nth-child(3){animation-delay:.24s}
 @keyframes bootrun{0%{left:-40px}100%{left:calc(100% + 10px)}}
-.boot-foot{position:absolute;bottom:3vh;left:0;right:0;margin:0;text-align:center;font:13px var(--sys);color:rgba(255,255,255,.6)}
-#welcome{position:fixed;inset:0;z-index:185;background:var(--brand);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;transition:opacity .45s}
+.boot-txt{margin:-2vh 0 0;font:22px/1 var(--pixel);letter-spacing:.12em;color:#e8e8e8}
+.boot-crt{position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 3px),
+             radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.65) 100%),
+             url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain .4s steps(2) infinite}
+@keyframes grain{50%{background-position:0 1px,0 0,40px 30px}}
+#welcome{position:fixed;inset:0;z-index:185;background:#06102e url("img/escritorio/usuarios-fondo.webp") center/cover;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;transition:opacity .45s}
 #welcome[hidden]{display:none}
 #welcome.out{opacity:0}
 .wl-text{margin:0;font:italic 700 clamp(42px,7vw,80px)/1 "Trebuchet MS",var(--sys);color:#fff;text-shadow:3px 3px 0 rgba(0,0,40,.35)}
@@ -391,22 +396,25 @@ u{text-decoration:underline;text-underline-offset:2px}
 /* ===== ESCOGER USUARIO (pantalla de bienvenida estilo Windows XP, sobre el fondo del escritorio) ===== */
 #login{position:fixed;inset:0;z-index:190;isolation:isolate;display:flex;flex-direction:column;color:#fff;font-family:var(--sys)}
 #login[hidden]{display:none}
-.lg-bg{position:absolute;z-index:-2;inset:-30px;background:#2b55c8 center/cover no-repeat;filter:blur(6px)}
-#login::before{content:"";position:absolute;z-index:-1;inset:0;background:rgba(0,74,172,.55)}
+.lg-bg{position:absolute;z-index:-2;inset:0;background:#0b1a4a center/cover no-repeat}
+#login::before{content:"";position:absolute;z-index:-1;inset:0;background:url("img/escritorio/usuarios-fondo.webp") center/cover;opacity:.82}
 .lg-top,.lg-bottom{position:relative;flex:none;background:linear-gradient(180deg,#00309c,#002a8a);}
 .lg-top{height:clamp(40px,9vh,80px);border-bottom:2px solid transparent;border-image:linear-gradient(90deg,transparent,#fff 30%,#ff9a3c 50%,#fff 70%,transparent) 1}
 .lg-bottom{min-height:clamp(48px,10vh,90px);display:flex;align-items:center;justify-content:center;padding:10px 20px;text-align:center;font-size:14px;border-top:2px solid transparent;border-image:linear-gradient(90deg,transparent,#fff 30%,#ff9a3c 50%,#fff 70%,transparent) 1}
 .lg-mid{position:relative;flex:1;display:flex;align-items:center;justify-content:center;gap:clamp(20px,4vw,48px);padding:24px}
 .lg-left{display:flex;flex-direction:column;align-items:flex-end;gap:16px;text-align:right;max-width:340px}
-.lg-left img{width:min(240px,50vw);height:auto;filter:drop-shadow(0 3px 8px rgba(0,20,80,.5))}
-.lg-title{margin:0;font:400 clamp(16px,1.7vw,20px)/1.3 var(--sys);text-shadow:0 1px 3px rgba(0,0,40,.6)}
+.lg-left img{width:min(300px,60vw);height:auto;filter:drop-shadow(0 3px 8px rgba(0,10,40,.6))}
+.lg-title{margin:0;font:clamp(28px,3vw,38px)/1 var(--pixel);letter-spacing:.04em;color:#fff;text-shadow:2px 2px 0 rgba(0,0,30,.6)}
 .lg-sep{align-self:stretch;width:2px;max-height:340px;margin:auto 0;background:linear-gradient(180deg,transparent,rgba(255,255,255,.9),transparent)}
 .lg-users{display:flex;flex-direction:column;gap:10px}
 .lg-user{display:flex;align-items:center;gap:16px;padding:8px 24px 8px 8px;border-radius:10px;text-align:left;border:2px solid transparent;transition:background .15s}
 .lg-user:hover,.lg-user:focus-visible{background:linear-gradient(90deg,rgba(0,30,120,.75),rgba(0,30,120,0));outline:0}
-.lg-card{flex:none;display:grid;place-items:center;width:72px;height:72px;border-radius:8px;border:3px solid #fff;background:var(--c);box-shadow:0 2px 6px rgba(0,0,0,.4)}
-.lg-user:hover .lg-card{border-color:#ffc94a}
-.lg-card img{width:82%;height:82%;object-fit:contain;image-rendering:pixelated}
+.lg-card{position:relative;flex:none;display:grid;place-items:center;width:96px;height:96px}
+.lg-card::before{content:"";position:absolute;inset:-14px;border-radius:50%;background:radial-gradient(circle,var(--c) 0%,color-mix(in srgb,var(--c) 45%,transparent) 35%,transparent 70%);filter:blur(6px);opacity:.75;animation:aura 2.6s ease-in-out infinite}
+.lg-card img{position:relative;width:86px;height:86px;object-fit:contain;image-rendering:pixelated;animation:floaty 2.6s ease-in-out infinite;filter:drop-shadow(0 10px 8px rgba(0,0,30,.45))}
+.lg-user:nth-child(2) .lg-card img,.lg-user:nth-child(2) .lg-card::before{animation-delay:-1.3s}
+@keyframes floaty{50%{transform:translateY(-8px)}}
+@keyframes aura{50%{opacity:1;transform:scale(1.12)}}
 .lg-name{font:400 clamp(20px,2.2vw,26px)/1.1 var(--sys);text-shadow:0 1px 3px rgba(0,0,40,.6)}
 .lg-user.picked{background:linear-gradient(90deg,rgba(0,30,120,.85),rgba(0,30,120,0))}
 @media (max-width:640px){
@@ -421,4 +429,4 @@ u{text-decoration:underline;text-underline-offset:2px}
 .sb-main{margin:0;font:clamp(36px,7vw,72px)/1 var(--pixel);letter-spacing:.08em}
 .sb-sub{margin:0;max-width:34ch;font:clamp(18px,2.6vw,26px)/1.25 var(--pixel);opacity:.9}
 .sb-tap{position:absolute;bottom:6vh;margin:0;font:18px var(--pixel);opacity:.6;animation:blinkh 1.4s steps(2) infinite}
-@media (prefers-reduced-motion:reduce){.boot-bar i,.sb-tap{animation:none}}
+@media (prefers-reduced-motion:reduce){.boot-bar i,.sb-tap,.boot-brand img,.boot-crt,.lg-card img,.lg-card::before{animation:none}}

@@ -538,15 +538,15 @@
       {
         "id": "playground",
         "nombre": "Creative Playground",
-        "icono": "assets/iconos/playground.png",
-        "color": "#ff4fb2",
+        "icono": "assets/iconos/bloque-c-azul.png",
+        "color": "#3a7bff",
         "fondo": "resbaladero"
       },
       {
         "id": "dealers",
         "nombre": "Creative Dealers",
         "icono": "assets/iconos/bloque-c.png",
-        "color": "#ffd21f",
+        "color": "#ffb21f",
         "fondo": "colina"
       }
     ]
