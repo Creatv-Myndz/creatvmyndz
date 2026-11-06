@@ -1,29 +1,36 @@
 # Escritorio retro de CREATV MYNDZ
 
-Página: **creatvmyndz.com** (es la página principal, `index.html`; `/escritorio` reenvía aquí). La portada anterior quedó en `portada.html`.
+Página: **creatvmyndz.com** (es la página principal, `sitio/index.html`; `/escritorio.html` reenvía aquí). La portada anterior quedó en `/portada/`.
 Viene del escritorio que estaba en la rama `escritorio` de `creatvmyndz/camilovegga`, pasado a la marca
 CREATV MYNDZ y a estilo retro (Windows 95/98 + XP + Vista).
 
-Todo el contenido vive en **`data/escritorio.json`**. Para cambiar algo casi nunca hay que tocar el código.
+Todo el contenido vive en **`sitio/assets/contenido/escritorio.json`**. Para cambiar algo casi nunca hay que tocar el código.
+Dentro del JSON, las rutas empiezan con `/` (`"/assets/img/escritorio/iconos/nube.png"`); el archivo vive en
+`sitio/assets/img/escritorio/iconos/nube.png`.
+
+> Nota (6 nov 2026): con la estructura nueva del repo se borraron los íconos y fondos que el escritorio ya no usaba
+> (entre ellos Duo, los cursores, `creatv-paleta.png`, `cerebro-azul.png`, Nubes 95, los fondos de relleno y el logo
+> pixelado). Las secciones de abajo que los nombran son historia; si hace falta uno, se recupera del historial de git
+> (README, «Recuperar algo borrado»).
 
 | Archivo | Qué es |
 | --- | --- |
-| `index.html` | la página (antes `escritorio.html`) |
-| `assets/escritorio.css` | estilos retro (bordes biselados, barra azul XP, barra de tareas) |
-| `assets/escritorio.js` | lógica: fondo, íconos, ventanas, menús, reloj |
-| `data/escritorio.json` | **el contenido**: fondos, proyectos, programas, ideas |
-| `assets/fondos/` | fondos de pantalla |
-| `assets/iconos/` | íconos retro propios (`.png` = pixel art 32×32, `.svg` = brillantes estilo XP/Vista) |
+| `sitio/index.html` | la página (antes `escritorio.html`) |
+| `sitio/assets/css/escritorio.css` | estilos retro (bordes biselados, barra azul XP, barra de tareas) |
+| `sitio/assets/js/escritorio.js` | lógica: fondo, íconos, ventanas, menús, reloj |
+| `sitio/assets/contenido/escritorio.json` | **el contenido**: fondos, proyectos, programas, ideas |
+| `sitio/assets/img/escritorio/fondos/` | fondos de pantalla |
+| `sitio/assets/img/escritorio/iconos/` | íconos retro propios (`.png` = pixel art 32×32, `.svg` = brillantes estilo XP/Vista) |
 
 ---
 
 ## Los CRTV del Creative Playground (automático)
 
-Con `"creativePlayground": true`, **cada CRTV de `assets/projects.js` es un ícono del escritorio**
+Con `"creativePlayground": true`, **cada CRTV de `sitio/assets/contenido/projects.js` es un ícono del escritorio**
 (el mismo archivo que alimenta la página de proyectos). No hay que copiarlos al JSON:
 
 - CRTV terminado con página → se abre como un archivo en **Paint** (`nombre.bmp - Paint`) con la imagen
-  completa (`assets/img/crtvs/<id>.webp`) y, abajo, "Abrir proyecto ↗".
+  completa (`/assets/img/crtvs/<id>.webp`) y, abajo, "Abrir proyecto ↗".
 - CRTV terminado sin material todavía (sin `link`) → mensaje del sistema: "estamos preparando el material".
 - CRTV próximo (`status: "soon"`) → ícono de aviso amarillo y mensaje del sistema "Estamos trabajando en
   este CRTV", con botones Ok / Cancelar.
@@ -31,7 +38,7 @@ Con `"creativePlayground": true`, **cada CRTV de `assets/projects.js` es un íco
 ## Íconos sueltos del escritorio (`"accesos"`)
 
 ```json
-{ "id": "c", "titulo": "Muy pronto", "icono": "assets/iconos/c-flotante.png", "texto": "Mensaje que sale al abrirlo." }
+{ "id": "c", "titulo": "Muy pronto", "icono": "/assets/img/escritorio/iconos/c-flotante.png", "texto": "Mensaje que sale al abrirlo." }
 ```
 
 - `"abre": "proyectos"` abre la lista del Creative Playground (así está el ícono CREATV con paleta).
@@ -49,8 +56,8 @@ Agrega un bloque en `"proyectos"`:
     "titulo": "Cajita Feliz de Ferxxo",
     "tipo": "Campaña",
     "año": "2025",
-    "portada": "assets/img/crtvs/thumb/cajita-feliz-ferxxo.webp",
-    "imagenes": ["assets/img/crtvs/cajita-feliz-ferxxo.webp"],
+    "portada": "/assets/img/crtvs/thumb/cajita-feliz-ferxxo.webp",
+    "imagenes": ["/assets/img/crtvs/cajita-feliz-ferxxo.webp"],
     "texto": "La historia del proyecto.",
     "enlace": "https://..."
   }
@@ -68,7 +75,7 @@ Agrega un bloque en `"proyectos"`:
 En `"dock"`, en el orden en que aparecen. `"|"` dibuja un separador.
 
 ```json
-{ "id": "paint", "nombre": "Paint", "icono": "assets/iconos/paint.png", "texto": "Muy pronto." }
+{ "id": "paint", "nombre": "Paint", "icono": "/assets/img/escritorio/iconos/paint.png", "texto": "Muy pronto." }
 ```
 
 - Con `"texto"` abre una ventana con ese texto.
@@ -80,11 +87,11 @@ En `"dock"`, en el orden en que aparecen. `"|"` dibuja un separador.
 ## Agregar o cambiar un fondo
 
 1. Optimiza la imagen: máximo ~2560 px de ancho, JPG o WebP.
-2. Súbela a `assets/fondos/`.
+2. Súbela a `sitio/assets/img/escritorio/fondos/`.
 3. Agrégala en `"fondos"`:
 
 ```json
-{ "id": "mi-fondo", "nombre": "Nombre corto", "imagen": "assets/fondos/mi-fondo.webp", "blur": 10 }
+{ "id": "mi-fondo", "nombre": "Nombre corto", "imagen": "/assets/img/escritorio/fondos/mi-fondo.webp", "blur": 10 }
 ```
 
 - `"fondo"` (arriba del JSON) es el `id` del fondo por defecto.
@@ -111,8 +118,8 @@ Nada se sube al servidor. *Quitar mi fondo* vuelve a los fondos de la marca.
 - **Doble clic contra toque:** en PC se abre con doble clic; en celular con un toque. Arrastrar no abre.
 - **`hidden` y `display`:** si un elemento con `hidden` tiene `display:flex` en el CSS, sigue visible y tapa los
   clics. Por eso existe `.menu[hidden]{display:none!important}`.
-- **Publicación:** el workflow `.github/workflows/deploy.yml` copia `data/` al sitio; sin eso el escritorio
-  no carga su contenido.
+- **Publicación:** todo lo que está en `sitio/` se publica solo (`scripts/armar-sitio.py`, ver README). Un archivo
+  fuera de `sitio/` no llega al sitio, y la revisión avisa si una ruta del JSON no existe.
 - **Íconos:** los pixelados y brillantes (`paint`, `notas`, `paleta`, `camara`, `buho`, cursores…) son dibujos
   propios. `creatv-paleta.png` es arte de la marca CREATV. Ver abajo los que llegaron del equipo.
 - **Cursores:** flecha pixelada (`cursor.png`) y manito que señala con el dedo pequeño (`cursor-mano.png`,
@@ -122,27 +129,27 @@ Nada se sube al servidor. *Quitar mi fondo* vuelve a los fondos de la marca.
 
 - **Idioma:** el búho pixelado de la barra de arriba cambia entre español e inglés (comparte la preferencia
   `cm-lang` con el resto de creatvmyndz.com). En el JSON, cualquier texto puede ser `"texto"` o
-  `{ "es": "...", "en": "..." }`. Los textos fijos de la interfaz están en `I18N` dentro de `assets/escritorio.js`.
+  `{ "es": "...", "en": "..." }`. Los textos fijos de la interfaz están en `I18N` dentro de `sitio/assets/js/escritorio.js`.
 - **Buscaminas:** nivel fácil (6×6, 3 minas; el primer clic nunca es mina y abre una zona grande, se gana en
   segundos). Al ganar, "Siguiente nivel" ya no es juego: se destapa la frase de `"buscaminas": { "frase": … }`
   (una palabra o grupo por línea, en los dos idiomas). Está en el dock y como ícono del escritorio.
 - **Contáctanos** (ícono de dos personas, `"contacto": true`): formulario que manda el mensaje por FormSubmit
-  al correo `SITE.leadEmail` de `assets/projects.js` (con copia a `SITE.ccEmail`). La primera vez FormSubmit
+  al correo `SITE.leadEmail` de `sitio/assets/contenido/projects.js` (con copia a `SITE.ccEmail`). La primera vez FormSubmit
   manda un correo de activación a esa dirección: hay que confirmarlo.
 - **Aviso del baño:** solo para quien entra desde un celular (pantalla táctil y pequeña), una vez por visita.
-  Foto en `assets/img/escritorio/bano.webp`; textos `pw_*` en `I18N`.
+  Foto en `sitio/assets/img/escritorio/bano.webp`; textos `pw_*` en `I18N`.
 - **Íconos que mandó el equipo y se usan tal cual:** `c-flotante.png`, `contacto.png`, `papelera.png`,
   `creatv-paleta.png` (se les quitó solo el fondo blanco). Ojo: la "C" y las dos personas son logos de
   Microsoft (Internet Explorer y MSN); se usan como guiño retro por decisión de CREATV MYNDZ.
 
 ## Íconos propios y videos por CRTV (`"extras"`)
 
-En `data/escritorio.json → extras`, por `id` del CRTV:
+En `sitio/assets/contenido/escritorio.json → extras`, por `id` del CRTV:
 
 ```json
 "jordan-blessd": { "videos": [ { "tipo": "youtube", "id": "y0u16r_mF4A", "inicio": 4, "x": 34, "y": 31.5, "w": 32 } ] },
-"perreo-santo":  { "icono": "assets/iconos/perreo-santo.png",
-                   "videos": [ { "tipo": "video", "src": "assets/video/perreo-1.mp4", "x": 18.7, "y": 60, "w": 16, "h": 27.1 } ] }
+"perreo-santo":  { "icono": "/assets/img/escritorio/iconos/perreo-santo.png",
+                   "videos": [ { "tipo": "video", "src": "/assets/video/perreo-1.mp4", "x": 18.7, "y": 60, "w": 16, "h": 27.1 } ] }
 ```
 
 - `icono`: reemplaza la miniatura del CRTV en el escritorio (Cajita Feliz DtMF, Cajita Feliz de Ferxxo, Perreo Santo y Pokémor ya tienen el suyo).
@@ -152,7 +159,7 @@ En `data/escritorio.json → extras`, por `id` del CRTV:
   `forja-player.png` se sacó del emblema del sitio: recorte del herrero con Vision de macOS, sin el aro de atrás,
   bajado a 57×74 pixeles, 56 colores y agrandado ×3 sin suavizar.
 - `videos`: se ponen **encima** de la imagen del proyecto cuando se abre en Paint. `x`, `y`, `w`, `h` son % de la imagen.
-  YouTube mantiene 16:9 (no necesita `h`). Un `.mp4` va en `assets/video/` y se reproduce con controles.
+  YouTube mantiene 16:9 (no necesita `h`). Un `.mp4` va en `sitio/assets/video/` y se reproduce con controles.
   Si `src` está vacío, no se muestra (así están los 3 celulares de Perreo Santo, esperando sus videos).
 - Jordan x Blessd: el video de YouTube tapa el botón "VER DROP" de la imagen.
 - El ícono "EXPLORA" (la C) abre un navegador retro con "Explora tu creatividad".
@@ -160,10 +167,10 @@ En `data/escritorio.json → extras`, por `id` del CRTV:
 
 ## Arriba (no hay barra)
 
-- Al centro: logo CREATV MYNDZ pixelado (`assets/img/logo-creatv-pixel.png`), levitando suave. Abre "Sobre".
+- Al centro: logo CREATV MYNDZ (`sitio/assets/img/marca/logo-creatv-blanco.webp`), levitando suave. Abre "Sobre".
 - A la izquierda (~10% del borde, un poco abajo): los accesos con `"fijo": true` (hoy: Explorers). No se arrastran
   y se abren con un clic. En el celular ocupan la primera casilla de la cuadrícula.
-- Arriba a la derecha: **Duo** (`assets/iconos/duo.png`), cambia entre ES y EN. Ya no hay reloj.
+- Arriba a la derecha: **Duo** (`sitio/assets/img/escritorio/iconos/duo.png`), cambia entre ES y EN. Ya no hay reloj.
 - El menú **Fondo** se abre desde el menú Inicio (botón CREATV del dock).
 - Las ventanas no tienen el menú "Archivo Edición Ver Ayuda" (no tenía función).
 - Nombres en el escritorio: tal cual se escriben (sin forzar mayúsculas). Los de los CRTV se ponen en
@@ -171,9 +178,9 @@ En `data/escritorio.json → extras`, por `id` del CRTV:
 
 ## Otros accesos
 
-- **Mynd** (cerebro): ventana de inicio de sesión retro con la misma clave de `mynd.html` (mismo hash). Si la
+- **Mynd** (cerebro): ventana de inicio de sesión retro con la misma clave de `sitio/mynd/index.html` (mismo hash). Si la
   clave es correcta, abre el tablero de MYND CREATV en otra pestaña. Si cambia la clave o el tablero, hay que
-  cambiar `MYND_HASH` / `MYND_BOARD` en `assets/escritorio.js` **y** en `mynd.html`.
+  cambiar `MYND_HASH` / `MYND_BOARD` en `sitio/assets/js/escritorio.js` **y** en `sitio/mynd/index.html`.
 - **Creative Dealers**: ventana con la descripción y un botón a la sección Creative Dealing de la portada.
 - Los CRTV próximos usan el ícono `proximoIcono` (carpeta con papeles), salvo que tengan su propio `icono` (Snoopy).
 - Ojo con marcas de otros: Duo (Duolingo), Instagram, Snoopy (Peanuts), Ash (Pokémon), la C y las dos personas
@@ -181,7 +188,7 @@ En `data/escritorio.json → extras`, por `id` del CRTV:
 
 ## Cambios recientes
 
-- Fondo por defecto: **Nubes 95** (`assets/fondos/nubes-95.webp`, nubes pixeladas estilo Windows 95, sin blur).
+- Fondo por defecto: **Nubes 95** (`sitio/assets/img/escritorio/fondos/nubes-95.webp`, nubes pixeladas estilo Windows 95, sin blur).
 - Íconos del escritorio: parecen regados al azar, pero van en una cuadrícula con un poco de desorden para que
   ningún nombre se tape (en PC y en celular). Los nombres llevan un fondito azul oscuro para leerse sobre las nubes.
 - Nuevos accesos: **Por Amor al Arte** → camilovegga.com, **Galadsy** → galadsy.com. Mynd usa el ícono de aviso.
@@ -192,7 +199,7 @@ En `data/escritorio.json → extras`, por `id` del CRTV:
   - **Fotos** (`"collage": true`) muestra un collage con `fotos.imagenes` del JSON; si está vacío, usa las imágenes de los CRTV.
 - **Buscaminas**: al ganar, cada "Siguiente" destapa la frase siguiente de `buscaminas.frases`
   (la última no tiene botón).
-- Fondo por defecto: **Colina** (`assets/fondos/colina.webp`, blur 3 px para separar los íconos).
+- Fondo por defecto: **Colina** (`sitio/assets/img/escritorio/fondos/colina.webp`, blur 3 px para separar los íconos).
 - El ícono fijo de la izquierda (la C) ahora se llama **Creative Playground** y abre la lista de proyectos.
 - Primer botón del dock (menú Inicio): la **nube** pixelada (`nube.png`). Mynd solo está en el menú Inicio.
 - Idioma: botón "ES / EN" arriba a la derecha (sin Duo). Cursores: los normales del sistema.
@@ -206,7 +213,7 @@ En `data/escritorio.json → extras`, por `id` del CRTV:
   - **Proyectos creativos** (ícono Cajita DtMF): Cajitas Felices, Las Palabras Nos Hacen, Perro Negro Undergold, DtMF x FC Barcelona. Las dos Cajitas también siguen en el escritorio.
   - **Próximamente**: los CRTV pendientes (Carriel de Ryan, Joya, Tiempo vs Amor, Happy House).
     Forja Game salió de aquí: ahora es **Forja Player** (hecho, en producción en forjaplayer.com.co) y va suelto en el escritorio.
-  - **Creatvfy**: Wake Up! (abre `wakeup.html`), Cualquiera puede crear (ebook) y CREATV Kids.
+  - **Creatvfy**: Wake Up! (abre `/wakeup/`), Cualquiera puede crear (ebook) y CREATV Kids.
 - Para mover un CRTV a una carpeta: en `extras.<id>` pon `"carpeta": "proyectos-creativos"` (o la que sea).
 - El escritorio en PC es un grupo centrado: filas parejas, centradas y un poco corridas entre sí.
 
@@ -229,14 +236,14 @@ En `data/escritorio.json → extras`, por `id` del CRTV:
 
 ## Fondos con el pincel y registro de correos
 
-- **Pincel** (arriba a la derecha, al lado de ES/EN): abre la ventana "Personalizar" con todos los fondos de `"fondos"` (miniaturas en `assets/fondos/mini/`); el visitante escoge uno y se guarda en el
+- **Pincel** (arriba a la derecha, al lado de ES/EN): abre la ventana "Personalizar" con todos los fondos de `"fondos"` (miniaturas en `sitio/assets/img/escritorio/fondos/mini/`); el visitante escoge uno y se guarda en el
   navegador del visitante. Todos los fondos llevan el mismo blur suave (3 px). Fondos: Colina, Explorar (lupa),
-  Pradera, Resbaladero, Pájaros y Baño. Para agregar otro: súbelo a `assets/fondos/` y añádelo a la lista.
+  Pradera, Resbaladero, Pájaros y Baño. Para agregar otro: súbelo a `sitio/assets/img/escritorio/fondos/` y añádelo a la lista.
 - **Registro** (hoy APAGADO: `"registro": false` en el JSON; pon `true` para encenderlo): al entrar (a los 2,5 s, una vez por visita y nunca más si ya se registró) sale "¿Quieres ver más
   creatividad?". El correo llega a `SITE.leadEmail` (con copia a `SITE.ccEmail`) vía FormSubmit, con el asunto
   "Nuevo registro · CREATV MYNDZ". La primera vez FormSubmit pide confirmar el correo de activación.
   Para tener una base de datos ordenada, se pueden exportar esos correos o cambiar el destino a un servicio de
-  listas (Mailchimp, Brevo, Google Sheets) en la función `signup()` de `assets/escritorio.js`.
+  listas (Mailchimp, Brevo, Google Sheets) en la función `signup()` de `sitio/assets/js/escritorio.js`.
 
 ## Distribución fija en PC
 

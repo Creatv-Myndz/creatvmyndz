@@ -1,21 +1,66 @@
 # CREATV MYNDZ ☁️
 
-Sitio del colectivo: lista de proyectos estilo MSCHF + programa **WAKE UP**, sobre un
-cielo en video que **avanza y retrocede con el scroll** (de día a noche estrellada).
+El sitio del colectivo, en vivo en **<https://creatvmyndz.com>**: el escritorio retro como página principal,
+el Creative Playground con todos los CRTV, la portada y el programa **WAKE UP**.
 
-Sitio estático puro (HTML/CSS/JS, sin frameworks ni build). Rápido, responsive y fácil de editar.
+Sitio estático puro (HTML/CSS/JS, sin frameworks ni npm). Se publica solo en GitHub Pages en cada push a `main`.
 
 ---
 
-## 1. Editar proyectos (lo que harás casi siempre)
+## 1. Dónde va cada cosa
 
-Todo está en **`assets/projects.js`**. Copias un bloque `{ ... }`, lo pegas arriba, lo editas,
-haces push a `main` y la web se actualiza sola.
+**Lo que está en `sitio/` se publica tal cual; lo que está afuera no se publica nunca.**
+`sitio/` es creatvmyndz.com: la carpeta de una página es su dirección.
+
+```
+sitio/                      → creatvmyndz.com
+├── index.html              el escritorio retro (/)
+├── 404.html                página de error
+├── CNAME robots.txt sitemap.xml favicon.ico
+├── portada/  proyectos/  lab/            /portada/, /proyectos/, /lab/
+├── wakeup/  wakeup/programa/             /wakeup/, /wakeup/programa/
+├── crtv/<id>/              una página por CRTV: /crtv/forja-player/
+├── mynd/  love/  onuha/  bryngrill/      páginas con clave o para una persona (no salen en Google)
+├── oazis.html              Oazis, temporal (ver sección 8)
+└── assets/
+    ├── css/                estilos
+    ├── js/                 scripts
+    ├── contenido/          ← LO QUE SE EDITA A DIARIO: projects.js y escritorio.json
+    ├── fonts/              fuentes y sus licencias
+    ├── img/                imágenes: marca/, crtvs/, bg/, escritorio/ (iconos/, fondos/),
+    │                       y una carpeta por página (lab/, love/, onuha/, bryngrill/, oazis/)
+    ├── audio/              audio: wakeup/, oazis/
+    └── video/              video (.mp4) de los CRTV
+redirecciones.txt           URLs viejas → nuevas (sección 5)
+scripts/armar-sitio.py      arma lo que se publica y revisa los enlaces (sección 4)
+backend/                    Apps Script de WAKE UP (no se publica)
+docs/                       guías y diseños; la del escritorio es docs/escritorio.md
+material/                   solo en tu disco, ignorada por git: PDF de los CRTV y otras fuentes
+```
+
+| Si vas a agregar… | Va en… | Y se ve en… |
+| --- | --- | --- |
+| una página nueva | `sitio/<nombre>/index.html` | `/<nombre>/` |
+| la página de un CRTV | `sitio/crtv/<id>/index.html` (el `id` de `projects.js`) | `/crtv/<id>/` |
+| una imagen que usan varias páginas | `sitio/assets/img/marca/`, `crtvs/` o `bg/` | |
+| una imagen de una sola página | `sitio/assets/img/<página>/` | |
+| un estilo o un script | `sitio/assets/css/` o `sitio/assets/js/` | |
+| un audio o un video | `sitio/assets/audio/<de quién>/` o `sitio/assets/video/` | |
+
+**Toda ruta a un archivo del sitio empieza con `/`**: `/assets/css/minimal.css`, `/portada/#dealing`, nunca
+`assets/…` ni `../`. Así funciona igual desde cualquier carpeta. La revisión automática lo exige (salvo en Oazis).
+
+---
+
+## 2. Editar proyectos (lo que harás casi siempre)
+
+Todo está en **`sitio/assets/contenido/projects.js`**. Copias un bloque `{ ... }`, lo pegas arriba, lo editas,
+haces push a `main` y la web se actualiza sola. El escritorio sale de **`sitio/assets/contenido/escritorio.json`**
+(ver `docs/escritorio.md`).
 
 ### ¿Cómo se edita el "CRTV 01"?
 
-Lo controla el campo **`num`**. Escribes solo el número y la web lo muestra con el prefijo
-y dos dígitos:
+Lo controla el campo **`num`**. Escribes solo el número y la web lo muestra con el prefijo y dos dígitos:
 
 | Escribes en `projects.js` | Se ve en la web |
 | --- | --- |
@@ -23,71 +68,60 @@ y dos dígitos:
 | `num: 7` | CRTV 07 |
 | `num: 23` | CRTV 23 |
 
-La palabra **CRTV** es fija para todos. Si algún día quieres otra (por ejemplo `MYNDZ 01`),
-se cambia en **una sola línea** de `assets/app.js`:
-
-```js
-const PREFIX = "CRTV";
-```
+La palabra **CRTV** es fija para todos. Si algún día quieres otra (por ejemplo `MYNDZ 01`), se cambia en
+`sitio/assets/js/minimal.js` (la línea `const PREFIX = "CRTV";`) y en `sitio/assets/js/escritorio.js` (la función `code`).
 
 ### Los demás campos
 
 - `status`: `"done"` (hecho) · `"soon"` (próximo). Los `soon` salen con el **título borroso**,
   para generar expectativa; se leen bien al abrirlos
-- `image`: sube la foto a `assets/img/` y pon `"assets/img/tu-foto.jpg"`
-- `link`: URL externa del proyecto (Instagram, YouTube, tienda…)
+- `image`: sube la foto a `sitio/assets/img/crtvs/thumb/` y pon `"/assets/img/crtvs/thumb/tu-foto.webp"`
+  (la versión grande va con el mismo nombre en `sitio/assets/img/crtvs/`)
+- `link`: la página del CRTV, `"/crtv/<id>/"`, o una URL externa (Instagram, YouTube, tienda…)
 - `id`: se usa en el enlace directo, p. ej. `creatvmyndz.com/#el-despegue`
 
 ### Correo, redes y contacto
 
-Arriba de `assets/projects.js` está el bloque `SITE`: correo donde llegan los leads,
-correo público de contacto y las redes. Borra las redes que no uses.
+Arriba de `projects.js` está el bloque `SITE`: correo donde llegan los leads, correo público de contacto y
+las redes. Borra las redes que no uses.
 
 ---
 
-## 2. El cielo (video de fondo)
-
-El video **no** es un `<video>`: al rebobinar, los celulares se traban. En su lugar el video
-está convertido en **121 imágenes** que se dibujan en un canvas según cuánto has bajado.
-Es la técnica que usa Apple y va fluida en iPhone y Android.
-
-- `assets/sky/d/` → 121 frames horizontales (computador), 3.4 MB
-- `assets/sky/m/` → 121 frames verticales (celular), 1.7 MB
-
-Cada dispositivo descarga **solo su versión**, y en conexiones lentas o teléfonos modestos
-la web usa automáticamente menos frames.
-
-### Cambiar el video
-
-Con [ffmpeg](https://ffmpeg.org) y `cwebp` instalados (`brew install ffmpeg webp`):
+## 3. Ver el sitio en tu computador
 
 ```bash
-ffmpeg -i "TU-VIDEO.mp4" -vf "select=not(mod(n\,3)),scale=1280:720" -vsync 0 /tmp/fd/%04d.png
-ffmpeg -i "TU-VIDEO.mp4" -vf "select=not(mod(n\,3)),crop=608:1080:656:0,scale=540:960" -vsync 0 /tmp/fm/%04d.png
-for f in /tmp/fd/*.png; do cwebp -quiet -q 70 -m 6 "$f" -o "assets/sky/d/$(basename "$f" .png).webp"; done
-for f in /tmp/fm/*.png; do cwebp -quiet -q 70 -m 6 "$f" -o "assets/sky/m/$(basename "$f" .png).webp"; done
+python3 -m http.server -d sitio 4173
 ```
 
-Si el número de frames cambia, actualiza `SKY_TOTAL` en `assets/app.js`.
+Y abres <http://localhost:4173>. Para probar también las redirecciones, arma el sitio y sirve `dist/`:
+
+```bash
+python3 scripts/armar-sitio.py
+```
+
+```bash
+python3 -m http.server -d dist 4173
+```
 
 ---
 
-## 3. Publicar en producción
-
-**El sitio está en vivo en <https://creatvmyndz.com>** (y `www` redirige al dominio principal).
+## 4. Publicar en producción
 
 Se publica en **GitHub Pages**, gratis porque el repositorio es público. El repositorio vive en la
 organización **Creatv-Myndz** (<https://github.com/Creatv-Myndz/creatvmyndz>) desde el 3 de noviembre
-de 2026; si se vuelve privado, Pages se apaga (el plan gratuito no publica repos privados). El workflow
-`.github/workflows/deploy.yml` corre en cada push a `main`: no hay que subir nada a mano.
+de 2026; si se vuelve privado, Pages se apaga (el plan gratuito no publica repos privados).
 
-Para publicar un cambio:
+A `main` se entra por pull request. En cada PR corre **Revisar el sitio** (`.github/workflows/revisar.yml`), y en
+cada push a `main` corre **Deploy a producción** (`.github/workflows/deploy.yml`). Los dos usan
+`scripts/armar-sitio.py`, que:
 
-```bash
-git add -A && git commit -m "Lo que cambiaste" && git push
-```
+1. copia `sitio/` a `dist/`;
+2. crea las páginas que reenvían las URLs viejas, desde `redirecciones.txt`;
+3. revisa que cada enlace, imagen, estilo y script del sitio exista, y que las rutas empiecen con `/`;
+4. avisa si quedó un `.html` fuera de `sitio/` (no se publicaría).
 
-En 1-2 minutos está arriba. El progreso se ve en la pestaña **Actions** de GitHub.
+Si algo falla, el script dice qué archivo, qué ruta y qué falta, y **no se publica nada**: corrige y vuelve a
+hacer push. En 1-2 minutos el sitio está arriba; el progreso se ve en la pestaña **Actions** de GitHub.
 
 ### Cómo está conectado el dominio
 
@@ -101,7 +135,7 @@ El dominio sigue registrado en **Wix**, pero su DNS apunta a GitHub:
 | A | creatvmyndz.com | 185.199.111.153 |
 | CNAME | www | creatv-myndz.github.io |
 
-El archivo `CNAME` de este repositorio guarda el dominio y viaja con cada publicación, para
+El archivo `sitio/CNAME` guarda el dominio y viaja con cada publicación, para
 que GitHub Pages no lo pierda. **No lo borres.** El certificado HTTPS es automático y está
 forzado (todo http redirige a https).
 
@@ -111,30 +145,65 @@ en Wix.** Si se vence, el sitio deja de existir. Renuévalo o transfiérelo a ot
 
 ---
 
-## 4. Formulario de WAKE UP (leads)
+## 5. Mudar o borrar una página
+
+Las URLs viejas no se rompen: cada línea de **`redirecciones.txt`** es una URL vieja y su destino.
+
+```
+/crtv-forja-player.html     /crtv/forja-player/
+/creativmask.html           https://creatvmask.com/
+```
+
+Al publicar, `armar-sitio.py` crea en la URL vieja una página que reenvía al destino conservando
+`?consulta` y `#ancla` (los enlaces de WAKE UP con `?correo=` siguen funcionando). Si mueves o borras una
+página, agrega su línea. La URL vieja termina en `.html` o en `/`; el destino empieza con `/` o con `https://`.
+El script no deja que una redirección pise una página que existe ni que apunte a algo que no existe.
+
+---
+
+## 6. Formulario de WAKE UP (leads)
 
 Los correos llegan a la dirección de `SITE.leadEmail` vía [FormSubmit](https://formsubmit.co)
 (gratis, sin backend). **La primera vez** que alguien envíe el formulario, FormSubmit te manda
 un correo de activación: confírmalo y desde ahí llegan todos los leads a tu bandeja.
 
-Cuando el programa esté a la venta, reemplaza el formulario en `index.html`
-(sección `<!-- Captura de leads -->`) por tu botón de pago (Stripe Payment Link,
+Cuando el programa esté a la venta, reemplaza el formulario en `sitio/wakeup/index.html`
+(sección del formulario `lead-form`) por tu botón de pago (Stripe Payment Link,
 Gumroad, Hotmart…).
 
 ---
 
-## 5. Estructura
+## 7. Recuperar algo borrado
 
+Nada se pierde: todo sigue en el historial de git. Para traer de vuelta un archivo que se borró
+(por ejemplo un ícono viejo), busca el commit que lo borró y sácalo del commit anterior:
+
+```bash
+git log --oneline -- assets/iconos/creatv-paleta.png
 ```
-index.html              la portada (diseño minimalista: assets/minimal.css + assets/minimal.js)
-proyectos.html          todos los CRTV (lista / grilla); playground.html reenvía aquí
-assets/img/bg/          foto de fondo (cielo.webp) y su versión empañada (cielo-blur.webp)
-assets/projects.js      ← CONTENIDO: proyectos, correos y redes (lo que editas a diario)
-assets/app.js           lógica: cielo con scroll, menú, idioma ES/EN, modal, relojes
-assets/styles.css       estilos
-assets/sky/d, /m        frames del cielo (escritorio y celular)
-assets/img/             logos, favicon e imágenes de proyectos
-assets/fonts/           tipografía Outfit (licencia libre OFL)
-_headers                reglas de caché (para Netlify/Cloudflare; GitHub Pages lo ignora)
-.github/workflows/      pipeline de publicación automática
+
+```bash
+git checkout <commit>^ -- assets/iconos/creatv-paleta.png
 ```
+
+Después muévelo a su carpeta nueva dentro de `sitio/`.
+
+---
+
+## 8. Oazis (temporal)
+
+Oazis ya es un producto aparte (`Creatv-Myndz/oazis-app`) que se va a `oazis.creatvmyndz.com`. Mientras sale,
+su prototipo sigue aquí **tal cual, sin tocar nada por dentro**, con sus rutas relativas:
+`sitio/oazis.html`, `sitio/assets/oazis.webmanifest`, `sitio/assets/puramente/`, `sitio/assets/img/oazis/` y
+`sitio/assets/audio/oazis/`. Se ve en `creatvmyndz.com/oazis`.
+
+Si llegan cambios de Oazis como archivos sueltos (por ejemplo de cmsilo), van con el mismo nombre **dentro de
+`sitio/`**: `sitio/oazis.html`, `sitio/assets/puramente/…`. Si alguien los deja en la raíz, la revisión lo frena.
+
+**El corte**, cuando Oazis esté en producción (en un PR aparte):
+
+1. Borrar esos cinco puntos.
+2. En `redirecciones.txt`, agregar `/oazis.html  https://oazis.creatvmyndz.com/` y cambiar la línea de
+   `/creatvfy.html` a `https://oazis.creatvmyndz.com/`. Como Pages sirve `/oazis` desde `oazis.html`, `/oazis`
+   también reenvía.
+3. Hacer push: `armar-sitio.py` confirma que nada del sitio quedó apuntando a Oazis.

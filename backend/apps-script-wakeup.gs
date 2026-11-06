@@ -9,12 +9,12 @@
       este archivo completo → guarda.
    2. Implementar → Nueva implementación → tipo "Aplicación web" →
       Ejecutar como: "Yo" · Quién tiene acceso: "Cualquiera" → Implementar.
-   3. Copia la URL que termina en /exec y pégala en assets/wakeup.js, en
+   3. Copia la URL que termina en /exec y pégala en sitio/assets/js/wakeup.js, en
       PROGRESS_URL (reemplaza el texto PEGA_AQUI…). Sube a main.
    Si después cambias este código: Implementar → Gestionar
    implementaciones → lápiz → Versión: "Nueva versión" → Implementar
    (así la URL no cambia). Este archivo vive en backend/ y NO sale al
-   sitio (el deploy solo copia *.html y assets/).
+   sitio (solo se publica la carpeta sitio/).
    ============================================================ */
 
 // El sitio pide esto (GET ?correo=...) al abrir el programa: devuelve

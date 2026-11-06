@@ -60,7 +60,8 @@ const SITE = {
    - year:    año (puede ir vacío "")
    - desc:    { es: "...", en: "..." }  ← ¡ESTO ES LO QUE FALTA POR LLENAR!
    - link:    URL del proyecto (Instagram, YouTube, tienda...) o "" si no hay
-   - image:   sube la foto a sitio/assets/img/crtvs/ y pon "/assets/img/crtvs/tu-foto.webp", o ""
+   - image:   sube la miniatura a sitio/assets/img/crtvs/thumb/ (y la grande, con el mismo nombre,
+              a sitio/assets/img/crtvs/) y pon "/assets/img/crtvs/thumb/tu-foto.webp", o ""
    ------------------------------------------------------------ */
 
 /* Texto que aparece mientras no escribas la descripción real.
