@@ -146,6 +146,11 @@ En `data/escritorio.json → extras`, por `id` del CRTV:
 ```
 
 - `icono`: reemplaza la miniatura del CRTV en el escritorio (Cajita Feliz DtMF, Cajita Feliz de Ferxxo, Perreo Santo y Pokémor ya tienen el suyo).
+- `sitio`: el CRTV ya vive en su propia web; al tocar el ícono se abre ese sitio en otra pestaña en vez de Paint
+  (hoy: Forja Player → `https://forjaplayer.com.co`).
+- Los íconos propios van en pixel art, sin fondo y con contorno oscuro de 1 pixel, para que combinen con el resto.
+  `forja-player.png` se sacó del emblema del sitio: recorte del herrero con Vision de macOS, sin el aro de atrás,
+  bajado a 57×74 pixeles, 56 colores y agrandado ×3 sin suavizar.
 - `videos`: se ponen **encima** de la imagen del proyecto cuando se abre en Paint. `x`, `y`, `w`, `h` son % de la imagen.
   YouTube mantiene 16:9 (no necesita `h`). Un `.mp4` va en `assets/video/` y se reproduce con controles.
   Si `src` está vacío, no se muestra (así están los 3 celulares de Perreo Santo, esperando sus videos).

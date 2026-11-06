@@ -367,6 +367,8 @@ function openItem(p){
     if(p.juego==="buscaminas"){minesWin();return;}
     reg(msgBox(L(p.titulo),L(p.texto)||t("soon"),{icon:p.icono,key:"a:"+p.id}),()=>openItem(p));return;
   }
+  // CRTV que ya vive en su propio sitio (extras.<id>.sitio): el ícono abre el sitio, no Paint
+  if(p.sitio){window.open(p.sitio,"_blank","noopener");return;}
   if(p.estado==="proximo"||p.estado==="sin-material"){
     reg(msgBox(t("sys"),`<b>${esc(L(p.titulo))}</b><br>${t(p.estado==="proximo"?"soonMsg":"noMaterial")}`,{key:"w:"+p.id,html:true}),()=>openItem(p));return;
   }
