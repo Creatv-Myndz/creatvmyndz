@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Camilo's MYND</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#04060b">
+  <link rel="icon" href="/assets/img/love/love-icon.png">
+  <link rel="apple-touch-icon" href="/assets/img/love/love-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono&display=swap" rel="stylesheet">
+  <style>
+    /* Puerta de acceso a LOVE, la mente de Camilo Vegga · Por Amor al Arte.
+       El tablero vive en Claude; aquí solo se pide el código y se abre. */
+    :root{--bg:#04060b;--ink:#eef3fa;--muted:#8e9aae;--line:rgba(170,200,255,.22);--blue:#2f6bff;--mist:#cdd9ea;color-scheme:dark}
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:"Geist",system-ui,sans-serif;overflow:hidden;letter-spacing:-.005em}
+    .bg{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(1.05) brightness(.7)}
+    .veil{position:fixed;inset:0;background:radial-gradient(70% 60% at 50% 42%,rgba(11,21,48,.15),rgba(4,6,11,.88) 78%),linear-gradient(180deg,rgba(4,6,11,.1),rgba(4,6,11,.92))}
+    main{position:relative;z-index:1;min-height:100%;display:grid;place-items:center;padding:24px 16px}
+    .in{width:min(440px,100%);display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center}
+    .wel{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:nowrap}
+    .sym{width:clamp(44px,8vw,64px);height:auto;flex:none;opacity:.95}
+    h1{margin:0;font-weight:500;font-size:clamp(26px,5.6vw,52px);line-height:1;letter-spacing:-.04em;white-space:nowrap}
+    h1 span{font-weight:400;color:var(--mist)}
+    .wm{position:fixed;z-index:1;left:50%;bottom:calc(26px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);width:150px;height:auto;opacity:.7}
+    form,.ok{width:100%;display:flex;flex-direction:column;gap:10px;margin-top:8px}
+    label{font-family:"Geist Mono",monospace;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+    input{width:100%;text-align:center;border:1px solid var(--line);background:rgba(10,9,8,.6);backdrop-filter:blur(10px);color:var(--ink);border-radius:14px;padding:14px 18px;font:inherit;font-family:"Geist Mono",monospace;font-size:16px;letter-spacing:.3em;text-transform:uppercase}
+    input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 4px rgba(47,107,255,.28)}
+    button,.go{border:0;border-radius:12px;padding:14px 18px;font:inherit;font-weight:600;font-size:15px;background:var(--ink);color:#0a0908;cursor:pointer;text-align:center;text-decoration:none}
+    .err{min-height:18px;margin:0;color:#ffab91;font-size:13px}
+    .ok{display:none}.ok p{margin:0;color:var(--muted);font-size:14px}
+    .open form{display:none}.open .ok{display:flex}
+    @media (prefers-reduced-motion:no-preference){.in{animation:rise .8s cubic-bezier(.2,.7,.2,1) both}@keyframes rise{from{transform:translateY(14px);opacity:.4}to{transform:none;opacity:1}}}
+  </style>
+</head>
+<body>
+  <img class="bg" src="/assets/img/love/camilo-hero.webp" alt="">
+  <div class="veil"></div>
+  <main>
+    <div class="in" id="card">
+      <div class="wel"><img class="sym" src="/assets/img/love/paa-symbol.webp" alt="" width="64" height="45"><h1><span>Bienvenido</span> CAMILO</h1></div>
+      <form id="gate" autocomplete="off">
+        <label for="code">Código de acceso</label>
+        <input id="code" type="password" autocapitalize="characters" spellcheck="false" placeholder="••••••••" required>
+        <p class="err" id="err" aria-live="polite"></p>
+        <button type="submit">Entrar</button>
+      </form>
+      <div class="ok">
+        <p>Abriendo Camilo's MYND…</p>
+        <a class="go" id="go" href="#" rel="noopener">Abrir MYND →</a>
+      </div>
+    </div>
+  </main>
+  <img class="wm" src="/assets/img/love/paa-wordmark.webp" alt="Por Amor al Arte" width="150" height="25">
+  <script>
+    // Puerta ligera: compara el SHA-256 del código. El tablero en sí se protege
+    // con los permisos de compartir de Claude.
+    const HASH = "508f41343d4d8e4f973ba801f05b3c11681a2eea33f304aa450b5bf8740fdbff";
+    const BOARD = "https://claude.ai/artifact/F3LNLcz8Ach412hg4nKStt";
+    const card = document.getElementById("card"), go = document.getElementById("go"), err = document.getElementById("err");
+    go.href = BOARD;
+    async function sha(s){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");}
+    function open(){card.classList.add("open");setTimeout(()=>{location.href=BOARD;},700);}
+    try{ if(localStorage.getItem("love-ok")===HASH){ card.classList.add("open"); } }catch(e){}
+    document.getElementById("gate").addEventListener("submit", async e=>{
+      e.preventDefault();
+      const v=document.getElementById("code").value.trim().toUpperCase();
+      if(await sha(v)===HASH){ try{localStorage.setItem("love-ok",HASH)}catch(_){} open(); }
+      else { err.textContent="Código incorrecto."; }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+# Redirecciones de creatvmyndz.com
+#
+# Una por línea: la URL vieja y su destino, separados por espacios.
+# Al publicar, scripts/armar-sitio.py crea para cada línea una página que reenvía
+# al destino conservando ?consulta y #ancla (ver README, «Mudar o borrar una página»).
+#
+# URL vieja                         destino
+/escritorio.html                    /
+/playground.html                    /proyectos/
+/portada.html                       /portada/
+/proyectos.html                     /proyectos/
+/crtv/                              /proyectos/
+/crtv-cajita-feliz-dtmf.html        /crtv/cajita-feliz-dtmf/
+/crtv-cajita-feliz-ferxxo.html      /crtv/cajita-feliz-ferxxo/
+/crtv-dtmf-fc-barcelona.html        /crtv/dtmf-fc-barcelona/
+/crtv-forja-player.html             /crtv/forja-player/
+/crtv-jordan-blessd.html            /crtv/jordan-blessd/
+/crtv-las-palabras-nos-hacen.html   /crtv/las-palabras-nos-hacen/
+/crtv-perreo-santo.html             /crtv/perreo-santo/
+/crtv-pokemor.html                  /crtv/pokemor/
+/crtv-underdogs.html                /crtv/underdogs/
+/wakeup.html                        /wakeup/
+/wakeup-program.html                /wakeup/programa/
+/lab.html                           /lab/
+/mynd.html                          /mynd/
+/mind.html                          /mynd/
+/love.html                          /love/
+/onuha.html                         /onuha/
+/bryngrill.html                     /bryngrill/
+/creativmask.html                   https://creatvmask.com/
+/creatvfy.html                      /oazis

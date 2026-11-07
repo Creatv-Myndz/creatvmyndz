@@ -1,0 +1,316 @@
+# Escritorio retro de CREATV MYNDZ
+
+Página: **creatvmyndz.com** (es la página principal, `sitio/index.html`; `/escritorio.html` reenvía aquí). La portada anterior quedó en `/portada/`.
+Viene del escritorio que estaba en la rama `escritorio` de `creatvmyndz/camilovegga`, pasado a la marca
+CREATV MYNDZ y a estilo retro (Windows 95/98 + XP + Vista).
+
+Todo el contenido vive en **`sitio/assets/contenido/escritorio.json`**. Para cambiar algo casi nunca hay que tocar el código.
+Dentro del JSON, las rutas empiezan con `/` (`"/assets/img/escritorio/iconos/nube.png"`); el archivo vive en
+`sitio/assets/img/escritorio/iconos/nube.png`.
+
+> Nota (6 nov 2026): con la estructura nueva del repo se borraron los íconos y fondos que el escritorio ya no usaba
+> (entre ellos Duo, los cursores, `creatv-paleta.png`, `cerebro-azul.png`, Nubes 95, los fondos de relleno y el logo
+> pixelado). Las secciones de abajo que los nombran son historia; si hace falta uno, se recupera del historial de git
+> (README, «Recuperar algo borrado»).
+
+| Archivo | Qué es |
+| --- | --- |
+| `sitio/index.html` | la página (antes `escritorio.html`) |
+| `sitio/assets/css/escritorio.css` | estilos retro (bordes biselados, barra azul XP, barra de tareas) |
+| `sitio/assets/js/escritorio.js` | lógica: fondo, íconos, ventanas, menús, reloj |
+| `sitio/assets/contenido/escritorio.json` | **el contenido**: fondos, proyectos, programas, ideas |
+| `sitio/assets/img/escritorio/fondos/` | fondos de pantalla |
+| `sitio/assets/img/escritorio/iconos/` | íconos retro propios (`.png` = pixel art 32×32, `.svg` = brillantes estilo XP/Vista) |
+
+---
+
+## Los CRTV del Creative Playground (automático)
+
+Con `"creativePlayground": true`, **cada CRTV de `sitio/assets/contenido/projects.js` es un ícono del escritorio**
+(el mismo archivo que alimenta la página de proyectos). No hay que copiarlos al JSON:
+
+- CRTV terminado con página → se abre como un archivo en **Paint** (`nombre.bmp - Paint`) con la imagen
+  completa (`/assets/img/crtvs/<id>.webp`) y, abajo, "Abrir proyecto ↗".
+- CRTV terminado sin material todavía (sin `link`) → mensaje del sistema: "estamos preparando el material".
+- CRTV próximo (`status: "soon"`) → ícono de aviso amarillo y mensaje del sistema "Estamos trabajando en
+  este CRTV", con botones Ok / Cancelar.
+
+## Íconos sueltos del escritorio (`"accesos"`)
+
+```json
+{ "id": "c", "titulo": "Muy pronto", "icono": "/assets/img/escritorio/iconos/c-flotante.png", "texto": "Mensaje que sale al abrirlo." }
+```
+
+- `"abre": "proyectos"` abre la lista del Creative Playground (así está el ícono CREATV con paleta).
+- `"enlace"` abre un link. Si no, muestra `texto` en un mensaje del sistema.
+- El ícono `c` flota suavemente (animación en el CSS).
+
+## Agregar un proyecto extra (fuera de los CRTV)
+
+Agrega un bloque en `"proyectos"`:
+
+```json
+"proyectos": [
+  {
+    "id": "cajita-feliz-ferxxo",
+    "titulo": "Cajita Feliz de Ferxxo",
+    "tipo": "Campaña",
+    "año": "2025",
+    "portada": "/assets/img/crtvs/thumb/cajita-feliz-ferxxo.webp",
+    "imagenes": ["/assets/img/crtvs/cajita-feliz-ferxxo.webp"],
+    "texto": "La historia del proyecto.",
+    "enlace": "https://..."
+  }
+]
+```
+
+- `id`: único, en minúsculas y sin espacios. **Decide el lugar del ícono**: cada `id` cae siempre en el mismo sitio.
+- `portada`: la miniatura del ícono. Sin portada, sale una carpeta amarilla.
+- `imagenes`, `texto` y `enlace` son opcionales.
+- `x` / `y` (opcional, de 0 a 100): fija el ícono en ese % de la pantalla en vez de ponerlo al azar.
+- Con `"proyectos": []` se ve el aviso de escritorio vacío.
+
+## Agregar un programa a la barra de tareas
+
+En `"dock"`, en el orden en que aparecen. `"|"` dibuja un separador.
+
+```json
+{ "id": "paint", "nombre": "Paint", "icono": "/assets/img/escritorio/iconos/paint.png", "texto": "Muy pronto." }
+```
+
+- Con `"texto"` abre una ventana con ese texto.
+- Con `"enlace"` abre ese link en otra pestaña (así está Instagram).
+- Con `"juego": "buscaminas"` abre el Buscaminas (9×9, 10 minas; clic derecho o "modo bandera" en el celular).
+- La papelera **Por reciclar** (`"id": "papelera"`) son las ideas sueltas: `"ideas": [{ "titulo": "…", "texto": "…" }]`.
+- El primer botón del dock (ícono CREATV con paleta) abre el menú **Inicio**.
+
+## Agregar o cambiar un fondo
+
+1. Optimiza la imagen: máximo ~2560 px de ancho, JPG o WebP.
+2. Súbela a `sitio/assets/img/escritorio/fondos/`.
+3. Agrégala en `"fondos"`:
+
+```json
+{ "id": "mi-fondo", "nombre": "Nombre corto", "imagen": "/assets/img/escritorio/fondos/mi-fondo.webp", "blur": 10 }
+```
+
+- `"fondo"` (arriba del JSON) es el `id` del fondo por defecto.
+- `blur` es el blur **suave** de ese fondo, en px. En el menú Fondo el visitante elige *Sin blur*, *Suave*
+  (este valor) o *Fuerte* (el doble, entre 14 y 32 px).
+- ⚠️ Los 4 fondos actuales (Aurora, Teal 95, Atardecer pixel y Mosaico) son de relleno. Se reemplazan
+  cuando lleguen los fondos definitivos.
+
+## Lo que el visitante cambia (solo en su navegador)
+
+En `localStorage`, con el prefijo `cm-desk-`: el fondo elegido, el nivel de blur, su propio fondo
+(*Subir mi propio fondo…*, reducido a máximo 1600 px en JPEG para que quepa) y dónde arrastró cada ícono.
+Nada se sube al servidor. *Quitar mi fondo* vuelve a los fondos de la marca.
+
+## Lecciones aprendidas (no romper)
+
+- **Blur sin bordes lavados:** la capa del fondo es más grande que la pantalla (`inset` negativo según el blur).
+- **Nombres legibles sobre cualquier fondo:** letra blanca con sombra negra de 1 px, como en Windows.
+- **Las ventanas no tapan el dock:** si una ventana se pasa, se sube sola (`keepAboveDock`). Se mide con
+  `offsetHeight`, no con `getBoundingClientRect`, porque la animación de entrada achica la ventana un instante.
+- **Íconos dentro de la pantalla en el celular:** van en una cuadrícula de 4 con un poco de desorden, y
+  nunca se salen por los bordes.
+- **Celular:** las ventanas salen como hoja desde abajo, por encima de la barra de tareas.
+- **Doble clic contra toque:** en PC se abre con doble clic; en celular con un toque. Arrastrar no abre.
+- **`hidden` y `display`:** si un elemento con `hidden` tiene `display:flex` en el CSS, sigue visible y tapa los
+  clics. Por eso existe `.menu[hidden]{display:none!important}`.
+- **Publicación:** todo lo que está en `sitio/` se publica solo (`scripts/armar-sitio.py`, ver README). Un archivo
+  fuera de `sitio/` no llega al sitio, y la revisión avisa si una ruta del JSON no existe.
+- **Íconos:** los pixelados y brillantes (`paint`, `notas`, `paleta`, `camara`, `buho`, cursores…) son dibujos
+  propios. `creatv-paleta.png` es arte de la marca CREATV. Ver abajo los que llegaron del equipo.
+- **Cursores:** flecha pixelada (`cursor.png`) y manito que señala con el dedo pequeño (`cursor-mano.png`,
+  punto activo en 22,0). Solo con mouse; en el celular no se usan.
+
+## Idioma, Buscaminas, contacto y aviso del celular
+
+- **Idioma:** el búho pixelado de la barra de arriba cambia entre español e inglés (comparte la preferencia
+  `cm-lang` con el resto de creatvmyndz.com). En el JSON, cualquier texto puede ser `"texto"` o
+  `{ "es": "...", "en": "..." }`. Los textos fijos de la interfaz están en `I18N` dentro de `sitio/assets/js/escritorio.js`.
+- **Buscaminas:** nivel fácil (6×6, 3 minas; el primer clic nunca es mina y abre una zona grande, se gana en
+  segundos). Al ganar, "Siguiente nivel" ya no es juego: se destapa la frase de `"buscaminas": { "frase": … }`
+  (una palabra o grupo por línea, en los dos idiomas). Está en el dock y como ícono del escritorio.
+- **Contáctanos** (ícono de dos personas, `"contacto": true`): formulario que manda el mensaje por FormSubmit
+  al correo `SITE.leadEmail` de `sitio/assets/contenido/projects.js` (con copia a `SITE.ccEmail`). La primera vez FormSubmit
+  manda un correo de activación a esa dirección: hay que confirmarlo.
+- **Aviso del baño:** solo para quien entra desde un celular (pantalla táctil y pequeña), una vez por visita.
+  Foto en `sitio/assets/img/escritorio/bano.webp`; textos `pw_*` en `I18N`.
+- **Íconos que mandó el equipo y se usan tal cual:** `c-flotante.png`, `contacto.png`, `papelera.png`,
+  `creatv-paleta.png` (se les quitó solo el fondo blanco). Ojo: la "C" y las dos personas son logos de
+  Microsoft (Internet Explorer y MSN); se usan como guiño retro por decisión de CREATV MYNDZ.
+
+## Íconos propios y videos por CRTV (`"extras"`)
+
+En `sitio/assets/contenido/escritorio.json → extras`, por `id` del CRTV:
+
+```json
+"jordan-blessd": { "videos": [ { "tipo": "youtube", "id": "y0u16r_mF4A", "inicio": 4, "x": 34, "y": 31.5, "w": 32 } ] },
+"perreo-santo":  { "icono": "/assets/img/escritorio/iconos/perreo-santo.png",
+                   "videos": [ { "tipo": "video", "src": "/assets/video/perreo-1.mp4", "x": 18.7, "y": 60, "w": 16, "h": 27.1 } ] }
+```
+
+- `icono`: reemplaza la miniatura del CRTV en el escritorio (Cajita Feliz DtMF, Cajita Feliz de Ferxxo, Perreo Santo y Pokémor ya tienen el suyo).
+- `sitio`: el CRTV ya vive en su propia web; al tocar el ícono se abre ese sitio en otra pestaña en vez de Paint
+  (hoy: Forja Player → `https://forjaplayer.com.co`).
+- Los íconos propios van en pixel art, sin fondo y con contorno oscuro de 1 pixel, para que combinen con el resto.
+  `forja-player.png` se sacó del emblema del sitio: recorte del herrero con Vision de macOS, sin el aro de atrás,
+  bajado a 57×74 pixeles, 56 colores y agrandado ×3 sin suavizar.
+- `videos`: se ponen **encima** de la imagen del proyecto cuando se abre en Paint. `x`, `y`, `w`, `h` son % de la imagen.
+  YouTube mantiene 16:9 (no necesita `h`). Un `.mp4` va en `sitio/assets/video/` y se reproduce con controles.
+  Si `src` está vacío, no se muestra (así están los 3 celulares de Perreo Santo, esperando sus videos).
+- Jordan x Blessd: el video de YouTube tapa el botón "VER DROP" de la imagen.
+- El ícono "EXPLORA" (la C) abre un navegador retro con "Explora tu creatividad".
+- `pokemor.png` se reconstruyó casilla por casilla desde una plantilla de pixel art (magicoloriage.com), sin fondo.
+
+## Arriba (no hay barra)
+
+- Al centro: logo CREATV MYNDZ (`sitio/assets/img/marca/logo-creatv-blanco.webp`), levitando suave. Abre "Sobre".
+- A la izquierda (~10% del borde, un poco abajo): los accesos con `"fijo": true` (hoy: Explorers). No se arrastran
+  y se abren con un clic. En el celular ocupan la primera casilla de la cuadrícula.
+- Arriba a la derecha: **Duo** (`sitio/assets/img/escritorio/iconos/duo.png`), cambia entre ES y EN. Ya no hay reloj.
+- El menú **Fondo** se abre desde el menú Inicio (botón CREATV del dock).
+- Las ventanas no tienen el menú "Archivo Edición Ver Ayuda" (no tenía función).
+- Nombres en el escritorio: tal cual se escriben (sin forzar mayúsculas). Los de los CRTV se ponen en
+  `extras.<id>.titulo`.
+
+## Otros accesos
+
+- **Mynd** (cerebro): ventana de inicio de sesión retro con la misma clave de `sitio/mynd/index.html` (mismo hash). Si la
+  clave es correcta, abre el tablero de MYND CREATV en otra pestaña. Si cambia la clave o el tablero, hay que
+  cambiar `MYND_HASH` / `MYND_BOARD` en `sitio/assets/js/escritorio.js` **y** en `sitio/mynd/index.html`.
+- **Creative Dealers**: ventana con la descripción y un botón a la sección Creative Dealing de la portada.
+- Los CRTV próximos usan el ícono `proximoIcono` (carpeta con papeles), salvo que tengan su propio `icono` (Snoopy).
+- Ojo con marcas de otros: Duo (Duolingo), Instagram, Snoopy (Peanuts), Ash (Pokémon), la C y las dos personas
+  (Microsoft) se usan por decisión de CREATV MYNDZ.
+
+## Cambios recientes
+
+- Fondo por defecto: **Nubes 95** (`sitio/assets/img/escritorio/fondos/nubes-95.webp`, nubes pixeladas estilo Windows 95, sin blur).
+- Íconos del escritorio: parecen regados al azar, pero van en una cuadrícula con un poco de desorden para que
+  ningún nombre se tape (en PC y en celular). Los nombres llevan un fondito azul oscuro para leerse sobre las nubes.
+- Nuevos accesos: **Por Amor al Arte** → camilovegga.com, **Galadsy** → galadsy.com. Mynd usa el ícono de aviso.
+- Creative Playground (escritorio y botón Inicio del dock) usa el cerebro azul `cerebro-azul.png`.
+- Dock: Inicio (cerebro) · Spotify · Instagram · Videos (YouTube) · Fotos | Contáctanos | Papelera de ideas.
+  - **Spotify** todavía no tiene enlace: agrega `"enlace": "https://open.spotify.com/..."` en su bloque.
+  - **Videos** apunta a `https://www.youtube.com/@camilovegga`: confirmar que es el canal correcto.
+  - **Fotos** (`"collage": true`) muestra un collage con `fotos.imagenes` del JSON; si está vacío, usa las imágenes de los CRTV.
+- **Buscaminas**: al ganar, cada "Siguiente" destapa la frase siguiente de `buscaminas.frases`
+  (la última no tiene botón).
+- Fondo por defecto: **Colina** (`sitio/assets/img/escritorio/fondos/colina.webp`, blur 3 px para separar los íconos).
+- El ícono fijo de la izquierda (la C) ahora se llama **Creative Playground** y abre la lista de proyectos.
+- Primer botón del dock (menú Inicio): la **nube** pixelada (`nube.png`). Mynd solo está en el menú Inicio.
+- Idioma: botón "ES / EN" arriba a la derecha (sin Duo). Cursores: los normales del sistema.
+- Dock: Inicio (nube) · Spotify · Instagram · Videos · Fotos · Por Amor al Arte | Contáctanos | Papelera de ideas.
+
+
+## Carpetas
+
+- Un acceso con `"abre": "carpeta"` es una carpeta (se abre como ventana con sus íconos ordenados).
+- Lo que lleve `"carpeta": "<id>"` va adentro y no en el escritorio; con `"tambienEnEscritorio": true` va en los dos lados.
+  - **Proyectos creativos** (ícono Cajita DtMF): Cajitas Felices, Las Palabras Nos Hacen, Perro Negro Undergold, DtMF x FC Barcelona. Las dos Cajitas también siguen en el escritorio.
+  - **Próximamente**: los CRTV pendientes (Carriel de Ryan, Joya, Tiempo vs Amor, Happy House).
+    Forja Game salió de aquí: ahora es **Forja Player** (hecho, en producción en forjaplayer.com.co) y va suelto en el escritorio.
+  - **Creatvfy**: Wake Up! (abre `/wakeup/`), Cualquiera puede crear (ebook) y CREATV Kids.
+- Para mover un CRTV a una carpeta: en `extras.<id>` pon `"carpeta": "proyectos-creativos"` (o la que sea).
+- El escritorio en PC es un grupo centrado: filas parejas, centradas y un poco corridas entre sí.
+
+## Cambios (celular con páginas, Buscaminas, Playground)
+
+- **Celular:** 3 columnas, íconos un 15 % más grandes y un poco desordenados, en páginas que se deslizan a la
+  derecha (como el iPhone), con puntitos abajo. Máximo 4 filas por página; los íconos se reparten parejo.
+  En el celular los íconos no se arrastran (para poder deslizar) y se abren con un toque.
+- **Aviso del baño:** sale una vez, solo en celular, después de 1 minuto usando la página.
+- **Buscaminas** (en el escritorio): al ganar se ven bombas (no banderas). "Siguiente nivel" muestra otra
+  cuadrícula tapada; la frase se destapa cuando tocan una casilla. El botón final **Comienza a jugar** cierra el juego.
+- Carpeta **Playground** (resbaladero, antes "Proyectos creativos") y carpeta **Creando..** (antes "Próximamente").
+- La C se llama **Explorers** y abre la lista de proyectos. La C también es el favicon.
+- Dock: Inicio · Instagram · Videos · Fotos · Por Amor al Arte · Spotify | Contáctanos | Papelera de ideas.
+- Íconos: Creando.. = reloj de arena, Creatvfy = computador, Cualquiera puede crear = libros, Creative Dealers = bloque con C.
+- El logo va pequeño arriba a la izquierda. Las ventanas son más grandes (780 px; Paint, Fotos y Explorers 980 px; carpetas 880 px).
+- Todos los íconos se guardan como PNG RGBA: con PNG de paleta algunos Safari no los mostraban dentro de las carpetas.
+- Ya no existe la carpeta Playground: todos los proyectos van en el escritorio. En el celular van primero los
+  proyectos y después los accesos, apilados desde arriba (hasta 5 filas por página).
+
+## Fondos con el pincel y registro de correos
+
+- **Pincel** (arriba a la derecha, al lado de ES/EN): abre la ventana "Personalizar" con todos los fondos de `"fondos"` (miniaturas en `sitio/assets/img/escritorio/fondos/mini/`); el visitante escoge uno y se guarda en el
+  navegador del visitante. Todos los fondos llevan el mismo blur suave (3 px). Fondos: Colina, Explorar (lupa),
+  Pradera, Resbaladero, Pájaros y Baño. Para agregar otro: súbelo a `sitio/assets/img/escritorio/fondos/` y añádelo a la lista.
+- **Registro** (hoy APAGADO: `"registro": false` en el JSON; pon `true` para encenderlo): al entrar (a los 2,5 s, una vez por visita y nunca más si ya se registró) sale "¿Quieres ver más
+  creatividad?". El correo llega a `SITE.leadEmail` (con copia a `SITE.ccEmail`) vía FormSubmit, con el asunto
+  "Nuevo registro · CREATV MYNDZ". La primera vez FormSubmit pide confirmar el correo de activación.
+  Para tener una base de datos ordenada, se pueden exportar esos correos o cambiar el destino a un servicio de
+  listas (Mailchimp, Brevo, Google Sheets) en la función `signup()` de `sitio/assets/js/escritorio.js`.
+
+## Distribución fija en PC
+
+- `distribucionPC.posiciones` en el JSON guarda dónde va cada ícono (píxeles de una pantalla de referencia de
+  2000×1039, centro 1000,520). La forma se mantiene en cualquier pantalla; si no cabe entre el logo, Explorers y
+  el dock, todo se achica un poco. `distribucionPC.esquina` pone íconos contra la esquina de abajo a la derecha
+  (Buscaminas). Un proyecto nuevo sin posición se acomoda solo alrededor sin taparse.
+- El celular usa el mismo orden (de arriba a abajo, de izquierda a derecha).
+- Logo: centrado arriba (15 % de la altura en PC, 26 px en el celular).
+
+## Arranque, usuarios y "Please stand by"
+
+- Al abrir la página: pantalla de arranque negra con el logo y "OS" (una vez por visita; se salta con un clic),
+  y después la pantalla de bienvenida estilo Windows XP (sobre el mismo fondo del escritorio) para escoger usuario: Creative Playground o Creative Dealers (`usuarios.lista` en el JSON).
+- Cada ícono dice en `"usuario"` en qué escritorio va: `"playground"`, `"dealers"` o `"ambos"`. Los CRTV sin
+  `usuario` van en Playground; los accesos sin `usuario`, en los dos. Buscaminas y Creando.. están en los dos.
+  La barra de abajo es la misma siempre. "Cambiar de usuario" está en el menú Inicio.
+- Distribución en PC: `distribucionPC.posiciones` (Playground) y `distribucionPC.porUsuario.dealers` (Dealers).
+- Lo que todavía no está listo (CRTV próximos, Cualquiera puede crear, CREATV Kids…) abre la pantalla azul
+  **PLEASE STAND BY** con el nombre y un mensaje; se cierra tocando.
+- Cada usuario tiene su fondo: `usuarios.lista[].fondo` (Playground = Resbaladero, Dealers = Colina). El pincel lo
+  cambia solo para el usuario en el que estás. El logo de CREATV MYNDZ (arriba) vuelve a la pantalla de usuarios.
+- Creative Dealers (en el centro de su escritorio) abre la lista de todo lo de ese escritorio. Explorers queda
+  vacío por ahora (será una exploración creativa).
+- Los dos escritorios usan la misma forma de la referencia (`distribucionPC`), con el bloque de la C al centro:
+  en Playground abre todos los CRTV, en Dealers todo lo de Dealers. Los íconos crecen hasta 1,35× en pantallas
+  grandes; en pantallas angostas (tablet, ventanas chicas) pasan a una cuadrícula ordenada sin achicarse.
+- Arrastrar un ícono ya no se guarda: al recargar, el escritorio vuelve a su distribución.
+- La pantalla de usuarios ya no tiene las bandas azules de arriba y abajo.
+- Logo principal: `sitio/assets/img/marca/logo-creatv-nube.png` (letras de nube). Color de marca: `--brand: #004aac`
+  (arranque, "bienvenido", pantalla de usuarios).
+- Siempre se entra por la pantalla de usuarios (después del arranque). Al escoger, sale la transición
+  "bienvenido" con la barra de carga y luego el escritorio.
+- Oazis abre creatvmyndz.com/oazis. Forja Player abre su app en la App Store (`extras.forja-player.enlaceDirecto`).
+- Snoopy Flops muestra por ahora la imagen "Flops select" (`extras.snoopy-flops`).
+- Arranque: fondo negro con `sitio/assets/img/marca/logo-creatv-xp.png`, barra de carga y "Creando...", con grano, líneas
+  de TV y un leve parpadeo (look envejecido).
+- Pantalla de usuarios: el cielo estrellado (`sitio/assets/img/escritorio/usuarios-fondo.webp`) semitransparente sobre
+  el fondo del escritorio, título "Usuario:" en letra pixelada y los dos cubos flotando con aura
+  (`bloque-c-azul.png` para Playground, `bloque-c.png` para Dealers).
+- Ojo: el logo del arranque lleva la bandera de Windows (marca de Microsoft); se usa por decisión de CREATV MYNDZ.
+
+## Cambios (arranque rápido y usuarios con descripción)
+- Logo de arranque nuevo y limpio (`sitio/assets/img/marca/logo-creatv-xp.png`, sacado de la imagen 77), sin desenfoque ni parpadeo.
+- El arranque dura ~1.5 s.
+- Se quitó el título "Usuario:" de la selección de usuario.
+- Cada usuario tiene un texto pequeño debajo (`sub` en `usuarios.lista` de `sitio/assets/contenido/escritorio.json`): Playground "Proyectos creativos", Dealers "Empresas creativas" (con inglés).
+- Fondos por defecto: Playground = colina, Dealers = pajaros.
+- En PC el ícono central (Creative Playground / Creative Dealers) queda siempre en la mitad de la pantalla.
+
+## Fondos fijos por usuario (cambio de fondo guardado para después)
+- Se quitó el botón del pincel: los visitantes ya no pueden cambiar el fondo.
+- Cada usuario usa su fondo de `usuarios.lista[].fondo` (Playground = colina, Dealers = pajaros).
+- Todos los fondos siguen guardados en `sitio/assets/contenido/escritorio.json` → `fondos` y en `sitio/assets/img/escritorio/fondos/`, y el código del menú de fondos sigue en `escritorio.js`. Para volver a activarlo: devolver el botón `#wallBtn` en `index.html` y que `currentFondo()` vuelva a leer `store.get("fondo-"+USER)`.
+
+## Transición al entrar a un usuario
+- Se quitó la pantalla "bienvenido". Al escoger un usuario se muestra la misma pantalla de arranque (logo en fondo negro, barra de carga y "Creando...") por ~1.5 s y luego aparece el escritorio.
+
+## HAAD a Playground, Oazis pixelado, barra y pantalla de usuarios
+- HAAD pasó al escritorio de Creative Playground (`"usuario": "playground"`).
+- Nuevo ícono pixelado de Oazis (palmera y arena): `sitio/assets/img/escritorio/iconos/oazis.png`.
+- Íconos más separados en PC (más espacio entre filas).
+- Barra de abajo: se quitó Fotos (Por amor al arte queda en la mitad) y se quitó el efecto de agrandar al pasar el mouse.
+- Pantalla de usuarios: sin estrellas; fondo negro con transparencia y textura envejecida pixelada animada.
+- Si en pantallas medianas los íconos no caben sin tocar el logo, se achican un poco automáticamente.
+
+## Celular con el cubo en la mitad, Oazis enlazado, arranque más corto
+- En el celular el cubo (Creative Playground / Creative Dealers) queda en la mitad de la pantalla y los demás íconos alrededor, cada uno hacia el lado donde está en el PC. En celulares bajitos los íconos se achican un poco para que todo quepa en una sola pantalla; si aun así no cabe, se usa la cuadrícula por páginas.
+- Oazis abre `creatvmyndz.com/oazis` (`"enlace_interno": "/oazis"`).
+- La pantalla de arranque con el logo dura ~0.9 s (antes 1.5 s), también al entrar a un usuario.

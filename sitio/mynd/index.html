@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>MYND CREATV — CREATV MYNDZ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#050607">
+  <link rel="icon" href="/assets/img/marca/favicon.png" sizes="any">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&display=swap" rel="stylesheet">
+  <style>
+    /* Puerta de acceso a MYND CREATV, el centro de control de CREATV MYNDZ.
+       El tablero vive en Claude; aquí solo se pide el código y se abre. */
+    @font-face{font-family:"Outfit";font-weight:100 900;font-display:swap;src:url("/assets/fonts/outfit-latin.woff2") format("woff2")}
+    :root{--bg:#050607;--ink:#f4f8fa;--muted:#8c9aa3;--line:rgba(191,216,227,.18);--azure:#00638e;--light:#bfd8e3;
+      --gradient:radial-gradient(140% 110% at -10% 30%,#BFD8E3 0%,#8CB9CC 22%,#00638E 46%,#004A6B 60%,#000 88%);color-scheme:dark}
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:"Outfit",system-ui,sans-serif;display:grid;place-items:center;padding:24px 16px;
+      background-image:radial-gradient(120% 70% at -10% -20%,rgba(140,185,204,.16),transparent 55%),radial-gradient(80% 60% at 110% -10%,rgba(0,99,142,.22),transparent 60%)}
+    main{width:min(460px,100%)}
+    .card{width:100%;border-radius:28px;overflow:hidden;border:1px solid var(--line);background:#0b0d0f}
+    .top{background:var(--gradient);padding:34px 28px 30px;display:flex;flex-direction:column;gap:14px}
+    .top img{height:22px;width:auto;align-self:flex-start}
+    h1{margin:0;font-family:"Bricolage Grotesque","Outfit",sans-serif;font-weight:800;font-size:clamp(40px,11vw,58px);line-height:.92;letter-spacing:-.04em}
+    .top p{margin:0;color:rgba(255,255,255,.85);font-weight:300;font-size:15px;line-height:1.5}
+    form{padding:24px 28px 28px;display:flex;flex-direction:column;gap:12px}
+    label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+    input{width:100%;border:1px solid var(--line);background:#111417;color:var(--ink);border-radius:14px;padding:14px 16px;font:inherit;font-size:16px;letter-spacing:.06em}
+    input:focus{outline:none;border-color:var(--light);box-shadow:0 0 0 3px rgba(0,99,142,.35)}
+    button,.go{border:0;border-radius:999px;padding:14px 18px;font:inherit;font-weight:600;font-size:15px;background:#fff;color:#000;cursor:pointer;text-align:center;text-decoration:none}
+    .err{min-height:18px;margin:0;color:#ff9b9b;font-size:13px}
+    .ok{display:none;padding:24px 28px 28px;flex-direction:column;gap:12px}
+    .ok p{margin:0;color:var(--muted);font-size:14px}
+    .card.open form{display:none}.card.open .ok{display:flex}
+    .foot{margin-top:18px;text-align:center;font-size:12px;color:var(--muted)}
+    .foot a{color:var(--muted)}
+  </style>
+</head>
+<body>
+  <main>
+    <div class="card" id="card">
+      <div class="top">
+        <img src="/assets/img/marca/logo-creatv.webp" alt="CREATV MYNDZ" width="52" height="22">
+        <h1>MYND CREATV</h1>
+        <p>El centro de control de CREATV MYNDZ: cada marca como una célula viva, con su dirección creativa, moodboard, Instagram, ideas, próximos pasos y plan de lanzamiento.</p>
+      </div>
+      <form id="gate" autocomplete="off">
+        <label for="code">Código de acceso</label>
+        <input id="code" type="password" inputmode="text" autocapitalize="characters" spellcheck="false" placeholder="••••••••" required>
+        <p class="err" id="err" aria-live="polite"></p>
+        <button type="submit">Entrar</button>
+      </form>
+      <div class="ok">
+        <p>Acceso concedido. Si no se abrió solo, entra aquí:</p>
+        <a class="go" id="go" href="#" rel="noopener">Abrir MYND CREATV →</a>
+      </div>
+    </div>
+    <p class="foot"><a href="/">creatvmyndz.com</a> · Por amor al arte</p>
+  </main>
+  <script>
+    // Puerta ligera: compara el SHA-256 del código. El tablero en sí se protege
+    // con los permisos de compartir de Claude.
+    const HASH = "6e0bd085bc9a3228dac0675a7e9cbfd7dbb2275014c5cb82a959fc5938d9b6ef";
+    const BOARD = "https://claude.ai/artifact/UQvUn3x1UgKQTqd1hu7T2i";
+    const card = document.getElementById("card"), go = document.getElementById("go"), err = document.getElementById("err");
+    go.href = BOARD;
+    async function sha(s){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");}
+    function open(){card.classList.add("open");setTimeout(()=>{location.href=BOARD;},600);}
+    try{ if(localStorage.getItem("mynd-ok")===HASH){ card.classList.add("open"); } }catch(e){}
+    document.getElementById("gate").addEventListener("submit", async e=>{
+      e.preventDefault();
+      const v=document.getElementById("code").value.trim().toUpperCase();
+      if(await sha(v)===HASH){ try{localStorage.setItem("mynd-ok",HASH)}catch(_){} open(); }
+      else { err.textContent="Código incorrecto. Pídelo a Camilo."; }
+    });
+  </script>
+</body>
+</html>

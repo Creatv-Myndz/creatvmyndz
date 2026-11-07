@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /mynd
+Disallow: /mind
+Disallow: /love
+Disallow: /onuha
+Disallow: /bryngrill
+
+Sitemap: https://creatvmyndz.com/sitemap.xml

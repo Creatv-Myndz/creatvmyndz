@@ -2,6 +2,7 @@ name: Deploy a producción (GitHub Pages)
 
 # Cada push a main publica el sitio automáticamente.
 # También se puede lanzar a mano desde la pestaña Actions.
+# Lo que se publica es la carpeta sitio/; ver README.
 on:
   push:
     branches: [main]
@@ -26,20 +27,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Preparar los archivos del sitio
-        run: |
-          mkdir -p dist
-          cp *.html dist/
-          cp CNAME dist/
-          cp robots.txt sitemap.xml favicon.ico dist/
-          cp -r assets dist/
-          # Contenido del escritorio retro (escritorio.html)
-          cp -r data dist/
-          # Material que vive en el repo pero no debe salir a producción:
-          # los PDF crudos de los CRTV y los 121 frames del giro 3D (sección
-          # apagada). Se quedan en el repo/disco, no en el sitio.
-          rm -rf dist/assets/CRTVS
-          touch dist/.nojekyll
+      - name: Armar el sitio (copia sitio/, crea las redirecciones y revisa los enlaces)
+        run: python3 scripts/armar-sitio.py
 
       - name: Configurar Pages
         uses: actions/configure-pages@v5
