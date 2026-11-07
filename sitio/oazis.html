@@ -193,7 +193,7 @@ svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stro
 .bigplay svg{fill:currentColor;stroke:none;width:22px;height:22px}
 .wdesc{color:var(--mute);max-width:620px}
 .tlist{margin-top:18px}
-.trow{display:grid;grid-template-columns:36px 48px 1fr 150px 70px 40px;align-items:center;gap:14px;padding:8px 12px;border-radius:10px;cursor:pointer}
+.trow{display:grid;grid-template-columns:36px 48px minmax(0,1fr) 150px 70px 40px;align-items:center;gap:14px;padding:8px 12px;border-radius:10px;cursor:pointer}
 .trow:hover{background:var(--card)}
 .trow .n{color:var(--mute);font-family:var(--mono);font-size:12px;text-align:center}
 .trow .art{width:48px;border-radius:6px}
@@ -205,7 +205,7 @@ svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stro
 .heart{color:var(--mute);display:grid;place-items:center}
 .heart:hover{color:var(--ink)}
 .heart.on{color:var(--ink)} .heart.on svg{fill:currentColor}
-.thead{display:grid;grid-template-columns:36px 48px 1fr 150px 70px 40px;gap:14px;padding:0 12px 10px;border-bottom:1px solid var(--line);margin-bottom:8px;color:var(--mute)}
+.thead{display:grid;grid-template-columns:36px 48px minmax(0,1fr) 150px 70px 40px;gap:14px;padding:0 12px 10px;border-bottom:1px solid var(--line);margin-bottom:8px;color:var(--mute)}
 
 /* ---------- program ---------- */
 .prog-hero{display:grid;grid-template-columns:280px 1fr;gap:32px;align-items:end}
@@ -558,25 +558,11 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bac
 .aura{position:absolute;inset:-8%;width:116%;height:116%;z-index:-1;pointer-events:none;filter:blur(18px) saturate(115%)}
 .np-aura{position:relative;height:150px;border-radius:24px;overflow:hidden;margin-top:14px;isolation:isolate;box-shadow:inset 0 0 0 1px var(--gl-line)}
 .tl-r{display:flex;gap:8px;align-items:center}
-.plusc i{background:linear-gradient(135deg,#9fb7e6,#d9b8e8)!important;color:#111!important}
 
-/* ---------- Oazis Plus ---------- */
-.plus-b{display:inline-block;font-style:normal;font-family:var(--sans);font-size:9.5px;font-weight:700;letter-spacing:.12em;padding:3px 8px;border-radius:20px;background:var(--gl2);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:inset 0 0 0 1px var(--gl-line);color:var(--ink);vertical-align:middle;line-height:1.3}
-.card .plus-b{position:absolute;left:18px;top:18px;z-index:2}
-.sheet{max-width:440px;text-align:center;padding:30px 28px 22px}
-.sheet h3{font-size:32px;letter-spacing:-.045em;line-height:1;margin:10px 0 12px}
-.pills{display:grid;gap:5px;width:132px;margin:4px auto 18px}
-.pills i{display:block;height:26px;border-radius:26px;background:linear-gradient(90deg,var(--ink) -30%,transparent 92%);box-shadow:inset 0 0 0 1px var(--gl-line),inset 0 1.5px 0 rgba(255,255,255,.7)}
-.pills i:nth-child(1){opacity:.9}.pills i:nth-child(2){opacity:.62}.pills i:nth-child(3){opacity:.4}.pills i:nth-child(4){opacity:.22}
-.feat{list-style:none;text-align:left;display:grid;gap:10px;margin:18px 0;font-size:14.5px}
-.feat li{display:flex;gap:10px;align-items:flex-start}
-.feat li svg{width:16px!important;height:16px!important;flex:none;margin-top:2px}
-.feat li.free{color:var(--mute)}
-.price{display:flex;flex-direction:column;gap:2px;margin:6px 0 16px}
-.price b{font-size:22px;letter-spacing:-.03em;font-family:var(--serif)}
-.price span{color:var(--mute);font-size:13.5px}
-.sheet .obtn{width:100%}
-.pay-ctx{color:var(--mute);font-size:14px}
+/* ---------- small tags on cards and rows (SOON, AFTER LLEGAR) ---------- */
+.ptag{display:inline-block;font-style:normal;font-family:var(--sans);font-size:9.5px;font-weight:700;letter-spacing:.12em;padding:3px 8px;border-radius:20px;background:var(--gl2);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:inset 0 0 0 1px var(--gl-line);color:var(--ink);vertical-align:middle;line-height:1.3}
+.card .ptag{position:absolute;left:18px;top:18px;z-index:2}
+.card.soon .art{filter:grayscale(1);opacity:.55}
 
 /* ---------- responsive ---------- */
 @media (max-width:1180px){.shelf{grid-auto-columns:calc((100% - 3*14px)/4)}.worlds{grid-template-columns:repeat(2,1fr)}}
@@ -614,7 +600,7 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bac
   .banner .copy{padding:24px}
   .manifesto{grid-template-columns:1fr;gap:24px}
   .jcard{grid-template-columns:90px 1fr}
-  .trow,.thead{grid-template-columns:42px 1fr 40px;gap:12px;padding:8px 4px}
+  .trow,.thead{grid-template-columns:42px minmax(0,1fr) 40px;gap:12px;padding:8px 4px}
   .trow .n,.trow .ty,.trow .du,.thead .hide{display:none}
   .thead{display:none}
   .whero{min-height:250px;padding:20px}
@@ -637,7 +623,7 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bac
   .opt input[type=range]{width:100%}
   .np-opts{flex-direction:column}
   .toast{bottom:calc(var(--bar) + var(--tab) + 20px)}
-  .topline .me:not(.plusc) span{display:none}
+  .topline .me span{display:none}
   .pane{width:22%}.pane.p2{width:16%}
   .tuner .readout{margin-top:56px}
   .mine{grid-template-columns:1fr}
@@ -717,14 +703,6 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bac
 .lt span{align-self:start;font-size:12.5px;color:var(--mute)}
 .nowc{display:inline-block;vertical-align:middle;margin-left:8px;font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:20px;background:var(--ink);color:var(--bg)}
 .nowc.ghost{background:var(--gl2);color:var(--ink);box-shadow:inset 0 0 0 1px var(--gl-line)}
-/* plans */
-.plans{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:4px 0 14px}
-.plan{position:relative;text-align:left;padding:16px 14px 14px;border-radius:18px;background:var(--gl2);box-shadow:inset 0 0 0 1.5px var(--gl-line);transition:box-shadow .2s}
-.plan.on{box-shadow:inset 0 0 0 1.5px var(--ink)}
-.plan b{display:block;font-family:var(--serif);font-size:26px;letter-spacing:-.04em}
-.plan b small{font-size:13px;letter-spacing:0;color:var(--mute);font-weight:500}
-.plan span{font-size:12px;color:var(--mute)}
-.plan i{position:absolute;top:-9px;right:12px;font-style:normal;font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:20px;background:var(--ink);color:var(--bg)}
 /* funnel: floating glass bar, calmer tiles */
 .ob-foot{left:50%;right:auto;bottom:18px;transform:translateX(-50%);width:min(860px,calc(100% - 24px));border-radius:999px;padding:8px 8px 8px 22px;background:var(--foot);-webkit-backdrop-filter:blur(30px) saturate(180%);backdrop-filter:blur(30px) saturate(180%);box-shadow:inset 0 0 0 1px var(--gl-line),0 14px 44px rgba(20,20,40,.12);isolation:isolate}
 .ob-foot .obtn{padding:13px 28px}
@@ -913,8 +891,8 @@ button.tag:hover{background:var(--ink);color:var(--bg)}
 .sim em{display:block;font-family:var(--sans);font-size:12.5px;color:var(--signal);font-weight:500;letter-spacing:0}
 @media (max-width:900px){
   .st-top{padding:12px 12px;gap:8px}.gb{height:42px;font-size:14px;padding:0 12px}.gb.ic{width:42px}
+  .st-top .gb,.st-top .power{flex:none}#ddAct{min-width:0}#stActB{max-width:100%}#stActB .an{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .st .power{height:42px;padding:0 12px}
-  .st-top .plusc{display:none}
   .st-bar{grid-template-columns:1fr;gap:14px;padding:10px 16px calc(18px + env(safe-area-inset-bottom))}
   .st-ctl{justify-content:center;order:-1}
   .st-vol{display:none}
@@ -923,180 +901,6 @@ button.tag:hover{background:var(--ink);color:var(--bg)}
   .std-in{grid-template-columns:1fr;padding:24px 18px;gap:24px}.std-h h3{font-size:26px}.std-h .st-th{width:80px;height:80px}
 }
 
-/* ================= v5 · sales page + checkout ================= */
-.sale{position:fixed;inset:0;z-index:120;display:none;overflow:auto;background:var(--bg);color:var(--ink);scroll-behavior:smooth}
-.sale.open{display:block}
-.hl{background:var(--ink);color:var(--bg);padding:0 .14em;margin:0 .02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;border-radius:.08em}
-.dk .hl{background:#fff;color:#000}
-.s-top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:16px;padding:12px 22px;background:rgba(5,5,6,.86);color:#fff;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
-.s-top .bs .lmk,.s-top .bs .lwm{filter:invert(1)}
-.s-top p{flex:1;font-size:14px;color:rgba(255,255,255,.8)}
-.s-top .cta{padding:11px 20px;border-radius:30px;background:#fff;color:#000;font-weight:600;font-size:14px;white-space:nowrap}
-.s-top .x{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.1)}
-.s-top .x svg{stroke:#fff}
-.sx{max-width:1120px;margin:0 auto;padding:0 22px}
-.dk{background:#050506;color:#F2F1EE;--ink:#F2F1EE;--mute:#9A9893;--line2:rgba(255,255,255,.14);--card:#141416}
-.s-hero{position:relative;overflow:hidden;padding:72px 0 80px;text-align:center}
-.s-hero canvas.bgw{position:absolute;inset:0;width:100%;height:100%;opacity:.55}
-.s-hero .sx{position:relative}
-.s-mark{width:84px;height:84px;margin:0 auto 22px;display:block;filter:invert(1);animation:lspin 40s linear infinite}
-.s-h1{font-size:clamp(40px,7vw,92px);font-weight:600;letter-spacing:-.045em;line-height:.98;max-width:980px;margin:0 auto}
-.s-sub{font-size:clamp(16px,1.6vw,19px);color:var(--mute);max-width:620px;margin:20px auto 0}
-.s-cta{display:inline-flex;align-items:center;gap:10px;margin-top:28px;padding:17px 30px;border-radius:40px;background:var(--ink);color:var(--bg);font-weight:600;font-size:16px;transition:transform .2s}
-.dk .s-cta{background:#fff;color:#000}
-.s-cta:hover{transform:translateY(-2px)}
-.s-small{font-size:13px;color:var(--mute);margin-top:12px}
-.vs{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:56px;text-align:left}
-.vsc{border-radius:22px;overflow:hidden;background:#111113;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
-.vsc canvas{display:block;width:100%;height:190px;background:#0A0A0B}
-.vsc .in{padding:24px 28px 28px}
-.vsc h4{font-family:var(--mono);font-size:13px;letter-spacing:.16em;font-weight:600;margin-bottom:18px}
-.vrow{margin-bottom:16px}
-.vrow .h{display:flex;justify-content:space-between;font-size:15px}
-.vrow .h span{color:#9A9893}
-.vrow u{display:block;height:6px;border-radius:6px;background:rgba(255,255,255,.1);margin-top:8px;overflow:hidden}
-.vrow u i{display:block;height:100%;border-radius:6px;background:#77767A;width:var(--w);transition:width 1.6s cubic-bezier(.2,.8,.2,1)}
-.vsc.with u i{background:linear-gradient(90deg,#fff,#BDBCB8)}
-.s-sec{padding:96px 0}
-.s-h2{font-size:clamp(32px,4.6vw,58px);font-weight:600;letter-spacing:-.04em;line-height:1.02;text-align:center}
-.s-lead{text-align:center;color:var(--mute);font-size:17px;max-width:640px;margin:16px auto 0}
-.ben{max-width:720px;margin:0 auto;display:grid;gap:34px}
-.ben div{display:grid;grid-template-columns:52px 1fr;gap:20px;align-items:start}
-.ben svg{width:40px;height:40px;fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
-.ben span{font-family:var(--mono);font-size:12px;letter-spacing:.16em;font-weight:600;color:var(--mute)}
-.ben b{display:block;font-family:var(--serif);font-size:clamp(22px,2.6vw,32px);font-weight:500;letter-spacing:-.02em;line-height:1.15;margin-top:4px}
-/* loyalty ladder */
-.lad{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;align-items:end;height:250px;margin:44px auto 10px;max-width:820px}
-.lad div{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:8px}
-.lad b{font-family:var(--serif);font-size:clamp(15px,2vw,22px);font-weight:600;letter-spacing:-.02em}
-.lad i{display:block;width:100%;border-radius:12px 12px 4px 4px;background:var(--card2);height:var(--h);transition:height 1.2s cubic-bezier(.2,.8,.2,1)}
-.lad div.now i{background:var(--ink)}
-.lad div.first i{background:repeating-linear-gradient(-45deg,var(--ink) 0 3px,transparent 3px 8px);box-shadow:inset 0 0 0 1.5px var(--ink)}
-.lad span{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--mute);font-weight:600}
-.lad-note{text-align:center;color:var(--mute);font-size:14px;max-width:600px;margin:6px auto 0}
-.offer{display:inline-flex;margin:26px auto 0;padding:9px 18px;border-radius:30px;background:var(--ink);color:var(--bg);font-size:13.5px;font-weight:600}
-.plansx{max-width:680px;margin:34px auto 0;display:grid;gap:14px}
-.pl{position:relative;display:grid;grid-template-columns:28px 1fr auto;align-items:center;gap:18px;padding:24px 26px;border-radius:22px;text-align:left;background:var(--bg2);box-shadow:inset 0 0 0 1.5px var(--line2);transition:box-shadow .2s}
-.pl.on{box-shadow:inset 0 0 0 2.5px var(--ink)}
-.pl .rd{width:24px;height:24px;border-radius:50%;box-shadow:inset 0 0 0 2px var(--mute);display:grid;place-items:center}
-.pl.on .rd{box-shadow:inset 0 0 0 2px var(--ink)}.pl.on .rd::after{content:"";width:12px;height:12px;border-radius:50%;background:var(--ink)}
-.pl small{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--mute);font-weight:600}
-.pl b{display:block;font-family:var(--serif);font-size:clamp(22px,3vw,30px);font-weight:600;letter-spacing:-.03em;margin:2px 0}
-.pl p{font-size:13.5px;color:var(--mute)}
-.pl .pr{text-align:right}
-.pl .pr strong{font-family:var(--serif);font-size:clamp(28px,4vw,40px);font-weight:600;letter-spacing:-.03em}
-.pl .pr span{font-size:13px;color:var(--mute)}
-.pl .bdg{position:absolute;top:-12px;right:22px;padding:5px 12px;border-radius:20px;background:var(--ink);color:var(--bg);font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em}
-.freeline{max-width:680px;margin:16px auto 0;text-align:center;font-size:13.5px;color:var(--mute)}
-/* made with sense */
-.sense{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:46px}
-.sense div{padding:24px;border-radius:20px;background:var(--bg2);box-shadow:inset 0 0 0 1px var(--line)}
-.sense .mono{color:var(--mute)}
-.sense b{display:block;font-family:var(--serif);font-size:22px;font-weight:600;letter-spacing:-.02em;margin:10px 0 8px}
-.sense p{font-size:14px;color:var(--mute)}
-.sense .hzv{font-family:var(--serif);font-size:42px;font-weight:500;letter-spacing:-.04em;line-height:1}
-/* extra value */
-.getg{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:46px}
-.getc{position:relative;min-height:300px;border-radius:22px;overflow:hidden;padding:26px;display:flex;flex-direction:column;color:#fff;isolation:isolate}
-.getc>.art{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;z-index:-2}
-.getc::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(0,0,0,.6),rgba(0,0,0,.15) 60%,rgba(0,0,0,.35))}
-.getc b{font-family:var(--serif);font-size:26px;font-weight:600;letter-spacing:-.025em;line-height:1.05}
-.getc p{font-size:14.5px;opacity:.86;margin-top:10px;max-width:300px}
-.getc .tg{margin-top:auto;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;opacity:.9}
-.cmp{max-width:820px;margin:40px auto 0;border-radius:22px;overflow:hidden;box-shadow:inset 0 0 0 1px var(--line2)}
-.cmp div{display:grid;grid-template-columns:1fr 120px 120px;align-items:center;padding:15px 22px;border-top:1px solid var(--line)}
-.cmp div:first-child{border-top:0;font-family:var(--mono);font-size:11px;letter-spacing:.1em;font-weight:600;color:var(--mute)}
-.cmp div span:not(:first-child){text-align:center}
-.cmp .y{font-weight:700}.cmp .n{color:var(--dim)}
-.cmp div:first-child span:nth-child(2){color:var(--ink)}
-/* testimonials */
-.tst{columns:2;column-gap:16px;margin-top:46px}
-.tst>div{break-inside:avoid;margin-bottom:16px;padding:26px;border-radius:22px;background:var(--bg2);box-shadow:inset 0 0 0 1px var(--line)}
-.tst .stars{letter-spacing:.2em;font-size:13px}
-.tst p{font-size:15.5px;margin:12px 0 16px;line-height:1.5}
-.tst footer{display:flex;align-items:center;gap:12px}
-.tst footer i{width:42px;height:42px;border-radius:50%;overflow:hidden;flex:none}
-.tst footer i .art{width:100%;height:100%}
-.tst footer b{display:block;font-size:14.5px}
-.tst footer span{font-size:12.5px;color:var(--mute)}
-.tst .ex{float:right;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;font-weight:700;padding:3px 8px;border-radius:10px;box-shadow:inset 0 0 0 1px var(--line2);color:var(--mute)}
-/* faq */
-.faq{max-width:820px;margin:40px auto 0}
-.faq details{border-top:1px solid var(--line2);padding:22px 0}
-.faq details:last-child{border-bottom:1px solid var(--line2)}
-.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:20px;font-family:var(--serif);font-size:clamp(17px,2vw,21px);font-weight:600;letter-spacing:-.015em}
-.faq summary::-webkit-details-marker{display:none}
-.faq summary::after{content:"+";font-family:var(--sans);font-weight:300;font-size:26px;line-height:.8;transition:transform .25s}
-.faq details[open] summary::after{transform:rotate(45deg)}
-.faq p{color:var(--mute);margin-top:12px;font-size:15.5px;max-width:720px}
-.s-end{padding:100px 0;text-align:center}
-.s-foot{padding:30px 22px 50px;text-align:center;font-size:12px;color:var(--mute);max-width:760px;margin:0 auto}
-@media (max-width:900px){
-  .s-top p{display:none}.s-top{padding:10px 14px}.s-top .cta{padding:10px 16px;font-size:13px}.s-top .bs{margin-right:auto}
-  .vs,.getg,.sense{grid-template-columns:1fr}.sense{grid-template-columns:1fr 1fr}
-  .tst{columns:1}.s-sec{padding:70px 0}.s-hero{padding:50px 0 60px}
-  .lad{height:200px;gap:6px}
-  .pl{grid-template-columns:24px 1fr;padding:22px 20px}.pl .pr{grid-column:2;text-align:left}
-  .cmp div{grid-template-columns:1fr 70px 70px;padding:13px 14px;font-size:14px}
-}
-/* checkout */
-.co{min-height:100%;display:grid;grid-template-columns:1fr 1fr}
-.co-l{background:#0B0B0D;color:#F2F1EE;padding:56px clamp(22px,6vw,90px);display:flex;justify-content:flex-end}
-.co-r{--ink:#1D1D1F;--bg:#fff;--mute:#6E6E73;--line2:rgba(0,0,0,.13);background:#fff;color:#1D1D1F;padding:56px clamp(22px,6vw,90px)}
-.co-in{width:100%;max-width:440px}
-.co-l .bk{display:inline-flex;align-items:center;gap:10px;color:#F2F1EE;margin-bottom:40px}
-.co-l .bk .lmk,.co-l .bk .lwm{filter:invert(1)}
-.co-l .bk svg{width:18px;height:18px;transform:rotate(180deg)}
-.co-l .k{color:#9A9893;font-size:15px}
-.co-l .big{font-family:var(--serif);font-size:clamp(44px,6vw,64px);font-weight:600;letter-spacing:-.04em;line-height:1.05;margin:6px 0}
-.co-l .then{color:#9A9893;font-size:14px;line-height:1.55}
-.co-l .then b{color:#F2F1EE}
-.co-lad{margin:28px 0;display:grid;gap:8px}
-.co-lad div{display:flex;justify-content:space-between;font-size:14px;color:#9A9893;padding:8px 12px;border-radius:10px}
-.co-lad div.on{background:rgba(255,255,255,.08);color:#fff}
-.co-li{border-top:1px solid rgba(255,255,255,.12);padding-top:18px;display:grid;gap:12px;font-size:14.5px}
-.co-li div{display:flex;justify-content:space-between}
-.co-li .tot{border-top:1px solid rgba(255,255,255,.12);padding-top:14px;font-weight:600;font-size:16px}
-.co-r .demo{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:12px;background:#FFF6DB;color:#5C4A10;font-size:13px;margin-bottom:22px;line-height:1.4}
-.co-r .demo b{font-weight:700}
-.qp{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.qp button{height:46px;border-radius:10px;background:#000;color:#fff;font-weight:600;font-size:15px;display:flex;align-items:center;justify-content:center;gap:6px}
-.qp button.pp2{background:#FFC439;color:#003087;font-style:italic;font-weight:800}
-.qp button.ps{background:#F2F2F4;color:#1D1D1F;font-size:13px}
-.orl{display:flex;align-items:center;gap:12px;color:#8A8A8E;font-size:13px;margin:22px 0}
-.orl::before,.orl::after{content:"";flex:1;height:1px;background:#E3E3E6}
-.fld{margin-bottom:16px}
-.fld label{display:block;font-size:13.5px;color:#4A4A4F;margin-bottom:6px;font-weight:500}
-.fld input,.fld select{width:100%;height:46px;border-radius:10px;border:1px solid #DADADF;padding:0 14px;font:inherit;font-size:15px;color:#1D1D1F;background:#fff}
-.fld input[readonly]{background:#F7F7F9;color:#6E6E73}
-.fld input:focus,.fld select:focus{outline:none;border-color:#1D1D1F;box-shadow:0 0 0 3px rgba(0,0,0,.08)}
-.cardg{border:1px solid #DADADF;border-radius:10px;overflow:hidden}
-.cardg input{border:0;border-radius:0;height:46px}
-.cardg .r2{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid #DADADF}
-.cardg .r2 input+input{border-left:1px solid #DADADF}
-.cardg .r1{position:relative}
-.cardg .r1 span{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:800;color:#1A1F71;font-style:italic;letter-spacing:.02em}
-.co-terms{font-size:12.5px;color:#6E6E73;line-height:1.5;margin:18px 0}
-.co-pay{width:100%;height:54px;border-radius:12px;background:#1D1D1F;color:#fff;font-weight:600;font-size:16px;display:flex;align-items:center;justify-content:center;gap:10px}
-.co-pay[disabled]{opacity:.7}
-.co-pay .spin{width:18px;height:18px;border-radius:50%;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;animation:lspin .8s linear infinite}
-.co-sec{display:flex;justify-content:center;gap:16px;margin-top:16px;font-size:12px;color:#8A8A8E}
-.co-ok{text-align:center;padding-top:40px}
-.co-ok .ck{width:76px;height:76px;border-radius:50%;background:#1D1D1F;color:#fff;display:grid;place-items:center;margin:0 auto 22px;animation:stIn .5s ease}
-.co-ok .ck svg{width:34px;height:34px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-.co-ok h2{font-size:34px;letter-spacing:-.03em;font-weight:600}
-.co-ok p{color:#6E6E73;margin:10px auto 24px;max-width:360px}
-@media (max-width:900px){.co{grid-template-columns:1fr}.co-l{padding:28px 20px;justify-content:flex-start}.co-r{padding:28px 20px 50px}.co-l .bk{margin-bottom:22px}}
-/* paywall sheet: sample track */
-.samp{display:flex;gap:16px;align-items:center;padding:14px;border-radius:16px;box-shadow:inset 0 0 0 1px var(--line2);margin:18px 0;text-align:left}
-.samp .art{width:84px;height:84px;border-radius:12px;flex:none;display:grid;place-items:center}
-.samp b{display:block;font-family:var(--serif);font-size:20px;font-weight:600}
-.samp .pb{width:40px;height:40px;border-radius:50%;background:#fff;color:#000;display:grid;place-items:center;position:relative;z-index:2}
-.samp .pb svg{width:16px;height:16px;fill:currentColor}
-.ladmini{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin:16px 0}
-.ladmini div{text-align:center;padding:10px 4px;border-radius:10px;box-shadow:inset 0 0 0 1px var(--line2);font-size:13px}
-.ladmini div span{display:block;font-family:var(--mono);font-size:9px;color:var(--mute);letter-spacing:.08em}
-.ladmini div.on{background:var(--ink);color:var(--bg)}.ladmini div.on span{color:inherit;opacity:.7}
 
 </style>
 </head>
@@ -1113,7 +917,6 @@ button.tag:hover{background:var(--ink);color:var(--bg)}
         <a href="#/journeys" data-r="journeys"><svg class="i" viewBox="0 0 24 24"><path d="M3 17c3-6 5-6 7-2s4 4 7-3l4 0"/><circle cx="20.5" cy="12" r="0.5"/></svg><span data-t="Creative journeys|Viajes creativos">Creative journeys</span></a>
         <a href="#/program" data-r="program"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg><span data-t="NO MYND program|Programa PuraMente">NO MYND program</span></a>
         <a href="#/journal" data-r="journal"><svg class="i" viewBox="0 0 24 24"><path d="M6 3.5h11a1.5 1.5 0 0 1 1.5 1.5v15l-3-2-3 2-3-2-3 2V5A1.5 1.5 0 0 1 6 3.5zM9 8.5h6M9 12h4"/></svg><span data-t="Idea journal|Diario de ideas">Idea journal</span></a>
-        <a href="#" data-pay="1"><svg class="i" viewBox="0 0 24 24"><path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1L5 10.5l5.1-1.9z"/><path d="M18.5 15.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></svg><span>Oazis Plus</span></a>
       </nav>
     </div>
     <div class="panel lib">
@@ -1157,9 +960,7 @@ button.tag:hover{background:var(--ink);color:var(--bg)}
 
 <section class="np" id="np" aria-label="Now playing"></section>
 <section class="st" id="st" aria-label="Oazis FM station"></section>
-<section class="sale" id="sale" aria-label="Oazis Plus"></section>
 
-<div class="modal" id="pay" role="dialog" aria-modal="true" aria-label="Oazis Plus"><div class="modal-in sheet" id="payIn"></div></div>
 <div class="modal" id="capture" role="dialog" aria-modal="true" aria-labelledby="capT">
   <div class="modal-in">
     <span class="mono" id="capFrom">Capture</span>
@@ -1185,7 +986,7 @@ const store={
 };
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
-let LANG=store.get('lang','en');
+let LANG=store.get('lang',/^es\b/i.test(navigator.language||'')?'es':'en');
 const L=(en,es)=>LANG==='es'&&es!=null?es:en;
 const tx=(o,k)=>LANG==='es'&&o[k+'_es']!=null?o[k+'_es']:o[k];
 function applyI18n(){
@@ -1273,13 +1074,16 @@ T('morning-ritual','Morning Ritual','awaken','Ritual',10,1,['all','build'],'Ten 
 T('gratitude-loop','Gratitude Loop','awaken','Functional Music',20,2,['all'],'Light, open tones for noticing what is already here.');
 T('alpha-bloom','Alpha Bloom','awaken','Frequency',30,3,['art','music'],'An alpha-range rhythm under bright, rising chords.');
 T('begin-again','Begin Again','awaken','Functional Music',30,4,['all','write'],'For the day after the creative block.');
-// HYPNOSIS (Oazis Plus · 30-second previews) — narrated audio in EN / ES to be produced
+// HYPNOSIS — the narrated audio in EN / ES is still being recorded (see .soon below)
 T('hyp-deep-sleep','Deep Sleep Hypnosis','sleep','Hypnosis',30,5,['all'],'A slow spoken descent into rest, over heavy rain.');
 T('hyp-creative-confidence','Creative Confidence','awaken','Hypnosis',20,6,['all','art','music'],'Quiet the inner critic and give yourself permission to create.');
 T('hyp-inner-studio','The Inner Studio','create','Hypnosis',25,7,['art','design','film'],'Build a studio inside your mind and return to it whenever you need ideas.');
 T('hyp-release','Release the Day','calm','Hypnosis',20,6,['all'],'Let the day leave your body, breath by breath.');
 T('hyp-lucid-door','The Lucid Door','dream','Hypnosis',30,6,['all','write'],'A guided threshold between waking and dreaming.');
 T('hyp-focus-trance','Focus Trance','flow','Hypnosis',20,7,['build','study'],'A short trance to narrow the world down to one task.');
+/* Until the narration exists, a hypnosis would only be a pad with a promise on top: it shows as "soon" on its own
+   shelf, list() leaves it out of everything else, and playTrack() refuses it. */
+Object.values(TRACKS).filter(t=>t.type==='Hypnosis').forEach(t=>t.soon=true);
 
 /* ---------- journeys ---------- */
 const JOURNEYS=[
@@ -1319,7 +1123,7 @@ const JOURNEYS=[
            ['Create',2,'What is one small thing you want to keep from today?'],
            ['Capture',1,'Keep it. Then rest.']]},
 ];
-JOURNEYS.forEach(j=>{TRACKS[j.id]={...j,type:'Journey',dur:j.phases.reduce((a,p)=>a+p[1],0)};});
+JOURNEYS.forEach(j=>{TRACKS[j.id]=Object.assign(j,{type:'Journey',dur:j.phases.reduce((a,p)=>a+p[1],0)});});
 
 /* ---------- PuraMente · 50 audios to wake up the mind ----------
    Ten per module, one for each neuron of the brain. The list itself is assets/puramente/models/puramente-audios.js
@@ -1386,9 +1190,6 @@ function pmArt(){
   const g=PM.map((m,i)=>`<radialGradient id="pmg${i}"><stop offset="0" stop-color="${m.c}" stop-opacity=".95"/><stop offset="1" stop-color="${m.c}" stop-opacity="0"/></radialGradient>`).join('');
   return `<svg viewBox="0 0 ${S} ${S}" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><defs>${g}</defs>${o}</svg>`;
 }
-/* The brain (the map of the 50 audios) and the first audio are open to everyone; the rest belongs to Plus,
-   the rule the program already had. */
-const pmLocked=x=>!x.free&&!isPlus();
 /* Nothing else opens until the first neuron (Llegar) has been lit. */
 const pmReady=x=>!x.id||x===PM_ALL[0]||pmDone(PM_ALL[0].id);
 const pmWaitMsg=()=>L('First light up your first neuron: ','Primero enciende tu primera neurona: ')+pmName(PM_ALL[0]);
@@ -1396,20 +1197,17 @@ function openPM(id){
   const x=id==='map'?{u:PM_MAP,free:1}:PM_ALL.find(y=>y.id===id); if(!x) return;
   if(!x.u){toast(L('This audio is still being made','Este audio está en producción'));return;}
   if(!pmReady(x)){toast(pmWaitMsg());return;}
-  if(pmLocked(x)){location.hash='#/plus';return;}
   closePM(true); pmQuiet();
   const f=document.createElement('iframe'); f.id='pmFrame'; f.title='PuraMente'; f.allow='autoplay'; f.src=PM_BASE+x.u;
   f.addEventListener('load',()=>pmGuard(f));
   $('#pm').append(f); $('#pm').classList.add('open');
 }
-/* Runs every time a page loads inside the frame, so a Plus audio opened from the brain itself is
-   stopped too. The frame stays hidden while it changes page so locked content never flashes.
-   Client-side only, like the rest of Plus: it does not stop someone who types the course URL by hand. */
+/* Runs every time a page loads inside the frame, so an audio opened from the brain itself also waits for
+   Llegar. The frame stays hidden while it changes page so a waiting audio never flashes. */
 function pmGuard(f){
   let w; try{w=f.contentWindow; w.location.pathname;}catch(e){return;}
   const x=PM_LIVE.find(y=>{const [p,q]=y.u.split('?');return w.location.pathname.endsWith(p)&&(!q||w.location.search.slice(1).split('&').includes(q));});
   if(x&&!pmReady(x)){toast(pmWaitMsg());w.location.replace(new URL(PM_BASE+PM_MAP,location.href).href);return;}
-  if(x&&pmLocked(x)){closePM();location.hash='#/plus';return;}
   f.style.visibility='';
   w.addEventListener('pagehide',()=>{f.style.visibility='hidden';});
 }
@@ -1430,7 +1228,81 @@ function closePM(quiet){
 /* stations (the radio) */
 ORDER.forEach(w=>{TRACKS['station-'+w]={id:'station-'+w,title:WORLDS[w].name+' FM',world:w,type:'Live Station',dur:0,seed:0,desc:'A live, endless stream tuned to '+WORLDS[w].line.toLowerCase()+'.'};});
 
-const PERSONAS=[['all','Curious mind'],['art','Artist'],['design','Designer'],['film','Filmmaker'],['music','Musician'],['write','Writer'],['build','Entrepreneur'],['study','Student']];
+/* ---------- the catalog in Spanish ----------
+   Titles, descriptions and journey prompts are written in English above; these are the Spanish ones. t.title, t.desc
+   and t.phases answer in the language in use, so every screen — and the spoken guide of the journeys — follows the
+   language switch without touching the views. */
+const ES_TRACKS={
+  'blank-canvas':['Lienzo en blanco','Armonía abierta y chispas lentas para los primeros trazos en una página vacía.'],
+  'idea-storm':['Tormenta de ideas','Texturas brillantes y en movimiento para sacar ideas: cantidad antes que calidad.'],
+  'theta-sketchbook':['Cuaderno theta','Un ritmo suave en el rango theta bajo tonos cálidos. Mejor con audífonos.'],
+  'curiosity-engine':['Motor de curiosidad','Larga, curiosa y ligera. Para pensar distinto por un rato.'],
+  'studio-after-rain':['Estudio después de la lluvia','Calles mojadas, una ventana abierta y un estudio en silencio.'],
+  'ten-bad-ideas':['Diez malas ideas','Un calentamiento de 7 minutos: escribe diez malas ideas. La número once suele ser buena.'],
+  'deep-work-signal':['Señal de trabajo profundo','Un pulso estable en el rango beta, envuelto en una armonía oscura y quieta.'],
+  'edit-bay':['Sala de edición','Para líneas de tiempo, cortes y color. Sin melodías que seguir.'],
+  'code-and-cloud':['Código y nube','Grave, pareja y paciente. Hecha para desaparecer detrás del trabajo.'],
+  'monochrome-desk':['Escritorio monocromo','Pulsos mínimos para diagramar, trabajar tipografía y cuidar detalles.'],
+  'long-hallway':['Pasillo largo','Tres horas sin interrupciones. Ponla y olvídate.'],
+  'beta-grid':['Retícula beta','Modulación rítmica para leer y estudiar con foco.'],
+  'cyanotype':['Cianotipia','Tonos azul pálido y ecos largos. Imágenes sin bordes.'],
+  'moth-light':['Luz de polilla','Aire de noche, alas lentas, algo que brilla justo fuera de la vista.'],
+  'slow-nebula':['Nebulosa lenta','Dos horas de armonía a la deriva para trabajo imaginativo largo.'],
+  'lucid-archive':['Archivo lúcido','Una capa suave en el rango theta bajo acordes que flotan.'],
+  'quiet-the-noise':['Silencia el ruido','La sesión de calma de la casa. Deja que lo de afuera se haga pequeño.'],
+  'grey-ocean':['Océano gris','Olas lentas en una orilla sin color.'],
+  'alpha-shore':['Orilla alfa','Un ritmo en el rango alfa con marea suave. Mejor con audífonos.'],
+  'four-breaths':['Cuatro respiraciones','Cinco minutos, cuatro respiraciones largas, una mente clara.'],
+  'fog-garden':['Jardín de niebla','Neblina, hojas y una campana lejana.'],
+  'permission-to-rest':['Permiso para descansar','Cálida, grave y lenta. Hoy ya no hay nada más que hacer.'],
+  'night-rain':['Lluvia de noche','Ocho horas de lluvia constante sobre una ventana oscura.'],
+  'delta-drift':['Deriva delta','Una capa muy lenta en el rango delta bajo tonos profundos.'],
+  'dark-room':['Cuarto oscuro','Casi silencio. Solo el sonido justo para sostener la noche.'],
+  'morning-ritual':['Ritual de la mañana','Diez minutos para poner una intención antes de que empiece el ruido.'],
+  'gratitude-loop':['Ciclo de gratitud','Tonos ligeros y abiertos para notar lo que ya está aquí.'],
+  'alpha-bloom':['Florecer alfa','Un ritmo en el rango alfa bajo acordes brillantes que suben.'],
+  'begin-again':['Empezar de nuevo','Para el día después del bloqueo creativo.'],
+  'hyp-deep-sleep':['Hipnosis para dormir profundo','Un descenso hablado y lento hacia el descanso, sobre lluvia fuerte.'],
+  'hyp-creative-confidence':['Confianza creativa','Calla al crítico interno y date permiso para crear.'],
+  'hyp-inner-studio':['El estudio interior','Construye un estudio dentro de tu mente y vuelve a él cuando necesites ideas.'],
+  'hyp-release':['Suelta el día','Deja que el día salga de tu cuerpo, respiración por respiración.'],
+  'hyp-lucid-door':['La puerta lúcida','Un umbral guiado entre la vigilia y el sueño.'],
+  'hyp-focus-trance':['Trance de foco','Un trance corto para reducir el mundo a una sola tarea.'],
+  'the-blank-page':['La página en blanco','Una sesión guiada del silencio a la primera idea. Llega, abre una pregunta, explora, crea y captura.'],
+  'impossible-rooms':['Cuartos imposibles','Una visualización por cuartos que no deberían existir. Camina, mira, recuerda un detalle.'],
+  'inner-child-atlas':['Atlas del niño interior','Un viaje de PuraMente de vuelta a la curiosidad que tenías antes de que alguien la calificara.'],
+  'unblock':['Desbloquéate','Doce minutos para cuando nada sale. Baja la exigencia hasta que las ideas empiecen a caer.'],
+  'letting-the-day-go':['Soltar el día','Una descompresión de noche con respiración y marea suave. Cierra las pestañas de tu cabeza.'],
+};
+const ES_PHASES={
+  'the-blank-page':['Deja caer los hombros. Todavía no hay nada que hacer. Solo llega.','Pregúntate: ¿qué haría si nadie lo fuera a ver nunca?','Deja que lleguen imágenes sin juzgarlas. Sigue la más rara.','Ahora escribe, dibuja o di lo que haya aquí. Cantidad antes que calidad.','Guarda una línea. Hasta un fragmento es una semilla.'],
+  'impossible-rooms':['Cierra los ojos. Nota el peso de tu cuerpo. Suelta el aire despacio.','Frente a ti hay una puerta que nunca has visto. Ábrela.','Camina por el cuarto. ¿Cómo es la luz? ¿Qué es imposible aquí?','Describe un objeto de ese cuarto como si tuvieras que construirlo.','Anota el detalle que quieres guardar.'],
+  'inner-child-atlas':['Respira. Deja que la parte adulta del día espere afuera un momento.','Recuerda un lugar donde jugabas por horas sin darte cuenta del tiempo.','¿Qué hacías ahí? ¿Qué reglas inventabas?','Haz algo hoy con esas mismas reglas. Pequeño está bien.','Escribe una cosa que tu yo de niño querría que intentaras.'],
+  'unblock':['No estás bloqueado. Estás protegiendo algo. Respira.','Nombra el miedo en una palabra. Ahora déjalo a un lado.','Piensa en la peor versión posible de tu idea. Hazla peor.','Voltea una cosa de la peor versión. Ese es tu comienzo.','Guarda ese giro.'],
+  'letting-the-day-go':['Siéntate o acuéstate. Deja que el sonido sea lo único que tienes que seguir.','Nombra tres cosas que pasaron hoy. No las juzgues.','Con cada exhalación larga, deja que una de ellas se vaya flotando.','¿Qué cosa pequeña quieres guardar de hoy?','Guárdala. Después descansa.'],
+};
+const ES_STEP={Arrive:'Llegar',Open:'Abrir',Explore:'Explorar',Create:'Crear',Capture:'Capturar'};
+const ES_WORLD_DESC={
+  create:'Lluvia de ideas, escritura, pensamiento visual y bloqueo creativo. El corazón de Oazis: sonido que le abre espacio a la idea rara.',
+  flow:'Audio funcional para trabajo profundo: diseñar, editar, programar, leer y producir con foco. Estable y discreto, hecho para desaparecer detrás de tu trabajo.',
+  dream:'Espacios sonoros envolventes para soñar despierto, visualizar, inventar mundos y contar historias.',
+  calm:'Relajación para el estrés de todos los días: respiración, descompresión, paisajes sonoros suaves y descanso consciente.',
+  sleep:'Audio para acompañar la hora de dormir: ambiente nocturno, lluvia, relajación guiada y paisajes sonoros largos que se apagan contigo.',
+  awaken:'Inspirado en PuraMente: ejercicios de niño interior, gratitud, autoexploración y rituales creativos para empezar de nuevo.',
+};
+const TYPE_ES={'Functional Music':'Música funcional','Soundscape':'Paisaje sonoro','Frequency':'Frecuencia','Ritual':'Ritual','Extended':'Larga duración',
+  'Hypnosis':'Hipnosis','Journey':'Viaje','Live Station':'Estación en vivo','Your Station':'Tu estación'};
+const typeName=t=>L(t.type,TYPE_ES[t.type]);
+/* o[k] returns the Spanish text while the app is in Spanish, the original otherwise */
+const bilingual=(o,k,es)=>{const en=o[k];Object.defineProperty(o,k,{get:()=>LANG==='es'&&es!=null?es:en,enumerable:true,configurable:true});};
+ORDER.forEach(k=>bilingual(WORLDS[k],'desc',ES_WORLD_DESC[k]));
+Object.values(TRACKS).forEach(t=>{
+  const x=ES_TRACKS[t.id], ps=ES_PHASES[t.id];
+  if(x){bilingual(t,'title',x[0]);bilingual(t,'desc',x[1]);}
+  if(ps&&t.phases) bilingual(t,'phases',t.phases.map((p,i)=>[ES_STEP[p[0]]||p[0],p[1],ps[i]]));
+  if(t.type==='Live Station') bilingual(t,'desc','Una transmisión en vivo y sin fin. '+WORLDS[t.world].line_es+'.');
+});
+
 
 /* ---------- state ---------- */
 const state={
@@ -1650,67 +1522,17 @@ function art(world,seed=0,cls=''){
 
 /* ---------- helpers ---------- */
 const fmt=s=>{s=Math.max(0,Math.floor(s));const h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;return h?`${h}:${String(m).padStart(2,'0')}:${String(x).padStart(2,'0')}`:`${m}:${String(x).padStart(2,'0')}`;};
-const durLabel=t=>t.dur?(t.dur>=60?(t.dur%60?`${Math.floor(t.dur/60)} h ${t.dur%60} min`:`${t.dur/60} h`):`${t.dur} min`):'Live';
-/* ---------- Oazis Plus: free = Oazis FM, your station, selected rituals ---------- */
-const PLUS_DAYS=3, FREE=new Set(['four-breaths','morning-ritual','ten-bad-ideas']);
-const plusOnly=t=>!!t&&!(t.type==='Live Station'||t.mine||FREE.has(t.id));
-function plusState(){const x=store.get('plus',null);if(!x)return null;if(x.status==='active')return {...x,month:Math.floor((Date.now()-x.start)/(30*864e5))+1};const left=x.trialStart+PLUS_DAYS*864e5-Date.now();return left>0?{...x,left}:{...x,expired:true};}
-const isPlus=()=>{const x=plusState();return !!x&&!x.expired;};
-const PLANS={month:{p:'$19',en:'/ month',es:'/ mes'},year:{p:'$99',en:'/ year',es:'/ año'}};
-const planTxt=k=>{const x=PLANS[k]||PLANS.year;return x.p+' '+L(x.en,x.es);};
-const locked=t=>plusOnly(t)&&!isPlus();
-const badge=t=>locked(t)?'<i class="plus-b">PLUS</i>':'';
-function plusChip(){const x=plusState(),on=isPlus();
-  return `<button class="me plusc" data-pay="1"><i>✦</i><span>${on?'Plus'+(x.month?' · '+L('Month ','Mes ')+x.month:x.left?' · '+Math.ceil(x.left/864e5)+L(' days left',' días'):''):L('Plus · $2','Plus · $2')}</span></button>`;}
-/* Loyalty license (like a software "continuity discount"): month 1 is $2, month 2 $19.99,
-   then the price drops every month you stay, down to $8 from month 6. Cancel → start again at $19.99. */
-const LADDER=[2,19.99,16.90,13.90,10.90,8], YEAR=99;
-const money=v=>'$'+(Number.isInteger(v)?v:v.toFixed(2));
-const priceAt=m=>LADDER[Math.min(Math.max(1,m),6)-1];
-const ladMini=cur=>`<div class="ladmini">${LADDER.map((p,i)=>`<div class="${i+1===Math.min(cur,6)?'on':''}"><span>${L('M','MES ')}${i+1}${i===5?'+':''}</span>${money(p)}</div>`).join('')}</div>`;
-function openPay(t){
-  const on=isPlus(), x=plusState();
-  const close=()=>$('#pay').classList.remove('open');
-  if(on){
-    const m=x.month||1, yr=x.plan==='year';
-    $('#payIn').innerHTML=`<span class="ob-k">OAZIS Plus · ${yr?L('Yearly','Anual'):L('Loyalty price','Precio Lealtad')}</span>
-      <h3>${L('You’re in.','Estás dentro.')} <em>${yr?L('Fixed for the year.','Fijo todo el año.'):L(`Month ${m}.`,`Mes ${m}.`)}</em></h3>
-      ${yr?`<p class="pay-ctx">${L(`$99 / year · renews ${new Date(x.start+365*864e5).toLocaleDateString()}`,`$99 / año · se renueva el ${new Date(x.start+365*864e5).toLocaleDateString()}`)}</p>`
-        :`<p class="pay-ctx">${L(`This month you pay <b>${money(priceAt(m))}</b>. ${m<6?`Next month: <b>${money(priceAt(m+1))}</b>.`:'You reached the lowest price.'} Stay and it keeps dropping.`,`Este mes pagas <b>${money(priceAt(m))}</b>. ${m<6?`El próximo: <b>${money(priceAt(m+1))}</b>.`:'Llegaste al precio más bajo.'} Si te quedas, sigue bajando.`)}</p>${ladMini(m)}`}
-      <button class="obtn" id="payNo">${L('Keep listening','Seguir escuchando')}</button>
-      ${yr?'':`<button class="olink" id="payMonth">${L('Simulate +1 month (demo)','Simular +1 mes (demo)')}</button>`}
-      <button class="olink" id="payEnd">${L('Cancel subscription (demo)','Cancelar suscripción (demo)')}</button>
-      <p class="note">${L('If you cancel, your loyalty price resets: you come back at $19.99.','Si cancelas, tu precio de lealtad se reinicia: vuelves en $19,99.')}</p>`;
-    $('#pay').classList.add('open'); $('#payNo').onclick=close;
-    if($('#payMonth')) $('#payMonth').onclick=()=>{store.set('plus',{...store.get('plus'),start:store.get('plus').start-30*864e5});openPay();render();};
-    $('#payEnd').onclick=()=>{store.set('plus',null);store.set('returning',true);close();render();renderLib();toast(L('Cancelled · if you come back you start at $19.99','Cancelada · si vuelves empiezas en $19,99'));};
-    return;
-  }
-  /* preview ended: give a free sample, then the offer */
-  const k=t?t.world:tuner.station, smp=TRACKS['station-'+k], ret=store.get('returning',false);
-  $('#payIn').innerHTML=`<span class="ob-k">OAZIS Plus</span>
-    <h3>${t?L('Your preview ended.','Tu preview terminó.'):L('Go deeper.','Ve más profundo.')} <em>${L('Keep the frequency.','Sigue en la frecuencia.')}</em></h3>
-    <p class="pay-ctx">${t?L(`That was 30 seconds of <b>${esc(t.title)}</b>. Here’s a sample on us:`,`Eso fueron 30 segundos de <b>${esc(t.title)}</b>. Te regalamos una muestra:`):L('Here’s a sample on us:','Te regalamos una muestra:')}</p>
-    <div class="samp">${art(k,3).replace('</div>',`<button class="pb" id="paySamp" aria-label="Play">${ICON.play}</button></div>`)}<div><b>${WORLDS[k].name} FM</b><span class="mono" style="color:var(--mute)">${WORLDS[k].band} · ${WORLDS[k].hz} Hz · ${L('always free','siempre gratis')}</span></div></div>
-    <p class="pay-ctx" style="text-align:center">${L('Ready to unlock everything?','¿Listo para desbloquear todo?')}</p>
-    <button class="obtn" id="payGo">${ret?L('Come back · $19.99 / month','Volver · $19,99 / mes'):L('Start for $2 · first month','Empieza por $2 · primer mes')}</button>
-    <button class="olink" id="payPlans">${L('See plans','Ver planes')}</button>`;
-  $('#pay').classList.add('open');
-  $('#paySamp').onclick=e=>{e.stopPropagation();close();playTrack(smp);};
-  $('#payGo').onclick=()=>{close();location.hash='#/checkout/loyalty';};
-  $('#payPlans').onclick=()=>{close();location.hash='#/plus';};
-}
-
-function previewEnd(){const t=state.current;Engine.stop();state.playing=false;updatePlayer();if(state.npOpen)closeNP();openPay(t);}
-const limit=t=>locked(t)?30:t.phases?t.dur*60:(state.timer?state.timer*60:0);
+const durLabel=t=>t.dur?(t.dur>=60?(t.dur%60?`${Math.floor(t.dur/60)} h ${t.dur%60} min`:`${t.dur/60} h`):`${t.dur} min`):L('Live','En vivo');
+const limit=t=>t.phases?t.dur*60:(state.timer?state.timer*60:0);
+const badge=t=>t.soon?`<i class="ptag">${L('SOON','PRONTO')}</i>`:'';
 function toast(msg){const el=$('#toast');el.textContent=msg;el.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove('show'),2600);}
 function save(){store.set('favs',[...state.favs]);store.set('journal',state.journal);store.set('recent',state.recent);}
 
 function card(t){
   const w=WORLDS[t.world];
-  return `<div class="card" data-play="${t.id}" role="button" tabindex="0" aria-label="Play ${esc(t.title)}">
-    ${art(t.world,t.seed)}${badge(t)}<button class="pbtn" data-play="${t.id}" aria-label="Play">${ICON.play}</button>
-    <b>${esc(t.short||t.title)}</b><span>${w.name} · ${t.type} · ${durLabel(t)}</span></div>`;
+  return `<div class="card${t.soon?' soon':''}" data-play="${t.id}" role="button" tabindex="0" aria-label="${t.soon?esc(t.title)+' · '+L('coming soon','pronto'):L('Play','Reproducir')+' '+esc(t.title)}">
+    ${art(t.world,t.seed)}${badge(t)}${t.soon?'':`<button class="pbtn" data-play="${t.id}" aria-label="${L('Play','Reproducir')}">${ICON.play}</button>`}
+    <b>${esc(t.short||t.title)}</b><span>${w.name} · ${typeName(t)} · ${durLabel(t)}</span></div>`;
 }
 function jcard(j){
   const tot=j.phases.reduce((a,p)=>a+p[1],0);
@@ -1721,10 +1543,10 @@ function row(t,i){
   const fav=state.favs.has(t.id),now=state.current&&state.current.id===t.id;
   return `<div class="trow ${now?'now':''}" data-play="${t.id}" role="button" tabindex="0">
     <span class="n">${i+1}</span>${art(t.world,t.seed)}<div><b>${esc(t.title)} ${badge(t)}</b><small>${esc(t.desc)}</small></div>
-    <span class="ty">${t.type}</span><span class="du">${durLabel(t)}</span>
+    <span class="ty">${typeName(t)}</span><span class="du">${durLabel(t)}</span>
     <button class="heart ${fav?'on':''}" data-fav="${t.id}" aria-label="Save">${ICON.heart}</button></div>`;
 }
-const list=(f)=>Object.values(TRACKS).filter(f);
+const list=(f)=>Object.values(TRACKS).filter(t=>!t.soon&&f(t));
 
 /* =========================================================
    VIEWS
@@ -1744,11 +1566,11 @@ const views={
     const h=new Date().getHours(), greet=h<5?L('Late night','Buenas noches'):h<12?L('Good morning','Buenos días'):h<19?L('Good afternoon','Buenas tardes'):L('Good evening','Buenas noches');
     const pr=profile, who=P('who'), ws=topWorlds(pr);
     const made=list(t=>!t.id.startsWith('station')&&!t.mine&&t.type!=='Journey'&&(!who.length||who.includes('all')||t.for.some(f=>f==='all'||who.includes(f)))).sort((a,b)=>ws.indexOf(a.world)-ws.indexOf(b.world)||a.seed-b.seed).slice(0,12);
-    const recent=state.recent.map(id=>TRACKS[id]).filter(t=>t&&!t.mine).slice(0,6);
+    const recent=state.recent.map(id=>TRACKS[id]).filter(t=>t&&!t.mine&&!t.soon).slice(0,6);
     const moments=P('moment').filter(m=>MOMENTS[m]).slice(0,2);
     const byHz=[...ORDER].sort((a,b)=>WORLDS[a].hz-WORLDS[b].hz);
     return `<div class="view">
-      <div class="topline"><span class="mbrand">${MARK}${WORD}</span><span class="greet">${greet}${pr?', '+esc(pr.name):''}. ${L('How do you want to tune in?','¿Cómo quieres sintonizarte?')}</span><div class="tl-r">${plusChip()}${meBtn()}</div></div>
+      <div class="topline"><span class="mbrand">${MARK}${WORD}</span><span class="greet">${greet}${pr?', '+esc(pr.name):''}. ${L('How do you want to tune in?','¿Cómo quieres sintonizarte?')}</span><div class="tl-r">${meBtn()}</div></div>
 
       <section class="tuner fmh" id="tuner">
         <div class="t-head"><span class="mono">Oazis FM · ${L('Live radio','Radio en vivo')}</span><button class="power" id="power"><i></i><span>OFF AIR</span></button></div>
@@ -1784,9 +1606,11 @@ const views={
 
       <section class="sec"><div class="sec-h"><h2>${L('Creative journeys','Viajes creativos')}</h2><a href="#/journeys">${L('See all','Ver todo')}</a></div><div class="journeys">${JOURNEYS.slice(0,3).map(jcard).join('')}</div></section>
 
-      <section class="sec"><div class="sec-h"><h2>${L('Hypnosis','Hipnosis')} <em>${L('· 30‑second previews','· previews de 30 segundos')}</em></h2>${isPlus()?'':'<a href="#" data-pay="1">Oazis Plus</a>'}</div><div class="shelf">${list(t=>t.type==='Hypnosis').map(card).join('')}</div></section>
+      <section class="sec"><div class="sec-h"><h2>${L('Hypnosis','Hipnosis')} <em>${L('· in production','· en producción')}</em></h2></div>
+        <p class="wdesc" style="margin:-6px 0 14px">${L('Narrated hypnosis in English and Spanish. We are recording it — each one will open here when it’s ready.','Hipnosis narrada en inglés y español. La estamos grabando: cada una se abrirá aquí cuando esté lista.')}</p>
+        <div class="shelf">${Object.values(TRACKS).filter(t=>t.soon).map(card).join('')}</div></section>
 
-      <section class="sec"><div class="sec-h"><h2>${L('Creative rituals','Rituales creativos')} <em>${L('· free','· gratis')}</em></h2></div><div class="shelf">${list(t=>t.type==='Ritual').sort((a,b)=>locked(a)-locked(b)).map(card).join('')}</div></section>
+      <section class="sec"><div class="sec-h"><h2>${L('Creative rituals','Rituales creativos')}</h2></div><div class="shelf">${list(t=>t.type==='Ritual').map(card).join('')}</div></section>
     </div>`;
   },
   explore(){
@@ -1814,9 +1638,9 @@ const views={
       ${manifesto()}</div>`;
   },
   program(){
-    const n=pmCount(), tot=PM_ALL.length, live=PM_LIVE.length, nx=pmNext(), plus='<i class="plus-b">PLUS</i>';
+    const n=pmCount(), tot=PM_ALL.length, live=PM_LIVE.length, nx=pmNext();
     const row=x=>{const m=PM_META[x.m];return `<div class="day ${pmDone(x.id)?'done':''} ${nx&&nx.id===x.id?'next':''} ${pmReady(x)?'':'wait'}" data-pm="${x.id}" role="button" tabindex="0">
-          <span class="dn">${String(x.n).padStart(2,'0')}</span><div><b>${pmName(x)}${!pmReady(x)?` <i class="plus-b">${L('AFTER','DESPUÉS DE')} ${pmName(PM_ALL[0]).toUpperCase()}</i>`:pmLocked(x)?' '+plus:''}</b><small>${x.d?L(x.d[0],x.d[1]):''}</small></div>
+          <span class="dn">${String(x.n).padStart(2,'0')}</span><div><b>${pmName(x)}${!pmReady(x)?` <i class="ptag">${L('AFTER','DESPUÉS DE')} ${pmName(PM_ALL[0]).toUpperCase()}</i>`:''}</b><small>${x.d?L(x.d[0],x.d[1]):''}</small></div>
           <span class="w"><i style="background:${m.c}"></i>${x.min?x.min+' MIN':x.m}</span><span class="ck" ${pmDone(x.id)?`aria-label="${L('Completed','Completado')}"`:''}>${pmDone(x.id)?ICON.check:''}</span></div>`;};
     const cell=x=>`<div class="pmcell"><span>${String(x.n).padStart(2,'0')}</span><b>${x.t||L('Coming soon','Próximamente')}</b><i style="background:${PM_META[x.m].c}"></i></div>`;
     return `<div class="view">
@@ -1848,7 +1672,7 @@ const views={
       <p class="wdesc" style="margin-bottom:22px">${L('Feel → Listen → Imagine → Create → <b>Capture</b> → Return. Everything you capture after a session lives here.','Sentir → Escuchar → Imaginar → Crear → <b>Capturar</b> → Volver. Todo lo que capturas después de una sesión vive aquí.')}</p>
       <div class="jwrite"><textarea id="jText" placeholder="${L('What are you imagining right now?','¿Qué estás imaginando ahora mismo?')}"></textarea>
         <div class="jw-foot"><span class="mono">${state.current?L('While listening to ','Escuchando ')+esc(state.current.title):L('Free note','Nota libre')}</span><button class="btn" id="jSave">${L('Save idea','Guardar idea')}</button></div></div>
-      <div class="ideas">${state.journal.map(n=>`<div class="idea"><p>${esc(n.text)}</p><small><span>${esc(n.from||L('Free note','Nota libre'))} · ${new Date(n.at).toLocaleDateString(LANG==='es'?'es':undefined,{day:'numeric',month:'short'})}</span><button data-del="${n.at}" aria-label="Delete idea">×</button></small></div>`).join('')||`<p class="serif" style="font-size:22px;color:var(--mute);margin-top:20px">${L('Your first idea is waiting.','Tu primera idea te está esperando.')}</p>`}</div>
+      <div class="ideas">${state.journal.map(n=>`<div class="idea"><p>${esc(n.text)}</p><small><span>${esc(n.from&&n.from!=='Free note'?n.from:L('Free note','Nota libre'))} · ${new Date(n.at).toLocaleDateString(LANG==='es'?'es':undefined,{day:'numeric',month:'short'})}</span><button data-del="${n.at}" aria-label="Delete idea">×</button></small></div>`).join('')||`<p class="serif" style="font-size:22px;color:var(--mute);margin-top:20px">${L('Your first idea is waiting.','Tu primera idea te está esperando.')}</p>`}</div>
     </div>`;
   },
 };
@@ -1856,7 +1680,7 @@ const head=()=>`<div class="thead mono"><span class="hide" style="text-align:cen
 function manifesto(){
   return `<section class="manifesto"><div><span class="mono" style="color:var(--mute)">${L('Creativity is the core · Sound is the medium · The mind is the universe','La creatividad es el centro · El sonido es el medio · La mente es el universo')}</span>
     <h3 style="margin-top:16px">${L('We are not building another meditation app.','No estamos creando otra app de meditación.')} <em>${L('We are tuning the radio back to you.','Estamos girando la radio hacia ti.')}</em></h3>
-    <div class="loop"><b>FEEL</b>→<b>LISTEN</b>→<b>IMAGINE</b>→<b>CREATE</b>→<b>CAPTURE</b>→<b>RETURN</b></div></div>
+    <div class="loop">${(LANG==='es'?['SENTIR','ESCUCHAR','IMAGINAR','CREAR','CAPTURAR','VOLVER']:['FEEL','LISTEN','IMAGINE','CREATE','CAPTURE','RETURN']).map(w=>`<b>${w}</b>`).join('→')}</div></div>
     <div class="honest"><p><b style="color:var(--ink)">${L('Science & honesty.','Ciencia y honestidad.')}</b> ${L('Sound and music can support subjective experiences like relaxation and focus, and results differ from person to person. The Hz values on the dial are a tuning reference inspired by brainwave bands (delta, theta, alpha, beta) — they describe neural rhythms, not guaranteed outcomes.','El sonido y la música pueden acompañar experiencias como la relajación y el enfoque, y los resultados varían de persona a persona. Los Hz del dial son una referencia inspirada en las bandas de ondas cerebrales (delta, theta, alfa, beta) — describen ritmos neuronales, no resultados garantizados.')}</p>
     <p>${L('Oazis does not diagnose, treat or cure anything, and does not use any third party’s proprietary technology. Binaural layers work best with headphones; keep the volume comfortable.','Oazis no diagnostica, trata ni cura nada, y no usa tecnología propietaria de terceros. Las capas binaurales funcionan mejor con audífonos; mantén un volumen cómodo.')}</p>
     <p class="mono" style="margin-top:18px">OAZIS · ${L('a CREATV MYNDZ project','un proyecto de CREATV MYNDZ')} · Oazis FM</p></div></section>`;
@@ -1961,9 +1785,9 @@ function paintPower(){
    ========================================================= */
 function playTrack(t,opts={}){
   if(!t) return;
+  if(t.soon){toast(L('This one is still being recorded','Esta todavía la estamos grabando'));return;}
   state.current=t; state.elapsed=0; state.playing=true; state.phase=-1;
   applyState(t.world); Engine.play(recipe(t));
-  if(locked(t)) toast(L('Preview · 30 seconds of Oazis Plus','Preview · 30 segundos de Oazis Plus'));
   if(!opts.fromTuner){Engine.setStatic(0);tuner.stat=0;}
   if(!opts.fromTuner){if(document.querySelector('.needle'))setP(posOf(WORLDS[t.world].hz),false);else{tuner.station=t.world;tuner.p=posOf(WORLDS[t.world].hz);}}
   if(t.type!=='Live Station'){state.recent=[t.id,...state.recent.filter(x=>x!==t.id)].slice(0,10);save();}
@@ -1981,7 +1805,7 @@ function togglePlay(){
 function finish(){
   const t=state.current; Engine.stop(); state.playing=false;
   updatePlayer(); if(state.npOpen) renderNP();
-  toast('Session complete');
+  toast(L('Session complete','Sesión terminada'));
   if(t.phases||['create','dream','awaken'].includes(t.world)||(profile&&persona(profile).journal)) setTimeout(()=>openCapture(),700);
   if(route().name==='program') render();
 }
@@ -1998,7 +1822,7 @@ function checkPhase(){
 setInterval(()=>{
   if(!state.playing||!state.current||blocked()) return;
   state.elapsed++; checkPhase();
-  const L=limit(state.current); if(L&&state.elapsed>=L){locked(state.current)?previewEnd():finish();return;}
+  const L=limit(state.current); if(L&&state.elapsed>=L){finish();return;}
   paintTime();
 },1000);
 
@@ -2014,11 +1838,11 @@ function paintTime(){
 }
 function updatePlayer(){
   const t=state.current;
-  $('#npMini').innerHTML=t?`${art(t.world,t.seed)}<div style="min-width:0"><b>${esc(t.title)}</b><span>${WORLDS[t.world].name} · ${locked(t)?L('Preview · 30 s','Preview · 30 s'):t.type}</span></div>`
+  $('#npMini').innerHTML=t?`${art(t.world,t.seed)}<div style="min-width:0"><b>${esc(t.title)}</b><span>${WORLDS[t.world].name} · ${typeName(t)}</span></div>`
     :`<div class="ph">${ICON.wave}</div><div><b>${L('Nothing tuned yet','Nada sintonizado aún')}</b><span>${L('Press play or turn the dial','Dale play o gira el dial')}</span></div>`;
-  $('#bPlay').innerHTML=state.playing?ICON.pause:ICON.play; $('#bPlay').setAttribute('aria-label',state.playing?'Pause':'Play');
+  $('#bPlay').innerHTML=state.playing?ICON.pause:ICON.play; $('#bPlay').setAttribute('aria-label',state.playing?L('Pause','Pausa'):L('Play','Reproducir'));
   const fav=t&&state.favs.has(t.id); $('#bFav').classList.toggle('heart',true); $('#bFav').classList.toggle('on',!!fav);
-  $('#bTimer').textContent=(t&&t.phases)?'GUIDED':(state.timer?state.timer+' MIN':'∞ TIMER');
+  $('#bTimer').textContent=(t&&t.phases)?L('GUIDED','GUIADA'):(state.timer?state.timer+' MIN':L('∞ TIMER','∞ SIN LÍMITE'));
   $('#bState').textContent=stateLabel().toUpperCase();
   document.title=t&&state.playing?`${t.title} · OAZIS`:'OAZIS — Your Creative Oazis';
   paintTime(); paintPower();
@@ -2035,7 +1859,7 @@ function renderNP(){
   <div class="np-in">
     <div class="np-top"><button id="npClose">${ICON.down}<span class="mono">${L('Close','Cerrar')}</span></button><span class="mono">${w.name} · ${w.band}</span><button id="npCap">${ICON.plus}<span class="mono">${L('Capture idea','Capturar idea')}</span></button></div>
     <div class="np-body">${art(t.world,t.seed)}
-      <div class="np-meta"><span class="mono">${t.type}${t.chapter?' · '+L('Chapter','Capítulo')+' '+t.chapter:''} · ${durLabel(t)}</span>
+      <div class="np-meta"><span class="mono">${typeName(t)}${t.chapter?' · '+L('Chapter','Capítulo')+' '+t.chapter:''} · ${durLabel(t)}</span>
         <h1>${esc(t.title)}</h1><p>${esc(t.desc||w.desc)}</p>
         <div class="np-time" id="npTime">0:00</div>
         ${ph?`<div class="phases">${ph.map((p,i)=>`<div id="ph${i}" class="${i===cur?'on':''}" style="--f:${p[1]}"><i><u></u></i><span>${p[0].toUpperCase()}</span></div>`).join('')}</div>
@@ -2061,13 +1885,14 @@ function renderNP(){
 function openCapture(){
   const t=state.current; $('#capFrom').textContent=(t?L('Capture · ','Capturar · ')+t.title:L('Capture','Capturar'));
   $('#capT').textContent=t&&t.phases?t.phases[t.phases.length-1][2]:L('What came up?','¿Qué surgió?');
+  $('#capText').placeholder=L('A line, a shape, a fragment. Even a seed counts.','Una línea, una forma, un fragmento. Hasta una semilla cuenta.');
   $('#capture').classList.add('open'); setTimeout(()=>$('#capText').focus(),50);
 }
 function closeCapture(){$('#capture').classList.remove('open');$('#capText').value='';}
 function addIdea(text){
   text=text.trim(); if(!text) return false;
-  state.journal.unshift({text,at:Date.now(),from:state.current?state.current.title:'Free note',world:state.current?state.current.world:null});
-  save(); toast('Saved to your idea journal'); renderLib(); return true;
+  state.journal.unshift({text,at:Date.now(),from:state.current?state.current.title:'',world:state.current?state.current.world:null});
+  save(); toast(L('Saved to your idea journal','Guardado en tu diario de ideas')); renderLib(); return true;
 }
 
 /* ---------- library ---------- */
@@ -2080,13 +1905,13 @@ const MOMENT_PART={morning:'morning',work:'day',block:'day',anytime:'day',evenin
 function dayOrder(){const h=new Date().getHours(),hh=h<5?h+24:h,i=Math.max(0,DAYPARTS.findIndex(p=>hh>=p.from&&hh<p.to));return [...DAYPARTS.slice(i),...DAYPARTS.slice(0,i)];}
 const partOf=t=>(DAYPARTS.find(p=>p.f(t))||DAYPARTS[1]).id;
 function partItems(p){
-  const saved=[...state.favs].map(id=>TRACKS[id]).filter(t=>t&&!t.mine&&partOf(t)===p.id);
+  const saved=[...state.favs].map(id=>TRACKS[id]).filter(t=>t&&!t.mine&&!t.soon&&partOf(t)===p.id);
   const rec=profile?persona(profile).recs.map(id=>TRACKS[id]):[];
   const pool=[...rec,...list(t=>!t.id.startsWith('station')&&!t.mine)].filter(t=>t&&partOf(t)===p.id&&!state.favs.has(t.id));
   return {saved,sugg:[...new Set(pool)].slice(0,saved.length?4:6)};
 }
 function renderLib(){
-  const pl=profile&&(PLACES[P('place')[0]]||PLACES.ocean), lr=t=>`<div class="lrow" data-play="${t.id}">${art(t.world,t.seed)}<div style="min-width:0"><b>${esc(t.title)}</b><span>${WORLDS[t.world].name} · ${t.type}</span></div></div>`;
+  const pl=profile&&(PLACES[P('place')[0]]||PLACES.ocean), lr=t=>`<div class="lrow" data-play="${t.id}">${art(t.world,t.seed)}<div style="min-width:0"><b>${esc(t.title)}</b><span>${WORLDS[t.world].name} · ${typeName(t)}</span></div></div>`;
   $('#libCount').textContent=state.favs.size?state.favs.size+' '+L('saved','guardados'):'';
   $('#lib').innerHTML=(profile&&TRACKS['my-oazis']?`<div class="lrow" data-play="my-oazis">${art(pl.art,pl.seed)}<div style="min-width:0"><b>${esc(TRACKS['my-oazis'].title)}</b><span>${L('Your station','Tu estación')}</span></div></div>`
       :`<div class="lrow" data-ob-open="1"><div class="art art-wake"><i></i><i></i></div><div><b>${L('Create your Oazis','Crea tu Oazis')}</b><span>${L('A minute to make it yours','Un minuto para hacerlo tuyo')}</span></div></div>`)+
@@ -2149,7 +1974,7 @@ const ACTS={
     {id:'child',i:'star',en:'Inner child',es:'Niño interior',st:'balanced',d:['Play again, like before','Vuelve a jugar, como antes']}],
 };
 const WLAB={create:['Unlocking ideas…','Desbloqueando ideas…'],flow:['Increasing focus…','Aumentando el enfoque…'],dream:['Drifting inward…','Soñando despierto…'],calm:['Quieting the noise…','Bajando el ruido…'],sleep:['Getting sleepy…','Llegando al sueño…'],awaken:['Reconnecting…','Reconectando contigo…']};
-const GENRE={create:'Ambient',flow:'Electronic',dream:'Cinematic',calm:'Nature',sleep:'Rain',awaken:'Organic'};
+const GENRE={create:['Ambient','Ambient'],flow:['Electronic','Electrónica'],dream:['Cinematic','Cinemática'],calm:['Nature','Naturaleza'],sleep:['Rain','Lluvia'],awaken:['Organic','Orgánica']};
 const MOODS={create:[['Curious','Open','Luminous','Playful'],['Curioso','Abierto','Luminoso','Juguetón']],flow:[['Steady','Driven','Clear','Minimal'],['Estable','Enfocado','Claro','Mínimo']],dream:[['Dreamlike','Mysterious','Vast','Floating'],['Onírico','Misterioso','Amplio','Flotante']],calm:[['Calm','Soft','Warm','Breathing'],['Calma','Suave','Cálido','Respirando']],sleep:[['Dark','Slow','Enveloping','Quiet'],['Oscuro','Lento','Envolvente','Silencioso']],awaken:[['Warm','Hopeful','Tender','Bright'],['Cálido','Esperanzado','Tierno','Brillante']]};
 state.act=store.get('acts',{}); state.ftab=store.get('ftab',null);
 const actOf=k=>{const a=ACTS[k];return a.find(x=>x.id===state.act[k])||a[0];};
@@ -2187,7 +2012,6 @@ function stHTML(){
     <div class="dd" id="ddAct"><button class="gb" id="stActB"><span class="ai"></span><span class="an"></span><i class="car"></i></button><div class="ddm" id="stActM"></div></div>
     <span class="sp"></span>
     <button class="power" id="stPow"><i></i><span>OFF AIR</span></button>
-    ${plusChip()}
     <button class="gb ic" id="stInfo" aria-label="${L('Track details','Detalles')}">${SI.info}</button>
   </div>
   <div class="st-mid">
@@ -2249,7 +2073,7 @@ function paintSt(){
   const key=(c?c.id:'')+k; if(st.thk!==key){st.thk=key;$('#stTh').innerHTML=art(k,c&&!live?c.seed:2);}
   $('#stTitle').textContent=c&&!live?c.title:c&&c.mine&&c.world===k?c.title:`${w.name} FM · ${L(a.en,a.es)}`;
   $('#stSub').textContent=`${w.band} · ${w.hz} Hz · ${stateLabel()}`;
-  $('#stTag').textContent=(c&&!live?c.type:GENRE[k]).toUpperCase();
+  $('#stTag').textContent=(c&&!live?typeName(c):L(...GENRE[k])).toUpperCase();
   $('#stFav').classList.toggle('on',!!c&&state.favs.has(c.id));
 }
 function toggleMenu(id){const d=$('#'+id),o=!d.classList.contains('open');closeMenus();if(!o)return;d.classList.add('open');if(id==='ddAct'){st.mw=tuner.station;fillAct();}else fillTim();}
@@ -2272,15 +2096,15 @@ function fillDet(){
   const lvl=v=>v>.66?L('High','Alta'):v>.36?L('Medium','Media'):L('Low','Baja');
   const sims=list(t=>t.world===k&&!t.id.startsWith('station')&&!t.mine).slice(0,4);
   $('#stD').innerHTML=`<div class="std-in"><button class="std-x" id="stDx" aria-label="${L('Close','Cerrar')}">${ICON.plus.replace('<path','<path transform="rotate(45 12 12)"')}</button>
-    <div><div class="std-h"><div class="st-th">${art(k,c&&!live?c.seed:2)}</div><div style="min-width:0"><h3>${esc(title)}</h3><p style="color:var(--mute);font-size:14.5px">${w.band} · ${w.hz} Hz · ${stateLabel()}</p><span class="mono" style="color:var(--mute)">${GENRE[k]} · ${L('generated live','generado en vivo')}</span></div></div>
+    <div><div class="std-h"><div class="st-th">${art(k,c&&!live?c.seed:2)}</div><div style="min-width:0"><h3>${esc(title)}</h3><p style="color:var(--mute);font-size:14.5px">${w.band} · ${w.hz} Hz · ${stateLabel()}</p><span class="mono" style="color:var(--mute)">${L(...GENRE[k])} · ${L('generated live','generado en vivo')}</span></div></div>
       <div class="std-a"><button id="stDis2">${SI.thumb}${L('Less like this','Menos así')}</button><button id="stFav2" class="${c&&state.favs.has(c.id)?'on':''}">${ICON.heart}${L('Favorite','Favorito')}</button><button id="stShare2">${SI.share}${L('Share','Compartir')}</button></div>
       <div class="kv"><div><h6>${L('MENTAL STATE','ESTADO MENTAL')}</h6><p>${w.name} — ${tx(w,'line')}</p></div><div><h6>${L('ACTIVITY','ACTIVIDAD')}</h6><p>${L(a.en,a.es)}</p></div>
-        <div class="w"><h6>MOODS</h6><p>${MOODS[k][LANG==='es'?1:0].join(', ')}</p></div>
+        <div class="w"><h6>${L('MOODS','AMBIENTE')}</h6><p>${MOODS[k][LANG==='es'?1:0].join(', ')}</p></div>
         <div class="w"><h6>${L('INSTRUMENTATION','INSTRUMENTACIÓN')}</h6><p>${inst.join(', ')}</p></div></div>
       <div class="bars"><div><div class="h"><h6>${L('COMPLEXITY','COMPLEJIDAD')}</h6><span>${lvl(cx)}</span></div><u><i style="width:${cx*100}%"></i></u></div>
         <div><div class="h"><h6>${L('BRIGHTNESS','BRILLO')}</h6><span>${lvl(br)}</span></div><u><i style="width:${br*100}%"></i></u></div></div></div>
     <div><div class="stabs"><button data-dt="sim" class="${st.dtab==='sim'?'on':''}">${L('Similar','Similares')}</button><button data-dt="act" class="${st.dtab==='act'?'on':''}">${L('Activities','Actividades')}</button></div>
-      ${st.dtab==='sim'?(sims.map(t=>`<button class="sim" data-sim="${t.id}">${art(t.world,t.seed)}<div style="min-width:0;flex:1"><b>${esc(t.title)}</b><small>${t.type.toUpperCase()} · ${durLabel(t)}</small><em>${locked(t)?'Plus':L('Free','Gratis')}</em></div></button>`).join('')||`<p style="color:var(--mute)">${L('More coming soon.','Pronto habrá más.')}</p>`)
+      ${st.dtab==='sim'?(sims.map(t=>`<button class="sim" data-sim="${t.id}">${art(t.world,t.seed)}<div style="min-width:0;flex:1"><b>${esc(t.title)}</b><small>${typeName(t).toUpperCase()} · ${durLabel(t)}</small><em>${esc(t.desc)}</em></div></button>`).join('')||`<p style="color:var(--mute)">${L('More coming soon.','Pronto habrá más.')}</p>`)
         :ACTS[k].map((x,i)=>`<button class="sim" data-sa="${k}:${x.id}">${art(k,i*5+2)}<div style="flex:1"><b>${L(x.en,x.es)}</b><small>${w.name} · ${w.hz} HZ</small><em>${L(x.d[0],x.d[1])}</em></div></button>`).join('')}
     </div></div>`;
 }
@@ -2312,190 +2136,12 @@ $('#st').addEventListener('click',e=>{
 });
 
 /* =========================================================
-   OAZIS PLUS — sales funnel, plans, checkout (demo)
-   ========================================================= */
-const sale={open:false,plan:'loyalty'};
-/* EXAMPLE quotes: replace with real listener testimonials before launch */
-const TESTI=[
-  {n:'L. M.',r:['Illustrator · Bogotá','Ilustradora · Bogotá'],w:'create',q:['I open CREATE FM before drawing and ten minutes later I’ve forgotten my phone. It’s like walking into a quiet room.','Abro CREATE FM antes de dibujar y a los diez minutos ya me olvidé del celular. Es como entrar a un cuarto en silencio.']},
-  {n:'D. R.',r:['Video editor · Medellín','Editor de video · Medellín'],w:'flow',q:['I edit with FLOW and the hours just go. The Pomodoro timer keeps me honest.','Edito con FLOW y las horas se pasan solas. El Pomodoro me mantiene en orden.']},
-  {n:'S. V.',r:['Writer · Madrid','Escritora · Madrid'],w:'awaken',q:['PuraMente taught me to come back when I drift. Now I start every writing session with Llegar.','PuraMente me enseñó a volver cuando me distraigo. Ahora empiezo cada sesión de escritura con Llegar.']},
-  {n:'J. P.',r:['Music producer · Miami','Productor musical · Miami'],w:'dream',q:['Turning the dial until I find my frequency is my favorite part. It feels like a radio from another planet.','Girar el dial hasta encontrar mi frecuencia es mi parte favorita. Se siente como una radio de otro planeta.']},
-  {n:'A. G.',r:['Architect · CDMX','Arquitecta · CDMX'],w:'sleep',q:['The layered rain in SLEEP is the only thing that turns my head off at night.','La lluvia en capas de SLEEP es lo único que me apaga la cabeza en la noche.']},
-  {n:'M. T.',r:['Designer · Cali','Diseñador · Cali'],w:'calm',q:['The price that drops every month made me stay. Now it’s part of my routine.','El precio que baja cada mes hizo que me quedara. Ahora es parte de mi rutina.']},
-];
-const FAQ=[
-  [['How is this different from lo-fi or Spotify playlists?','¿En qué se diferencia de una playlist de lo-fi o de Spotify?'],['A playlist is made to be liked. OAZIS is made to take you somewhere: every station lives in a frequency band (Delta, Theta, Alpha, Beta), carries a soft binaural layer and changes with the activity you pick. No lyrics, no ads, nothing that pulls you out.','Una playlist está hecha para gustarte. OAZIS está hecho para llevarte a un lugar: cada estación vive en una banda de frecuencia (Delta, Theta, Alfa, Beta), tiene una capa binaural suave y cambia según la actividad que eliges. Sin letras, sin anuncios, nada que te saque.']],
-  [['Is there science behind it?','¿Hay ciencia detrás?'],['We build on what is known about brainwave bands and binaural sound, and turn it into something simple to use. We don’t promise to cure or diagnose anything — we promise a sound space made with intention. Use headphones to feel the binaural layer.','Partimos de lo que se sabe sobre las bandas de ondas cerebrales y el sonido binaural, y lo volvemos algo simple de usar. No prometemos curar ni diagnosticar nada: prometemos un espacio sonoro hecho con intención. Usa audífonos para sentir la capa binaural.']],
-  [['How does the Loyalty Price work?','¿Cómo funciona el Precio Lealtad?'],['Your first month is $2. Month two is $19.99. From there, every month you stay the price drops — $16.90, $13.90, $10.90 — down to $8 a month from month six, and it stays there as long as you do. Like a software license that rewards continuity.','Tu primer mes cuesta $2. El segundo, $19,99. Desde ahí, cada mes que sigues el precio baja —$16,90, $13,90, $10,90— hasta $8 al mes desde el sexto mes, y se queda ahí mientras sigas. Como una licencia de software que premia la continuidad.']],
-  [['What happens if I cancel?','¿Qué pasa si cancelo?'],['Cancel anytime from your account, no questions. If you come back later you start again at $19.99 and the price drops month by month again.','Cancelas cuando quieras desde tu cuenta, sin preguntas. Si vuelves después, empiezas otra vez en $19,99 y el precio vuelve a bajar mes a mes.']],
-  [['Is the music AI-generated?','¿La música está hecha con IA?'],['Every station is directed, composed and curated by the artists of CREATV MYNDZ. We use digital tools — synthesizers, generative engines and AI too — but no track leaves without a human intention behind it. Por amor al arte.','Cada estación está dirigida, compuesta y curada por los artistas de CREATV MYNDZ. Usamos herramientas digitales —sintetizadores, motores generativos y también IA— pero ninguna pista sale sin una intención humana detrás. Por amor al arte.']],
-  [['What stays free?','¿Qué queda gratis?'],['Oazis FM live, your personal station and a few rituals are free forever. Plus unlocks the PuraMente program, every creative journey, hypnosis and the full library.','Oazis FM en vivo, tu estación personal y algunos rituales son gratis para siempre. Plus desbloquea el programa PuraMente, todos los viajes creativos, la hipnosis y toda la biblioteca.']],
-];
-const CHK='<svg viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>';
-function saleHTML(){
-  const ret=store.get('returning',false), on=isPlus(), first=ret?money(LADDER[1]):'$2';
-  const cta=sale.plan==='year'?L('Start · $99 / year','Empieza · $99 / año'):ret?L('Come back · $19.99','Vuelve · $19,99'):L('Start for $2','Empieza por $2');
-  const bar=(lab,v,w)=>`<div class="vrow"><div class="h"><b>${lab}</b><span>${v}</span></div><u><i style="--w:${w}%"></i></u></div>`;
-  return `<div class="s-top"><span class="bs">${MARK}${WORD}</span><p>${ret?L('Come back to OAZIS Plus · your price drops every month you stay.','Vuelve a OAZIS Plus · tu precio baja cada mes que te quedas.'):L('Your first month for $2. Then your price drops every month you stay.','Tu primer mes por $2. Después tu precio baja cada mes que te quedas.')}</p>
-    ${on?`<button class="cta" data-pay="1">${L('See my plan','Ver mi plan')}</button>`:`<button class="cta" data-co="1">${cta}</button>`}<button class="x" id="saleX" aria-label="${L('Close','Cerrar')}">${ICON.plus.replace('<path','<path transform="rotate(45 12 12)"')}</button></div>
-  <section class="s-hero dk"><div class="sx">
-    <img class="s-mark" src="assets/img/oazis/mark.png" alt="">
-    <h1 class="s-h1">${L('Ready to tune your','¿Listo para sintonizar tu')} <span class="hl">${L('creativity?','creatividad?')}</span></h1>
-    <p class="s-sub">${L('A frequency radio to create, focus, dream and rest. Press play, turn the dial, and let the outside go quiet.','Una radio de frecuencias para crear, enfocarte, soñar y descansar. Dale play, gira el dial y deja que afuera se calle.')}</p>
-    <button class="s-cta" data-co="1">${cta} ${ICON.arrow}</button><p class="s-small">${L('Cancel anytime · No ads · EN / ES','Cancela cuando quieras · Sin anuncios · EN / ES')}</p>
-    <div class="vs">
-      <div class="vsc"><canvas data-w="off" aria-hidden="true"></canvas><div class="in"><h4>${L('WITHOUT OAZIS','SIN OAZIS')}</h4>
-        ${bar(L('Mental calm','Calma mental'),L('Low','Baja'),22)}${bar(L('Focus','Enfoque'),L('Scattered','Disperso'),30)}${bar(L('Ideas that arrive','Ideas que llegan'),L('Few','Pocas'),20)}</div></div>
-      <div class="vsc with"><canvas data-w="on" aria-hidden="true"></canvas><div class="in"><h4>${L('WITH OAZIS','CON OAZIS')}</h4>
-        ${bar(L('Mental calm','Calma mental'),L('High','Alta'),88)}${bar(L('Focus','Enfoque'),L('Deep','Profundo'),92)}${bar(L('Ideas that arrive','Ideas que llegan'),L('Many','Muchas'),84)}</div></div>
-    </div><p class="s-small" style="margin-top:14px">${L('How it feels. Illustrative, not a clinical measure.','Cómo se siente. Ilustrativo, no es una medición clínica.')}</p>
-  </div></section>
-
-  <section class="s-sec"><div class="sx"><div class="ben">
-    <div>${ico('spark')}<div><span>${L('CREATE BETTER','CREA MEJOR')}</span><b>${L('Sound that makes room for the strange idea','Sonido que le abre espacio a la idea rara')}</b></div></div>
-    <div>${ico('target')}<div><span>${L('FOCUS DEEPER','ENFÓCATE MÁS')}</span><b>${L('Six frequencies for every moment of your day','Seis frecuencias para cada momento de tu día')}</b></div></div>
-    <div>${ico('heart')}<div><span>${L('COME BACK TO YOU','VUELVE A TI')}</span><b>${L('50 audios to wake up the mind, one neuron at a time','50 audios para despertar la mente, una neurona a la vez')}</b></div></div>
-  </div></div></section>
-
-  <section class="s-sec" id="planes" style="padding-top:20px"><div class="sx" style="text-align:center">
-    <h2 class="s-h2">${L('Start your','Empieza tu plan')} <span class="hl">${L('personal','personalizado')}</span> ${L('plan','')}</h2>
-    <span class="offer">${L('Loyalty Price — the longer you stay, the less you pay','Precio Lealtad — mientras más te quedas, menos pagas')}</span>
-    <div class="lad">${LADDER.map((p,i)=>`<div class="${i===0?'first':''} ${i===5?'now':''}"><b>${money(p)}</b><i style="--h:${Math.max(8,p/LADDER[1]*100)}%"></i><span>${i===0?L('TRIAL','PRUEBA'):L('MONTH ','MES ')+(i+1)}${i===5?'+':''}</span></div>`).join('')}</div>
-    <p class="lad-note">${L('Month 1: $2. Month 2: $19.99. Then it drops every month until $8 from month 6. If you cancel, you start again at $19.99.','Mes 1: $2. Mes 2: $19,99. Después baja cada mes hasta $8 desde el mes 6. Si cancelas, vuelves a empezar en $19,99.')}</p>
-    <div class="plansx">
-      <button class="pl ${sale.plan==='loyalty'?'on':''}" data-pl="loyalty"><span class="bdg">${L('UP TO 60% OFF','HASTA -60%')}</span><span class="rd"></span><div><small>${L('PLUS · LOYALTY PRICE','PLUS · PRECIO LEALTAD')}</small><b>${ret?L('Come back','Vuelve'):L('First month for $2','Primer mes por $2')}</b><p>${ret?L('drops every month you stay, down to $8','baja cada mes que te quedas, hasta $8'):L('then $19.99 and dropping every month to $8','después $19,99 y bajando cada mes hasta $8')}</p></div><div class="pr"><strong>${first}</strong><span>${ret?L(' / month',' / mes'):L(' first month',' primer mes')}</span></div></button>
-      <button class="pl ${sale.plan==='year'?'on':''}" data-pl="year"><span class="rd"></span><div><small>${L('PLUS · YEARLY','PLUS · ANUAL')}</small><b>${L('One payment, all year','Un pago, todo el año')}</b><p>${L('$8.25 / month · fixed price','$8,25 / mes · precio fijo')}</p></div><div class="pr"><strong>$99</strong><span>${L(' / year',' / año')}</span></div></button>
-    </div>
-    <button class="s-cta" data-co="1" style="margin-top:26px">${cta} ${ICON.arrow}</button>
-    <p class="freeline">${L('Always free: Oazis FM live, your personal station and selected rituals.','Siempre gratis: Oazis FM en vivo, tu estación personal y algunos rituales.')}</p>
-  </div></section>
-
-  <section class="s-sec" style="background:var(--bg2)"><div class="sx">
-    <h2 class="s-h2">${L('Music made with','Música hecha con')} <span class="hl">${L('meaning.','sentido.')}</span></h2>
-    <p class="s-lead">${L('It’s not background music. Every sound exists to take you somewhere.','No es música de fondo. Cada sonido existe para llevarte a un lugar.')}</p>
-    <div class="sense">
-      <div><span class="mono">${L('Frequency','Frecuencia')}</span><b class="hzv">2–16 Hz</b><p>${L('Each station lives in a band: Delta to sleep, Theta to dream and create, Alpha to calm, Beta to focus.','Cada estación vive en una banda: Delta para dormir, Theta para soñar y crear, Alfa para calmar, Beta para enfocarte.')}</p></div>
-      <div><span class="mono">${L('State','Estado')}</span><b>${L('Light · Balanced · Deep','Ligero · Equilibrado · Profundo')}</b><p>${L('The intensity follows the activity you choose. You just press play.','La intensidad sigue a la actividad que eliges. Tú solo das play.')}</p></div>
-      <div><span class="mono">${L('Moment','Momento')}</span><b>${L('Morning to night','De la mañana a la noche')}</b><p>${L('Your library orders itself by the time of day, so the right sound is always first.','Tu biblioteca se ordena según la hora del día: el sonido correcto siempre está primero.')}</p></div>
-      <div><span class="mono">${L('Intention','Intención')}</span><b>${L('Directed by artists','Dirigida por artistas')}</b><p>${L('Composed and curated by CREATV MYNDZ. Nothing random — por amor al arte.','Compuesta y curada por CREATV MYNDZ. Nada al azar: por amor al arte.')}</p></div>
-    </div></div></section>
-
-  <section class="s-sec"><div class="sx">
-    <h2 class="s-h2">${L('What','Lo que')} <span class="hl">${L('only OAZIS','solo OAZIS')}</span> ${L('gives you','te da')}</h2>
-    <div class="getg">
-      ${[['create',L('Oazis FM · live radio','Oazis FM · radio en vivo'),L('Six frequencies, one dial. Turn it and find yours.','Seis frecuencias, un dial. Gíralo y encuentra la tuya.'),L('FREE','GRATIS')],
-        ['flow',L('Focus by activity','Enfoques por actividad'),L('Write, design, study, sleep: the sound changes with what you’re doing.','Escribir, diseñar, estudiar, dormir: el sonido cambia según lo que haces.'),'PLUS'],
-        ['dream',L('Your own Oazis','Tu propio Oazis'),L('A station built from your answers: your place, your genres, your sound.','Una estación creada con tus respuestas: tu lugar, tus géneros, tu sonido.'),L('FREE','GRATIS')],
-        ['awaken',L('NO MYND · 50 audios','PuraMente · 50 audios'),L('Fifty audios to wake up the mind: calm, focus, ideas, intuition and action. A brain that lights up as you listen.','Cincuenta audios para despertar la mente: calma, foco, ideas, intuición y acción. Un cerebro que se enciende a medida que escuchas.'),'PLUS'],
-        ['calm',L('Journeys & hypnosis','Viajes e hipnosis'),L('Guided sessions in English and Spanish to activate creation.','Sesiones guiadas en inglés y español para activar la creación.'),'PLUS'],
-        ['sleep',L('Idea journal & timers','Diario de ideas y temporizador'),L('Capture what comes up when you finish. Pomodoro included.','Captura lo que surge al terminar. Pomodoro incluido.'),L('FREE + PLUS','GRATIS + PLUS')]]
-        .map(([w,b,p,tg],i)=>`<div class="getc">${art(w,i*7+3)}<b>${b}</b><p>${p}</p><span class="tg">${tg}</span></div>`).join('')}
-    </div>
-    <div class="cmp"><div><span></span><span>OAZIS</span><span>${L('Background music','Música de fondo')}</span></div>
-      ${[[L('Live radio tuned by frequency','Radio en vivo por frecuencias'),1,0],[L('Sound that adapts to your activity','Sonido que cambia según tu actividad'),1,0],[L('A personal station from your answers','Estación personal creada con tus respuestas'),1,0],[L('50 audios to wake up the mind','50 audios para despertar la mente'),1,0],[L('Creative journeys & hypnosis EN/ES','Viajes creativos e hipnosis EN/ES'),1,0],[L('Idea journal after every session','Diario de ideas al terminar cada sesión'),1,0],[L('No lyrics, no ads','Sin letras ni anuncios'),1,2],[L('A price that drops the longer you stay','Un precio que baja mientras más te quedas'),1,0]]
-        .map(([f,a,b])=>`<div><span>${f}</span><span class="y">●</span><span class="${b?'':'n'}">${b===2?L('Sometimes','A veces'):b?'●':'—'}</span></div>`).join('')}
-    </div></div></section>
-
-  <section class="s-sec" style="background:var(--bg2)"><div class="sx">
-    <h2 class="s-h2">${L('Loved by people who','Amado por quienes')} <span class="hl">${L('create','crean')}</span></h2>
-    <p class="s-lead">${L('Space ready for real listener stories — these cards show the format.','Espacio listo para historias reales de la comunidad — estas tarjetas muestran el formato.')}</p>
-    <div class="tst">${TESTI.map((t,i)=>`<div><span class="ex">${L('EXAMPLE','EJEMPLO')}</span><span class="stars">★★★★★</span><p>${L(t.q[0],t.q[1])}</p><footer><i>${art(t.w,i*3+1)}</i><div><b>${t.n}</b><span>${L(t.r[0],t.r[1])}</span></div></footer></div>`).join('')}</div>
-  </div></section>
-
-  <section class="s-sec"><div class="sx"><h2 class="s-h2">${L('Questions,','Preguntas,')} <span class="hl">${L('answered','respondidas')}</span></h2>
-    <div class="faq">${FAQ.map(([q,a],i)=>`<details${i===0?' open':''}><summary>${L(q[0],q[1])}</summary><p>${L(a[0],a[1])}</p></details>`).join('')}</div></div></section>
-
-  <section class="s-end dk"><div class="sx"><img class="s-mark" src="assets/img/oazis/mark.png" alt="">
-    <h2 class="s-h2">${L('Tune your','Sintoniza tu')} <span class="hl">${L('frequency.','frecuencia.')}</span></h2>
-    <p class="s-sub">${ret?L('Come back for $19.99 — and watch your price drop every month.','Vuelve por $19,99 — y mira cómo tu precio baja cada mes.'):L('Your first month is $2. Stay, and it only gets better.','Tu primer mes cuesta $2. Si te quedas, solo mejora.')}</p>
-    <button class="s-cta" data-co="1">${cta} ${ICON.arrow}</button></div></section>
-  <p class="s-foot">${L('Prices in USD. Taxes may apply. Demo checkout: no payment is taken yet. OAZIS does not diagnose, treat or cure anything.','Precios en USD. Pueden aplicar impuestos. Pasarela demo: todavía no se cobra nada. OAZIS no diagnostica, trata ni cura nada.')}</p>`;
-}
-function coHTML(plan){
-  const ret=store.get('returning',false), yr=plan==='year', m0=ret?2:1, first=yr?YEAR:priceAt(m0);
-  const d=n=>new Date(Date.now()+n*864e5).toLocaleDateString(LANG==='es'?'es-CO':'en-US',{day:'numeric',month:'long',year:'numeric'});
-  const rows=[];for(let m=m0;m<=6;m++)rows.push(`<div class="${m===m0?'on':''}"><span>${L('Month ','Mes ')+m}${m===6?'+':''} · ${m===m0?L('today','hoy'):d((m-m0)*30)}</span><span>${money(priceAt(m))}${m===6?L(' / mo',' / mes'):''}</span></div>`);
-  const pr=profile||{};
-  return `<div class="co">
-    <div class="co-l"><div class="co-in">
-      <a class="bk" href="#/plus">${ICON.arrow}${MARK}${WORD}</a>
-      <p class="k">${yr?L('OAZIS Plus · Yearly','OAZIS Plus · Anual'):ret?L('Come back to OAZIS Plus','Vuelve a OAZIS Plus'):L('Try OAZIS Plus','Prueba OAZIS Plus')}</p>
-      <div class="big">${money(first)}<small style="font-size:.32em;font-weight:500;color:#9A9893;letter-spacing:0"> ${yr?L('/ year','/ año'):m0===1?L('your first month','tu primer mes'):L('/ month','/ mes')}</small></div>
-      <p class="then">${yr?L(`One payment. Renews on <b>${d(365)}</b>.`,`Un solo pago. Se renueva el <b>${d(365)}</b>.`):L(`Then <b>${money(priceAt(m0+1))}</b> on ${d(30)} — and your price keeps dropping every month you stay, down to <b>$8</b>.`,`Después <b>${money(priceAt(m0+1))}</b> el ${d(30)} — y tu precio sigue bajando cada mes que te quedas, hasta <b>$8</b>.`)}</p>
-      ${yr?'':`<div class="co-lad">${rows.join('')}</div>`}
-      <div class="co-li"><div><span>OAZIS Plus · ${yr?L('Yearly','Anual'):L('Loyalty Price','Precio Lealtad')}</span><span>${money(first)}</span></div>
-        <div><span style="color:#9A9893">${L('Taxes','Impuestos')}</span><span style="color:#9A9893">${L('Calculated at payment','Se calculan al pagar')}</span></div>
-        <div class="tot"><span>${L('Total due today','Total a pagar hoy')}</span><span>${money(first)} USD</span></div></div>
-    </div></div>
-    <div class="co-r" id="coR"><div class="co-in">
-      <div class="demo"><span>⚠︎</span><span><b>${L('Demo mode.','Modo demo.')}</b> ${L('No charge is made. A test card is already filled in — don’t type real card data.','No se cobra nada. La tarjeta de prueba ya viene puesta: no escribas datos reales.')}</span></div>
-      <div class="qp"><button data-qp="1">Apple Pay</button><button class="pp2" data-qp="1">PayPal</button><button class="ps" data-qp="1">PSE · Nequi</button></div>
-      <div class="orl">${L('or pay with card','o paga con tarjeta')}</div>
-      <div class="fld"><label for="coMail">Email</label><input id="coMail" type="email" autocomplete="email" value="${esc(pr.email||'')}" placeholder="tu@correo.com"></div>
-      <div class="fld"><label>${L('Card information','Información de la tarjeta')}</label><div class="cardg">
-        <div class="r1"><input value="4242 4242 4242 4242" readonly aria-label="${L('Test card number','Número de tarjeta de prueba')}"><span>VISA</span></div>
-        <div class="r2"><input value="12 / 34" readonly aria-label="${L('Expiry','Vencimiento')}"><input value="123" readonly aria-label="CVC"></div></div></div>
-      <div class="fld"><label for="coName">${L('Name on card','Nombre en la tarjeta')}</label><input id="coName" autocomplete="off" value="${esc(pr.name||'')}"></div>
-      <div class="fld"><label for="coCountry">${L('Country','País')}</label><select id="coCountry">${['Colombia','México','United States','España','Argentina','Chile','Perú','Other / Otro'].map(c=>`<option>${c}</option>`).join('')}</select></div>
-      <p class="co-terms">${yr?L(`By confirming, you allow OAZIS to charge you $99 today and every year until you cancel.`,`Al confirmar, autorizas a OAZIS a cobrarte $99 hoy y cada año hasta que canceles.`)
-        :L(`By confirming, you allow OAZIS to charge you ${money(first)} today and, unless you cancel, ${money(priceAt(m0+1))} on ${d(30)}, with a lower price every month you stay. If you cancel and come back, you restart at $19.99.`,`Al confirmar, autorizas a OAZIS a cobrarte ${money(first)} hoy y, si no cancelas, ${money(priceAt(m0+1))} el ${d(30)}, con un precio más bajo cada mes que te quedes. Si cancelas y vuelves, empiezas otra vez en $19,99.`)}</p>
-      <button class="co-pay" id="coPay">${L(`Pay ${money(first)} and start`,`Pagar ${money(first)} y empezar`)}</button>
-      <div class="co-sec"><span>🔒 ${L('Secure payment · Stripe','Pago seguro · Stripe')}</span><span>${L('Cancel anytime','Cancela cuando quieras')}</span></div>
-    </div></div></div>`;
-}
-function bindCO(plan){
-  const ret=store.get('returning',false), yr=plan==='year', m0=ret?2:1;
-  const go=()=>{
-    const b=$('#coPay'); if(b.disabled) return; b.disabled=true; b.innerHTML=`<i class="spin"></i>${L('Processing…','Procesando…')}`;
-    const mail=$('#coMail').value.trim(); if(profile&&mail&&!profile.email){profile.email=mail;store.set('profile',profile);}
-    setTimeout(()=>{
-      store.set('plus',{status:'active',plan:yr?'year':'loyalty',start:Date.now()-(m0-1)*30*864e5}); store.set('returning',false);
-      renderLib(); render();
-      $('#coR').innerHTML=`<div class="co-in co-ok"><div class="ck">${CHK}</div><h2>${L('Welcome to OAZIS Plus','Bienvenido a OAZIS Plus')}</h2>
-        <p>${yr?L('Your year starts today. Everything is unlocked.','Tu año empieza hoy. Todo está desbloqueado.'):L(`Month ${m0} of your Loyalty Price. Next month: ${money(priceAt(m0+1))}. Stay, and it keeps dropping.`,`Mes ${m0} de tu Precio Lealtad. El próximo mes: ${money(priceAt(m0+1))}. Si te quedas, sigue bajando.`)}</p>
-        ${yr?'':ladMini(m0)}<a class="co-pay" href="#/fm" style="margin-top:18px">${L('Go to the station','Ir a la estación')} ${ICON.arrow}</a>
-        <p style="margin-top:14px;font-size:12.5px">${L('Demo: no charge was made.','Demo: no se hizo ningún cobro.')}</p></div>`;
-    },1300);
-  };
-  $('#coPay').onclick=go; document.querySelectorAll('[data-qp]').forEach(b=>b.onclick=go);
-}
-function openSale(name,arg){
-  sale.open=true; const el=$('#sale'); el.classList.add('open');
-  if(name==='checkout'){el.innerHTML=coHTML(arg==='year'?'year':'loyalty');bindCO(arg==='year'?'year':'loyalty');}
-  else el.innerHTML=saleHTML();
-  el.scrollTop=0;
-}
-function closeSale(){sale.open=false;$('#sale').classList.remove('open');$('#sale').innerHTML='';}
-$('#sale').addEventListener('click',e=>{
-  const b=e.target.closest('button'); if(!b) return;
-  if(b.id==='saleX'){location.hash='#/home';return;}
-  if(b.dataset.pl){sale.plan=b.dataset.pl;const y=$('#sale').scrollTop;$('#sale').innerHTML=saleHTML();$('#sale').scrollTop=y;return;}
-  if(b.dataset.co){location.hash='#/checkout/'+sale.plan;return;}
-});
-function drawSale(now){
-  const T=now/1000;
-  document.querySelectorAll('#sale canvas[data-w]').forEach(cv=>{
-    const r=cv.getBoundingClientRect(); if(r.bottom<0||r.top>innerHeight) return;
-    const W=Math.round(cv.clientWidth*1.5),H=Math.round(cv.clientHeight*1.5); if(!W) return; if(cv.width!==W){cv.width=W;cv.height=H;}
-    const g=cv.getContext('2d'); g.clearRect(0,0,W,H); g.lineCap='round';
-    if(cv.dataset.w==='off'){
-      for(let j=0;j<7;j++){g.beginPath();for(let x=0;x<=W;x+=4){const u=x/W,y=H/2+Math.sin(u*(9+j*3.1)+T*(1.3+j*.4)+j)*H*(.18+.04*(j%3))+Math.sin(u*31+T*3+j*2)*H*.05;x?g.lineTo(x,y):g.moveTo(x,y);}
-        g.strokeStyle=`rgba(255,255,255,${.16+.1*(j%3)})`;g.lineWidth=1.5+(j%2)*1.5;g.stroke();}
-    }else{
-      for(let j=2;j>=0;j--){g.beginPath();for(let x=0;x<=W;x+=3){const u=x/W,y=H/2+Math.sin(u*Math.PI*6-T*1.4)*H*.22;x?g.lineTo(x,y):g.moveTo(x,y);}
-        g.strokeStyle=j?`rgba(255,255,255,${.12/j})`:'#fff';g.lineWidth=j?14*j:3.5;g.shadowColor='rgba(255,255,255,.7)';g.shadowBlur=j?0:16;g.stroke();g.shadowBlur=0;}
-    }
-  });
-}
-
-/* =========================================================
    ROUTER + EVENTS
    ========================================================= */
 function route(){const h=(location.hash||'#/home').slice(2).split('/');return {name:h[0]||'home',arg:h[1]};}
 function render(){
   const r=route(), v=views[r.name]?r.name:'home';
-  if(r.name==='plus'||r.name==='checkout') openSale(r.name,r.arg); else if(sale.open) closeSale();
+  if(r.name==='plus'||r.name==='checkout'){location.replace('#/home');return;}   /* old links to the sales page */
   if(r.name!=='fm'&&st.open) closeStation(true);
   $('#main').innerHTML=views[v](r.arg);
   document.querySelectorAll('[data-r]').forEach(a=>a.classList.toggle('on',a.dataset.r===v||(v==='world'&&a.dataset.r==='explore')));
@@ -2509,9 +2155,9 @@ function render(){
 window.addEventListener('hashchange',()=>{render();$('#main').scrollTop=0;});
 
 document.addEventListener('click',e=>{
-  const el=e.target.closest('[data-ftab],[data-act],[data-fav],[data-pm],#pmClose,[data-del],[data-persona],[data-station],[data-go],[data-play],[data-th],[data-ob-open],[data-lang],[data-pay],#timerSeg button,#stateSeg button,#voiceSeg button,#npClose,#npPlay,#npCap,#npCap2');
+  const el=e.target.closest('[data-ftab],[data-act],[data-fav],[data-pm],#pmClose,[data-del],[data-persona],[data-station],[data-go],[data-play],[data-th],[data-ob-open],[data-lang],#timerSeg button,#stateSeg button,#voiceSeg button,#npClose,#npPlay,#npCap,#npCap2');
   if(!el) return;
-  if(el.dataset.fav){e.stopPropagation();const id=el.dataset.fav;state.favs.has(id)?state.favs.delete(id):state.favs.add(id);save();el.classList.toggle('on',state.favs.has(id));renderLib();toast(state.favs.has(id)?'Saved to your library':'Removed from your library');updatePlayer();return;}
+  if(el.dataset.fav){e.stopPropagation();const id=el.dataset.fav;state.favs.has(id)?state.favs.delete(id):state.favs.add(id);save();el.classList.toggle('on',state.favs.has(id));renderLib();toast(state.favs.has(id)?L('Saved to your library','Guardado en tu biblioteca'):L('Removed from your library','Quitado de tu biblioteca'));updatePlayer();return;}
   if(el.dataset.pm){e.preventDefault();openPM(el.dataset.pm);return;}
   if(el.id==='pmClose'){closePM();return;}
   if(el.dataset.del){state.journal=state.journal.filter(n=>String(n.at)!==el.dataset.del);save();render();renderLib();return;}
@@ -2520,7 +2166,6 @@ document.addEventListener('click',e=>{
   if(el.dataset.ftab){state.ftab=el.dataset.ftab;store.set('ftab',state.ftab);document.querySelectorAll('[data-ftab]').forEach(b=>b.classList.toggle('on',b===el));$('#fgrid').innerHTML=fgrid(state.ftab);return;}
   if(el.dataset.act){e.preventDefault();const [k,a]=el.dataset.act.split(':');openStation(k,a);return;}
   if(el.dataset.th){setTheme(el.dataset.th);return;}
-  if(el.dataset.pay){e.preventDefault();isPlus()?openPay():(location.hash='#/plus');return;}
   if(el.dataset.lang){setLang(el.dataset.lang);return;}
   if(el.dataset.obOpen){e.preventDefault();openOB(profile?1:0);return;}
   if(el.dataset.go){location.hash=el.dataset.go;return;}
@@ -2535,7 +2180,6 @@ document.addEventListener('click',e=>{
 document.addEventListener('keydown',e=>{
   if(e.key==='Enter'&&e.target.matches('[role=button][data-play],[role=button][data-go],[role=button][data-station],[role=button][data-pm]')){e.target.click();}
   if(e.key==='Escape'&&$('#pm').classList.contains('open')){closePM();return;}
-  if(e.key==='Escape'&&sale.open){location.hash='#/home';return;}
   if(e.key==='Escape'&&st.open&&!$('#capture').classList.contains('open')){if(stMenu())return;closeStation();return;}
   if(e.key==='Escape'){if($('#ob').classList.contains('open')){if(ob.mode!=='lock')closeOB();}else if($('#capture').classList.contains('open'))closeCapture();else if(state.npOpen)closeNP();}
   if(e.code==='Space'&&!$('#ob').classList.contains('open')&&!e.target.closest('input,textarea,button,[role=slider],[role=button]')){e.preventDefault();togglePlay();}
@@ -2551,63 +2195,26 @@ $('#bExpand').onclick=openNP;
 $('#npMini').onclick=()=>state.current?openNP():togglePlay();
 $('#npMini').onkeydown=e=>{if(e.key==='Enter')$('#npMini').click();};
 $('#bCap').onclick=openCapture;
-$('#bFav').onclick=()=>{const t=state.current;if(!t){toast('Play something first');return;}state.favs.has(t.id)?state.favs.delete(t.id):state.favs.add(t.id);save();renderLib();updatePlayer();toast(state.favs.has(t.id)?'Saved to your library':'Removed from your library');};
+$('#bFav').onclick=()=>{const t=state.current;if(!t){toast(L('Play something first','Primero pon algo a sonar'));return;}state.favs.has(t.id)?state.favs.delete(t.id):state.favs.add(t.id);save();renderLib();updatePlayer();toast(state.favs.has(t.id)?L('Saved to your library','Guardado en tu biblioteca'):L('Removed from your library','Quitado de tu biblioteca'));};
 $('#bState').onclick=()=>{const m=['auto','light','balanced','deep'];setMode(m[(m.indexOf(state.mode)+1)%m.length]);};
-$('#bTimer').onclick=()=>{if(state.current&&state.current.phases){openNP();return;}const i=(TIMERS.indexOf(state.timer)+1)%TIMERS.length;state.timer=TIMERS[i];store.set('timer',state.timer);updatePlayer();toast(state.timer?`Session ends after ${state.timer} min`:'Endless session');};
+$('#bTimer').onclick=()=>{if(state.current&&state.current.phases){openNP();return;}const i=(TIMERS.indexOf(state.timer)+1)%TIMERS.length;state.timer=TIMERS[i];store.set('timer',state.timer);updatePlayer();toast(state.timer?L(`Session ends after ${state.timer} min`,`La sesión termina en ${state.timer} min`):L('Endless session','Sesión sin fin'));};
 $('#capCancel').onclick=closeCapture;
 $('#capSave').onclick=()=>{if(addIdea($('#capText').value)){closeCapture();if(route().name==='journal')render();}};
 $('#capture').addEventListener('click',e=>{if(e.target.id==='capture')closeCapture();});
-$('#pay').addEventListener('click',e=>{if(e.target.id==='pay')$('#pay').classList.remove('open');});
 
 /* ---------- theme ---------- */
-function setTheme(th){
+function setTheme(th,fromSystem){
   if(th==='dark')document.documentElement.dataset.theme='dark';else delete document.documentElement.dataset.theme;
-  store.set('theme',th); document.querySelectorAll('#themeT button').forEach(b=>b.classList.toggle('on',b.dataset.th===th));
-  document.querySelector('meta[name=theme-color]').content=th==='dark'?'#0A0A0A':'#FFFFFF'; waveRGB=null;
+  if(!fromSystem) store.set('theme',th); document.querySelectorAll('#themeT button').forEach(b=>b.classList.toggle('on',b.dataset.th===th));
+  document.querySelector('meta[name=theme-color]').content=th==='dark'?'#0A0A0A':'#FFFFFF';
 }
 
 /* =========================================================
    WAVES — the signal, drawn from the live audio
    ========================================================= */
-let waveRGB=null, smooth=0;
-function drawWave(cv,t,lvl){
-  const dpr=Math.min(2,window.devicePixelRatio||1),W=cv.clientWidth,H=cv.clientHeight;
-  if(!W) return;
-  if(cv.width!==Math.round(W*dpr)||cv.height!==Math.round(H*dpr)){cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);}
-  const g=cv.getContext('2d'); g.setTransform(dpr,0,0,dpr,0,0); g.clearRect(0,0,W,H);
-  const amp=(state.playing?.38+Math.min(.62,lvl*5):.16)*(1-tuner.stat*.6), noise=tuner.stat*(state.playing||tuner.power?1:0);
-  const k=state.current?WORLDS[state.current.world].hz:WORLDS[tuner.station].hz, speed=.35+k*.03;
-  for(let L=0;L<4;L++){
-    g.beginPath();
-    for(let x=0;x<=W;x+=3){
-      const u=x/W, env=Math.exp(-Math.pow((u-.3)/.12,2))*.7+Math.exp(-Math.pow((u-.52)/.1,2))+Math.exp(-Math.pow((u-.74)/.11,2))*.75+.06;
-      let y=Math.sin(u*Math.PI*2*(2+k*.06)+t*speed+L*.55)*(.65+.35*Math.sin(u*9+t*.4+L));
-      y=H/2+y*env*amp*H*.42+(noise?Math.sin(u*70+t*5+L)*noise*H*.035*env:0);
-      x?g.lineTo(x,y):g.moveTo(x,y);
-    }
-    g.strokeStyle=`rgba(${waveRGB},${.22+L*.18})`; g.lineWidth=1.6; g.stroke();
-  }
-}
+let smooth=0;
 const AURA={create:[[238,226,208],[196,204,226],[252,238,226]],flow:[[146,168,214],[204,204,220],[112,136,196]],dream:[[192,176,230],[224,202,238],[158,170,222]],
   calm:[[170,212,210],[212,232,226],[156,196,210]],sleep:[[104,138,204],[76,98,176],[150,172,226]],awaken:[[248,214,186],[242,234,206],[214,198,234]]};
-function drawAura(cv,t,lvl){
-  const W=Math.max(2,Math.round(cv.clientWidth/6)),H=Math.max(2,Math.round(cv.clientHeight/6));
-  if(cv.width!==W||cv.height!==H){cv.width=W;cv.height=H;}
-  const g=cv.getContext('2d'); g.clearRect(0,0,W,H);
-  const k=state.current?state.current.world:tuner.station, cols=AURA[k]||AURA.create, hz=WORLDS[k].hz;
-  const on=state.playing||tuner.power, e=on?.55+Math.min(.45,lvl*6):.38, st=tuner.stat;
-  const dark=document.documentElement.dataset.theme==='dark';
-  g.globalCompositeOperation=dark?'lighter':'source-over';
-  for(let i=0;i<5;i++){
-    const sp=.07+.025*i+hz*.004;
-    const x=W*(.5+.4*Math.sin(t*sp+i*1.7)), y=H*(.55+.32*Math.cos(t*sp*.8+i*1.1));
-    const r=Math.max(W,H)*(.26+.1*Math.sin(t*.45+i)+e*.2);
-    let [cr,cg,cb]=cols[i%3]; const grey=(cr+cg+cb)/3; cr+=(grey-cr)*st; cg+=(grey-cg)*st; cb+=(grey-cb)*st;
-    const a=(dark?.34:.62)*e*(1-st*.4);
-    const gr=g.createRadialGradient(x,y,0,x,y,r); gr.addColorStop(0,`rgba(${cr|0},${cg|0},${cb|0},${a})`); gr.addColorStop(1,`rgba(${cr|0},${cg|0},${cb|0},0)`);
-    g.fillStyle=gr; g.fillRect(0,0,W,H);
-  }
-}
 /* the radio's look follows how each person sees sound (funnel Q9) */
 let vizT=0, vizLast=0;
 const vizStyle=()=>P('vision')[0]||'ripple';
@@ -2654,13 +2261,11 @@ function drawViz(cv,t,lvl){
   }
 }
 function frame(now){
-  if(!waveRGB) waveRGB=getComputedStyle(document.documentElement).getPropertyValue('--wave').trim();
   smooth+=(Engine.level()-smooth)*.12; const t=now/1000;
   const dt=Math.min(.1,(now-(vizLast||now))/1000); vizLast=now; vizT+=dt*(state.playing&&!blocked()?1:.3);
   const a=$('#heroWave'); if(a) drawViz(a,t,smooth);
   const b=$('#npWave'); if(b&&state.npOpen) drawViz(b,t,smooth);
   const sv=$('#stViz'); if(sv&&st.open) drawViz(sv,t,smooth);
-  if(sale.open) drawSale(now);
   requestAnimationFrame(frame);
 }
 
@@ -2743,9 +2348,9 @@ function persona(pr){
   if(p.includes('mindfulness')) recs.push('quiet-the-noise','letting-the-day-go');
   if(p.includes('journaling')) recs.push('ten-bad-ideas','inner-child-atlas');
   if(lvl==='deep') recs.push('hyp-creative-confidence','slow-nebula','long-hallway');
-  return {lvl,recs:[...new Set(recs)].filter(id=>TRACKS[id]),depthBoost:lvl==='deep'?12:lvl==='new'?-12:0,journal:p.includes('journaling'),
+  return {lvl,recs:[...new Set(recs)].filter(id=>TRACKS[id]&&!TRACKS[id].soon),depthBoost:lvl==='deep'?12:lvl==='new'?-12:0,journal:p.includes('journaling'),
     name:{deep:L('Seasoned explorer','Explorador experimentado'),growing:L('Curious practitioner','Practicante curioso'),new:L('Fresh start','Nuevo comienzo')}[lvl],
-    why:{deep:L(`You’ve tried ${p.length} practices${exp==='daily'?' and meditate regularly':''}. We skip the basics: deeper states, hypnosis and guided journeys first.`,`Has probado ${p.length} prácticas${exp==='daily'?' y meditas con regularidad':''}. Nos saltamos lo básico: estados más profundos, hipnosis y viajes guiados primero.`),
+    why:{deep:L(`You’ve tried ${p.length} practices${exp==='daily'?' and meditate regularly':''}. We skip the basics: deeper states and guided journeys first.`,`Has probado ${p.length} prácticas${exp==='daily'?' y meditas con regularidad':''}. Nos saltamos lo básico: estados más profundos y viajes guiados primero.`),
       growing:L('You know the way in. We mix guided journeys with open listening, at a balanced depth.','Ya conoces el camino. Mezclamos viajes guiados con escucha libre, a una profundidad equilibrada.'),
       new:L('We start gentle: short sessions, a lighter state and the first NO MYND audio.','Empezamos suave: sesiones cortas, un estado más ligero y el primer audio de PuraMente.')}[lvl]};
 }
@@ -2768,7 +2373,7 @@ function topWorlds(pr){
 }
 function firstStep(pr){
   const ps=persona(pr), pr2=pr.practices||[];
-  if(ps.lvl==='deep') return {t:TRACKS[pr2.includes('visualization')?'impossible-rooms':'hyp-inner-studio'],why:L('You’ve explored a lot already. Skip the basics and go straight into a deep guided session.','Ya has explorado mucho. Sáltate lo básico y entra directo a una sesión guiada profunda.')};
+  if(ps.lvl==='deep') return {t:TRACKS[pr2.includes('visualization')?'impossible-rooms':'inner-child-atlas'],why:L('You’ve explored a lot already. Skip the basics and go straight into a deep guided session.','Ya has explorado mucho. Sáltate lo básico y entra directo a una sesión guiada profunda.')};
   if(ps.lvl==='growing') return {t:TRACKS['the-blank-page'],why:L('A guided journey from silence to your first idea — 20 minutes.','Un viaje guiado del silencio a tu primera idea — 20 minutos.')};
   return {t:{id:'',title:L('NO MYND · Llegar','PuraMente · Llegar')},pm:PM_ALL[0].id,why:L('Begin NO MYND with Llegar: a two-minute audio journey. No experience needed.','Empieza PuraMente con Llegar: un viaje de audio de dos minutos. Sin experiencia previa.')};
 }
@@ -3034,7 +2639,10 @@ function openLock(){
 }
 
 /* ---------- boot ---------- */
-setTheme(store.get('theme','light'));
+try{['plus','returning'].forEach(k=>localStorage.removeItem('oazis:'+k));}catch(e){}   /* left over from the demo checkout */
+const sysDark=matchMedia('(prefers-color-scheme: dark)');
+setTheme(store.get('theme',null)||(sysDark.matches?'dark':'light'),true);
+sysDark.addEventListener('change',()=>{if(!store.get('theme',null))setTheme(sysDark.matches?'dark':'light',true);});
 if(profile){myStation();tuner.station=topWorlds(profile)[0];tuner.p=posOf(WORLDS[tuner.station].hz);}
 applyI18n(); syncSliders(); renderLib(); render(); updatePlayer(); requestAnimationFrame(frame);
 /* Oazis FM is ON when you arrive. Browsers keep audio silent until the first touch, so that touch wakes it. */
