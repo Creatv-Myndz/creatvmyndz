@@ -68,6 +68,7 @@ u{text-decoration:underline;text-underline-offset:2px}
    Moderno (miniaturas limpias en desorden, nombres pequeños) + retro
    (letra pixelada, selección azul como en Windows). */
 #desk{position:fixed;inset:var(--mb) 0 var(--tb) 0;touch-action:none}
+@media (max-width:640px){#desk .ico{transform:translate(-50%,-50%) scale(var(--ph-s,1))}}
 @media (min-width:641px){#desk .ico{transform:translate(-50%,-50%) scale(var(--ico-s,1))}#fixedIcons .ico{transform:scale(var(--ico-s,1));transform-origin:top left}}
 .ico{position:absolute;width:96px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;user-select:none;-webkit-user-select:none;transform:translate(-50%,-50%);touch-action:none}
 .ico .th{position:relative;width:52px;height:52px;border:1px solid rgba(255,255,255,.85);background:#fff;box-shadow:0 6px 18px rgba(0,0,0,.35)}
@@ -378,7 +379,7 @@ u{text-decoration:underline;text-underline-offset:2px}
 @keyframes bootin{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
 @keyframes flick{0%,100%{opacity:1}43%{opacity:.86}45%{opacity:1}71%{opacity:.92}72%{opacity:1}}
 .boot-bar{position:relative;width:min(280px,60vw);height:22px;border:2px solid #b8b8b8;border-radius:7px;overflow:hidden;background:#000}
-.boot-bar i{position:absolute;top:3px;width:12px;height:12px;border-radius:1px;background:linear-gradient(180deg,#8fa8ff,#2d3fd6 55%,#1a26a8);animation:bootrun 1.2s linear infinite}
+.boot-bar i{position:absolute;top:3px;width:12px;height:12px;border-radius:1px;background:linear-gradient(180deg,#8fa8ff,#2d3fd6 55%,#1a26a8);animation:bootrun .8s linear infinite}
 .boot-bar i:nth-child(2){animation-delay:.12s}.boot-bar i:nth-child(3){animation-delay:.24s}
 @keyframes bootrun{0%{left:-40px}100%{left:calc(100% + 10px)}}
 .boot-txt{margin:-2vh 0 0;font:22px/1 var(--pixel);letter-spacing:.12em;color:#e8e8e8}

@@ -297,3 +297,8 @@ En `data/escritorio.json → extras`, por `id` del CRTV:
 - Barra de abajo: se quitó Fotos (Por amor al arte queda en la mitad) y se quitó el efecto de agrandar al pasar el mouse.
 - Pantalla de usuarios: sin estrellas; fondo negro con transparencia y textura envejecida pixelada animada.
 - Si en pantallas medianas los íconos no caben sin tocar el logo, se achican un poco automáticamente.
+
+## Celular con el cubo en la mitad, Oazis enlazado, arranque más corto
+- En el celular el cubo (Creative Playground / Creative Dealers) queda en la mitad de la pantalla y los demás íconos alrededor, cada uno hacia el lado donde está en el PC. En celulares bajitos los íconos se achican un poco para que todo quepa en una sola pantalla; si aun así no cabe, se usa la cuadrícula por páginas.
+- Oazis abre `creatvmyndz.com/oazis` (`"enlace_interno": "/oazis"`).
+- La pantalla de arranque con el logo dura ~0.9 s (antes 1.5 s), también al entrar a un usuario.

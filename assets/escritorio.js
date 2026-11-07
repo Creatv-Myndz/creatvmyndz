@@ -211,6 +211,26 @@ function layout(){
     const DPp=D.distribucionPC||{},REFp=(DPp.porUsuario&&DPp.porUsuario[USER])||DPp.posiciones||{},key=p=>REFp[p.id]?Math.round(REFp[p.id][1]/70)*10000+REFp[p.id][0]:1e9;
     const fixedFirst=order.filter(p=>p.fijo).concat(order.filter(p=>!p.fijo).sort((a,b)=>key(a)-key(b)));
     const logo=$("#topLogo").getBoundingClientRect(),top=logo.bottom-cssPx("--mb")+4;
+    // Igual que en el PC: el cubo en la mitad y los demás alrededor, cada uno hacia el lado donde está en el PC.
+    // Si no caben en una sola pantalla, se usa la cuadrícula por páginas de abajo.
+    {const CORN=DPp.esquina||{},vec=p=>REFp[p.id]?[(REFp[p.id][0]-1000)/300,(REFp[p.id][1]-520)/160]:CORN[p.id]?[1.6,1.6]:p.fijo?[-1.6,-1.6]:[0,2];
+     const n=order.length,cube=order.filter(p=>REFp[p.id]).sort((a,b)=>Math.hypot(...vec(a))-Math.hypot(...vec(b)))[0];
+     let rows=Math.ceil(n/3);if(rows%2===0)rows++;
+     const avail=H-top-16,ch=Math.min(124,avail/rows),phs=Math.min(1,ch/104);
+     document.documentElement.style.setProperty("--ph-s",phs.toFixed(3));   // celulares bajitos: íconos un poco más pequeños
+     if(cube&&phs>=.78){
+       const cw=W/3,mid=(rows-1)/2,y0=top+(avail-ch*rows)/2,cells=[];
+       for(let r=0;r<rows;r++)for(let c=0;c<3;c++)if(!(r===mid&&c===1))cells.push({r,c,v:[(c-1)*1.1,(r-mid)/Math.max(1,mid)]});
+       const rest=order.filter(p=>p!==cube),pairs=[];
+       rest.forEach(p=>{const v=vec(p);cells.forEach(cl=>pairs.push([Math.hypot(v[0]-cl.v[0],v[1]-cl.v[1]),p,cl]));});
+       pairs.sort((a,b)=>a[0]-b[0]);
+       const used=new Set(),done=new Map();
+       for(const [,p,cl] of pairs){if(done.has(p)||used.has(cl))continue;done.set(p,cl);used.add(cl);}
+       const at=(p,c,r)=>{const j=rng(p.id+"#");return {p,x:cw*(c+.5)+(j()-.5)*14,y:y0+ch*(r+.5)+(j()-.5)*8};};
+       PAGES=1;
+       return [{p:cube,x:W/2,y:y0+ch*(mid+.5)}].concat(rest.map(p=>{const cl=done.get(p);return at(p,cl.c,cl.r);}));
+     }}
+    document.documentElement.style.setProperty("--ph-s","1");
     const cols=3,cw=W/cols,ch=Math.max(104,Math.min(122,(H-top-24)/5)),rows=Math.max(2,Math.floor((H-top-24)/ch)),per=cols*rows;
     const pages=Math.max(1,Math.ceil(fixedFirst.length/per));
     PAGES=pages;
@@ -442,14 +462,14 @@ function enterAs(id){
   // transición de carga tipo Windows: logo en fondo negro con "Creando..." antes de mostrar el escritorio
   setTimeout(()=>{const b=$("#boot");b.classList.remove("out");b.hidden=false;
     $("#login").hidden=true;buildItems();applyWall();renderDesk();
-    setTimeout(()=>{b.classList.add("out");setTimeout(()=>{b.hidden=true;},500);},matchMedia("(prefers-reduced-motion: reduce)").matches?300:1500);},250);
+    setTimeout(()=>{b.classList.add("out");setTimeout(()=>{b.hidden=true;},500);},matchMedia("(prefers-reduced-motion: reduce)").matches?300:900);},200);
 }
 $("#lgUsers").addEventListener("click",e=>{const b=e.target.closest("[data-user]");if(b)enterAs(b.dataset.user);});
 function boot(){
   showLogin();   // siempre se entra por la pantalla de usuarios, después del arranque
   const b=$("#boot");b.hidden=false;
   const end=()=>{b.classList.add("out");setTimeout(()=>{b.hidden=true;},500);};
-  const tm=setTimeout(end,matchMedia("(prefers-reduced-motion: reduce)").matches?600:1500);
+  const tm=setTimeout(end,matchMedia("(prefers-reduced-motion: reduce)").matches?400:900);
   b.addEventListener("click",()=>{clearTimeout(tm);end();},{once:true});
 }
 
