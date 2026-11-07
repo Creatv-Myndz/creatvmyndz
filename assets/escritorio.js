@@ -397,6 +397,8 @@ function openItem(p){
     standBy(L(p.titulo),L(p.texto)||t("soon"));return;
   }
   if(p.enlaceDirecto){window.open(p.enlaceDirecto,"_blank","noopener");return;}
+  // CRTV que ya vive en su propio sitio (extras.<id>.sitio): el ícono abre el sitio, no Paint
+  if(p.sitio){window.open(p.sitio,"_blank","noopener");return;}
   if(p.estado==="proximo"||p.estado==="sin-material"){
     standBy(L(p.titulo),t(p.estado==="proximo"?"soonMsg":"noMaterial"));return;
   }
