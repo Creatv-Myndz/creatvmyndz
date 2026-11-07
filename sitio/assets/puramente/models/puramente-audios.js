@@ -18,8 +18,8 @@
   const KNOWN = {
     CALMA: [
       { id: 'calma.n01.llegar', title: 'Llegar', url: 'lecciones/llegar.html', min: 2, free: true,
-        desc: 'Aterriza en 90 segundos. Llegas con la cabeza llena, te quedas con una luz y sales con tu primera neurona encendida.',
-        desc_en: 'Land in 90 seconds. You arrive with a full head, stay with one light and leave with your first neuron lit.' },
+        desc: 'Tu primera luz. Llegas como estés, te quedas con una luz en el cerebro y sales con tu primera neurona encendida.',
+        desc_en: 'Your first light. You arrive as you are, stay with one light in the brain and leave with your first neuron lit.' },
       { id: 'calma.n02.volver', title: 'Volver', url: 'lecciones/volver.html', min: 3,
         desc: 'El gimnasio de la atención. Te vas a ir y vas a volver: cada regreso enciende un camino en tu cerebro.',
         desc_en: 'The attention gym. You will drift and you will come back: every return lights up a path in your brain.' },
