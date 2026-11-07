@@ -122,6 +122,7 @@
     import {UnrealBloomPass} from 'https://unpkg.com/three@0.182.0/examples/jsm/postprocessing/UnrealBloomPass.js';
     import {mergeGeometries} from 'https://unpkg.com/three@0.182.0/examples/jsm/utils/BufferGeometryUtils.js';
     import {OutputPass} from 'https://unpkg.com/three@0.182.0/examples/jsm/postprocessing/OutputPass.js';
+    import {fitAtlasRoot, collectAnatomy, createCorticalRelief, applyMatteAnatomy, sampleCourseNeurons, createSeededRandom, createAtlasLoader} from './puramente-brain-atlas.mjs';
 
     const host=document.querySelector('#stage');
     const status=document.querySelector('#status');
@@ -182,18 +183,6 @@
       {id:'m5',label:'Acción',color:new THREE.Color('#ff806d'),center:new THREE.Vector3(.36,.13,1.16),normal:new THREE.Vector3(0,0,1)}
     ];
     const moduleTargets=[[.16,-.18],[-.30,.02],[.02,.36],[-.20,-.18],[.32,.02]];
-    function moduleColorAt(point){
-      const projected=point.clone().project(camera);
-      let index=0,distance=Infinity;
-      for(let i=0;i<moduleTargets.length;i++){
-        const dx=projected.x-moduleTargets[i][0],dy=projected.y-moduleTargets[i][1],next=dx*dx+dy*dy;
-        if(next<distance){distance=next;index=i}
-      }
-      return {module:moduleDefs[index],weight:Math.min(.96,.96*Math.exp(-distance/.14))};
-    }
-    function neuralColor(point){
-      return moduleColorAt(point).module.color.clone();
-    }
     function placeModuleAnchors(surfaceMeshes){
       const targets=moduleTargets;
       camera.updateMatrixWorld(true);
@@ -263,80 +252,14 @@
     function worldNormal(mesh,normal){
       return normal.clone().applyMatrix3(new THREE.Matrix3().getNormalMatrix(mesh.matrixWorld)).normalize();
     }
-    function createCorticalRelief(){
-      const size=1024,data=new Uint8Array(size*size*4);
-      for(let y=0;y<size;y++)for(let x=0;x<size;x++){
-        const u=x/size*Math.PI*2,v=y/size*Math.PI*2;
-        const ridges=Math.sin(u*8+Math.sin(v*3.2)*1.15)+.78*Math.sin(v*7+Math.sin(u*2.8)*1.2)+.36*Math.sin((u-v)*13+Math.sin(u*4+v*2));
-        const value=Math.max(0,Math.min(255,128+ridges*29+3*Math.sin(u*49+Math.sin(v*17))*Math.sin(v*43)));
-        const index=(y*size+x)*4;
-        data[index]=data[index+1]=data[index+2]=value;
-        data[index+3]=255;
-      }
-      const texture=new THREE.DataTexture(data,size,size,THREE.RGBAFormat);
-      texture.wrapS=texture.wrapT=THREE.RepeatWrapping;
-      texture.colorSpace=THREE.NoColorSpace;
-      texture.magFilter=THREE.LinearFilter;
-      texture.minFilter=THREE.LinearMipmapLinearFilter;
-      texture.generateMipmaps=true;
-      texture.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());
-      texture.needsUpdate=true;
-      texture.name='PURAMENTE procedural cortical microrelief';
-      return texture;
-    }
-    const corticalRelief=createCorticalRelief();
+    const corticalRelief=createCorticalRelief(THREE, renderer);
 
     function makeNetwork(surfaceMeshes,sceneRoot){
-      const samplers=surfaceMeshes.map(mesh=>{
-        if(!mesh.geometry.boundingSphere)mesh.geometry.computeBoundingSphere();
-        return {mesh,sampler:new MeshSurfaceSampler(mesh).build(),weight:1};
+      const random=createSeededRandom();
+      const samples=sampleCourseNeurons(THREE, MeshSurfaceSampler, {
+        surfaceMeshes, camera, target:controls.target, moduleDefs, moduleTargets, random,
       });
-      const totalWeight=samplers.reduce((sum,item)=>sum+item.weight,0);
-      const samples=[],point=new THREE.Vector3(),normal=new THREE.Vector3();
-      let seed=0x50555241;
-      const random=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296};
-      for(const item of samplers)item.sampler.setRandomGenerator(random);
-      const pickSampler=()=>{let value=random()*totalWeight;for(const item of samplers){value-=item.weight;if(value<=0)return item}return samplers[samplers.length-1]};
-
-      for(let i=0;i<720;i++){
-        let accepted=null;
-        for(let attempt=0;attempt<36&&!accepted;attempt++){
-          const {mesh,sampler}=pickSampler();
-          sampler.sample(point,normal);
-          const world=mesh.localToWorld(point.clone());
-          const outward=worldNormal(mesh,normal);
-          const radial=world.clone().sub(controls.target);
-          const facing=outward.dot(radial.clone().normalize());
-          if(radial.length()>.68&&facing>-.05)accepted={position:world,normal:outward};
-        }
-        if(!accepted){
-          const {mesh,sampler}=pickSampler();sampler.sample(point,normal);
-          accepted={position:mesh.localToWorld(point.clone()),normal:worldNormal(mesh,normal)};
-        }
-        accepted.position.addScaledVector(accepted.normal,-.006);
-        const region=moduleColorAt(accepted.position);
-        samples.push({...accepted,color:region.module.color.clone(),module:region.module.id,focus:region.weight});
-      }
-
-      // Ten well-spaced neurons per module, deterministic farthest-point selection.
-      const chosen=[];
-      for(const module of moduleDefs){
-        const candidates=samples.filter(sample=>sample.module===module.id);
-        for(let n=0;n<10;n++){
-          let best=null,score=-Infinity;
-          for(const sample of candidates){
-            if(chosen.includes(sample))continue;
-            const distance=chosen.length?Math.min(...chosen.map(other=>other.position.distanceToSquared(sample.position))):sample.focus;
-            if(distance>score){score=distance;best=sample}
-          }
-          if(best)chosen.push(best);
-        }
-      }
-      samples.splice(0,samples.length,...chosen);
-      // Distribute through the inner volume rather than offsetting from the skin.
-      samples.forEach((sample,i)=>sample.position.multiplyScalar(.62+.15*((i*17)%11)/10));
       // Activate from each focal region outward; every branch joins a nearer ancestor.
-      samples.sort((a,b)=>b.focus-a.focus);
       const used=new Set(),linePositions=[],lineColors=[],edges=[];
       for(let i=0;i<samples.length;i++){
         const nearest=samples.map((sample,index)=>({index,distance:sample.position.distanceToSquared(samples[i].position)}))
@@ -493,122 +416,22 @@
     const inspectionRadius={value:0};
     const visibleCategories=new Set(['cortex','cerebellum','brainstem','tracts','white_matter','deep_grey','diencephalon','ventricles']);
     const categoryOpacity={cortex:.92,cerebellum:.9,brainstem:.82,tracts:.42,white_matter:.42,deep_grey:.52,diencephalon:.46,ventricles:.38};
-    function metadataFor(object){
-      let category,core;
-      for(let node=object;node;node=node.parent){
-        if(category===undefined&&node.userData?.bx_cat!==undefined)category=node.userData.bx_cat;
-        if(core===undefined&&node.userData?.bx_core!==undefined)core=node.userData.bx_core;
-      }
-      return {category:category||'other',core};
-    }
-    const draco=new DRACOLoader();
-    draco.setDecoderPath('https://unpkg.com/three@0.182.0/examples/jsm/libs/draco/');
-    const loader=new GLTFLoader();
-    loader.setDRACOLoader(draco);
+    const {loader, draco}=createAtlasLoader(GLTFLoader, DRACOLoader);
     loader.load('./puramente-neural-brain-atlas.glb',gltf=>{
       const root=gltf.scene;
-      root.updateMatrixWorld(true);
-      const coreBounds=new THREE.Box3();
-      root.traverse(object=>{if(object.isMesh){const metadata=metadataFor(object);if(metadata.core===1||metadata.core===true)coreBounds.expandByObject(object)}});
-      if(coreBounds.isEmpty())coreBounds.setFromObject(root);
-      const center=coreBounds.getCenter(new THREE.Vector3());
-      const dimensions=coreBounds.getSize(new THREE.Vector3());
-      const scale=2.6/Math.max(dimensions.x,dimensions.y,dimensions.z);
-      root.scale.setScalar(scale);
-      root.position.copy(center.multiplyScalar(-scale));
-      root.rotation.y=-.25;
-      root.updateMatrixWorld(true);
+      fitAtlasRoot(THREE, root);
       scene.add(root);
-
-      const cortexMeshes=[];
-      const counts=new Map();
-      root.traverse(object=>{
-        if(!object.isMesh)return;
-        const category=metadataFor(object).category;
-        counts.set(category,(counts.get(category)||0)+1);
-        object.visible=visibleCategories.has(category);
-        if(object.visible&&category==='cortex')cortexMeshes.push(object);
-      });
+      const {cortexMeshes, counts}=collectAnatomy(root, visibleCategories);
       controls.target.set(0,0,0);
       camera.position.set(3.25,1.65,4.1);
       camera.lookAt(controls.target);
       camera.updateMatrixWorld(true);
       placeModuleAnchors(cortexMeshes);
       root.updateMatrixWorld(true);
-      root.traverse(object=>{
-        if(!object.isMesh||!object.visible)return;
-        const category=metadataFor(object).category;
-        const isCortex=category==='cortex';
-        const isCerebellum=category==='cerebellum';
-        // A diffuse-only material prevents inherited Phong/specular highlights
-        // from the atlas. Anatomy has no emission, clearcoat or reflections.
-        const material=new THREE.MeshLambertMaterial({
-          color:isCortex?'#454e5a':'#38424f',
-          emissive:0x000000,
-          side:THREE.DoubleSide,
-        });
-        material.name=`PURAMENTE matte charcoal anatomy · ${category}`;
-        // Camera-facing local cutaway: reveal only the tissue obscuring the selected neuron.
-        material.onBeforeCompile=shader=>{
-          shader.uniforms.activationClock=activationClock;
-          shader.uniforms.activationPulses=activationPulses;
-          shader.uniforms.activationDensity=activationDensity;
-          shader.uniforms.neuralGlowPositions=neuralGlowPositions;
-          shader.uniforms.neuralGlowColors=neuralGlowColors;
-          shader.uniforms.inspectionCenter=inspectionCenter;
-          shader.uniforms.inspectionRadius=inspectionRadius;
-          shader.vertexShader='varying vec3 vAnatomyWorld;\n'+shader.vertexShader;
-          shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>',
-            '#include <begin_vertex>\nvAnatomyWorld=(modelMatrix*vec4(transformed,1.0)).xyz;');
-          shader.fragmentShader='uniform float activationDensity; uniform vec4 activationPulses[50]; uniform float activationClock; uniform vec3 neuralGlowPositions[50]; uniform vec3 neuralGlowColors[50]; uniform vec3 inspectionCenter; uniform float inspectionRadius; varying vec3 vAnatomyWorld;\n'+shader.fragmentShader;
-          shader.fragmentShader=shader.fragmentShader.replace('#include <emissivemap_fragment>',`
-            #include <emissivemap_fragment>
-            vec3 regionalLight=vec3(0.0);
-            for(int n=0;n<50;n++){
-              vec3 offset=vAnatomyWorld-neuralGlowPositions[n];
-              float distanceSquared=dot(offset,offset);
-              if(distanceSquared>.36 || dot(neuralGlowColors[n],neuralGlowColors[n])<.0001)continue;
-              float radius=sqrt(distanceSquared);
-              float pulse=activationPulses[n].y;
-              float ringDistance=(radius-activationPulses[n].x)/(.035+activationDensity*.025);
-              float ring=exp(-ringDistance*ringDistance);
-              float secondDistance=(radius-activationPulses[n].z)/(.035+activationDensity*.025);
-              float secondRing=exp(-secondDistance*secondDistance)*activationPulses[n].w;
-              float influence=.025*exp(-radius*radius/.035)+(ring*pulse+secondRing*activationDensity)*(.65+activationDensity*.85);
-              regionalLight+=neuralGlowColors[n]*influence;
-            }
-            totalEmissiveRadiance+=(inspectionRadius>0.001 ? .025 : 1.0)*regionalLight/(vec3(1.0)+regionalLight)*(.38+activationDensity*.42);
-          `);
-          shader.fragmentShader=shader.fragmentShader.replace('#include <clipping_planes_fragment>',`
-            #include <clipping_planes_fragment>
-            if(inspectionRadius>0.001){
-              vec3 axis=normalize(inspectionCenter-cameraPosition);
-              vec3 offset=vAnatomyWorld-cameraPosition;
-              float along=dot(offset,axis);
-              float radial=length(offset-axis*along);
-              float targetDistance=distance(inspectionCenter,cameraPosition);
-              if(along>0.0 && along<targetDistance+0.12 && radial<inspectionRadius) discard;
-            }
-          `);
-        };
-        material.customProgramCacheKey=()=> 'puramente-density-activation-v6';
-        if(isCortex&&object.geometry.attributes.uv){
-          material.bumpMap=corticalRelief;
-          material.bumpScale=.012;
-        }
-        const solidAnatomy=isCortex||isCerebellum||category==='brainstem';
-        object.castShadow=solidAnatomy;
-        object.receiveShadow=solidAnatomy;
-        material.transparent=!solidAnatomy;
-        material.opacity=category==='tracts'?.06:category==='white_matter'?.08:.10;
-        if(solidAnatomy){material.opacity=isCortex?.82:.9;material.transparent=true;}
-        material.depthWrite=false;
-        material.side=THREE.FrontSide;
-        object.renderOrder=-2;
-        material.needsUpdate=true;
-        object.material=material;
+      applyMatteAnatomy(THREE, root, {
+        corticalRelief, activationClock, activationPulses, activationDensity,
+        neuralGlowPositions, neuralGlowColors, inspectionCenter, inspectionRadius,
       });
-
       root.updateMatrixWorld(true);
       const network=makeNetwork(cortexMeshes,scene);
       const beacons=addModuleBeacons(network.samples);
