@@ -11,7 +11,7 @@
   --navy:#000080; --sel:#0a246a; --tip:#ffffe1;
   --sys:Tahoma,"Segoe UI",Verdana,Geneva,sans-serif;
   --pixel:"VT323","Lucida Console",ui-monospace,monospace;
-  --blur:10px; --mb:0px; --tb:110px;
+  --brand:#004aac; --blur:10px; --mb:0px; --tb:110px;
   --raised:inset -1px -1px var(--dark),inset 1px 1px var(--hi),inset -2px -2px var(--shade),inset 2px 2px var(--lite);
   --sunken:inset 1px 1px var(--shade),inset -1px -1px var(--hi),inset 2px 2px var(--dark),inset -2px -2px var(--lite);
 }
@@ -34,7 +34,7 @@ u{text-decoration:underline;text-underline-offset:2px}
    Explorers fijo a la izquierda, a ~10% del borde y un poco abajo. */
 /* Logo centrado arriba, a la altura de Explorers pero un poco más arriba */
 #topLogo{position:fixed;z-index:20;top:calc(15vh + env(safe-area-inset-top, 0px));left:50%;transform:translateX(-50%);padding:4px;border-radius:8px}
-#topLogo img{display:block;width:120px;height:auto;filter:drop-shadow(0 2px 10px rgba(0,30,80,.45))}
+#topLogo img{display:block;width:150px;height:auto;filter:drop-shadow(0 2px 10px rgba(0,30,80,.45))}
 @keyframes levitate{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-5px) rotate(-.6deg)}}
 #fixedIcons{position:fixed;z-index:20;left:10%;top:26%;display:flex;flex-direction:column;gap:10px}
 #fixedIcons .ico{position:relative;transform:none;width:90px}
@@ -68,7 +68,8 @@ u{text-decoration:underline;text-underline-offset:2px}
    Moderno (miniaturas limpias en desorden, nombres pequeños) + retro
    (letra pixelada, selección azul como en Windows). */
 #desk{position:fixed;inset:var(--mb) 0 var(--tb) 0;touch-action:none}
-@media (min-width:641px){#desk .ico{transform:translate(-50%,-50%) scale(var(--ico-s,1))}}
+@media (max-width:640px){#desk .ico{transform:translate(-50%,-50%) scale(var(--ph-s,1))}}
+@media (min-width:641px){#desk .ico{transform:translate(-50%,-50%) scale(var(--ico-s,1))}#fixedIcons .ico{transform:scale(var(--ico-s,1));transform-origin:top left}}
 .ico{position:absolute;width:96px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;user-select:none;-webkit-user-select:none;transform:translate(-50%,-50%);touch-action:none}
 .ico .th{position:relative;width:52px;height:52px;border:1px solid rgba(255,255,255,.85);background:#fff;box-shadow:0 6px 18px rgba(0,0,0,.35)}
 .ico .th img{width:100%;height:100%;object-fit:cover;object-position:top}
@@ -102,7 +103,7 @@ u{text-decoration:underline;text-underline-offset:2px}
   border-radius:18px;background:rgba(225,228,236,.42);-webkit-backdrop-filter:blur(24px) saturate(1.6);backdrop-filter:blur(24px) saturate(1.6);
   border:1px solid rgba(255,255,255,.55);box-shadow:0 12px 40px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.6)}
 #dock{display:flex;align-items:flex-end;gap:4px}
-.app,#startBtn{position:relative;flex:none;width:50px;height:50px;display:grid;place-items:center;border-radius:12px;transform-origin:50% 100%;transition:transform .16s cubic-bezier(.3,.7,.3,1)}
+.app,#startBtn{position:relative;flex:none;width:50px;height:50px;display:grid;place-items:center;border-radius:12px}
 .app img{width:42px;height:42px;object-fit:contain;filter:drop-shadow(0 3px 4px rgba(0,0,0,.3))}
 .app img.px{width:40px;height:40px}
 .app[data-app=videos]{width:64px}
@@ -147,7 +148,7 @@ u{text-decoration:underline;text-underline-offset:2px}
 .win .body ul.list img{width:36px;height:36px;object-fit:cover;object-position:top;border:1px solid #000;flex:none}
 .win .body ul.list img.li-ico{border:0;object-fit:contain}
 .win .body .idea{padding:8px 0;border-bottom:1px dotted var(--shade)}
-.about-logo{width:min(320px,80%);margin:4px auto 10px;filter:invert(1) contrast(1.3)}
+.about-logo{width:min(320px,80%);margin:4px auto 10px;padding:14px;border-radius:6px;background:var(--brand)}
 
 /* Explora: navegador retro */
 .win.browser-win{width:min(980px,calc(100vw - 32px))}
@@ -331,7 +332,7 @@ u{text-decoration:underline;text-underline-offset:2px}
   #pageDots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.45);box-shadow:0 0 0 1px rgba(0,0,0,.15)}
   #pageDots i.on{background:#fff}
   #topLogo{top:calc(26px + env(safe-area-inset-top, 0px))}
-  #topLogo img{width:74px}
+  #topLogo img{width:96px}
   #fixedIcons{left:4%;top:15%}
   #fixedIcons .ico{width:72px}
   #cornerR{right:8px}
@@ -369,3 +370,69 @@ u{text-decoration:underline;text-underline-offset:2px}
   #fondoMenu{left:4px!important;right:4px;min-width:0}
 }
 @media (prefers-reduced-motion:reduce){#topLogo img,.win,#wall,.ico[data-p="creative-playground"] .th img{animation:none;transition:none}}
+
+/* ===== ARRANQUE (estilo Windows XP, un poco envejecido: grano, líneas de TV y parpadeo) ===== */
+#boot{position:fixed;inset:0;z-index:200;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5vh;transition:opacity .5s;overflow:hidden}
+#boot[hidden]{display:none}
+#boot.out{opacity:0}
+.boot-brand img{width:min(560px,80vw);height:auto;animation:bootin .6s ease-out both}
+@keyframes bootin{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
+@keyframes flick{0%,100%{opacity:1}43%{opacity:.86}45%{opacity:1}71%{opacity:.92}72%{opacity:1}}
+.boot-bar{position:relative;width:min(280px,60vw);height:22px;border:2px solid #b8b8b8;border-radius:7px;overflow:hidden;background:#000}
+.boot-bar i{position:absolute;top:3px;width:12px;height:12px;border-radius:1px;background:linear-gradient(180deg,#8fa8ff,#2d3fd6 55%,#1a26a8);animation:bootrun .8s linear infinite}
+.boot-bar i:nth-child(2){animation-delay:.12s}.boot-bar i:nth-child(3){animation-delay:.24s}
+@keyframes bootrun{0%{left:-40px}100%{left:calc(100% + 10px)}}
+.boot-txt{margin:-2vh 0 0;font:22px/1 var(--pixel);letter-spacing:.12em;color:#e8e8e8}
+.boot-crt{position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.015) 0 1px,transparent 1px 3px),
+             radial-gradient(ellipse at center,transparent 65%,rgba(0,0,0,.4) 100%),
+             url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain .4s steps(2) infinite}
+@keyframes grain{50%{background-position:0 1px,0 0,40px 30px}}
+
+/* ===== ESCOGER USUARIO (pantalla de bienvenida estilo Windows XP, sobre el fondo del escritorio) ===== */
+#login{position:fixed;inset:0;z-index:190;isolation:isolate;display:flex;flex-direction:column;color:#fff;font-family:var(--sys)}
+#login[hidden]{display:none}
+.lg-bg{position:absolute;z-index:-2;inset:0;background:#0b1a4a center/cover no-repeat}
+#login::before{content:"";position:absolute;z-index:-1;inset:0;background:rgba(0,0,0,.8)}
+/* textura envejecida pixelada y animada (líneas de TV vieja + grano) sobre el negro transparente */
+#login .lg-crt{position:absolute;z-index:-1;inset:0;pointer-events:none;image-rendering:pixelated;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0 1px,transparent 1px 3px),
+             radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.6) 100%),
+             url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='1' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .14 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E") 0 0/160px 160px;
+  animation:grain .3s steps(2) infinite,flicker 4s steps(1) infinite}
+@keyframes flicker{0%,100%{opacity:1}47%{opacity:.85}48%{opacity:1}82%{opacity:.9}}
+.lg-top,.lg-bottom{position:relative;flex:none;background:linear-gradient(180deg,#00309c,#002a8a);}
+.lg-top{height:clamp(40px,9vh,80px);border-bottom:2px solid transparent;border-image:linear-gradient(90deg,transparent,#fff 30%,#ff9a3c 50%,#fff 70%,transparent) 1}
+.lg-bottom{min-height:clamp(48px,10vh,90px);display:flex;align-items:center;justify-content:center;padding:10px 20px;text-align:center;font-size:14px;border-top:2px solid transparent;border-image:linear-gradient(90deg,transparent,#fff 30%,#ff9a3c 50%,#fff 70%,transparent) 1}
+.lg-mid{position:relative;flex:1;display:flex;align-items:center;justify-content:center;gap:clamp(20px,4vw,48px);padding:24px}
+.lg-left{display:flex;flex-direction:column;align-items:flex-end;gap:16px;text-align:right;max-width:340px}
+.lg-left img{width:min(300px,60vw);height:auto;filter:drop-shadow(0 3px 8px rgba(0,10,40,.6))}
+.lg-title{margin:0;font:clamp(28px,3vw,38px)/1 var(--pixel);letter-spacing:.04em;color:#fff;text-shadow:2px 2px 0 rgba(0,0,30,.6)}
+.lg-sep{align-self:stretch;width:2px;max-height:340px;margin:auto 0;background:linear-gradient(180deg,transparent,rgba(255,255,255,.9),transparent)}
+.lg-users{display:flex;flex-direction:column;gap:10px}
+.lg-user{display:flex;align-items:center;gap:16px;padding:8px 24px 8px 8px;border-radius:10px;text-align:left;border:2px solid transparent;transition:background .15s}
+.lg-user:hover,.lg-user:focus-visible{background:linear-gradient(90deg,rgba(0,30,120,.75),rgba(0,30,120,0));outline:0}
+.lg-card{position:relative;flex:none;display:grid;place-items:center;width:96px;height:96px}
+.lg-card::before{content:"";position:absolute;inset:-14px;border-radius:50%;background:radial-gradient(circle,var(--c) 0%,color-mix(in srgb,var(--c) 45%,transparent) 35%,transparent 70%);filter:blur(6px);opacity:.75;animation:aura 2.6s ease-in-out infinite}
+.lg-card img{position:relative;width:86px;height:86px;object-fit:contain;image-rendering:pixelated;animation:floaty 2.6s ease-in-out infinite;filter:drop-shadow(0 10px 8px rgba(0,0,30,.45))}
+.lg-user:nth-child(2) .lg-card img,.lg-user:nth-child(2) .lg-card::before{animation-delay:-1.3s}
+@keyframes floaty{50%{transform:translateY(-8px)}}
+@keyframes aura{50%{opacity:1;transform:scale(1.12)}}
+.lg-txt{display:flex;flex-direction:column;gap:4px}
+.lg-sub{font:12px/1.2 var(--sys);color:rgba(255,255,255,.75);letter-spacing:.02em}
+.lg-name{font:400 clamp(20px,2.2vw,26px)/1.1 var(--sys);text-shadow:0 1px 3px rgba(0,0,40,.6)}
+.lg-user.picked{background:linear-gradient(90deg,rgba(0,30,120,.85),rgba(0,30,120,0))}
+@media (max-width:640px){
+  .lg-mid{flex-direction:column;gap:18px}
+  .lg-left{align-items:center;text-align:center}
+  .lg-sep{flex:none;width:70%;height:2px;max-height:none;margin:0;align-self:center;background:linear-gradient(90deg,transparent,rgba(255,255,255,.9),transparent)}
+}
+
+/* ===== PLEASE STAND BY ===== */
+#standby{position:fixed;inset:0;z-index:180;background:#0000d4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:24px;text-align:center;color:#fff;cursor:pointer}
+#standby[hidden]{display:none}
+.sb-main{margin:0;font:clamp(36px,7vw,72px)/1 var(--pixel);letter-spacing:.08em}
+.sb-sub{margin:0;max-width:34ch;font:clamp(18px,2.6vw,26px)/1.25 var(--pixel);opacity:.9}
+.sb-tap{position:absolute;bottom:6vh;margin:0;font:18px var(--pixel);opacity:.6;animation:blinkh 1.4s steps(2) infinite}
+@media (prefers-reduced-motion:reduce){.boot-bar i,.sb-tap,.boot-brand img,.boot-crt,#login .lg-crt,.lg-card img,.lg-card::before{animation:none}}

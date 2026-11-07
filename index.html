@@ -25,12 +25,12 @@
 <div id="wall" aria-hidden="true"></div>
 
 <!-- ===== ARRIBA (sin barra): logo CREATV MYNDZ al centro, levitando; Duo a la derecha ===== -->
-<button id="topLogo" data-win="sobre" data-i18n-aria="about" aria-label="Sobre CREATV MYNDZ"><img src="assets/img/logo-creatv-blanco.webp" alt="CREATV MYNDZ" width="700" height="297"></button>
+<button id="topLogo" data-switch-user data-i18n-aria="s_user_aria" aria-label="Cambiar de usuario"><img src="assets/img/logo-creatv-nube.png" alt="CREATV MYNDZ" width="836" height="369"></button>
 <!-- Íconos fijos (Creative Playground): a la izquierda, un poco abajo -->
 <div id="fixedIcons"></div>
 
 <div id="cornerR">
-  <button id="wallBtn" class="wall-btn" data-i18n-aria="wall_aria" aria-label="Cambiar fondo"><img src="assets/iconos/pincel.png" alt="" width="64" height="64"></button>
+  <!-- Botón de cambiar fondo (pincel) guardado para después: los fondos siguen en data/escritorio.json -->
   <button id="langBtn" class="lang-btn" data-i18n-aria="lang_aria" aria-label="Cambiar idioma"><b id="langCode">ES</b><span>/</span><i id="langOther">EN</i></button>
 </div>
 <div id="fondoMenu" class="menu" role="menu" hidden></div>
@@ -58,9 +58,39 @@
     <button role="menuitem" data-open-p="buscaminas-acceso"><img src="assets/iconos/buscaminas.png" alt="" class="smooth"><span data-i18n-html="s_mines"><u>B</u>uscaminas</span></button>
     <button role="menuitem" data-app-open="contacto"><img src="assets/iconos/contacto.png" alt="" class="smooth"><span data-i18n-html="s_contact"><u>C</u>ontáctanos</span></button>
     <button role="menuitem" data-app-open="papelera"><img src="assets/iconos/papelera.png" alt="" class="smooth"><span data-i18n-html="s_bin"><u>P</u>apelera de ideas</span></button>
+    <button role="menuitem" data-switch-user><img src="assets/iconos/computador.png" alt="" class="smooth"><span data-i18n-html="s_user"><u>C</u>ambiar de usuario</span></button>
     <hr>
     <button role="menuitem" data-win="sobre"><img src="assets/iconos/cdrom.png" alt=""><span data-i18n-html="s_about"><u>P</u>róximamente CREATV MYNDZ</span></button>
   </div>
+</div>
+
+<!-- ===== ARRANQUE (como Windows XP, con la marca CREATV MYNDZ) ===== -->
+<div id="boot" hidden aria-hidden="true">
+  <div class="boot-brand"><img src="assets/img/logo-creatv-xp.png" alt=""></div>
+  <div class="boot-bar"><i></i><i></i><i></i></div>
+  <p class="boot-txt" data-i18n="boot_txt">Creando...</p>
+  <div class="boot-crt" aria-hidden="true"></div>
+</div>
+
+<!-- ===== ESCOGER USUARIO (selección de personaje) ===== -->
+<div id="login" hidden role="dialog" aria-modal="true" aria-label="CREATV MYNDZ">
+  <div class="lg-bg" aria-hidden="true"></div>
+  <div class="lg-crt" aria-hidden="true"></div>
+  <div class="lg-mid">
+    <div class="lg-left">
+      <img src="assets/img/logo-creatv-xp.png" alt="CREATV MYNDZ">
+    </div>
+    <div class="lg-sep" aria-hidden="true"></div>
+    <div class="lg-users" id="lgUsers"></div>
+  </div>
+
+</div>
+
+<!-- ===== PLEASE STAND BY (para lo que viene pronto) ===== -->
+<div id="standby" hidden role="dialog" aria-modal="true">
+  <p class="sb-main">PLEASE STAND BY</p>
+  <p class="sb-sub" id="sbSub"></p>
+  <p class="sb-tap" data-i18n="sb_tap">Toca para volver</p>
 </div>
 
 <!-- Aviso solo para quien entra desde el celular -->

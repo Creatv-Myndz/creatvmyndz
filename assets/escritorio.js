@@ -52,6 +52,7 @@ const I18N={
       photos:"fotos",
       wall_aria:"Cambiar fondo",wall_title:"Personalizar · Fondo de pantalla",wall_intro:"Escoge tu fondo de pantalla.",walls:"fondos",su_bar:"Únete a CREATV MYNDZ",su_title:"¿QUIERES VER MÁS CREATIVIDAD?",su_text:"Regístrate con tu correo y te mandamos los nuevos proyectos, ideas y lanzamientos.",
       su_ph:"tu@correo.com",su_btn:"Registrarme",su_later:"Ahora no",su_sending:"Enviando…",su_ok:"¡Listo! Ya eres parte de CREATV MYNDZ.",su_err:"No se pudo enviar. Intenta de nuevo.",su_bad:"Escribe un correo válido.",
+      lg_title:"Usuario:",boot_txt:"Creando...",wl_text:"bienvenido",lg_hint:"Después de entrar puedes cambiar de usuario desde el menú Inicio.",sb_tap:"Toca para volver",s_user:"<u>C</u>ambiar de usuario",s_user_aria:"CREATV MYNDZ · Cambiar de usuario",
       pw_bar:"Advertencia",pw_title:"¿ESTÁS EN EL BAÑO?",pw_text:"NUESTRA WEB ES MEJOR EN EL PC. ¡VE A VERLA!",pw_ok:"Ok, ya voy",pw_stay:"Seguir aquí"},
   en:{m_projects:"<u>P</u>rojects",m_wall:"<u>W</u>allpaper",about:"Coming soon: CREATV MYNDZ",lang_aria:"Change language (Español)",desk:"Desktop",
       empty:"Projects will show up here, one by one.",start:"Start",programs:"Programs",
@@ -84,6 +85,7 @@ const I18N={
       photos:"photos",
       wall_aria:"Change wallpaper",wall_title:"Personalize · Wallpaper",wall_intro:"Choose your wallpaper.",walls:"wallpapers",su_bar:"Join CREATV MYNDZ",su_title:"WANT TO SEE MORE CREATIVITY?",su_text:"Sign up with your email and we'll send you new projects, ideas and launches.",
       su_ph:"you@email.com",su_btn:"Sign me up",su_later:"Not now",su_sending:"Sending…",su_ok:"Done! You're part of CREATV MYNDZ now.",su_err:"Couldn't send it. Please try again.",su_bad:"Type a valid email.",
+      lg_title:"Select User:",boot_txt:"Creating...",wl_text:"welcome",lg_hint:"Once inside, you can switch users from the Start menu.",sb_tap:"Tap to go back",s_user:"<u>S</u>witch user",s_user_aria:"CREATV MYNDZ · Switch user",
       pw_bar:"Warning",pw_title:"ARE YOU IN THE BATHROOM?",pw_text:"OUR WEBSITE IS BETTER ON A PC. GO CHECK IT OUT!",pw_ok:"Ok, on my way",pw_stay:"Stay here"}
 };
 const t=k=>I18N[lang][k]??I18N.es[k]??"";
@@ -122,12 +124,15 @@ function fromPlayground(){
     ...(D.extras?.[p.id]||{})   // ícono propio y videos encima de la imagen (data/escritorio.json → extras)
   }));
 }
+// Usuario (escritorio) escogido al entrar: "playground" o "dealers". Cada ícono dice en "usuario" dónde va.
+let USER="";   // siempre se entra por la pantalla de usuarios
+const forUser=p=>{const u=p.usuario||(p.tipoItem==="acceso"?"ambos":"playground");return u==="ambos"||u===USER||!USER;};
 function buildItems(){
   ITEMS=[
     ...(D.accesos||[]).map(a=>({...a,tipoItem:"acceso"})),
     ...fromPlayground().map(p=>({...p,tipoItem:"crtv"})),
     ...(D.proyectos||[]).map(p=>({...p,tipoItem:"proyecto",estado:"listo"}))
-  ];
+  ].filter(forUser);
 }
 
 // Lo que va dentro de una carpeta no se muestra suelto en el escritorio (salvo "tambienEnEscritorio")
@@ -136,12 +141,13 @@ const onDesk=p=>!p.carpeta||p.tambienEnEscritorio;
 // ---------- fondo de pantalla
 function blurFor(f){const lvl=store.get("blur")||"suave",base=f?.blur??10;return lvl==="sin"?0:lvl==="fuerte"?Math.min(32,Math.max(14,base*2)):base;}
 // El fondo lo elige CREATV MYNDZ en data/escritorio.json ("fondo"); los visitantes ya no lo cambian.
-// El visitante cambia el fondo con el pincel (arriba a la derecha); se guarda en su navegador.
-function currentFondo(){const id=store.get("fondo");return D.fondos.find(x=>x.id===id)||D.fondos.find(x=>x.id===D.fondo)||D.fondos[0];}
+// Por ahora cada usuario tiene su fondo fijo (usuarios.lista[].fondo). El cambio de fondo está guardado para después.
+["fondo-playground","fondo-dealers","fondo-","mio"].forEach(k=>store.del(k));   // limpia fondos que se habían escogido antes
+function currentFondo(){const id=((D.usuarios?.lista||[]).find(u=>u.id===USER)||{}).fondo;return D.fondos.find(x=>x.id===id)||D.fondos.find(x=>x.id===D.fondo)||D.fondos[0];}
 // Ventana "Personalizar": muestra todos los fondos y el visitante escoge uno
 const mini=src=>src.replace("assets/fondos/","assets/fondos/mini/");
 function setWall(id){const f=D.fondos.find(x=>x.id===id);if(!f)return;
-  const im=new Image();im.onload=()=>{store.set("fondo",f.id);applyWall();document.querySelectorAll("[data-wall]").forEach(b=>b.classList.toggle("on",b.dataset.wall===f.id));};im.src=f.imagen;}
+  const im=new Image();im.onload=()=>{store.set("fondo-"+USER,f.id);applyWall();document.querySelectorAll("[data-wall]").forEach(b=>b.classList.toggle("on",b.dataset.wall===f.id));};im.src=f.imagen;}
 function wallWin(){
   const cur=currentFondo()?.id;
   const w=openWin("personalizar",t("wall_title"),`<p class="wp-intro">${t("wall_intro")}</p><div class="wallpicks">${D.fondos.map(f=>`<button class="wpick${f.id===cur?" on":""}" data-wall="${esc(f.id)}"><img src="${esc(mini(f.imagen))}" alt="" loading="lazy" onerror="this.src='${esc(f.imagen)}'"><span>${esc(L(f.nombre))}</span></button>`).join("")}</div>`,
@@ -149,7 +155,7 @@ function wallWin(){
   reg(w,wallWin);
 }
 function nextWall(){const i=D.fondos.indexOf(currentFondo()),f=D.fondos[(i+1)%D.fondos.length];if(!f)return;
-  const im=new Image();im.onload=()=>{store.set("fondo",f.id);applyWall();};im.src=f.imagen;}
+  const im=new Image();im.onload=()=>{store.set("fondo-"+USER,f.id);applyWall();};im.src=f.imagen;}
 function applyWall(){
   const f=currentFondo(),img=f?.imagen;
   $("#wall").style.backgroundImage=img?`url("${img}")`:"none";
@@ -191,7 +197,7 @@ function useOwnWall(file){
 function rng(seed){let h=1779033703^seed.length;for(let i=0;i<seed.length;i++){h=Math.imul(h^seed.charCodeAt(i),3432918353);h=h<<13|h>>>19;}return()=>{h=Math.imul(h^h>>>16,2246822507);h=Math.imul(h^h>>>13,3266489909);return((h^=h>>>16)>>>0)/4294967296;};}
 function deskSize(){return [innerWidth,innerHeight-cssPx("--mb")-cssPx("--tb")];}
 function layout(){
-  const [W,H]=deskSize(),moved=store.get("pos")||{},ph=phone();
+  const [W,H]=deskSize(),moved={},ph=phone();store.del("pos");
   const order=ITEMS.filter(p=>onDesk(p)&&(!p.fijo||phone())).sort((a,b)=>rng(a.id)()-rng(b.id)());
   // Zonas ocupadas: logo de arriba, íconos fijos (Explorers) y Duo
   const busy=[];
@@ -202,9 +208,29 @@ function layout(){
     // deslizan hacia la derecha, y cada ícono un poco corrido para que no se vea en cuadrícula.
     // primero los proyectos (CRTV), después los accesos; todo junto y apilado desde arriba
     // mismo orden que la distribución del PC (de arriba a abajo, de izquierda a derecha)
-    const REFp=(D.distribucionPC||{}).posiciones||{},key=p=>REFp[p.id]?Math.round(REFp[p.id][1]/70)*10000+REFp[p.id][0]:1e9;
+    const DPp=D.distribucionPC||{},REFp=(DPp.porUsuario&&DPp.porUsuario[USER])||DPp.posiciones||{},key=p=>REFp[p.id]?Math.round(REFp[p.id][1]/70)*10000+REFp[p.id][0]:1e9;
     const fixedFirst=order.filter(p=>p.fijo).concat(order.filter(p=>!p.fijo).sort((a,b)=>key(a)-key(b)));
     const logo=$("#topLogo").getBoundingClientRect(),top=logo.bottom-cssPx("--mb")+4;
+    // Igual que en el PC: el cubo en la mitad y los demás alrededor, cada uno hacia el lado donde está en el PC.
+    // Si no caben en una sola pantalla, se usa la cuadrícula por páginas de abajo.
+    {const CORN=DPp.esquina||{},vec=p=>REFp[p.id]?[(REFp[p.id][0]-1000)/300,(REFp[p.id][1]-520)/160]:CORN[p.id]?[1.6,1.6]:p.fijo?[-1.6,-1.6]:[0,2];
+     const n=order.length,cube=order.filter(p=>REFp[p.id]).sort((a,b)=>Math.hypot(...vec(a))-Math.hypot(...vec(b)))[0];
+     let rows=Math.ceil(n/3);if(rows%2===0)rows++;
+     const avail=H-top-16,ch=Math.min(124,avail/rows),phs=Math.min(1,ch/104);
+     document.documentElement.style.setProperty("--ph-s",phs.toFixed(3));   // celulares bajitos: íconos un poco más pequeños
+     if(cube&&phs>=.78){
+       const cw=W/3,mid=(rows-1)/2,y0=top+(avail-ch*rows)/2,cells=[];
+       for(let r=0;r<rows;r++)for(let c=0;c<3;c++)if(!(r===mid&&c===1))cells.push({r,c,v:[(c-1)*1.1,(r-mid)/Math.max(1,mid)]});
+       const rest=order.filter(p=>p!==cube),pairs=[];
+       rest.forEach(p=>{const v=vec(p);cells.forEach(cl=>pairs.push([Math.hypot(v[0]-cl.v[0],v[1]-cl.v[1]),p,cl]));});
+       pairs.sort((a,b)=>a[0]-b[0]);
+       const used=new Set(),done=new Map();
+       for(const [,p,cl] of pairs){if(done.has(p)||used.has(cl))continue;done.set(p,cl);used.add(cl);}
+       const at=(p,c,r)=>{const j=rng(p.id+"#");return {p,x:cw*(c+.5)+(j()-.5)*14,y:y0+ch*(r+.5)+(j()-.5)*8};};
+       PAGES=1;
+       return [{p:cube,x:W/2,y:y0+ch*(mid+.5)}].concat(rest.map(p=>{const cl=done.get(p);return at(p,cl.c,cl.r);}));
+     }}
+    document.documentElement.style.setProperty("--ph-s","1");
     const cols=3,cw=W/cols,ch=Math.max(104,Math.min(122,(H-top-24)/5)),rows=Math.max(2,Math.floor((H-top-24)/ch)),per=cols*rows;
     const pages=Math.max(1,Math.ceil(fixedFirst.length/per));
     PAGES=pages;
@@ -217,7 +243,7 @@ function layout(){
   PAGES=1;
   {const fx=$("#fixedIcons");if(fx){fx.style.left="";fx.style.top="";}}
   // PC: la distribución fija de data/escritorio.json (distribucionPC), relativa al centro de la pantalla.
-  const DP=D.distribucionPC||{},REF=DP.posiciones||{},CORNER=DP.esquina||{},placedFixed=[];
+  const DP=D.distribucionPC||{},REF=(DP.porUsuario&&DP.porUsuario[USER])||DP.posiciones||{},CORNER=DP.esquina||{},placedFixed=[];
   const refIds=order.filter(p=>REF[p.id]||CORNER[p.id]);
   if(refIds.length){
     const pts=Object.values(REF),minX=Math.min(...pts.map(q=>q[0]))-70,maxX=Math.max(...pts.map(q=>q[0]))+70,minY=Math.min(...pts.map(q=>q[1]))-65,maxY=Math.max(...pts.map(q=>q[1]))+65;
@@ -225,24 +251,25 @@ function layout(){
     const lg=$("#topLogo").getBoundingClientRect(),top=lg.bottom-cssPx("--mb")+10;
     const ex=document.querySelector("#fixedIcons .ico"),exR=ex?ex.getBoundingClientRect().right+10:0;
     const half=Math.max(1000-minX,maxX-1000);
-    const sc=Math.min(1,(W/2-exR)/half,(H-top-10)/(maxY-minY));
-    const cx=W/2,cy=Math.max(H/2,top-(minY-520)*sc);
+    // íconos grandes: hasta 1.35× en pantallas grandes; si la pantalla es angosta, mejor cuadrícula (abajo)
+    const sc=Math.min(1.15,(W/2-exR-12)/half,(H-top-10)/(maxY-minY));   // siempre centrado
+    if(sc<.95){document.documentElement.style.setProperty("--ico-s","1.1");return clusterLayout(order,W,H,{},busy,hit,1.1);}
+    const cx=W/2,cy=Math.max(H/2,top-(minY-520)*sc);   // si Explorers estorba, el grupo se corre un poco a la derecha
     document.documentElement.style.setProperty("--ico-s",sc.toFixed(3));
     for(const p of refIds){
       let x,y;
       if(REF[p.id]){x=cx+(REF[p.id][0]-1000)*sc;y=cy+(REF[p.id][1]-520)*sc;}
       else{x=W-CORNER[p.id][0];y=H-CORNER[p.id][1];}
-      if(moved[p.id]){x=moved[p.id][0]*W;y=moved[p.id][1]*H;}
-      placedFixed.push({p,x,y});busy.push({l:x-62,t:y-60,r:x+62,b:y+64});
+      placedFixed.push({p,x,y});busy.push({l:x-62*sc,t:y-60*sc,r:x+62*sc,b:y+64*sc});
     }
   }else document.documentElement.style.setProperty("--ico-s","1");
   const rest=order.filter(p=>!REF[p.id]&&!CORNER[p.id]);
   if(!rest.length)return placedFixed;
   return placedFixed.concat(clusterLayout(rest,W,H,moved,busy,hit));
 }
-function clusterLayout(order,W,H,moved,busy,hit){
+function clusterLayout(order,W,H,moved,busy,hit,s=1){
   // Los íconos nuevos (sin posición fija): grupo centrado y ordenado; nada se monta encima de otra cosa.
-  const cw=136,chh=132,n=order.length,boxes=[...busy];
+  const cw=136*s,chh=132*s,n=order.length,boxes=[...busy];
   const maxCols=Math.max(3,Math.floor((W-110)/cw));
   let cols=Math.min(maxCols,Math.max(3,Math.ceil(Math.sqrt(n*1.8))));
   // filas parejas (ej. 12 → 4·4·4) y cada fila centrada; las filas impares van un poco corridas
@@ -257,10 +284,13 @@ function clusterLayout(order,W,H,moved,busy,hit){
   };
   const free=c=>c.every(([x,y])=>y<H-60&&x>58&&x<W-58&&!boxes.some(o=>hit(o,{l:x-60,t:y-58,r:x+60,b:y+62})));
   // prueba columnas y, si algo cae sobre el logo o una esquina, baja todo el grupo un poco
+  let ok=false;
   search:for(let cc=cols;cc<=maxCols+1;cc++){
-    for(let dy=0;dy<=200;dy+=20){cells=build(Math.min(cc,maxCols),dy);if(free(cells))break search;}
-    for(let dy=-20;dy>=-120;dy-=20){cells=build(Math.min(cc,maxCols),dy);if(free(cells))break search;}
+    for(let dy=0;dy<=200;dy+=20){cells=build(Math.min(cc,maxCols),dy);if(free(cells)){ok=true;break search;}}
+    for(let dy=-20;dy>=-120;dy-=20){cells=build(Math.min(cc,maxCols),dy);if(free(cells)){ok=true;break search;}}
   }
+  // si no cabe sin montarse sobre el logo, achica un poco los íconos y vuelve a intentar
+  if(!ok&&s>.8&&!phone()){document.documentElement.style.setProperty("--ico-s",(s-.1).toFixed(2));return clusterLayout(order,W,H,moved,busy,hit,s-.1);}
   // orden de lectura (arriba-abajo, izquierda-derecha) con el orden "barajado" fijo de los íconos
   cells.sort((a,b)=>a[1]-b[1]||a[0]-b[0]);
   return order.map((p,k)=>{
@@ -297,9 +327,7 @@ function renderDock(){
   markDock();
 }
 const bar=$("#taskbar");
-bar.addEventListener("pointermove",e=>{if(e.pointerType!=="mouse"||phone())return;
-  bar.querySelectorAll(".app,#startBtn").forEach(el=>{const r=el.getBoundingClientRect(),d=Math.abs(e.clientX-(r.left+r.width/2));el.style.transform=`scale(${(1+Math.max(0,1-d/140)*.5).toFixed(3)})`;});});
-bar.addEventListener("pointerleave",()=>bar.querySelectorAll(".app,#startBtn").forEach(el=>el.style.transform=""));
+// (sin efecto de agrandar los íconos de la barra al pasar el mouse)
 
 // ---------- ventanas
 let zTop=25,openCount=0;
@@ -364,13 +392,15 @@ function openItem(p){
     if(p.abre==="explora"){exploraWin(p);return;}
     if(p.abre==="mynd"){myndWin(p);return;}
     if(p.abre==="dealers"){dealersWin(p);return;}
+    if(p.abre==="contacto"){const a=D.dock.find(x=>x&&x.contacto);a&&contactWin(a);return;}
     if(p.juego==="buscaminas"){minesWin();return;}
-    reg(msgBox(L(p.titulo),L(p.texto)||t("soon"),{icon:p.icono,key:"a:"+p.id}),()=>openItem(p));return;
+    standBy(L(p.titulo),L(p.texto)||t("soon"));return;
   }
+  if(p.enlaceDirecto){window.open(p.enlaceDirecto,"_blank","noopener");return;}
   // CRTV que ya vive en su propio sitio (extras.<id>.sitio): el ícono abre el sitio, no Paint
   if(p.sitio){window.open(p.sitio,"_blank","noopener");return;}
   if(p.estado==="proximo"||p.estado==="sin-material"){
-    reg(msgBox(t("sys"),`<b>${esc(L(p.titulo))}</b><br>${t(p.estado==="proximo"?"soonMsg":"noMaterial")}`,{key:"w:"+p.id,html:true}),()=>openItem(p));return;
+    standBy(L(p.titulo),t(p.estado==="proximo"?"soonMsg":"noMaterial"));return;
   }
   paintWin(p);
 }
@@ -392,11 +422,11 @@ function listWin(){
   const list=ITEMS.filter(p=>p.tipoItem!=="acceso"),n=list.length;
   const w=openWin("proyectos","Creative Playground",n?`<ul class="list">${list.map(p=>`<li><button data-open-p="${esc(p.id)}">${p.estado==="proximo"?iconHTML(D.proximoIcono||WARN,"li-ico"):p.portada?`<img src="${esc(p.portada)}" alt="">`:iconHTML(FOLDER,"li-ico")}<span><b>${esc(L(p.titulo))}</b><br><small>${esc(p.codigo||"")}${p.estado==="proximo"?" · "+t("inBuild"):""}</small></span></button></li>`).join("")}</ul>`
     :`<div class="soon">${iconHTML(FOLDER)}<b>${t("noProjects")}</b><span>${t("noProjectsTxt")}</span></div>`,
-    {icon:"assets/iconos/c-flotante.png",info:n+" "+t(n===1?"obj":"objs")});
+    {icon:"assets/iconos/bloque-c.png",info:n+" "+t(n===1?"obj":"objs")});
   reg(w,listWin);
 }
 function aboutWin(){
-  const w=openWin("sobre",t("about"),`<div class="soon"><img class="about-logo" src="assets/img/logo-creatv-blur.webp" alt="CREATV MYNDZ"><b>GLOBAL CREATIVE DEALERS</b><span>${t("aboutTxt")}</span><a class="btn95" href="portada.html">${t("goSite")}</a></div>`,
+  const w=openWin("sobre",t("about"),`<div class="soon"><img class="about-logo" src="assets/img/logo-creatv-nube.png" alt="CREATV MYNDZ"><b>GLOBAL CREATIVE DEALERS</b><span>${t("aboutTxt")}</span><a class="btn95" href="portada.html">${t("goSite")}</a></div>`,
     {icon:"assets/iconos/cdrom.png",info:"CRTV "+new Date().getFullYear()});
   reg(w,aboutWin);
 }
@@ -410,6 +440,39 @@ function exploraWin(p){
       <div class="b-page"><img src="${esc(p.icono)}" alt="" class="b-logo"><h2>${esc(txt.toUpperCase())}</h2><p>${t("exploreSoon")}</p></div>
     </div>`,{icon:p.icono,cls:"browser-win",menu:t("menuBrowser"),status:t("done"),info:`${iconHTML(p.icono,"z-ico")} ${t("b_zone")}`});
   reg(w,()=>exploraWin(p));
+}
+
+// ---------- PLEASE STAND BY: pantalla azul de "ya viene" para lo que todavía no está listo
+function standBy(title,text){
+  $("#sbSub").innerHTML=`<b>${esc(title)}</b><br>${esc(text)}`;
+  $("#standby").hidden=false;
+}
+$("#standby").addEventListener("click",()=>{$("#standby").hidden=true;});
+
+// ---------- Arranque y selección de usuario
+function renderLogin(){
+  const list=(D.usuarios&&D.usuarios.lista)||[];
+  $("#lgUsers").innerHTML=list.map(u=>`<button class="lg-user" data-user="${esc(u.id)}" style="--c:${esc(u.color||"#3a8bff")}"><span class="lg-card"><img src="${esc(u.icono)}" alt=""></span><span class="lg-txt"><span class="lg-name">${esc(L(u.nombre))}</span>${u.sub?`<small class="lg-sub">${esc(L(u.sub))}</small>`:""}</span></button>`).join("");
+  // el fondo de la pantalla de usuarios es el mismo fondo del escritorio
+  // fondo estrellado (transparente) encima del fondo del escritorio
+  const f=currentFondo();$("#login .lg-bg").style.backgroundImage=f?`url("${f.imagen}")`:"none";
+}
+function showLogin(){closeMenus();document.querySelectorAll(".win").forEach(closeWin);renderLogin();$("#login").hidden=false;}
+function enterAs(id){
+  USER=id;try{sessionStorage.setItem("cm-user",id)}catch(e){}
+  const btn=document.querySelector(`.lg-user[data-user="${CSS.escape(id)}"]`);btn&&btn.classList.add("picked");
+  // transición de carga tipo Windows: logo en fondo negro con "Creando..." antes de mostrar el escritorio
+  setTimeout(()=>{const b=$("#boot");b.classList.remove("out");b.hidden=false;
+    $("#login").hidden=true;buildItems();applyWall();renderDesk();
+    setTimeout(()=>{b.classList.add("out");setTimeout(()=>{b.hidden=true;},500);},matchMedia("(prefers-reduced-motion: reduce)").matches?300:900);},200);
+}
+$("#lgUsers").addEventListener("click",e=>{const b=e.target.closest("[data-user]");if(b)enterAs(b.dataset.user);});
+function boot(){
+  showLogin();   // siempre se entra por la pantalla de usuarios, después del arranque
+  const b=$("#boot");b.hidden=false;
+  const end=()=>{b.classList.add("out");setTimeout(()=>{b.hidden=true;},500);};
+  const tm=setTimeout(end,matchMedia("(prefers-reduced-motion: reduce)").matches?400:900);
+  b.addEventListener("click",()=>{clearTimeout(tm);end();},{once:true});
 }
 
 // ---------- Carpetas: se abren como una ventana con sus íconos ordenados
@@ -444,7 +507,11 @@ function myndWin(p){
 }
 // ---------- Creative Dealers
 function dealersWin(p){
-  const w=openWin("a:"+p.id,"Creative Dealers",`<div class="soon">${iconHTML(p.icono)}<b>Creative Dealers</b><span>${esc(L(p.texto))}</span>${p.enlace_interno?`<a class="btn95" href="${esc(p.enlace_interno)}">${t("dealersGo")}</a>`:""}</div>`,{icon:p.icono});
+  // Muestra todo lo del escritorio de Creative Dealers en una lista, como hacía Explorers
+  const list=ITEMS.filter(x=>x.id!==p.id&&x.usuario==="dealers"),n=list.length;
+  const ico=x=>x.icono?iconHTML(x.icono,"li-ico"):x.portada?`<img src="${esc(x.portada)}" alt="">`:iconHTML(FOLDER,"li-ico");
+  const w=openWin("a:"+p.id,"Creative Dealers",`<p class="wp-intro">${esc(L(p.texto))}</p><ul class="list">${list.map(x=>`<li><button data-open-p="${esc(x.id)}">${ico(x)}<span><b>${esc(L(x.titulo))}</b></span></button></li>`).join("")}</ul>`,
+    {icon:p.icono,info:n+" "+t(n===1?"obj":"objs")});
   reg(w,()=>dealersWin(p));
 }
 
@@ -587,7 +654,7 @@ function phoneWarning(){
   if(!isPhone||seen)return;
   // sale cuando ya llevan un minuto interactuando con la página
   let started=false;
-  const go=()=>{if(started)return;started=true;setTimeout(()=>{if(document.hidden||!$("#signup").hidden)return;$("#phoneWarn").hidden=false;try{sessionStorage.setItem("cm-desk-bano","1")}catch(e){}},60000);};
+  const go=()=>{if(started)return;started=true;setTimeout(()=>{if(document.hidden||!$("#signup").hidden||!$("#login").hidden)return;$("#phoneWarn").hidden=false;try{sessionStorage.setItem("cm-desk-bano","1")}catch(e){}},60000);};
   ["pointerdown","scroll","touchstart"].forEach(ev=>addEventListener(ev,go,{once:true,passive:true,capture:true}));
 }
 document.addEventListener("click",e=>{if(e.target.closest("[data-pw-close]"))$("#phoneWarn").hidden=true;},true);
@@ -621,7 +688,7 @@ document.addEventListener("pointermove",e=>{if(!drag)return;const dx=e.clientX-d
   else{const floor=$("#taskbar").getBoundingClientRect().top-30;drag.el.style.left=Math.max(-200,drag.ox+dx)+"px";drag.el.style.top=Math.min(floor,Math.max(cssPx("--mb"),drag.oy+dy))+"px";}});
 document.addEventListener("pointerup",e=>{if(!drag)return;const d=drag;drag=null;
   if(d.kind==="ico"){d.el.classList.remove("drag");
-    if(d.moved){const pos=store.get("pos")||{},[W,H]=deskSize();pos[d.el.dataset.p]=[parseFloat(d.el.style.left)/W,parseFloat(d.el.style.top)/H];store.set("pos",pos);}
+    if(d.moved){/* el arrastre no se guarda: el escritorio siempre vuelve a su distribución */}
     // En toque se abre en el "click" (no aquí): si la ventana se abriera ya, el mismo toque
     // caería sobre un botón de la ventana recién abierta.
     else if(phone()||e.pointerType!=="mouse")tapOpen=d.el;}});
@@ -632,13 +699,14 @@ document.addEventListener("click",e=>{
   if(tapOpen){const el=tapOpen;tapOpen=null;if(e.target.closest(".ico")===el){openItem(itemById(el.dataset.p));return;}}
   if(phone()){const ic=e.target.closest("#desk .ico");if(ic){openItem(itemById(ic.dataset.p));return;}}
   const c=e.target.closest("[data-close]");if(c){closeWin(c.closest(".win"));return;}
+  if(e.target.closest("[data-switch-user]")){showLogin();return;}
   if(e.target.closest("#wallBtn")){closeMenus();wallWin();return;}
   const wp=e.target.closest("[data-wall]");if(wp){setWall(wp.dataset.wall);return;}
   if(e.target.closest("#langBtn")){closeMenus();setLang(lang==="es"?"en":"es");return;}
   const a=e.target.closest("[data-app]");if(a){closeMenus();const app=D.dock.find(x=>x&&x.id===a.dataset.app);app&&appWin(app);return;}
   const ao=e.target.closest("[data-app-open]");if(ao){closeMenus();const app=D.dock.find(x=>x&&x.id===ao.dataset.appOpen);app&&appWin(app);return;}
   const op=e.target.closest("[data-open-p]");if(op){closeMenus();if(op.dataset.openP==="mynd"){myndWin({id:"mynd",icono:"assets/iconos/aviso.png"});return;}openItem(itemById(op.dataset.openP));return;}
-  const fm=e.target.closest("[data-fondo]");if(fm){store.del("mio");store.set("fondo",fm.dataset.fondo);applyWall();closeMenus();return;}
+  const fm=e.target.closest("[data-fondo]");if(fm){store.del("mio");store.set("fondo-"+USER,fm.dataset.fondo);applyWall();closeMenus();return;}
   if(e.target.closest("[data-subir]")){closeMenus();$("#wallFile").click();return;}
   if(e.target.closest("[data-quitar]")){store.del("mio");applyWall();closeMenus();return;}
   const bl=e.target.closest("[data-blur]");if(bl){store.set("blur",bl.dataset.blur);applyWall();return;}
@@ -651,7 +719,8 @@ $("#wallFile").addEventListener("change",e=>{useOwnWall(e.target.files[0]);e.tar
 document.addEventListener("keydown",e=>{
   if(e.key==="Enter"&&e.target.matches(".ico")){openItem(itemById(e.target.dataset.p));return;}
   if(e.key==="Enter"&&e.target.matches("[data-close]")){closeWin(e.target.closest(".win"));return;}
-  if(e.key==="Escape"){if(!$("#phoneWarn").hidden){$("#phoneWarn").hidden=true;return;}
+  if(e.key==="Escape"){if(!$("#standby").hidden){$("#standby").hidden=true;return;}
+    if(!$("#phoneWarn").hidden){$("#phoneWarn").hidden=true;return;}
     if(!$("#signup").hidden){$("#signup").hidden=true;return;}
     if(!$("#fondoMenu").hidden||!$("#startMenu").hidden){closeMenus();return;}
     const ws=[...document.querySelectorAll(".win")].sort((a,b)=>b.style.zIndex-a.style.zIndex);ws[0]&&closeWin(ws[0]);}
@@ -664,6 +733,6 @@ let rt;addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(()=>{render
 // ---------- arranque
 applyStatic();
 fetch("data/escritorio.json",{cache:"no-cache"}).then(r=>r.json()).then(d=>{D=Object.assign(D,d);
-  buildItems();applyWall();renderDock();renderDesk();phoneWarning();signup();
+  buildItems();applyWall();renderDock();renderDesk();renderLogin();boot();phoneWarning();signup();
 }).catch(()=>{$("#empty").hidden=false;$("#empty span").textContent="No se pudo cargar el escritorio.";});
 })();

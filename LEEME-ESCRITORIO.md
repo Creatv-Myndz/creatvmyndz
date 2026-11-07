@@ -246,3 +246,64 @@ En `data/escritorio.json → extras`, por `id` del CRTV:
   (Buscaminas). Un proyecto nuevo sin posición se acomoda solo alrededor sin taparse.
 - El celular usa el mismo orden (de arriba a abajo, de izquierda a derecha).
 - Logo: centrado arriba (15 % de la altura en PC, 26 px en el celular).
+
+## Arranque, usuarios y "Please stand by"
+
+- Al abrir la página: pantalla de arranque negra con el logo y "OS" (una vez por visita; se salta con un clic),
+  y después la pantalla de bienvenida estilo Windows XP (sobre el mismo fondo del escritorio) para escoger usuario: Creative Playground o Creative Dealers (`usuarios.lista` en el JSON).
+- Cada ícono dice en `"usuario"` en qué escritorio va: `"playground"`, `"dealers"` o `"ambos"`. Los CRTV sin
+  `usuario` van en Playground; los accesos sin `usuario`, en los dos. Buscaminas y Creando.. están en los dos.
+  La barra de abajo es la misma siempre. "Cambiar de usuario" está en el menú Inicio.
+- Distribución en PC: `distribucionPC.posiciones` (Playground) y `distribucionPC.porUsuario.dealers` (Dealers).
+- Lo que todavía no está listo (CRTV próximos, Cualquiera puede crear, CREATV Kids…) abre la pantalla azul
+  **PLEASE STAND BY** con el nombre y un mensaje; se cierra tocando.
+- Cada usuario tiene su fondo: `usuarios.lista[].fondo` (Playground = Resbaladero, Dealers = Colina). El pincel lo
+  cambia solo para el usuario en el que estás. El logo de CREATV MYNDZ (arriba) vuelve a la pantalla de usuarios.
+- Creative Dealers (en el centro de su escritorio) abre la lista de todo lo de ese escritorio. Explorers queda
+  vacío por ahora (será una exploración creativa).
+- Los dos escritorios usan la misma forma de la referencia (`distribucionPC`), con el bloque de la C al centro:
+  en Playground abre todos los CRTV, en Dealers todo lo de Dealers. Los íconos crecen hasta 1,35× en pantallas
+  grandes; en pantallas angostas (tablet, ventanas chicas) pasan a una cuadrícula ordenada sin achicarse.
+- Arrastrar un ícono ya no se guarda: al recargar, el escritorio vuelve a su distribución.
+- La pantalla de usuarios ya no tiene las bandas azules de arriba y abajo.
+- Logo principal: `assets/img/logo-creatv-nube.png` (letras de nube). Color de marca: `--brand: #004aac`
+  (arranque, "bienvenido", pantalla de usuarios).
+- Siempre se entra por la pantalla de usuarios (después del arranque). Al escoger, sale la transición
+  "bienvenido" con la barra de carga y luego el escritorio.
+- Oazis abre creatvmyndz.com/oazis. Forja Player abre su app en la App Store (`extras.forja-player.enlaceDirecto`).
+- Snoopy Flops muestra por ahora la imagen "Flops select" (`extras.snoopy-flops`).
+- Arranque: fondo negro con `assets/img/logo-creatv-xp.png`, barra de carga y "Creando...", con grano, líneas
+  de TV y un leve parpadeo (look envejecido).
+- Pantalla de usuarios: el cielo estrellado (`assets/img/escritorio/usuarios-fondo.webp`) semitransparente sobre
+  el fondo del escritorio, título "Usuario:" en letra pixelada y los dos cubos flotando con aura
+  (`bloque-c-azul.png` para Playground, `bloque-c.png` para Dealers).
+- Ojo: el logo del arranque lleva la bandera de Windows (marca de Microsoft); se usa por decisión de CREATV MYNDZ.
+
+## Cambios (arranque rápido y usuarios con descripción)
+- Logo de arranque nuevo y limpio (`assets/img/logo-creatv-xp.png`, sacado de la imagen 77), sin desenfoque ni parpadeo.
+- El arranque dura ~1.5 s.
+- Se quitó el título "Usuario:" de la selección de usuario.
+- Cada usuario tiene un texto pequeño debajo (`sub` en `usuarios.lista` de `data/escritorio.json`): Playground "Proyectos creativos", Dealers "Empresas creativas" (con inglés).
+- Fondos por defecto: Playground = colina, Dealers = pajaros.
+- En PC el ícono central (Creative Playground / Creative Dealers) queda siempre en la mitad de la pantalla.
+
+## Fondos fijos por usuario (cambio de fondo guardado para después)
+- Se quitó el botón del pincel: los visitantes ya no pueden cambiar el fondo.
+- Cada usuario usa su fondo de `usuarios.lista[].fondo` (Playground = colina, Dealers = pajaros).
+- Todos los fondos siguen guardados en `data/escritorio.json` → `fondos` y en `assets/fondos/`, y el código del menú de fondos sigue en `escritorio.js`. Para volver a activarlo: devolver el botón `#wallBtn` en `index.html` y que `currentFondo()` vuelva a leer `store.get("fondo-"+USER)`.
+
+## Transición al entrar a un usuario
+- Se quitó la pantalla "bienvenido". Al escoger un usuario se muestra la misma pantalla de arranque (logo en fondo negro, barra de carga y "Creando...") por ~1.5 s y luego aparece el escritorio.
+
+## HAAD a Playground, Oazis pixelado, barra y pantalla de usuarios
+- HAAD pasó al escritorio de Creative Playground (`"usuario": "playground"`).
+- Nuevo ícono pixelado de Oazis (palmera y arena): `assets/iconos/oazis.png`.
+- Íconos más separados en PC (más espacio entre filas).
+- Barra de abajo: se quitó Fotos (Por amor al arte queda en la mitad) y se quitó el efecto de agrandar al pasar el mouse.
+- Pantalla de usuarios: sin estrellas; fondo negro con transparencia y textura envejecida pixelada animada.
+- Si en pantallas medianas los íconos no caben sin tocar el logo, se achican un poco automáticamente.
+
+## Celular con el cubo en la mitad, Oazis enlazado, arranque más corto
+- En el celular el cubo (Creative Playground / Creative Dealers) queda en la mitad de la pantalla y los demás íconos alrededor, cada uno hacia el lado donde está en el PC. En celulares bajitos los íconos se achican un poco para que todo quepa en una sola pantalla; si aun así no cabe, se usa la cuadrícula por páginas.
+- Oazis abre `creatvmyndz.com/oazis` (`"enlace_interno": "/oazis"`).
+- La pantalla de arranque con el logo dura ~0.9 s (antes 1.5 s), también al entrar a un usuario.
