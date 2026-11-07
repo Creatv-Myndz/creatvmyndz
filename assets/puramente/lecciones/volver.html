@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="data:,">
+<script type="importmap">{"imports":{"three":"https://unpkg.com/three@0.182.0/build/three.module.js"}}</script>
 <title>Volver · El gimnasio de la atención · CALMA · PURAMENTE</title>
 <meta name="theme-color" content="#02080e">
 <style>
@@ -148,7 +150,8 @@
 <script type="module">
 /* =====================================================================
    Wake Up · PURAMENTE — CALMA · Viaje 2 · "Volver" (El gimnasio de la atención)
-   Prototipo autónomo (un solo archivo). Neurona: calma.n02.volver
+   Neurona: calma.n02.volver. El cerebro 3D es el atlas anatómico del mapa
+   (../models/puramente-neural-brain-atlas.glb). Sin WebGL queda la nube 2D.
    Voz: clon de Daniel (MiniMax, PuramenteDaniel01; emoción happy, velocidad 0.95, volumen subido) embebida en base64; si un audio
    falla se usa la voz del navegador. Sin cuestionarios, sin conteos ni puntajes.
    ===================================================================== */
@@ -183,6 +186,7 @@ for (let i=1;i<SCRIPT.length;i++){ const p=SCRIPT[i-1]; if (p.dur && SCRIPT[i].a
 
 // ---------- params ----------
 const Q = new URLSearchParams(location.search);
+let bootP;
 const FAST = Q.has('fast') ? Math.max(1, Number(Q.get('fast')) || 8) : 1;
 const START_AT = Number(Q.get('start')) || 0;
 const FORCE_2D = Q.has('nowebgl');
@@ -206,7 +210,7 @@ const vlerp=(a,b,k)=>v3(lerp(a.x,b.x,k),lerp(a.y,b.y,k),lerp(a.z,b.z,k));
 let seed = 7; const rnd = ()=>{ seed = (seed*16807)%2147483647; return (seed-1)/2147483646; };
 
 // =====================================================================
-// PROCEDURAL BRAIN (mismo cerebro que el viaje 1)
+// Nube procedural: solo el modo 2D. En WebGL el cerebro es el atlas.
 // =====================================================================
 const NB = 3200, NPATH = 240, NRIV = 300, NDS = 8, NTR = 28, NBU = 380, NRING = 120, NFOC = 46, NDEN = 22;
 const I_B = 0, I_PATH = NB, I_RIV = I_PATH+NPATH, I_DS = I_RIV+NRIV, I_BU = I_DS+NDS*NTR, I_RG = I_BU+NBU, I_RG2 = I_RG+NRING,
@@ -234,21 +238,21 @@ for (let i=0;i<NB;i++){ const p = brainPoint(); brain.push(p); P[i*3]=p.x;P[i*3+
 const onSurf = (d,k=1.04)=>add(HEMI[0], v3(d.x*HR.x*k, d.y*HR.y*k, d.z*HR.z*k));
 // Neurona 1 (Llegar): exactamente donde quedó en el viaje 1. Neurona 2 (Volver): más atrás y arriba.
 const ND1 = norm(v3(-0.32,0.62,0.72)), ND2 = norm(v3(-0.5,0.8,-0.15));
-const N1 = onSurf(ND1), N2 = onSurf(ND2);
-const NN1 = norm(sub(N1,v3(0,0.2,0))), NN2 = norm(sub(N2,v3(0,0.2,0)));
-const MID = vlerp(N1,N2,0.5), NMID = norm(add(NN1,NN2));
+let N1 = onSurf(ND1), N2 = onSurf(ND2);
+let NN1 = norm(sub(N1,v3(0,0.2,0))), NN2 = norm(sub(N2,v3(0,0.2,0)));
+let MID = vlerp(N1,N2,0.5), NMID = norm(add(NN1,NN2));
 const d1 = brain.map(p=>len(sub(p,N1))), d2 = brain.map(p=>len(sub(p,N2)));
 // el camino N2 -> N1 por la superficie (un gesto que se entrena)
-const path = [];
+let path = [];
 for (let j=0;j<NPATH;j++){ const s=j/(NPATH-1);
   const d = norm(add(vlerp(ND2,ND1,s), v3(Math.sin(s*Math.PI*3)*0.05, Math.sin(s*Math.PI)*0.12, 0)));
   path.push(onSurf(d, 1.05 + Math.sin(s*Math.PI)*0.05)); }
-const pathLen = (()=>{ let L=0; for(let j=1;j<NPATH;j++) L+=len(sub(path[j],path[j-1])); return L; })();
+let pathLen = (()=>{ let L=0; for(let j=1;j<NPATH;j++) L+=len(sub(path[j],path[j-1])); return L; })();
 // la luz que viaja: un lazo lento alrededor de la neurona 2
-const T1 = norm(cross(NN2, v3(0,0,1))), T2 = cross(NN2, T1);
-function focusAt(tt){ const a = tt*0.21, b = tt*0.13;
-  const off = add(mul(T1, Math.cos(a)*0.95 + Math.sin(b*1.7)*0.18), mul(T2, Math.sin(a)*0.62 + Math.cos(b)*0.15));
-  return add(N2, add(off, mul(NN2, 0.12))); }
+let T1 = norm(cross(NN2, v3(0,0,1))), T2 = cross(NN2, T1);
+function focusAt(tt){ const a = tt*0.21, b = tt*0.13, u = atlasReady ? 0.34 : 1;
+  const off = add(mul(T1, (Math.cos(a)*0.95 + Math.sin(b*1.7)*0.18)*u), mul(T2, (Math.sin(a)*0.62 + Math.cos(b)*0.15)*u));
+  return add(N2, add(off, mul(NN2, 0.12*u))); }
 
 // conexiones tenues (igual que el viaje 1)
 const segs = [];
@@ -258,8 +262,8 @@ const segs = [];
     let best=-1, bd=1e9; for(let a=-1;a<=1;a++)for(let b=-1;b<=1;b++)for(let c=-1;c<=1;c++){ const L = grid.get(key(cx+a,cy+b,cz+c)); if(!L) continue;
       for(const j of L){ if(j===i) continue; const d=len(sub(brain[j],p)); if(d>0.12&&d<bd){best=j;bd=d;} } }
     if (best>=0 && bd<0.42) segs.push([i,best]); } }
-const dendIdx = brain.map((p,i)=>i).filter(i=>d2[i]>0.45&&d2[i]<1.6).sort(()=>rnd()-0.5).slice(0,NDEN);
-const N1dend = brain.map((p,i)=>i).filter(i=>d1[i]>0.45&&d1[i]<1.4).sort(()=>rnd()-0.5).slice(0,12);
+let dendIdx = brain.map((p,i)=>i).filter(i=>d2[i]>0.45&&d2[i]<1.6).sort(()=>rnd()-0.5).slice(0,NDEN);
+let N1dend = brain.map((p,i)=>i).filter(i=>d1[i]>0.45&&d1[i]<1.4).sort(()=>rnd()-0.5).slice(0,12);
 const NBEAM = 5; // hilos del haz final
 const NL = segs.length + (NPATH-1) + NBEAM*(NPATH/8-1) + dendIdx.length + N1dend.length;
 const LP = new Float32Array(NL*6), LC = new Float32Array(NL*6);
@@ -267,24 +271,63 @@ const LP = new Float32Array(NL*6), LC = new Float32Array(NL*6);
 const riv = []; for (let i=0;i<NRIV;i++) riv.push({ u:rnd(), v:(rnd()-0.5), w:(rnd()-0.5), sp:0.025+rnd()*0.05, sd:rnd()*100, size:0.03+rnd()*0.05, warm:rnd()<0.35,
   orbR:0.35+Math.pow(rnd(),1.6)*1.9, ang:rnd()*Math.PI*2, orbH:rnd()-0.5, x:0,y:0,z:0 });
 const burst = []; for (let i=0;i<NBU;i++){ const u=rnd()*2-1, th=rnd()*Math.PI*2, s=Math.sqrt(1-u*u), k=1.2+rnd()*3.4; burst.push(v3(s*Math.cos(th)*k,u*k,s*Math.sin(th)*k)); }
-const E1 = norm(cross(NN2, v3(0,1,0.3))), E2 = cross(NN2, E1);
+let E1 = norm(cross(NN2, v3(0,1,0.3))), E2 = cross(NN2, E1);
+let atlasReady=false, dendPts=null, brainHidden=false, syncGlow=()=>{};
+
+
+function v3of(v){ return v3(v.x, v.y, v.z); }
+function adoptAtlas(atlas){
+  const {samples, llegar, volver, counts} = atlas;
+  const lift = 0.03;
+  const skin = s => add(v3of(s.surface), mul(v3of(s.surfaceNormal || s.normal), lift));
+  N1 = skin(llegar); N2 = skin(volver);
+  NN1 = v3of(llegar.surfaceNormal || llegar.normal);
+  NN2 = v3of(volver.surfaceNormal || volver.normal);
+  if (dot(NN1, N1) < 0) NN1 = mul(NN1, -1);
+  if (dot(NN2, N2) < 0) NN2 = mul(NN2, -1);
+  MID = vlerp(N1, N2, 0.5);
+  NMID = norm(add(NN1, NN2));
+  pracT = vlerp(N2, N1, 0.28);
+  let ref = Math.abs(dot(NN2, v3(0,0,1))) > 0.85 ? v3(0,1,0) : v3(0,0,1);
+  T1 = norm(cross(NN2, ref)); T2 = norm(cross(NN2, T1));
+  E1 = norm(cross(NN2, v3(0,1,0.3))); E2 = norm(cross(NN2, E1));
+  const sep = len(sub(N1, N2));
+  const side = norm(cross(sub(N1, N2), NMID));
+  const bowAmp = Math.min(0.2, Math.max(0.045, sep * 0.38));
+  path = [];
+  for (let j=0;j<NPATH;j++){
+    const s=j/(NPATH-1), p=vlerp(N2, N1, s), n=norm(vlerp(NN2, NN1, s)), bow=Math.sin(Math.PI*s);
+    path.push(add(add(p, mul(n, 0.02 + bow*bowAmp)), mul(side, Math.sin(s*Math.PI*3)*bowAmp*0.35)));
+  }
+  pathLen = 0; for (let j=1;j<path.length;j++) pathLen += len(sub(path[j], path[j-1]));
+  dendPts = samples.map(skin);
+  const near = (origin, count, maxD) => dendPts.map((p,i)=>({i, d:len(sub(p, origin))})).filter(o=>o.d>0.05 && o.d<maxD).sort((a,b)=>a.d-b.d).slice(0, count).map(o=>o.i);
+  dendIdx = near(N2, NDEN, 0.42); N1dend = near(N1, 8, 0.36);
+  atlasReady = true; brainHidden = false;
+  State.atlasReady = true;
+  State.pieces = [...counts.values()].reduce((a,b)=>a+b, 0);
+  State.mapLlegar = llegar.position.toArray();
+  State.mapVolver = volver.position.toArray();
+  State.skinDist = sep;
+}
 
 // =====================================================================
 // CAMERA
 // =====================================================================
 const cam = { pos:v3(0,0,30), target:v3(0,0,0), fov:55 };
-const pracT = vlerp(N2, N1, 0.28);
+let pracT = vlerp(N2, N1, 0.28);
 function camAt(t){
-  const drift = reduced?v3():v3(Math.sin(t*0.11)*0.3, Math.sin(t*0.08+1)*0.22, 0);
+  const s = atlasReady ? 0.32 : 1;
+  const drift = reduced?v3():v3(Math.sin(t*0.11)*0.3*s, Math.sin(t*0.08+1)*0.22*s, 0);
   const K = [
-    [0,   add(N1, add(mul(NN1,4.4), v3(0.2,0.5,0))),              N1],
-    [8,   add(N1, add(mul(NN1,4.7), v3(0.2,0.6,0))),              N1],
-    [22,  add(MID, mul(NMID, 6.6)),                                 MID],
-    [34,  add(pracT, add(mul(NN2,5.4), v3(0.6,0.4,0.6))),          pracT],
-    [128, add(pracT, add(mul(NN2,5.0), v3(0.4,0.3,0.9))),          pracT],
-    [144, add(N2, add(mul(NN2,4.3), v3(0.2,0.3,0.6))),             N2],
-    [150, add(N2, add(mul(NN2,4.8), v3(0.2,0.3,0.6))),             N2],
-    [166, add(MID, add(mul(NMID,7.6), v3(-0.6,0.6,0.8))),          MID],
+    [0,   add(N1, add(mul(NN1,4.4*s), mul(v3(0.2,0.5,0),s))), N1],
+    [8,   add(N1, add(mul(NN1,4.7*s), mul(v3(0.2,0.6,0),s))), N1],
+    [22,  add(MID, mul(NMID, 6.6*s)), MID],
+    [34,  add(pracT, add(mul(NN2,5.4*s), mul(v3(0.6,0.4,0.6),s))), pracT],
+    [128, add(pracT, add(mul(NN2,5.0*s), mul(v3(0.4,0.3,0.9),s))), pracT],
+    [144, add(N2, add(mul(NN2,4.3*s), mul(v3(0.2,0.3,0.6),s))), N2],
+    [150, add(N2, add(mul(NN2,4.8*s), mul(v3(0.2,0.3,0.6),s))), N2],
+    [166, add(MID, add(mul(NMID,7.6*s), mul(v3(-0.6,0.6,0.8),s))), MID],
   ];
   if (reduced){ let k = K[0]; for (const c of K) if (t >= c[0]-0.01) k = c; const i = K.indexOf(k), nx = K[Math.min(K.length-1,i+1)]; return { pos: nx[1], target: nx[2] }; }
   let i=0; while(i<K.length-2 && t>K[i+1][0]) i++;
@@ -329,8 +372,10 @@ function simulate(dt){
   const wave = lit ? ig*2.0 : -9;
   const glow2 = lit ? sstep(0, 2.5, ig) : 0;
   const fpos = focusAt(vt);
-  // brain points: N1 ya encendida, N2 se tiñe con la fuerza del camino
-  for (let i=0;i<NB;i++){
+  const ps = atlasReady ? 0.32 : 1, loc = atlasReady ? 0.34 : 1, view = atlasReady ? 0.5 : 1;
+  // brain points: en el atlas el volumen lo da el GLB, no la nube
+  if (atlasReady){ if (!brainHidden){ for (let i=0;i<NB;i++) A[i]=0; brainHidden=true; } }
+  else for (let i=0;i<NB;i++){
     const a = d1[i], b = d2[i];
     const g1 = Math.exp(-a*a/1.1)*0.55;
     const w = lit ? Math.exp(-Math.pow(b-wave,2)/0.35)*Math.max(0,1-ig/7) : 0;
@@ -346,72 +391,72 @@ function simulate(dt){
     let hit = 0; for (const k of pul) hit += Math.exp(-Math.pow((s-k)*12,2));
     const fw = lit ? Math.exp(-Math.pow(s-(ig*0.7-0.1),2)*60) : 0;
     A[idx] = pathOn*(0.07 + str*0.75) + hit*0.9 + fw*1.2 + (lit?0.25:0);
-    S[idx] = 0.035 + str*0.06 + hit*0.05 + fw*0.08;
+    S[idx] = (0.035 + str*0.06 + hit*0.05 + fw*0.08)*ps;
     setCmix(idx, TEAL, WHITE, clamp(hit*0.8 + fw + str*0.25)); }
   // chispas de regreso: viajan de la luz a la neurona 2 y siguen el camino
   for (let q=0;q<NPUL;q++){ const p = Prac.pulses[q];
     for (let m=0;m<10;m++){ const idx=I_PUL+q*10+m; if(!p){A[idx]=0;continue;}
       const k = (t-p.t0)/2.6 - m*0.012; if (k<0||k>1.05){A[idx]=0;continue;}
       const s = clamp(k), pt = path[Math.round(s*(NPATH-1))];
-      setP(idx, pt); A[idx] = (1-m/10)*1.1*(1-sstep(0.9,1.05,k)); S[idx] = 0.09*(1-m/14); setC(idx, WHITE); } }
+      setP(idx, pt); A[idx] = (1-m/10)*1.1*(1-sstep(0.9,1.05,k)); S[idx] = 0.09*(1-m/14)*ps; setC(idx, WHITE); } }
   // río: luces que pasan; al final se reúnen en una constellation alrededor de N2
   const riverAmp = sstep(24, 32, t) * (1 - sstep(129, 134, t));
   const gather = sstep(129, 140, t);
   const busy = 0.55 + 0.45*Math.sin(t*0.09+1) ;
   for (let i=0;i<NRIV;i++){ const o = riv[i], idx = I_RIV+i;
     const along = ((o.u + vt*o.sp*(reduced?0.4:1)) % 1)*2-1;
-    const rp = add(cam.target, add(add(mul(R_, along*9), mul(U_, o.v*5 + Math.sin(along*3+o.sd)*0.4)), mul(F_, o.w*3 - 1.5)));
+    const rp = add(cam.target, add(add(mul(R_, along*9*view), mul(U_, (o.v*5 + Math.sin(along*3+o.sd)*0.4)*view)), mul(F_, (o.w*3 - 1.5)*view)));
     o.ang += dt*0.25/(0.4+o.orbR);
-    const cp = add(N2, add(add(mul(E1,Math.cos(o.ang)*o.orbR), mul(E2,Math.sin(o.ang)*o.orbR)), mul(NN2, 0.2+o.orbH*0.3*o.orbR)));
+    const cp = add(N2, add(add(mul(E1,Math.cos(o.ang)*o.orbR*loc), mul(E2,Math.sin(o.ang)*o.orbR*loc)), mul(NN2, (0.2+o.orbH*0.3*o.orbR)*loc)));
     const p = vlerp(rp, cp, gather); setP(idx, p);
     const edge = 1 - Math.pow(Math.abs(along),6);
     const vis = (i/NRIV < 0.35 + busy*0.65) ? 1 : 0.15;
     const w = lit ? Math.exp(-Math.pow(o.orbR-ig*1.6,2)/0.25)*Math.max(0,1-ig/4) : 0;
     A[idx] = lerp(riverAmp*edge*vis*(0.35+0.2*Math.sin(vt*2+o.sd)), 0.45+0.12*Math.sin(vt*0.8+o.sd), gather) + w*1.2;
-    S[idx] = o.size*(1 + (1-gather)*0.3); setCmix(idx, o.warm&&gather<0.5?WARM:TEAL, WHITE, clamp(w)); }
+    S[idx] = o.size*(1 + (1-gather)*0.3)*ps; setCmix(idx, o.warm&&gather<0.5?WARM:TEAL, WHITE, clamp(w)); }
   // distracciones: destellos que cruzan y tiran de la mirada, luego se desvanecen
   for (let s=0;s<NDS;s++){ const d = Prac.dist[s];
     for (let m=0;m<NTR;m++){ const idx=I_DS+s*NTR+m;
       if (!d){ A[idx]=0; continue; }
       const k = (t-d.t0)/3.4 - m*0.006; if (k<0||k>1){ A[idx]=0; continue; }
       const x = d.side*lerp(3.6, -0.6*Math.sign(d.side)*-1, ease(k)) , y = d.up*2.2 + Math.sin(k*5+d.sd)*0.5;
-      const p = add(cam.target, add(add(mul(R_, d.side*(4.2 - k*3.0)), mul(U_, y)), mul(F_, -1.2 + Math.sin(k*3)*0.4)));
+      const p = add(cam.target, add(add(mul(R_, d.side*(4.2 - k*3.0)*view), mul(U_, y*view)), mul(F_, (-1.2 + Math.sin(k*3)*0.4)*view)));
       setP(idx, p); const fade = Math.sin(Math.PI*k);
-      A[idx] = fade*(m===0?1.4:(1-m/NTR)*0.7)*(reduced?0.6:1); S[idx] = m===0 ? 0.16 + 0.05*Math.sin(vt*14) : 0.06*(1-m/NTR/1.3);
+      A[idx] = fade*(m===0?1.4:(1-m/NTR)*0.7)*(reduced?0.6:1); S[idx] = (m===0 ? 0.16 + 0.05*Math.sin(vt*14) : 0.06*(1-m/NTR/1.3))*ps;
       setC(idx, m===0 ? WHITE : d.col); } }
   // anillo de "vuelve": se contrae sobre la luz cuando regresas
   const rk = (t - Prac.lastRep)/1.4;
-  for (let j=0;j<NRING;j++){ const a=j/NRING*Math.PI*2, idx=I_RG+j, rad = lerp(1.6, 0.18, ease(clamp(rk)));
-    setP(idx, add(fpos, add(mul(R_,Math.cos(a)*rad), mul(U_,Math.sin(a)*rad)))); A[idx] = rk>=0&&rk<1 ? Math.sin(Math.PI*rk)*0.7 : 0; S[idx]=0.045; setC(idx, TURQ); }
+  for (let j=0;j<NRING;j++){ const a=j/NRING*Math.PI*2, idx=I_RG+j, rad = lerp(1.6, 0.18, ease(clamp(rk)))*loc;
+    setP(idx, add(fpos, add(mul(R_,Math.cos(a)*rad), mul(U_,Math.sin(a)*rad)))); A[idx] = rk>=0&&rk<1 ? Math.sin(Math.PI*rk)*0.7 : 0; S[idx]=0.045*ps; setC(idx, TURQ); }
   const ra = lit ? ig : 99;
-  for (let j=0;j<NRING;j++){ const a=j/NRING*Math.PI*2, idx=I_RG2+j, rad = 0.15 + ra*(reduced?1.2:2.6);
-    setP(idx, add(N2, add(mul(R_,Math.cos(a)*rad), mul(U_,Math.sin(a)*rad)))); A[idx] = ra<2.2 ? (1-ra/2.2)*(0.75+0.25*Math.sin(a*6+vt*3)) : 0; S[idx]=0.07; setC(idx, WHITE); }
+  for (let j=0;j<NRING;j++){ const a=j/NRING*Math.PI*2, idx=I_RG2+j, rad = (0.15 + ra*(reduced?1.2:2.6))*view;
+    setP(idx, add(N2, add(mul(R_,Math.cos(a)*rad), mul(U_,Math.sin(a)*rad)))); A[idx] = ra<2.2 ? (1-ra/2.2)*(0.75+0.25*Math.sin(a*6+vt*3)) : 0; S[idx]=0.07*ps; setC(idx, WHITE); }
   // la luz que viaja (el foco). Siempre visible durante la práctica; nunca marca un ritmo de respiración.
   const focVis = sstep(26, 30, t)*(1 - sstep(129, 136, t));
   const rb = Math.exp(-Math.pow((t-Prac.lastRep)-0.3,2)/0.25);
   for (let m=0;m<NFOC;m++){ const idx=I_FOC+m;
-    if (m===0){ setP(idx, fpos); A[idx]=focVis*(0.95+rb*0.6); S[idx]=0.2+rb*0.08; setCmix(idx, TURQ, WHITE, 0.5+rb*0.5); continue; }
-    if (m===1){ setP(idx, fpos); A[idx]=focVis*(0.18+rb*0.3); S[idx]=1.0+rb*0.5; setC(idx, TURQ); continue; }
-    const p = focusAt(vt - m*0.09); setP(idx, p); A[idx]=focVis*0.5*(1-m/NFOC); S[idx]=0.07*(1-m/NFOC*0.6); setC(idx, TEAL); }
+    if (m===0){ setP(idx, fpos); A[idx]=focVis*(0.95+rb*0.6); S[idx]=(0.2+rb*0.08)*ps; setCmix(idx, TURQ, WHITE, 0.5+rb*0.5); continue; }
+    if (m===1){ setP(idx, fpos); A[idx]=focVis*(0.18+rb*0.3); S[idx]=(1.0+rb*0.5)*ps; setC(idx, TURQ); continue; }
+    const p = focusAt(vt - m*0.09); setP(idx, p); A[idx]=focVis*0.5*(1-m/NFOC); S[idx]=0.07*(1-m/NFOC*0.6)*ps; setC(idx, TEAL); }
   // burst al encender N2
   for (let i=0;i<NBU;i++){ const idx=I_BU+i; if (!lit){ A[idx]=0; setP(idx,N2); continue; }
-    const k = reduced?0.25:1, e = Math.exp(-ig*1.5); setP(idx, add(N2, mul(burst[i], (1-e)/1.5*k)));
-    A[idx] = Math.pow(Math.max(0,1-ig/3.2),2)*1.1; S[idx]=0.05; setCmix(idx, TURQ, WHITE, i%3===0?1:0.3); }
+    const k = reduced?0.25:1, e = Math.exp(-ig*1.5); setP(idx, add(N2, mul(burst[i], (1-e)/1.5*k*view)));
+    A[idx] = Math.pow(Math.max(0,1-ig/3.2),2)*1.1; S[idx]=0.05*ps; setCmix(idx, TURQ, WHITE, i%3===0?1:0.3); }
   // neuronas
   setP(I_N1,N1); setP(I_H1,N1); setP(I_N2,N2); setP(I_H2,N2);
   const p1 = 1 + 0.06*Math.sin(vt*1.1);
-  A[I_N1]=0.95; S[I_N1]=0.27*p1; setC(I_N1, WHITE);
-  A[I_H1]=0.3 + (lit?0.35*Math.exp(-Math.max(0,ig-1.2)*1.0):0); S[I_H1]=1.5*p1; setC(I_H1, TURQ);
+  A[I_N1]=0.95; S[I_N1]=0.27*p1*ps; setC(I_N1, WHITE);
+  A[I_H1]=0.3 + (lit?0.35*Math.exp(-Math.max(0,ig-1.2)*1.0):0); S[I_H1]=1.5*p1*ps; setC(I_H1, TURQ);
   if (!lit){ const ant = sstep(T_IGNITE-6, T_IGNITE, t);
-    A[I_N2] = 0.45 + str*0.4 + ant*0.3; S[I_N2] = 0.17 + str*0.07; setCmix(I_N2, [0.45,0.6,0.64], TEAL, clamp(str+ant));
-    A[I_H2] = 0.08 + str*0.25 + ant*0.2; S[I_H2] = 0.7 + str*0.6; setC(I_H2, TEAL);
+    A[I_N2] = 0.45 + str*0.4 + ant*0.3; S[I_N2] = (0.17 + str*0.07)*ps; setCmix(I_N2, [0.45,0.6,0.64], TEAL, clamp(str+ant));
+    A[I_H2] = 0.08 + str*0.25 + ant*0.2; S[I_H2] = (0.7 + str*0.6)*ps; setC(I_H2, TEAL);
   } else { const pulse = 1 + 0.08*Math.sin(vt*1.1);
-    A[I_N2] = 1.0; S[I_N2] = (0.3 + 0.25*Math.exp(-ig*2))*pulse; setC(I_N2, WHITE);
-    A[I_H2] = 0.3 + 0.6*Math.exp(-ig*1.2); S[I_H2] = (1.6 + 1.6*Math.exp(-ig*1.5))*pulse; setC(I_H2, TURQ); }
+    A[I_N2] = 1.0; S[I_N2] = (0.3 + 0.25*Math.exp(-ig*2))*pulse*ps; setC(I_N2, WHITE);
+    A[I_H2] = 0.3 + 0.6*Math.exp(-ig*1.2); S[I_H2] = (1.6 + 1.6*Math.exp(-ig*1.5))*pulse*ps; setC(I_H2, TURQ); }
   // líneas
   let o = 0; const put=(a,b,ca,cb)=>{ LP[o]=a.x;LP[o+1]=a.y;LP[o+2]=a.z;LP[o+3]=b.x;LP[o+4]=b.y;LP[o+5]=b.z;
     LC[o]=ca[0];LC[o+1]=ca[1];LC[o+2]=ca[2];LC[o+3]=cb[0];LC[o+4]=cb[1];LC[o+5]=cb[2]; o+=6; };
-  for (const [a,b] of segs){ const pa=brain[a], pb=brain[b], dd=len(sub(vlerp(pa,pb,.5),N2));
+  if (!atlasReady) for (const [a,b] of segs){ const pa=brain[a], pb=brain[b], dd=len(sub(vlerp(pa,pb,.5),N2));
     const w = lit ? Math.exp(-Math.pow(dd-wave,2)/0.4)*Math.max(0,1-ig/7) : 0, g = glow2*Math.exp(-dd*dd/1.4)*0.7, m = clamp(w+g), al = 0.032 + m*0.85;
     const c = [lerp(BRAIN[0],TURQ[0],m)*al*2.2, lerp(BRAIN[1],TURQ[1],m)*al*2.2, lerp(BRAIN[2],TURQ[2],m)*al*2.2]; put(pa,pb,c,c); }
   for (let j=0;j<NPATH-1;j++){ const al = pathOn*(0.04 + str*0.6) + (lit?0.35:0); const c=[TURQ[0]*al,TURQ[1]*al,TURQ[2]*al]; put(path[j],path[j+1],c,c); }
@@ -419,12 +464,14 @@ function simulate(dt){
   const beam = lit ? sstep(0.4, 3.0, ig) : 0;
   for (let h=0;h<NBEAM;h++){ const ph = h/NBEAM*Math.PI*2, step=8;
     for (let j=0;j+step<NPATH;j+=step){ const s0=j/(NPATH-1), s1=(j+step)/(NPATH-1);
-      const off = s => mul(add(mul(R_,Math.cos(ph+s*9+vt*0.8)), mul(U_,Math.sin(ph+s*9+vt*0.8))), 0.09*Math.sin(Math.PI*s));
+      const off = s => mul(add(mul(R_,Math.cos(ph+s*9+vt*0.8)), mul(U_,Math.sin(ph+s*9+vt*0.8))), 0.09*loc*Math.sin(Math.PI*s));
       const on0 = s0 <= beam ? 1 : 0, al = on0*(0.55+0.25*Math.sin(vt*2+h)); const c=[WHITE[0]*al,WHITE[1]*al,WHITE[2]*al], c2=[TURQ[0]*al,TURQ[1]*al,TURQ[2]*al];
       put(add(path[j],off(s0)), add(path[j+step],off(s1)), h%2?c:c2, h%2?c2:c); } }
-  for (let k=0;k<dendIdx.length;k++){ const tg=brain[dendIdx[k]], g = lit ? sstep(0.2+k*0.06, 2.4+k*0.06, ig) : 0, e = vlerp(N2, tg, g), al = g>0?0.75:0;
+  const meshPts = dendPts || brain;
+  for (let k=0;k<dendIdx.length;k++){ const tg=meshPts[dendIdx[k]], g = lit ? sstep(0.2+k*0.06, 2.4+k*0.06, ig) : 0, e = vlerp(N2, tg, g), al = g>0?0.75:0;
     put(N2, e, [WHITE[0]*al,WHITE[1]*al,WHITE[2]*al], [TURQ[0]*al*0.7,TURQ[1]*al*0.7,TURQ[2]*al*0.7]); }
-  for (let k=0;k<N1dend.length;k++){ const al = 0.45; put(N1, brain[N1dend[k]], [WHITE[0]*al,WHITE[1]*al,WHITE[2]*al], [TURQ[0]*al*0.5,TURQ[1]*al*0.5,TURQ[2]*al*0.5]); }
+  for (let k=0;k<N1dend.length;k++){ const al = 0.45; put(N1, meshPts[N1dend[k]], [WHITE[0]*al,WHITE[1]*al,WHITE[2]*al], [TURQ[0]*al*0.5,TURQ[1]*al*0.5,TURQ[2]*al*0.5]); }
+  if (atlasReady) for (let i=o;i<LP.length;i++){ LP[i]=0; LC[i]=0; }
 }
 
 // =====================================================================
@@ -433,20 +480,74 @@ function simulate(dt){
 let R = null;
 async function makeThree(){
   const THREE = await Promise.race([
-    import('https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js'),
-    new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')), 8000)),
+    import('three'),
+    new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')), 12000)),
   ]);
-  const test = document.createElement('canvas');
-  if (!(test.getContext('webgl2') || test.getContext('webgl'))) throw new Error('no webgl');
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true, powerPreference:'high-performance' });
-  renderer.setClearColor(0x000000, 0);
+  const base = 'https://unpkg.com/three@0.182.0/examples/jsm/';
+  const [{GLTFLoader},{DRACOLoader},{MeshSurfaceSampler},{EffectComposer},{RenderPass},{UnrealBloomPass},{OutputPass},{mergeGeometries}, atlas] = await Promise.all([
+    import(base+'loaders/GLTFLoader.js'),
+    import(base+'loaders/DRACOLoader.js'),
+    import(base+'math/MeshSurfaceSampler.js'),
+    import(base+'postprocessing/EffectComposer.js'),
+    import(base+'postprocessing/RenderPass.js'),
+    import(base+'postprocessing/UnrealBloomPass.js'),
+    import(base+'postprocessing/OutputPass.js'),
+    import(base+'utils/BufferGeometryUtils.js'),
+    import('../models/puramente-brain-atlas.mjs'),
+  ]);
+  let renderer;
+  try { renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:false, powerPreference:'high-performance' }); }
+  catch (err) { throw new Error('no webgl'); }
+  if (!renderer.getContext()) throw new Error('no webgl');
+  renderer.setClearColor(0x03060d, 1);
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = .86;
+  renderer.shadowMap.enabled = false;
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(cam.fov, 1, 0.05, 200);
+  scene.background = new THREE.Color('#03060d');
+  const camera = new THREE.PerspectiveCamera(cam.fov, 1, 0.02, 80);
+  atlas.addAtlasLights(THREE, scene);
+  const atlasUrl = new URL('../models/puramente-neural-brain-atlas.glb', import.meta.url);
+  const {loader, draco} = atlas.createAtlasLoader(GLTFLoader, DRACOLoader);
+  const gltf = await atlas.loadAtlas(loader, atlasUrl.href);
+  const root = gltf.scene;
+  atlas.fitAtlasRoot(THREE, root);
+  scene.add(root);
+  const {cortexMeshes, counts} = atlas.collectAnatomy(root);
+  const samplerCam = atlas.previewPlacementCamera(THREE, (innerWidth||1440)/(innerHeight||900));
+  const samples = atlas.sampleCourseNeurons(THREE, MeshSurfaceSampler, {
+    surfaceMeshes: cortexMeshes,
+    camera: samplerCam,
+    target: new THREE.Vector3(),
+    moduleDefs: atlas.createModuleDefs(THREE),
+    moduleTargets: atlas.MODULE_TARGETS,
+    random: atlas.createSeededRandom(),
+  });
+  const llegar = atlas.moduleLesson(samples, 'm1', 0);
+  const volver = atlas.moduleLesson(samples, 'm1', 1);
+  if (!llegar || !volver) throw new Error('sin neuronas de CALMA');
+  const brain = atlas.consolidateAtlas(THREE, mergeGeometries, root);
+  scene.add(brain);
+  root.removeFromParent();
+  const activationClock={value:0};
+  const activationDensity={value:.35};
+  const activationPulses={value:Array.from({length:50},()=>new THREE.Vector4())};
+  const neuralGlowPositions={value:Array.from({length:50},()=>new THREE.Vector3())};
+  const neuralGlowColors={value:Array.from({length:50},()=>new THREE.Vector3())};
+  const inspectionCenter={value:new THREE.Vector3()};
+  const inspectionRadius={value:0};
+  atlas.applyMatteAnatomy(THREE, brain, {
+    corticalRelief: atlas.createCorticalRelief(THREE, renderer),
+    activationClock, activationPulses, activationDensity,
+    neuralGlowPositions, neuralGlowColors, inspectionCenter, inspectionRadius,
+    opaqueSolids: true,
+  });
   const g = new THREE.BufferGeometry();
   const mk = (arr,n)=>{ const a=new THREE.BufferAttribute(arr,n); a.setUsage(THREE.DynamicDrawUsage); return a; };
   g.setAttribute('position', mk(P,3)); g.setAttribute('aColor', mk(C,3)); g.setAttribute('aSize', mk(S,1)); g.setAttribute('aAlpha', mk(A,1));
   const mat = new THREE.ShaderMaterial({
-    uniforms:{ uScale:{value:500} }, transparent:true, depthWrite:false, depthTest:false, blending:THREE.AdditiveBlending,
+    uniforms:{ uScale:{value:500} }, transparent:true, depthWrite:false, depthTest:false, blending:THREE.AdditiveBlending, toneMapped:false,
     vertexShader:`attribute vec3 aColor; attribute float aSize; attribute float aAlpha; uniform float uScale; varying vec3 vC; varying float vA;
       void main(){ vec4 mv = modelViewMatrix*vec4(position,1.0); gl_Position = projectionMatrix*mv; float z = max(0.05,-mv.z);
         float ps = aSize*uScale/z; vA = aAlpha; if(ps<1.5){ vA *= ps/1.5; ps = 1.5; } gl_PointSize = min(ps, 220.0); vC = aColor; }`,
@@ -454,19 +555,51 @@ async function makeThree(){
       void main(){ vec2 c = gl_PointCoord-0.5; float d = length(c)*2.0; if(d>1.0) discard;
         float a = (exp(-d*d*9.0) + exp(-d*d*2.6)*0.4)*(1.0-d)*vA; gl_FragColor = vec4(vC, a); }`,
   });
-  const pts = new THREE.Points(g, mat); pts.frustumCulled = false; scene.add(pts);
+  const pts = new THREE.Points(g, mat); pts.frustumCulled=false; pts.renderOrder=20; scene.add(pts);
   const lg = new THREE.BufferGeometry();
   lg.setAttribute('position', mk(LP,3)); lg.setAttribute('color', mk(LC,3));
-  const lines = new THREE.LineSegments(lg, new THREE.LineBasicMaterial({ vertexColors:true, transparent:true, depthWrite:false, depthTest:false, blending:THREE.AdditiveBlending }));
-  lines.frustumCulled = false; scene.add(lines);
-  function resize(){ const w=innerWidth,h=innerHeight, pr=Math.min(devicePixelRatio||1,2); renderer.setPixelRatio(pr); renderer.setSize(w,h,false);
-    camera.aspect=w/h; camera.updateProjectionMatrix(); mat.uniforms.uScale.value = (h*pr*0.5)/Math.tan(cam.fov*Math.PI/360); }
+  const lines = new THREE.LineSegments(lg, new THREE.LineBasicMaterial({ vertexColors:true, transparent:true, depthWrite:false, depthTest:false, blending:THREE.AdditiveBlending, toneMapped:false }));
+  lines.frustumCulled=false; lines.renderOrder=18; scene.add(lines);
+  const composer = new EffectComposer(renderer);
+  composer.addPass(new RenderPass(scene, camera));
+  composer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), .45, .6, .72));
+  composer.addPass(new OutputPass());
+  syncGlow = ()=>{
+    const lit = t >= T_IGNITE, str = Prac.strShow;
+    activationDensity.value = lit ? 1 : .2 + str*.7;
+    samples.forEach((sample,i)=>{
+      neuralGlowPositions.value[i].copy(sample.position).multiplyScalar(1.25);
+      let k = 0;
+      if (sample === llegar) k = .72;
+      else if (sample === volver) k = .14 + str*.5 + (lit ? .6 : 0);
+      neuralGlowColors.value[i].set(sample.color.r, sample.color.g, sample.color.b).multiplyScalar(k);
+    });
+    const time = reduced ? 0 : vt;
+    activationClock.value = time;
+    activationPulses.value.forEach((pulse,n)=>{
+      const density=activationDensity.value, phase=(time*(.2+density*.35)+n*.618)%1, second=(phase+.5)%1;
+      const envelope=q=>Math.pow(Math.max(0, Math.sin(q*Math.PI)), 8-density*6);
+      pulse.set(.08+phase*(.2+density*.18), envelope(phase), .08+second*(.2+density*.18), envelope(second));
+    });
+  };
+  adoptAtlas({samples, llegar, volver, counts});
+  draco.dispose();
+  State.atlasUrl = atlasUrl.pathname + atlasUrl.search;
+  function resize(){
+    const w=innerWidth, h=innerHeight, pr=Math.min(devicePixelRatio||1, 2);
+    renderer.setPixelRatio(pr); renderer.setSize(w, h, false);
+    camera.aspect=w/h; camera.updateProjectionMatrix();
+    composer.setSize(w, h);
+    mat.uniforms.uScale.value = (h*pr*0.5)/Math.tan(cam.fov*Math.PI/360);
+  }
   resize(); addEventListener('resize', resize);
   return { kind:'three', render(){
-      camera.position.set(cam.pos.x,cam.pos.y,cam.pos.z); camera.lookAt(cam.target.x,cam.target.y,cam.target.z);
-      for (const k of ['position','aColor','aSize','aAlpha']) g.attributes[k].needsUpdate = true;
-      lg.attributes.position.needsUpdate = true; lg.attributes.color.needsUpdate = true;
-      renderer.render(scene, camera);
+    syncGlow();
+    camera.position.set(cam.pos.x, cam.pos.y, cam.pos.z);
+    camera.lookAt(cam.target.x, cam.target.y, cam.target.z);
+    for (const key of ['position','aColor','aSize','aAlpha']) g.attributes[key].needsUpdate = true;
+    lg.attributes.position.needsUpdate = true; lg.attributes.color.needsUpdate = true;
+    composer.render();
   }};
 }
 function make2D(){
@@ -511,108 +644,56 @@ function initAudio(){
   const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
   const ctx = new AC(); Snd.ctx = ctx;
   const master = ctx.createGain(); master.gain.value = 0;
-  const comp = ctx.createDynamicsCompressor(); comp.threshold.value=-18; comp.ratio.value=3;
+  const comp = ctx.createDynamicsCompressor(); comp.threshold.value=-12; comp.knee.value=18; comp.ratio.value=2; comp.attack.value=0.05; comp.release.value=0.4;
   master.connect(comp).connect(ctx.destination);
   // reverb
   const rev = ctx.createConvolver(), L = ctx.sampleRate*4.5, ir = ctx.createBuffer(2,L,ctx.sampleRate);
   for (let ch=0;ch<2;ch++){ const d=ir.getChannelData(ch); for(let i=0;i<L;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/L,2.6); }
-  rev.buffer = ir; const revOut = ctx.createGain(); revOut.gain.value = 0.55; rev.connect(revOut).connect(master);
+  rev.buffer = ir; const revOut = ctx.createGain(); revOut.gain.value = 0.18; rev.connect(revOut).connect(master);
   const bus = ctx.createGain(); bus.connect(master); bus.connect(rev);
   // noise
   const nb = ctx.createBuffer(1, ctx.sampleRate*4, ctx.sampleRate), nd = nb.getChannelData(0); let last=0;
   for (let i=0;i<nd.length;i++){ last = (last + 0.02*(Math.random()*2-1))/1.02; nd[i]=last*3.5; }
   const noise = ctx.createBufferSource(); noise.buffer = nb; noise.loop = true;
-  const windF = ctx.createBiquadFilter(); windF.type='bandpass'; windF.Q.value=0.6; windF.frequency.value=1200;
+  const windF = ctx.createBiquadFilter(); windF.type='lowpass'; windF.Q.value=0.4; windF.frequency.value=420;
   const windG = ctx.createGain(); windG.gain.value=0;
-  const wl = ctx.createOscillator(), wlg = ctx.createGain(); wl.frequency.value=0.07; wlg.gain.value=350; wl.connect(wlg).connect(windF.frequency); wl.start();
+  const wl = ctx.createOscillator(), wlg = ctx.createGain(); wl.frequency.value=0.03; wlg.gain.value=12; wl.connect(wlg).connect(windF.frequency); wl.start();
   noise.connect(windF).connect(windG).connect(bus); noise.start();
-  // pad (D major-ish, warm)
-  const padF = ctx.createBiquadFilter(); padF.type='lowpass'; padF.frequency.value=500; padF.Q.value=0.4;
+  // Misma cama que Llegar: senos graves y estables. Sin brillo, sin pulso, sin campanas.
+  const padF = ctx.createBiquadFilter(); padF.type='lowpass'; padF.frequency.value=420; padF.Q.value=0.3;
   const padG = ctx.createGain(); padG.gain.value=0; padF.connect(padG).connect(bus);
-  [73.42,110,146.83,185,220,277.18].forEach((f,i)=>{
-    for (const det of [-7,6]){
-      const o = ctx.createOscillator(); o.type = i<2?'triangle':'sawtooth'; o.frequency.value=f; o.detune.value=det;
-      const g = ctx.createGain(); g.gain.value = (i<2?0.16:0.05);
-      const l = ctx.createOscillator(), lg = ctx.createGain(); l.frequency.value = 0.03+Math.random()*0.06; lg.gain.value = g.gain.value*0.6;
-      l.connect(lg).connect(g.gain); l.start();
+  [73.42,110,146.83,185,220].forEach((f,i)=>{
+    for (const det of [-4,4]){
+      const o = ctx.createOscillator(); o.type = 'sine'; o.frequency.value=f; o.detune.value=det;
+      const g = ctx.createGain(); g.gain.value = i<2 ? 0.045 : 0.028;
       o.connect(g).connect(padF); o.start();
     }
   });
-  // warm low note
   const lowG = ctx.createGain(); lowG.gain.value=0; lowG.connect(bus);
-  [55, 110.3].forEach(f=>{ const o=ctx.createOscillator(); o.frequency.value=f; const g=ctx.createGain(); g.gain.value=f<60?0.5:0.18; o.connect(g).connect(lowG); o.start(); });
-  // soft binaural-ish low tones (just ambience)
-  const binG = ctx.createGain(); binG.gain.value=0; binG.connect(master);
-  [[146.8,-1],[150.8,1]].forEach(([f,pan])=>{ const o=ctx.createOscillator(); o.frequency.value=f; const p=ctx.createStereoPanner?ctx.createStereoPanner():null;
-    if(p){p.pan.value=pan; o.connect(p).connect(binG);} else o.connect(binG); o.start(); });
-  // shimmer
-  const shimG = ctx.createGain(); shimG.gain.value=0; shimG.connect(rev); shimG.connect(master);
-  [1174.66,1479.98,1760,2349.32,2959.96].forEach(f=>{ const o=ctx.createOscillator(); o.frequency.value=f; const g=ctx.createGain(); g.gain.value=0;
-    const l=ctx.createOscillator(), lg=ctx.createGain(); l.frequency.value=0.05+Math.random()*0.12; lg.gain.value=0.05; l.connect(lg).connect(g.gain); l.start();
-    const off=ctx.createConstantSource?ctx.createConstantSource():null; if(off){off.offset.value=0.05; off.connect(g.gain); off.start();}
-    o.connect(g).connect(shimG); o.start(); });
+  [55, 110].forEach((f,i)=>{ const o=ctx.createOscillator(); o.type='sine'; o.frequency.value=f; const g=ctx.createGain(); g.gain.value=i?0.04:0.07; o.connect(g).connect(lowG); o.start(); });
+  const binG = ctx.createGain(); binG.gain.value=0;
+  const shimG = ctx.createGain(); shimG.gain.value=0;
   Object.assign(Snd, { master, bus, rev, windG, windF, padG, padF, lowG, binG, shimG });
 }
 function audioTargets(t, playing){
-  if (!playing) return { master:0.35, wind:0.05, windF:600, pad:0.05, padF:450, low:0, bin:0, shim:0.03 };
-  const st = Prac.strShow, lit = t>=T_IGNITE;
-  return {
-    master: 0.9 * (1 - sstep(T_END, T_END+14, t)*0.55),
-    wind:   sstep(22, 32, t)*0.16*(1 - sstep(128, 136, t)),
-    windF:  lerp(500, 900, sstep(22, 40, t)),
-    pad:    0.12 + sstep(10, 30, t)*0.06 + st*0.08 + (lit?0.05:0),
-    padF:   420 + st*650 + (lit?500:0),
-    low:    0.12 + st*0.1 - sstep(T_IGNITE+4, T_END, t)*0.08,
-    bin:    sstep(30, 50, t)*0.03,
-    shim:   0.06 + st*0.3 + sstep(129, 140, t)*0.15 + (lit?0.25:0),
-  };
+  const bed = { master:0.06, wind:0.015, windF:420, pad:0.08, padF:420, low:0.03, bin:0, shim:0 };
+  if (!playing) return bed;
+  const fade = sstep(0, 6, t) * (1 - sstep(T_END-6, T_END+6, t));
+  return { master:0.26*fade, wind:0.03*fade, windF:420, pad:0.30*fade, padF:420, low:0.05*fade, bin:0, shim:0 };
 }
 let lastAudio = 0;
 function updateAudio(playing){
   const ctx = Snd.ctx; if (!ctx || ctx.state!=='running') return;
   if (performance.now()-lastAudio < 200) return; lastAudio = performance.now();
   const g = audioTargets(t, playing), now = ctx.currentTime, set=(p,v,tc=0.9)=>{ p.cancelScheduledValues(now); p.setTargetAtTime(v, now, tc); };
-  set(Snd.master.gain, Snd.on ? g.master : 0, 0.6); set(Snd.windG.gain, g.wind); set(Snd.windF.frequency, g.windF, 1.5);
+  set(Snd.master.gain, Snd.on ? g.master : 0, 1.6); set(Snd.windG.gain, g.wind, 1.6); set(Snd.windF.frequency, g.windF, 2);
   set(Snd.padG.gain, g.pad, 1.4); set(Snd.padF.frequency, g.padF, 1.5); set(Snd.lowG.gain, g.low, 1.5);
   set(Snd.binG.gain, g.bin, 1.5); set(Snd.shimG.gain, g.shim, 1.5);
 }
-function bell(freq, vol=0.18, decay=4.5, when=0){
-  const ctx = Snd.ctx; if (!ctx || !Snd.on) return; const t0 = ctx.currentTime + when;
-  [[1,1],[2.01,0.35],[2.76,0.18],[5.4,0.06]].forEach(([m,a])=>{
-    const o=ctx.createOscillator(), g=ctx.createGain(); o.frequency.value=freq*m; o.type='sine';
-    g.gain.setValueAtTime(0,t0); g.gain.linearRampToValueAtTime(vol*a,t0+0.012); g.gain.exponentialRampToValueAtTime(0.0001,t0+decay/(m*0.7));
-    o.connect(g).connect(Snd.bus); o.start(t0); o.stop(t0+decay+0.2); });
-}
-function swell(dur=1.8){
-  const ctx = Snd.ctx; if (!ctx || !Snd.on) return; const t0=ctx.currentTime;
-  const src=ctx.createBufferSource(); const b=ctx.createBuffer(1,ctx.sampleRate*dur,ctx.sampleRate), d=b.getChannelData(0);
-  for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1; src.buffer=b;
-  const f=ctx.createBiquadFilter(); f.type='bandpass'; f.Q.value=1.2; f.frequency.setValueAtTime(300,t0); f.frequency.exponentialRampToValueAtTime(5000,t0+dur);
-  const g=ctx.createGain(); g.gain.setValueAtTime(0,t0); g.gain.linearRampToValueAtTime(0.09,t0+dur*0.85); g.gain.linearRampToValueAtTime(0,t0+dur);
-  src.connect(f).connect(g).connect(Snd.bus); src.start(t0);
-}
-
-// ---- sonidos propios de Volver ----
-function distractSound(side){
-  const ctx = Snd.ctx; if (!ctx || !Snd.on || FAST>1) return; const t0 = ctx.currentTime;
-  const pan = ctx.createStereoPanner ? ctx.createStereoPanner() : null; const g = ctx.createGain();
-  g.gain.setValueAtTime(0,t0); g.gain.linearRampToValueAtTime(0.07,t0+0.05); g.gain.exponentialRampToValueAtTime(0.0001,t0+2.6);
-  const f = ctx.createBiquadFilter(); f.type='bandpass'; f.Q.value=6; f.frequency.setValueAtTime(2400+Math.random()*1800,t0); f.frequency.exponentialRampToValueAtTime(700,t0+2.4);
-  const o = ctx.createOscillator(); o.type='triangle'; o.frequency.setValueAtTime(1600+Math.random()*900,t0); o.frequency.exponentialRampToValueAtTime(500,t0+2.2);
-  const o2 = ctx.createOscillator(); o2.type='sine'; o2.frequency.value = 2200+Math.random()*1500;
-  const g2 = ctx.createGain(); g2.gain.value = 0.25;
-  if (pan){ pan.pan.setValueAtTime(side>0?0.9:-0.9,t0); pan.pan.linearRampToValueAtTime(side>0?-0.5:0.5,t0+2.5); f.connect(g).connect(pan).connect(Snd.bus); }
-  else f.connect(g).connect(Snd.bus);
-  o.connect(f); o2.connect(g2).connect(f); o.start(t0); o2.start(t0); o.stop(t0+2.8); o2.stop(t0+2.8);
-}
-const RET = [293.66,329.63,369.99,440,493.88,587.33,659.25,739.99,880];
-function returnTone(n, byTap){
-  const ctx = Snd.ctx; if (!ctx || !Snd.on || FAST>1) return;
-  const f = RET[Math.min(RET.length-1, Math.floor((n-1)/1.5))];
-  bell(f, byTap?0.16:0.12, 6); bell(f/2, 0.1, 5, 0.05);
-  const t0=ctx.currentTime, o=ctx.createOscillator(), g=ctx.createGain(); o.frequency.value=f/4; o.type='sine';
-  g.gain.setValueAtTime(0,t0); g.gain.linearRampToValueAtTime(0.16,t0+0.6); g.gain.exponentialRampToValueAtTime(0.0001,t0+4); o.connect(g).connect(Snd.bus); o.start(t0); o.stop(t0+4.2);
-}
+function bell(){}
+function swell(){}
+function distractSound(){}
+function returnTone(){}
 
 // =====================================================================
 // VOICE + SUBTITLES
@@ -638,7 +719,7 @@ function sayLine(i){
   if (!Voice.on || FAST>1) return;
   if (line.audioUrl){
     if (line.dur) Voice.hideAt = t + line.dur + 0.9;
-    const a = new Audio(line.audioUrl); Voice.audio = a; Voice.speaking = true;
+    const a = new Audio(line.audioUrl); a.volume = 1; Voice.audio = a; Voice.speaking = true;
     a.onended = ()=>{ Voice.speaking=false; Voice.hideAt = Math.min(Voice.hideAt, t+0.8); };
     a.onerror = ()=>{ if (Voice.audio===a){ Voice.audio=null; speakTTS(line); } };
     a.play().catch(err=>{ if (Voice.audio===a && err?.name!=='AbortError'){ Voice.audio=null; speakTTS(line); } });
@@ -665,12 +746,8 @@ const State = { playing:false, paused:false, completed:false, scene:-1, nextLine
 window.__PM = State;
 function buildEvents(){
   return [
-    { at:4, fn:()=>bell(587.33, 0.08, 6) },                       // el acorde del viaje 1, muy bajito
-    { at:27, fn:()=>bell(880, 0.1, 5) },                          // aparece la luz que viaja
     ...DIST_AT.map((d,k)=>({ at:d, fn:()=>spawnDistraction(k) })),
-    ...DIST_AT.map(d=>({ at:d+3.3, fn:()=>rep(false) })),          // el regreso suave, aunque no toques
-    { at:130, fn:()=>bell(659.25, 0.12, 7) },
-    { at:T_IGNITE-1.7, fn:()=>swell(1.7) },
+    ...DIST_AT.map(d=>({ at:d+3.3, fn:()=>rep(false) })),
     { at:T_IGNITE, fn:ignite },
     { at:T_FINAL_TEXT, fn:()=>$('final').classList.add('on') },
     { at:T_REPLAY, fn:()=>{ $('replay').disabled=false; $('acts').classList.add('on'); } },
@@ -678,7 +755,6 @@ function buildEvents(){
   ].map(e=>({...e, done:false}));
 }
 function ignite(){
-  bell(587.33, 0.2, 7); bell(880, 0.17, 8, 0.32); bell(739.99, 0.14, 9, 0.9); // el acorde suma una nota
   const f = $('flash'), q = projectNeuron();
   if (q){ f.style.left=q[0]+'px'; f.style.top=q[1]+'px'; }
   f.classList.remove('go'); void f.offsetWidth; if (!reduced) f.classList.add('go');
@@ -730,6 +806,7 @@ const ctl = $('controls'); let wakeTimer;
 function wake(){ ctl.classList.add('awake'); clearTimeout(wakeTimer); wakeTimer = setTimeout(()=>ctl.classList.remove('awake'), 2600); }
 addEventListener('pointermove', wake);
 async function enter(){
+  if (bootP) await bootP;
   initAudio();
   try { await Snd.ctx?.resume(); } catch {}
   // Pantalla completa sin esperar la respuesta: hay vistas (un iframe, la vista previa de una app) donde nunca llega y el viaje se quedaba colgado aquí.
@@ -797,10 +874,13 @@ function frame(now){
   State.t = t;
   requestAnimationFrame(frame);
 }
-(async ()=>{
+bootP = (async ()=>{
+  const enterBtn = $('enter');
+  enterBtn.disabled = true; enterBtn.textContent = 'Preparando el cerebro…';
   try { if (FORCE_2D) throw new Error('forced'); R = await makeThree(); }
   catch (err){ console.info('[PURAMENTE] usando modo 2D:', err.message); R = make2D(); }
   State.renderer = R.kind;
+  enterBtn.disabled = false; enterBtn.textContent = 'Entrar';
   requestAnimationFrame(frame);
 })();
 
